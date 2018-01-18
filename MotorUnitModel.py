@@ -43,8 +43,8 @@ T = T_L*np.power(temp1,1/float(c))/1000
 t_twitch = np.arange(0,1,step)
 twitch = np.zeros((N,len(t_twitch)))
 
-for n in range(1,N):
-    twitch[n,:] = P[n]/float(T[n])*np.multiply(t_twitch,np.exp(1-t_twitch/T[n]))
+for j in range(1,N):
+    twitch[j,:] = P[j]/float(T[j])*np.multiply(t_twitch,np.exp(1-t_twitch/T[j]))
 
 output_FR = np.zeros((N,len(time)))
 spike_time = np.zeros(N)
@@ -53,6 +53,7 @@ force = np.zeros((N,len(time)))
 
 E = Emax*U
 
+# %%
 for t in range(1,len(time)):
     FR = g_e*(E[t]-RTE) + MFR
     FR[FR<8] = 0
@@ -63,7 +64,7 @@ for t in range(1,len(time)):
             if FR[n] > PFR[n]:
                 FR[n] = PFR[n]
             spike_train_temp = np.zeros(len(time))
-            if ~any(spike_train[n,:]):
+            if any(spike_train[n,:]) != True:
                 spike_train[n,t] = 1;
                 spike_train_temp[t] = 1;
                 mu = 1/float(FR[n]);
