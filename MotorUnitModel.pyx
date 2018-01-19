@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jan 17 14:42:25 2018
+Created on Thu Jan 18 17:28:07 2018
 
 @author: akiranagamori
 """
@@ -11,7 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 start_time = time.time()
-Fs = 1000
+Fs = 10000
 step = 1/float(Fs)
 amp = 0.2
 time_sim = np.arange(0,5,step)

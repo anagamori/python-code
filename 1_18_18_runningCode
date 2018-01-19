@@ -1,0 +1,152 @@
+Last login: Wed Jan 17 14:48:25 on console
+usc-secure-wireless-015-108:~ akiranagamori$ conda install Cython --install-option="--no-cython-compile"
+usage: conda [-h] [-V] command ...
+conda: error: unrecognized arguments: --install-option=--no-cython-compile
+usc-secure-wireless-015-108:~ akiranagamori$ conda install Cython --install-option="--no-cython-compile"
+usage: conda [-h] [-V] command ...
+conda: error: unrecognized arguments: --install-option=--no-cython-compile
+usc-secure-wireless-015-108:~ akiranagamori$ conda install -c anaconda cython
+Solving environment: done
+
+## Package Plan ##
+
+  environment location: /Users/akiranagamori/anaconda2
+
+  added / updated specs: 
+    - cython
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    cython-0.27.3              |   py27h6429b90_0         2.6 MB  anaconda
+    certifi-2017.11.5          |   py27hfa9a1c4_0         196 KB  anaconda
+    ca-certificates-2017.08.26 |       ha1e5d58_0         264 KB  anaconda
+    openssl-1.0.2n             |       hdbc3d79_0         3.4 MB  anaconda
+    ------------------------------------------------------------
+                                           Total:         6.5 MB
+
+The following packages will be UPDATED:
+
+    ca-certificates: 2017.08.26-ha1e5d58_0    --> 2017.08.26-ha1e5d58_0    anaconda
+    certifi:         2017.11.5-py27hfa9a1c4_0 --> 2017.11.5-py27hfa9a1c4_0 anaconda
+    cython:          0.26.1-py27h6a053f9_0    --> 0.27.3-py27h6429b90_0    anaconda
+    openssl:         1.0.2n-hdbc3d79_0        --> 1.0.2n-hdbc3d79_0        anaconda
+
+Proceed ([y]/n)? y
+
+
+Downloading and Extracting Packages
+cython 0.27.3: ######################################################### | 100% 
+certifi 2017.11.5: ##################################################### | 100% 
+ca-certificates 2017.08.26: ############################################ | 100% 
+openssl 1.0.2n: ######################################################## | 100% 
+Preparing transaction: done
+Verifying transaction: done
+Executing transaction: done
+usc-secure-wireless-015-108:~ akiranagamori$ cython --embed -o hello_world.c hello_world.py
+[Errno 2] No such file or directory: '/Users/akiranagamori/hello_world.py'
+usc-secure-wireless-015-108:~ akiranagamori$ cython --embed -o hello_world.c  ~/hello_world.py
+[Errno 2] No such file or directory: '/Users/akiranagamori/hello_world.py'
+usc-secure-wireless-015-108:~ akiranagamori$ cython --embed -o hello_world.c Documents/Github/python-code/hello_world.py
+usc-secure-wireless-015-108:~ akiranagamori$ 
+usc-secure-wireless-015-108:~ akiranagamori$ 
+usc-secure-wireless-015-108:~ akiranagamori$ $ python setup.py build_ext --inplace
+-bash: $: command not found
+usc-secure-wireless-015-108:~ akiranagamori$ python setup.py build_ext --inplace
+python: can't open file 'setup.py': [Errno 2] No such file or directory
+usc-secure-wireless-015-108:~ akiranagamori$ cython hello_world.pyx
+[Errno 2] No such file or directory: '/Users/akiranagamori/hello_world.pyx'
+usc-secure-wireless-015-108:~ akiranagamori$ cython
+Cython (http://cython.org) is a compiler for code written in the
+Cython language.  Cython is based on Pyrex by Greg Ewing.
+
+Usage: cython [options] sourcefile.{pyx,py} ...
+
+Options:
+  -V, --version                  Display version number of cython compiler
+  -l, --create-listing           Write error messages to a listing file
+  -I, --include-dir <directory>  Search for include files in named directory
+                                 (multiple include directories are allowed).
+  -o, --output-file <filename>   Specify name of generated C file
+  -t, --timestamps               Only compile newer source files
+  -f, --force                    Compile all source files (overrides implied -t)
+  -v, --verbose                  Be verbose, print file names on multiple compilation
+  -p, --embed-positions          If specified, the positions in Cython files of each
+                                 function definition is embedded in its docstring.
+  --cleanup <level>              Release interned objects on python exit, for memory debugging.
+                                 Level indicates aggressiveness, default 0 releases nothing.
+  -w, --working <directory>      Sets the working directory for Cython (the directory modules
+                                 are searched from)
+  --gdb                          Output debug information for cygdb
+  --gdb-outdir <directory>       Specify gdb debug information output directory. Implies --gdb.
+
+  -D, --no-docstrings            Strip docstrings from the compiled module.
+  -a, --annotate                 Produce a colorized HTML version of the source.
+  --annotate-coverage <cov.xml>  Annotate and include coverage information from cov.xml.
+  --line-directives              Produce #line directives pointing to the .pyx source
+  --cplus                        Output a C++ rather than C file.
+  --embed[=<method_name>]        Generate a main() function that embeds the Python interpreter.
+  -2                             Compile based on Python-2 syntax and code semantics.
+  -3                             Compile based on Python-3 syntax and code semantics.
+  --lenient                      Change some compile time errors to runtime errors to
+                                 improve Python compatibility
+  --capi-reexport-cincludes      Add cincluded headers to any auto-generated header files.
+  --fast-fail                    Abort the compilation on the first error
+  --warning-errors, -Werror      Make all warnings into errors
+  --warning-extra, -Wextra       Enable extra warnings
+  -X, --directive <name>=<value>[,<name=value,...] Overrides a compiler directive
+usc-secure-wireless-015-108:~ akiranagamori$ cd ~/iCloudDrive/Documents/GitHub/python-code
+-bash: cd: /Users/akiranagamori/iCloudDrive/Documents/GitHub/python-code: No such file or directory
+usc-secure-wireless-015-108:~ akiranagamori$ cd: ~/Documents/GitHub/python-code
+-bash: cd:: command not found
+usc-secure-wireless-015-108:~ akiranagamori$ cd: ~/Documents/GitHub/python-code/
+-bash: cd:: command not found
+usc-secure-wireless-015-108:~ akiranagamori$ cd: ~/Documents/GitHub/python-code/
+-bash: cd:: command not found
+usc-secure-wireless-015-108:~ akiranagamori$ cd ~/Documents/GitHub/python-code/
+usc-secure-wireless-015-108:python-code akiranagamori$ $ python setup.py build_ext --inplace
+-bash: $: command not found
+usc-secure-wireless-015-108:python-code akiranagamori$ python setup.py build_ext --inplace
+Compiling hello_world.pyx because it changed.
+[1/1] Cythonizing hello_world.pyx
+running build_ext
+building 'hello_world' extension
+creating build
+creating build/temp.macosx-10.6-x86_64-2.7
+gcc -fno-strict-aliasing -I/Users/akiranagamori/anaconda2/include -arch x86_64 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -I/Users/akiranagamori/anaconda2/include/python2.7 -c hello_world.c -o build/temp.macosx-10.6-x86_64-2.7/hello_world.o
+gcc -bundle -undefined dynamic_lookup -L/Users/akiranagamori/anaconda2/lib -arch x86_64 -arch x86_64 build/temp.macosx-10.6-x86_64-2.7/hello_world.o -L/Users/akiranagamori/anaconda2/lib -o /Users/akiranagamori/Documents/GitHub/python-code/hello_world.so
+usc-secure-wireless-015-108:python-code akiranagamori$ import hello_world
+-bash: import: command not found
+usc-secure-wireless-015-108:python-code akiranagamori$ python import hello_world
+python: can't open file 'import': [Errno 2] No such file or directory
+usc-secure-wireless-015-108:python-code akiranagamori$ install module_name
+usage: install [-bCcpSsv] [-B suffix] [-f flags] [-g group] [-m mode]
+               [-o owner] file1 file2
+       install [-bCcpSsv] [-B suffix] [-f flags] [-g group] [-m mode]
+               [-o owner] file1 ... fileN directory
+       install -d [-v] [-g group] [-m mode] [-o owner] directory ...
+usc-secure-wireless-015-108:python-code akiranagamori$ python -c "import hello_world"
+Hello World!
+usc-secure-wireless-015-108:python-code akiranagamori$ python ./MotorUnitMode.py
+python: can't open file './MotorUnitMode.py': [Errno 2] No such file or directory
+usc-secure-wireless-015-108:python-code akiranagamori$ cd ~/python-code
+-bash: cd: /Users/akiranagamori/python-code: No such file or directory
+usc-secure-wireless-015-108:python-code akiranagamori$ cd ~/Documents/Github/python-code
+usc-secure-wireless-015-108:python-code akiranagamori$ python ./MotorUnitMode.py
+python: can't open file './MotorUnitMode.py': [Errno 2] No such file or directory
+usc-secure-wireless-015-108:python-code akiranagamori$ python ./MotorUnitModel.py 
+18.8893389702
+usc-secure-wireless-015-108:python-code akiranagamori$ python setup.py build_ext --inplace
+running build_ext
+usc-secure-wireless-015-108:python-code akiranagamori$ python setup_MU_Model.py build_ext --inplace
+Compiling MotorUnitModel.pyx because it changed.
+[1/1] Cythonizing MotorUnitModel.pyx
+running build_ext
+building 'MotorUnitModel' extension
+gcc -fno-strict-aliasing -I/Users/akiranagamori/anaconda2/include -arch x86_64 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -I/Users/akiranagamori/anaconda2/include/python2.7 -c MotorUnitModel.c -o build/temp.macosx-10.6-x86_64-2.7/MotorUnitModel.o
+gcc -bundle -undefined dynamic_lookup -L/Users/akiranagamori/anaconda2/lib -arch x86_64 -arch x86_64 build/temp.macosx-10.6-x86_64-2.7/MotorUnitModel.o -L/Users/akiranagamori/anaconda2/lib -o /Users/akiranagamori/Documents/GitHub/python-code/MotorUnitModel.so
+usc-secure-wireless-015-108:python-code akiranagamori$ python -c "import MotorUnitModel"
+17.6502859592
+usc-secure-wireless-015-108:python-code akiranagamori$ 
