@@ -18,6 +18,7 @@ def TwitchBasedMuscleModel():
     import time
     import numpy as np
     import matplotlib.pyplot as plt
+    import os
     
 #    cdef double f(double x):
 #        return exp(x)
@@ -424,6 +425,15 @@ def TwitchBasedMuscleModel():
     end_time = time.time()
     print(end_time - start_time)
     
+    output = {'Time':time_sim,'Tendon Force':ForceSE_vec, 'Muscle Force':Force_vec, 
+              'Twitch Force': force, 'Spike Train':spike_train};
+    
+    default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';  
+    save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';          
+    os.chdir(save_path)
+    np.save('output.npy',output)
+    os.chdir(default_path)
+    
     fig1 = plt.figure()
     ax1 = fig1.add_subplot(111)
     ax1.plot(time_sim,ForceSE_vec)
@@ -435,9 +445,6 @@ def TwitchBasedMuscleModel():
       
     plt.show()
     plt.plot(time_sim,ForceSE_vec)
-    #plt.plot(time_sim,force[1,])
-    #plt.plot(time_sim,spike_train[1,])
-    #plt.show()
     return (Force_vec,ForceSE_vec);
 
 
