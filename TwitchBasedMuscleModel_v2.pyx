@@ -426,10 +426,10 @@ def TwitchBasedMuscleModel():
     print(end_time - start_time)
     
     output = {'Time':time_sim,'Tendon Force':ForceSE_vec, 'Muscle Force':Force_vec, 
-              'Twitch Force': force, 'Spike Train':spike_train};
+              'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec};
     
-    default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';  
-    save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';          
+    default_path = '/Users/akira/Documents/Github/python-code/';  
+    save_path = '/Users/akira/Documents/Github/python-code/Data';          
     os.chdir(save_path)
     np.save('output.npy',output)
     os.chdir(default_path)

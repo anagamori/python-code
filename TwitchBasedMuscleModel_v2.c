@@ -1420,6 +1420,7 @@ static const char __pyx_k_default_path[] = "default_path";
 static const char __pyx_k_sag_function[] = "sag_function";
 static const char __pyx_k_F_se_function[] = "F_se_function";
 static const char __pyx_k_InitialLength[] = "InitialLength";
+static const char __pyx_k_Muscle_Length[] = "Muscle Length";
 static const char __pyx_k_MuscleVelocity[] = "MuscleVelocity";
 static const char __pyx_k_f_eff_fast_dot[] = "f_eff_fast_dot";
 static const char __pyx_k_f_eff_slow_dot[] = "f_eff_slow_dot";
@@ -1447,7 +1448,7 @@ static const char __pyx_k_TwitchBasedMuscleModel_v2[] = "TwitchBasedMuscleModel_
 static const char __pyx_k_TwitchBasedMuscleModel_v2_pyx[] = "TwitchBasedMuscleModel_v2.pyx";
 static const char __pyx_k_Created_on_Tue_Feb_20_10_10_44[] = "\nCreated on Tue Feb 20 10:10:44 2018\n\n@author: akiranagamori\n";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_F[] = "TwitchBasedMuscleModel.<locals>.F_pe_1_function";
-static const char __pyx_k_Users_akiranagamori_Documents_G[] = "/Users/akiranagamori/Documents/GitHub/python-code/";
+static const char __pyx_k_Users_akira_Documents_Github_py[] = "/Users/akira/Documents/Github/python-code/";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_Af[] = "TwitchBasedMuscleModel.<locals>.Af_slow_function";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_FL[] = "TwitchBasedMuscleModel.<locals>.FL_slow_function";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_FV[] = "TwitchBasedMuscleModel.<locals>.FV_con_slow_function";
@@ -1457,7 +1458,7 @@ static const char __pyx_k_TwitchBasedMuscleModel_locals_tw[] = "TwitchBasedMuscl
 static const char __pyx_k_TwitchBasedMuscleModel_locals_yi[] = "TwitchBasedMuscleModel.<locals>.yield_function";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_F_2[] = "TwitchBasedMuscleModel.<locals>.F_pe_2_function";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_F_3[] = "TwitchBasedMuscleModel.<locals>.F_se_function";
-static const char __pyx_k_Users_akiranagamori_Documents_G_2[] = "/Users/akiranagamori/Documents/GitHub/python-code/Data";
+static const char __pyx_k_Users_akira_Documents_Github_py_2[] = "/Users/akira/Documents/Github/python-code/Data";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_Af_2[] = "TwitchBasedMuscleModel.<locals>.Af_fast_function";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_Af_3[] = "TwitchBasedMuscleModel.<locals>.Af_cor_slow_function";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_Af_4[] = "TwitchBasedMuscleModel.<locals>.Af_cor_fast_function";
@@ -1531,6 +1532,7 @@ static PyObject *__pyx_n_s_MFR_MU;
 static PyObject *__pyx_n_s_MuscleLength;
 static PyObject *__pyx_n_s_MuscleVelocity;
 static PyObject *__pyx_kp_s_Muscle_Force;
+static PyObject *__pyx_kp_s_Muscle_Length;
 static PyObject *__pyx_n_s_N_MU;
 static PyObject *__pyx_n_s_Normalized_SE_Length;
 static PyObject *__pyx_n_s_PCSA;
@@ -1587,8 +1589,8 @@ static PyObject *__pyx_n_s_U_eff_vec;
 static PyObject *__pyx_n_s_U_th;
 static PyObject *__pyx_n_s_Ur;
 static PyObject *__pyx_n_s_Ur_1;
-static PyObject *__pyx_kp_s_Users_akiranagamori_Documents_G;
-static PyObject *__pyx_kp_s_Users_akiranagamori_Documents_G_2;
+static PyObject *__pyx_kp_s_Users_akira_Documents_Github_py;
+static PyObject *__pyx_kp_s_Users_akira_Documents_Github_py_2;
 static PyObject *__pyx_n_s_V;
 static PyObject *__pyx_n_s_V_y;
 static PyObject *__pyx_n_s_Vce;
@@ -11625,10 +11627,10 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v2_TwitchBasedMuscleModel(CYT
  *     print(end_time - start_time)
  * 
  *     output = {'Time':time_sim,'Tendon Force':ForceSE_vec, 'Muscle Force':Force_vec,             # <<<<<<<<<<<<<<
- *               'Twitch Force': force, 'Spike Train':spike_train};
+ *               'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec};
  * 
  */
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 428, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 428, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_Time, __pyx_v_time_sim) < 0) __PYX_ERR(0, 428, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_5, __pyx_kp_s_Tendon_Force, __pyx_v_ForceSE_vec) < 0) __PYX_ERR(0, 428, __pyx_L1_error)
@@ -11637,38 +11639,39 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v2_TwitchBasedMuscleModel(CYT
   /* "TwitchBasedMuscleModel_v2.pyx":429
  * 
  *     output = {'Time':time_sim,'Tendon Force':ForceSE_vec, 'Muscle Force':Force_vec,
- *               'Twitch Force': force, 'Spike Train':spike_train};             # <<<<<<<<<<<<<<
+ *               'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec};             # <<<<<<<<<<<<<<
  * 
- *     default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';
+ *     default_path = '/Users/akira/Documents/Github/python-code/';
  */
   if (PyDict_SetItem(__pyx_t_5, __pyx_kp_s_Twitch_Force, __pyx_v_force) < 0) __PYX_ERR(0, 428, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_5, __pyx_kp_s_Spike_Train, __pyx_v_spike_train) < 0) __PYX_ERR(0, 428, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_kp_s_Muscle_Length, __pyx_v_Lce_vec) < 0) __PYX_ERR(0, 428, __pyx_L1_error)
   __pyx_v_output = ((PyObject*)__pyx_t_5);
   __pyx_t_5 = 0;
 
   /* "TwitchBasedMuscleModel_v2.pyx":431
- *               'Twitch Force': force, 'Spike Train':spike_train};
+ *               'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec};
  * 
- *     default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';             # <<<<<<<<<<<<<<
- *     save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';
+ *     default_path = '/Users/akira/Documents/Github/python-code/';             # <<<<<<<<<<<<<<
+ *     save_path = '/Users/akira/Documents/Github/python-code/Data';
  *     os.chdir(save_path)
  */
-  __Pyx_INCREF(__pyx_kp_s_Users_akiranagamori_Documents_G);
-  __pyx_v_default_path = __pyx_kp_s_Users_akiranagamori_Documents_G;
+  __Pyx_INCREF(__pyx_kp_s_Users_akira_Documents_Github_py);
+  __pyx_v_default_path = __pyx_kp_s_Users_akira_Documents_Github_py;
 
   /* "TwitchBasedMuscleModel_v2.pyx":432
  * 
- *     default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';
- *     save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';             # <<<<<<<<<<<<<<
+ *     default_path = '/Users/akira/Documents/Github/python-code/';
+ *     save_path = '/Users/akira/Documents/Github/python-code/Data';             # <<<<<<<<<<<<<<
  *     os.chdir(save_path)
  *     np.save('output.npy',output)
  */
-  __Pyx_INCREF(__pyx_kp_s_Users_akiranagamori_Documents_G_2);
-  __pyx_v_save_path = __pyx_kp_s_Users_akiranagamori_Documents_G_2;
+  __Pyx_INCREF(__pyx_kp_s_Users_akira_Documents_Github_py_2);
+  __pyx_v_save_path = __pyx_kp_s_Users_akira_Documents_Github_py_2;
 
   /* "TwitchBasedMuscleModel_v2.pyx":433
- *     default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';
- *     save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';
+ *     default_path = '/Users/akira/Documents/Github/python-code/';
+ *     save_path = '/Users/akira/Documents/Github/python-code/Data';
  *     os.chdir(save_path)             # <<<<<<<<<<<<<<
  *     np.save('output.npy',output)
  *     os.chdir(default_path)
@@ -11721,7 +11724,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v2_TwitchBasedMuscleModel(CYT
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
   /* "TwitchBasedMuscleModel_v2.pyx":434
- *     save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';
+ *     save_path = '/Users/akira/Documents/Github/python-code/Data';
  *     os.chdir(save_path)
  *     np.save('output.npy',output)             # <<<<<<<<<<<<<<
  *     os.chdir(default_path)
@@ -12472,6 +12475,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_MuscleLength, __pyx_k_MuscleLength, sizeof(__pyx_k_MuscleLength), 0, 0, 1, 1},
   {&__pyx_n_s_MuscleVelocity, __pyx_k_MuscleVelocity, sizeof(__pyx_k_MuscleVelocity), 0, 0, 1, 1},
   {&__pyx_kp_s_Muscle_Force, __pyx_k_Muscle_Force, sizeof(__pyx_k_Muscle_Force), 0, 0, 1, 0},
+  {&__pyx_kp_s_Muscle_Length, __pyx_k_Muscle_Length, sizeof(__pyx_k_Muscle_Length), 0, 0, 1, 0},
   {&__pyx_n_s_N_MU, __pyx_k_N_MU, sizeof(__pyx_k_N_MU), 0, 0, 1, 1},
   {&__pyx_n_s_Normalized_SE_Length, __pyx_k_Normalized_SE_Length, sizeof(__pyx_k_Normalized_SE_Length), 0, 0, 1, 1},
   {&__pyx_n_s_PCSA, __pyx_k_PCSA, sizeof(__pyx_k_PCSA), 0, 0, 1, 1},
@@ -12528,8 +12532,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_U_th, __pyx_k_U_th, sizeof(__pyx_k_U_th), 0, 0, 1, 1},
   {&__pyx_n_s_Ur, __pyx_k_Ur, sizeof(__pyx_k_Ur), 0, 0, 1, 1},
   {&__pyx_n_s_Ur_1, __pyx_k_Ur_1, sizeof(__pyx_k_Ur_1), 0, 0, 1, 1},
-  {&__pyx_kp_s_Users_akiranagamori_Documents_G, __pyx_k_Users_akiranagamori_Documents_G, sizeof(__pyx_k_Users_akiranagamori_Documents_G), 0, 0, 1, 0},
-  {&__pyx_kp_s_Users_akiranagamori_Documents_G_2, __pyx_k_Users_akiranagamori_Documents_G_2, sizeof(__pyx_k_Users_akiranagamori_Documents_G_2), 0, 0, 1, 0},
+  {&__pyx_kp_s_Users_akira_Documents_Github_py, __pyx_k_Users_akira_Documents_Github_py, sizeof(__pyx_k_Users_akira_Documents_Github_py), 0, 0, 1, 0},
+  {&__pyx_kp_s_Users_akira_Documents_Github_py_2, __pyx_k_Users_akira_Documents_Github_py_2, sizeof(__pyx_k_Users_akira_Documents_Github_py_2), 0, 0, 1, 0},
   {&__pyx_n_s_V, __pyx_k_V, sizeof(__pyx_k_V), 0, 0, 1, 1},
   {&__pyx_n_s_V_y, __pyx_k_V_y, sizeof(__pyx_k_V_y), 0, 0, 1, 1},
   {&__pyx_n_s_Vce, __pyx_k_Vce, sizeof(__pyx_k_Vce), 0, 0, 1, 1},
