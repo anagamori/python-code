@@ -414,7 +414,7 @@ for t in xrange(len(time_sim)):
     ForceSE_vec[t] = ForceSE;
     Force_vec[t] = Force;
     Lce_vec[t] = Lce;
-    U_eff_vec[t] = U_eff;      
+    U_eff_vec[t] = U_eff;   
     
 end_time = time.time()
 print(end_time - start_time)

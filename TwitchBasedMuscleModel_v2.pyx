@@ -22,6 +22,8 @@ def TwitchBasedMuscleModel():
     
 #    cdef double f(double x):
 #        return exp(x)
+    def sign(x):
+        return (x > 0) - (x < 0);
     
     def yield_function(Y,V,step):
         c_y = 0.35;
@@ -170,13 +172,13 @@ def TwitchBasedMuscleModel():
         k1 = 0.046;
         Lr1 = 1.17;
         PassiveForce = c1 * k1 * log(exp((1 - Lr1)/k1)+1);
-        Normalized_SE_Length = kT*log(exp(PassiveForce/cT/kT)-1)+LrT;
-        Lmt_temp_max = L0*cos(alpha)+L_slack + 2;
+        Normalized_SE_Length = kT * log(exp(PassiveForce/cT/kT)-1)+LrT;
+        Lmt_temp_max = L0*cos(alpha)+L_slack + 1;
         L0_temp = L0;
         L0T_temp = L_slack*1.05;
         SE_Length =  L0T_temp * Normalized_SE_Length;
         FasclMax = (Lmt_temp_max - SE_Length)/L0_temp;
-        Lmax = FasclMax/float(cos(alpha));
+        Lmax = float(FasclMax)/cos(alpha);
         Lmt_temp = Lce_initial * cos(alpha) + Lt_initial;
         InitialLength =  (Lmt_temp-(-L0T_temp*(kT/k1*Lr1-LrT-kT*log(c1/cT*k1/kT))))/(100*(1+kT/k1*L0T_temp/Lmax*1/L0_temp)*cos(alpha));
         Lce_initial = InitialLength/(L0_temp/100);
@@ -184,20 +186,201 @@ def TwitchBasedMuscleModel():
         
         return (Lce_initial,Lse_initial,Lmax)
     
+    def bag1_model(f_dynamic,gamma_dynamic,T,T_dot,L,V,A,step):
+        p = 2;
+        R = 0.46;
+        a = 0.3;
+        K_SR = 10.4649;
+        K_PR = 0.15;
+        M = 0.0002;
+        LN_SR = 0.0423;
+        L0_SR = 0.04; 
+        L0_PR = 0.76;                 
+        tau_bag1 = 0.149; 
+        freq_bag1 = 60;         
+        beta0 = 0.0605; 
+        beta1 = 0.2592; 
+        Gamma1 = 0.0289;       
+        G = 20000;  
+        if V >= 0:
+            C = 1;
+        else:
+            C = 0.42;
+        df_dynamic = (float(pow(gamma_dynamic,p))/(pow(gamma_dynamic,p)+pow(freq_bag1,p))-f_dynamic)/float(tau_bag1);
+        f_dynamic = df_dynamic*step + f_dynamic;
+        
+        beta = beta0 + beta1 * f_dynamic; 
+        Gamma = Gamma1 * f_dynamic;
+        
+        T_ddot = K_SR/M * ((C*beta*sign(V-T_dot/K_SR)*pow(abs(V-T_dot/K_SR),a))*(L-L0_SR-T/K_SR-R)+K_PR*(L-L0_SR-T/K_SR-L0_PR)+M*A+Gamma-T);
+        T_dot = T_ddot*step + T_dot;
+        T = T_dot*step + T;
+               
+        AP_bag1 = G*(T/K_SR-(LN_SR-L0_SR));
+        
+        return (AP_bag1,f_dynamic,T,T_dot)
+    
+    def bag2_model(f_static,gamma_static,T,T_dot,L,V,A,step):
+        p = 2;
+        R = 0.46;
+        a = 0.3;
+        K_SR = 10.4649;
+        K_PR = 0.15;
+        M = 0.0002;        
+        LN_SR = 0.0423;
+        LN_PR = 0.89;
+        L0_SR = 0.04; 
+        L0_PR = 0.76;      
+        L_secondary = 0.04;
+        X = 0.7;
+        tau_bag2 = 0.205; 
+        freq_bag2 = 60;         
+        beta0 = 0.0822; 
+        beta2 = -0.046; 
+        Gamma2 = 0.0636;       
+        G = 10000;  
+        if V >= 0:
+            C = 1;
+        else:
+            C = 0.42;
+        df_static = (float(pow(gamma_static,p))/(pow(gamma_static,p)+pow(freq_bag2,p))-f_static)/float(tau_bag2);
+        f_static = df_static*step + f_static;
+        beta = beta0 + beta2 * f_static;
+        Gamma = Gamma2 * f_static;
+        
+        T_ddot = K_SR/M * ((C*beta*sign(V-T_dot/K_SR)*pow(abs(V-T_dot/K_SR),a))*(L-L0_SR-T/K_SR-R)+K_PR*(L-L0_SR-T/K_SR-L0_PR)+M*A+Gamma-T);
+        T_dot = T_ddot*step + T_dot;
+        T = T_dot*step + T;
+               
+        AP_primary_bag2 = G*(T/K_SR-(LN_SR-L0_SR));
+        AP_secondary_bag2 = G*(X*L_secondary/L0_SR*(T/K_SR-(LN_SR-L0_SR))+(1-X)*L_secondary/L0_PR*(L-T/K_SR-L0_SR-LN_PR))
+                
+        return (AP_primary_bag2,AP_secondary_bag2,f_static,T,T_dot)
+    
+    def chain_model(gamma_static,T,T_dot,L,V,A,step):
+        p = 2;
+        R = 0.46;
+        a = 0.3;
+        K_SR = 10.4649;
+        K_PR = 0.15;
+        M = 0.0002;        
+        LN_SR = 0.0423;
+        LN_PR = 0.89;
+        L0_SR = 0.04; 
+        L0_PR = 0.76;      
+        L_secondary = 0.04;
+        X = 0.7;
+        freq_chain = 90;
+        beta0 = 0.0822;
+        beta2_chain = -0.069;
+        Gamma2_chain = 0.0954;
+        G = 10000;
+        if V >= 0:
+            C = 1;
+        else:
+            C = 0.42;
+        
+        f_static_chain = float(pow(gamma_static,p))/(pow(gamma_static,p)+pow(freq_chain,p));
+        beta = beta0 + beta2_chain * f_static_chain;
+        Gamma = Gamma2_chain * f_static_chain;
+        
+        T_ddot = K_SR/M * ((C*beta*sign(V-T_dot/K_SR)*pow(abs(V-T_dot/K_SR),a))*(L-L0_SR-T/K_SR-R)+K_PR*(L-L0_SR-T/K_SR-L0_PR)+M*A+Gamma-T);
+        T_dot = T_ddot*step + T_dot;
+        T = T_dot*step + T;
+        
+        AP_primary_chain = G*(T/K_SR-(LN_SR-L0_SR));
+        AP_secondary_chain = G*(X*L_secondary/L0_SR*(T/K_SR-(LN_SR-L0_SR))+(1-X)*L_secondary/L0_PR*(L-T/K_SR-L0_SR-LN_PR))
+                  
+        return (AP_primary_chain,AP_secondary_chain,T,T_dot)
+    
+    def SpindleOutput(AP_bag1,AP_primary_bag2,AP_secondary_bag2,AP_primary_chain,AP_secondary_chain):
+        S = 0.156;
+        
+        if AP_bag1 < 0:
+            AP_bag1 = 0;
+        if AP_primary_bag2 < 0:
+            AP_primary_bag2 = 0;
+        if AP_primary_chain < 0:
+            AP_primary_chain = 0;
+        if AP_secondary_bag2 < 0:
+            AP_secondary_bag2 = 0;
+        if AP_secondary_chain < 0:
+            AP_secondary_chain = 0;
+        if AP_bag1 > (AP_primary_bag2+AP_primary_chain):
+            Larger = AP_bag1;
+            Smaller = AP_primary_bag2+AP_primary_chain;    
+        else:
+            Larger = AP_primary_bag2+AP_primary_chain;
+            Smaller = AP_bag1;
+            
+        Output_Primary = Larger + S * Smaller;
+        Output_Secondary = AP_secondary_bag2 + AP_secondary_chain;
+        if Output_Primary < 0:
+            Output_Primary = 0;
+        elif Output_Primary > 100000:
+            Output_Primary = 100000;        
+        if Output_Secondary < 0:
+            Output_Secondary = 0;
+        elif Output_Secondary > 100000:
+            Output_Secondary = 100000;
+            
+        return (Output_Primary,Output_Secondary)
+    
+    def GTOOutput(FR_Ib,FR_Ib_temp,x_GTO,Force,index):
+        cdef double G1 = 60;
+        cdef double G2 = 4;
+        cdef double num1 = 1.7;
+        cdef double num2 = -3.399742022978487;
+        cdef double num3 = 1.699742026978047;
+        cdef double den1 = 1.0;
+        cdef double den2 = -1.999780020198665;
+        cdef double den3 = 0.999780024198225;
+                
+        x_GTO[index] = G1*log(Force/G2+1);
+              
+        FR_Ib_temp[index] = (num3*x_GTO[index-2] + num2*x_GTO[index-1] + num1*x_GTO[index] - 
+                  den3*FR_Ib_temp[index-2] - den2*FR_Ib_temp[index-1])/den1;
+        FR_Ib[index] = FR_Ib_temp[index];
+        if FR_Ib[index]<0:
+            FR_Ib[index] = 0;
+        
+        return (FR_Ib,FR_Ib_temp,x_GTO)
+    
+    def RenshawOutput(FR_RI,FR_RI_temp,ND,index):
+        cdef double num1 = 0.238563173450928;
+        cdef double num2 = -0.035326319453965;
+        cdef double num3 = -0.200104635331441;
+        cdef double den1 = 1.0;
+        cdef double den2 = -1.705481699867712;
+        cdef double den3 = 0.708613918533233;
+        
+        FR_RI_temp[index] = (num3*ND[-1-2]+num2*ND[-1-1]+num1*ND[-1]-den3*FR_RI_temp[index-2]-den2*FR_RI_temp[index-1])/den1;
+        FR_RI[index] = FR_RI_temp[index]; 
+        if FR_RI[index] < 0:
+            FR_RI[index] = 0;
+        
+        return (FR_RI,FR_RI_temp)
+    
+    def smoothSaturationFunction(x):
+        y = 1/float((1+exp(-11*(x-0.5))));
+        return y
         
     #import matplotlib.pyplot as plt
     # 
-    cdef float L0 = 3.0;
-    alpha = 10*np.pi/180;
-    L_slack = 0.5;
-    L0T = L_slack*1.05;
-    Lce_initial = 3.0;
-    Lt_initial = 0.5;
-    Lmt = Lce_initial*cos(alpha)+Lt_initial;
+    cdef double Lse
+    cdef double Lce
+    cdef double Lmax
+    cdef double L0 = 3.0;
+    cdef double alpha = 10*np.pi/180;
+    cdef double L_slack = 0.5;
+    cdef double L0T = L_slack*1.05;
+    cdef double Lce_initial = 3.0;
+    cdef double Lt_initial = 0.5;
+    cdef double Lmt = Lce_initial*cos(alpha)+Lt_initial;
     (Lce,Lse,Lmax) =  InitialLength(L0,alpha,L_slack,Lce_initial,Lt_initial);
     
-    cdef float density = 1.06;    
-    cdef float mass = 0.0001;    
+    cdef double density = 1.06;    
+    cdef double mass = 0.0001;    
     PCSA = (mass*1000)/(density*L0)
     sigma = 22.4;
     F0 = PCSA*sigma;
@@ -213,8 +396,8 @@ def TwitchBasedMuscleModel():
     P_MU = np.exp(b_MU*i)
     PTi = P_MU/np.sum(P_MU)*F0
     Pi_half = np.divide(PTi,2)
-    a_twitch = 0.0003628
-    b_twitch = 0.03111
+    cdef double a_twitch = 0.000334642434591
+    cdef double b_twitch = 0.031078513781294
     Pi = a_twitch*np.exp(b_twitch*i)
     
     # Fiber type assignment 
@@ -224,8 +407,8 @@ def TwitchBasedMuscleModel():
     # Recruitment threshold 
     Ur = 0.6;
     Ur_1 = 0.01;
-    a_U_th = 0.009662;
-    b_U_th = 0.03441;
+    a_U_th = 0.009661789081194;
+    b_U_th = 0.034406256825396;
     U_th = a_U_th*np.exp(b_U_th*i); 
     
     # Peak firing rate
@@ -237,7 +420,6 @@ def TwitchBasedMuscleModel():
     FR_half = PFR_MU/2
     
     # Contraction time and half relaxation time
-    #
     CT_n = 20;
     FR_half_n = FR_half[N_MU-1];
     CT = 1.5*np.divide(CT_n*FR_half_n,FR_half);
@@ -248,31 +430,61 @@ def TwitchBasedMuscleModel():
     # CoV of interspike intervals 
     cv = 0.1;
     
-    
+    # Simulation     
     start_time = time.time()
     Fs = 10000
     step = 1/float(Fs)
     h = step;
     t_twitch = np.arange(0,1,step)
-    cdef float m = 6
+    cdef double m = 6
     
-    cdef float amp = 0.1
+    cdef double amp = 0.1
     time_sim = np.arange(0,5,step)
     U = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)
-    U_eff = 0;
-    f_int_slow = 0;
-    f_eff_slow = 0;
-    f_eff_slow_dot = 0;
-    f_int_fast = 0;
-    f_eff_fast = 0;
-    f_eff_fast_dot= 0;
+    F_target = F0*U;      
+    # Spindle 
+    cdef double f_dynamic_bag1 = 0;
+    cdef double T_bag1 = 0;
+    cdef double T_dot_bag1 = 0;
+    cdef double f_static_bag2 = 0;
+    cdef double T_bag2 = 0;
+    cdef double T_dot_bag2 = 0;
+    cdef double T_chain = 0;
+    cdef double T_dot_chain = 0;    
+    cdef double gamma_dynamic = 10;
+    cdef double gamma_static = 10;
     
-    Vce = 0;
+    # Delay parameters
+    cdef double distance_Muscle2SpinalCord = 0.8;
+    cdef double conductionVelocity_efferent = 48.5;
+    cdef double conductionVelocity_Ia = 64.5;
+    cdef double conductionVelocity_Ib = 59.0;
+    cdef double synaptic_delay = 2.0;
+    
+    delay_efferent = int(round(distance_Muscle2SpinalCord/conductionVelocity_efferent*1000))*Fs/1000;
+    delay_Ia = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ia*1000) + synaptic_delay)*Fs/1000;
+    delay_Ib = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ib*1000) + synaptic_delay)*Fs/1000;
+    cdef int delay_C = 50;
+    
+    # Gain parameters
+    cdef double K = 0.001;
+    cdef double Gain_Ia = 400.0;
+    cdef double Gain_Ib = 400.0;
+    cdef double PN_PC_Ia = -0.3;
+    cdef double PN_PC_Ib = -0.3;
+    
+    # Muscle length 
+    cdef double MuscleVelocity = 0;
+    cdef double MuscleLength = Lce*L0/100;
+    
+    # Parameter initialization
+    # Neural drive
+    U_eff = 0;    
+    # Muscle dynamics  
+    Ace = 0;
+    Vce = 0;   
     Y = 0;
     S = 0;
-    
-    cdef float MuscleVelocity = 0;
-    cdef float MuscleLength = Lce*L0/100;
     
     spike_train = np.zeros((N_MU,len(time_sim)))
     spike_train_temp = np.zeros(len(time_sim))
@@ -281,6 +493,8 @@ def TwitchBasedMuscleModel():
     Force_vec = np.zeros(len(time_sim));
     ForceSE_vec = np.zeros(len(time_sim));
     Lce_vec = np.zeros(len(time_sim));
+    Vce_vec = np.zeros(len(time_sim));
+    Ace_vec = np.zeros(len(time_sim));
     U_eff_vec = np.zeros(len(time_sim));
     f_env_vec = np.zeros(len(time_sim));
     Y_vec = np.zeros(N_MU);
@@ -289,8 +503,40 @@ def TwitchBasedMuscleModel():
     S_temp = np.zeros(N_MU);
     Af = np.zeros(N_MU);
     FF = np.zeros(N_MU);
+    cdef double ForceSE = F_se_function(Lse) * F0;
+    
+    Ia_vec = np.zeros(len(time_sim));
+    FR_Ia = np.zeros(len(time_sim));
+    
+    x_GTO = np.zeros(len(time_sim));
+    FR_Ib_temp = np.zeros(len(time_sim));
+    FR_Ib = np.zeros(len(time_sim));
+    Ib_vec = np.zeros(len(time_sim));
+    
+    FR_RI_temp = np.zeros(len(time_sim));
+    FR_RI = np.zeros(len(time_sim));
+    RI_vec = np.zeros(len(time_sim));
+    
+    FR_PN = np.zeros(len(time_sim));
+    PN_vec = np.zeros(len(time_sim));
     
     for t in xrange(len(time_sim)):
+                
+        (AP_bag1,f_dynamic_bag1,T_bag1,T_dot_bag1) = bag1_model(f_dynamic_bag1,gamma_dynamic,T_bag1,T_dot_bag1,Lce,Vce,Ace,step);        
+        (AP_primary_bag2,AP_secondary_bag2,f_static,T_bag2,T_dot_bag2) = bag2_model(f_static_bag2,gamma_static,T_bag2,T_dot_bag2,Lce,Vce,Ace,step); 
+        (AP_primary_chain,AP_secondary_chain,T_chain,T_dot_chain) = chain_model(gamma_static,T_chain,T_dot_chain,Lce,Vce,Ace,step);
+        (Output_Primary,Output_Secondary) = SpindleOutput(AP_bag1,AP_primary_bag2,AP_secondary_bag2,AP_primary_chain,AP_secondary_chain);
+        FR_Ia[t] = Output_Primary;
+        
+        if t > 3:
+            (FR_Ib,FR_Ib_temp,x_GTO) = GTOOutput(FR_Ib,FR_Ib_temp,x_GTO,ForceSE,t);
+        if t > 3:
+            (FR_RI,FR_RI_temp) = RenshawOutput(FR_RI,FR_RI_temp,U[:t],t);
+        
+        if t > delay_Ib:
+            FR_PN[t] = smoothSaturationFunction(FR_Ia[t-delay_Ia]/Gain_Ia + PN_PC_Ia)
+                +smoothSaturationFunction(FR_Ib[t-delay_Ib]/Gain_Ib + PN_PC_Ib);           
+        
         if U[t] >= U_eff:
             T_U = 0.03;
         else:
@@ -298,6 +544,8 @@ def TwitchBasedMuscleModel():
         
         U_eff_dot = (U[t]-U_eff)/(T_U);
         U_eff = U_eff_dot*step + U_eff;
+        
+        
         
         FR = np.multiply((PFR_MU-MFR_MU)/(1-U_th),(U_eff-U_th)) + MFR_MU;
         FR[FR<8] = 0;
@@ -400,7 +648,8 @@ def TwitchBasedMuscleModel():
         Force = np.sum(force[:,t]) + FP1*F0 + FP2*F0                          
         
         ForceSE = F_se_function(Lse)*F0;
-                     
+        
+        MuscleAcceleration = (ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity,2)*pow(tan(alpha),2)/MuscleLength);    
         k_0 = h*MuscleVelocity;
         l_0 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity,2)*pow(tan(alpha),2)/MuscleLength));
         k_1 = h*(MuscleVelocity+l_0/2);
@@ -412,6 +661,7 @@ def TwitchBasedMuscleModel():
         MuscleLength = MuscleLength + 1/m*(k_0+2*k_1+2*k_2+k_3);
         MuscleVelocity = MuscleVelocity + 1/m*(l_0+2*l_1+2*l_2+l_3);
         
+        Ace = MuscleAcceleration/(L0/100);
         Vce = MuscleVelocity/(L0/100);
         Lce = MuscleLength/(L0/100);
         Lse = (Lmt - Lce*L0*cos(alpha))/(L0T);
@@ -420,16 +670,28 @@ def TwitchBasedMuscleModel():
         ForceSE_vec[t] = ForceSE;
         Force_vec[t] = Force;
         Lce_vec[t] = Lce;
-        U_eff_vec[t] = U_eff;      
+        Vce_vec[t] = Vce;
+        Ace_vec[t] = Ace;
+        U_eff_vec[t] = U_eff; 
+        
+        Ia_vec[t] = Output_Primary;        
+        
+        Ib_vec[t] = FR_Ib[t];
+        
+        RI_vec[t] = FR_RI[t];
+        
+        PN_vec[t] = FR_PN[t];
         
     end_time = time.time()
     print(end_time - start_time)
     
     output = {'Time':time_sim,'Tendon Force':ForceSE_vec, 'Muscle Force':Force_vec, 
-              'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec};
+              'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec,
+              'Muscle Velocity': Vce_vec, 'Muscle Acceleration': Ace_vec,
+              'Ia': Ia_vec,'Ib': Ib_vec, 'RI': RI_vec, 'PN': PN_vec};
     
-    default_path = '/Users/akira/Documents/Github/python-code/';  
-    save_path = '/Users/akira/Documents/Github/python-code/Data';          
+    default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';  
+    save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';          
     os.chdir(save_path)
     np.save('output.npy',output)
     os.chdir(default_path)
