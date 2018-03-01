@@ -33,20 +33,26 @@ Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*F
 F_target = F0*Input;      
 
 Force = output['Tendon Force'];
-delay_C = 50;
-K = 0.01;
+delay_C = 50*Fs/1000;
+K = 0.001;
 
 Input_C = 0.0;
 C_vec = np.zeros(len(time_sim));
 dif_vec = np.zeros(len(time_sim));
+force_vec = np.zeros(len(time_sim));
 
 for t in xrange(len(time_sim)):
     if t > delay_C:
-        dif = F_target[t]-Force[t-delay_C];
-        Input_C = K*(F_target[t]-Force[t-delay_C])/F0 + Input_C; 
+        difference = F_target[t]-force_vec[t-delay_C];
+        Input_C += K*(F_target[t]-force_vec[t-delay_C]); 
         C_vec[t] = Input_C;
-        dif_vec[t] = dif
+        dif_vec[t] = difference
+        
+    force = Input_C*F0;
+    force_vec[t] = force
     
-plt.plot(dif_vec)
+plt.show()
+plt.plot(F_target)    
+plt.plot(force_vec)
 
 

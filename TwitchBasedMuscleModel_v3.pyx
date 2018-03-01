@@ -367,27 +367,25 @@ def TwitchBasedMuscleModel():
         return y
     
     def actionPotentialGeneration(exc_input,inh_input,n_exc,n_inh,IC):
-        #cdef double HYP = 2.0;
-        #cdef double OD = 2.0;
-        HYP = 2.0;
-        OD = 2.0;
+        cdef double HYP = 2.0;
+        cdef double OD = 2.0;        
         s_inh = - HYP/n_inh;
         s_exc = (1 + OD)/n_exc;
         y = s_exc*(exc_input) + s_inh*(inh_input) + IC;
         return y 
     
     def noiseOutput(noise,noise_filt,Input,index):
-        noise_amp = 0.001;
-        b1 = 0.089848614641397*1e-5;
-        b2 = 0.359394458565587*1e-5;
-        b3 = 0.539091687848381*1e-5;
-        b4 = 0.359394458565587*1e-5;
-        b5 = 0.089848614641397*1e-5;
-        a1 = 1.0;
-        a2 = -3.835825540647348;
-        a3 = 5.520819136622229;
-        a4 = -3.533535219463015;
-        a5 = 0.848555999266477;
+        cdef double noise_amp = 0.001;
+        cdef double b1 = 0.089848614641397*1e-5;
+        cdef double b2 = 0.359394458565587*1e-5;
+        cdef double b3 = 0.539091687848381*1e-5;
+        cdef double b4 = 0.359394458565587*1e-5;
+        cdef double b5 = 0.089848614641397*1e-5;
+        cdef double a1 = 1.0;
+        cdef double a2 = -3.835825540647348;
+        cdef double a3 = 5.520819136622229;
+        cdef double a4 = -3.533535219463015;
+        cdef double a5 = 0.848555999266477;
         r = np.random.rand(1);
         noise[index] = 2*(r-0.5)*(sqrt(noise_amp*Input)*sqrt(3));
         noise_filt[index] = (b5*noise[index-4] + b4*noise[index-3] + b3*noise[index-2] + b2*noise[index-1] +
@@ -491,10 +489,10 @@ def TwitchBasedMuscleModel():
     cdef double conductionVelocity_Ib = 59.0;
     cdef double synaptic_delay = 2.0;
     
-    delay_efferent = int(round(distance_Muscle2SpinalCord/conductionVelocity_efferent*1000))*Fs/1000;
+    delay_efferent = int(round(distance_Muscle2SpinalCord/conductionVelocity_efferent*1000) + synaptic_delay)*Fs/1000;
     delay_Ia = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ia*1000) + synaptic_delay)*Fs/1000;
     delay_Ib = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ib*1000) + synaptic_delay)*Fs/1000;
-    cdef int delay_C = 50;
+    cdef int delay_C = 50*Fs/1000;
     cdef int delay_synaptic = 2;
     
     # Gain parameters
@@ -515,8 +513,10 @@ def TwitchBasedMuscleModel():
     
     # Parameter initialization
     # Neural drive
-    U_eff = 0;  
+    cdef double U_eff = 0.0;  
+    cdef double Input_C_temp = 0.0;
     cdef double Input_C = 0.0;
+    cdef double ND_temp = 0.0;
     # Muscle dynamics  
     Ace = 0;
     Vce = 0;   
@@ -561,8 +561,25 @@ def TwitchBasedMuscleModel():
     PN_vec = np.zeros(len(time_sim));
     Input_PN = np.zeros(len(time_sim));
     
+    # noise related
+    # noise for neural drive
     noise = np.zeros(len(time_sim));
     noise_filt = np.zeros(len(time_sim));
+    # noise for error-based controller
+    noise_C = np.zeros(len(time_sim));
+    noise_C_filt = np.zeros(len(time_sim));
+    # noise for Ia
+    noise_Ia = np.zeros(len(time_sim));
+    noise_Ia_filt = np.zeros(len(time_sim));
+    # noise for Ib
+    noise_Ib = np.zeros(len(time_sim));
+    noise_Ib_filt = np.zeros(len(time_sim));
+    # noise for RI
+    noise_RI = np.zeros(len(time_sim));
+    noise_RI_filt = np.zeros(len(time_sim));
+    # noise for PN
+    noise_PN = np.zeros(len(time_sim));
+    noise_PN_filt = np.zeros(len(time_sim));
     
     C_vec = np.zeros(len(time_sim));
     ND = np.zeros(len(time_sim));
@@ -576,40 +593,54 @@ def TwitchBasedMuscleModel():
         (AP_primary_chain,AP_secondary_chain,T_chain,T_dot_chain) = chain_model(gamma_static,T_chain,T_dot_chain,Lce,Vce,Ace,step);
         (Output_Primary,Output_Secondary) = SpindleOutput(AP_bag1,AP_primary_bag2,AP_secondary_bag2,AP_primary_chain,AP_secondary_chain);
         FR_Ia[t] = Output_Primary;
-        Input_Ia[t] = smoothSaturationFunction(FR_Ia[t]/Gain_Ia + Ia_PC);
+        Input_Ia_temp = smoothSaturationFunction(FR_Ia[t]/Gain_Ia + Ia_PC);
+        if t < 5:
+            (noise_Ia,noise_Ia_filt) = noiseOutput(noise_Ia,noise_Ia_filt,Input_Ia_temp,t); 
+            Input_Ia[t] = Input_Ia_temp + noise_Ia_filt[t];
+            if Input_Ia[t] < 0:
+                Input_Ia[t] = 0;
         
         # Obtain GTO output
-        if t > 3:
+        if t > 5:
             (FR_Ib,FR_Ib_temp,x_GTO) = GTOOutput(FR_Ib,FR_Ib_temp,x_GTO,ForceSE,t);
-        Input_Ib[t] = smoothSaturationFunction(FR_Ib[t]/Gain_Ib + Ib_PC);
-            
+            Input_Ib_temp = smoothSaturationFunction(FR_Ib[t]/Gain_Ib + Ib_PC);
+            (noise_Ib,noise_Ib_filt) = noiseOutput(noise_Ib,noise_Ib_filt,Input_Ib_temp,t); 
+            Input_Ib[t] = Input_Ib_temp + noise_Ib_filt[t];
+            if Input_Ib[t] < 0:
+                Input_Ib[t] = 0;
+                           
         # Obtain Renshaw cell output
-        if t > 3:
+        if t > 5:
             (FR_RI,FR_RI_temp) = RenshawOutput(FR_RI,FR_RI_temp,ND[:t],t);
-        Input_RI[t] = smoothSaturationFunction(FR_RI[t]/Gain_RI + RI_PC);
+            Input_RI_temp = smoothSaturationFunction(FR_RI[t]/Gain_RI + RI_PC);
+            (noise_RI,noise_RI_filt) = noiseOutput(noise_RI,noise_RI_filt,Input_RI_temp,t); 
+            Input_RI[t] = Input_RI_temp + noise_RI_filt[t];
+            if Input_RI[t] < 0:
+                Input_RI[t] = 0;
         
         # Obtain propriospinal neuron output
         if t > delay_Ib:
             FR_PN[t] = smoothSaturationFunction(FR_Ia[t-delay_Ia]/Gain_Ia + PN_PC_Ia)+smoothSaturationFunction(FR_Ib[t-delay_Ib]/Gain_Ib + PN_PC_Ib);
-        Input_PN[t] = smoothSaturationFunction(FR_PN[t] + PN_PC);
+            Input_PN_temp = smoothSaturationFunction(FR_PN[t] + PN_PC);
+            (noise_PN,noise_PN_filt) = noiseOutput(noise_PN,noise_PN_filt,Input_PN_temp,t); 
+            Input_PN[t] = Input_PN_temp + noise_PN_filt[t];
+            if Input_PN[t] < 0:
+                Input_PN[t] = 0;
             
-        # Obtain output of error-based controller
-        if t > delay_C:
-            Input_C = K*(F_target[t]-ForceSE_vec[t-delay_C])/F0 + Input_C;                        
         
-            
         # Integreate all the inputs
-        if t <= delay_C:
-            ND_temp = 0;
-        else:
-            exc_input = Input_Ia[t-delay_Ia] + Input_PN[t-delay_synaptic];
-            inh_input = Input_Ib[t-delay_Ib] + Input_RI[t-delay_synaptic];
-            ND_temp = actionPotentialGeneration(exc_input,inh_input,2,2,Input[t]);
-            (noise,noise_filt) = noiseOutput(noise,noise_filt,ND_temp,t); 
+        if t > delay_C:
+            Input_C_temp += K*(Input[t]-ForceSE_vec[t-delay_C]/F0);
+            (noise_C,noise_C_filt) = noiseOutput(noise_C,noise_C_filt,abs(Input_C_temp),t); 
+            Input_C = Input_C_temp + noise_C_filt[t];
             
-        if ND_temp < 0:
-            ND_temp = 0;
-        
+            exc_input = Input_Ia[t-delay_Ia] + Input_PN[t-delay_synaptic];
+            inh_input = Input_Ib[t-delay_Ib] + Input_RI[t-delay_synaptic];           
+            ND_temp = actionPotentialGeneration(exc_input,inh_input,2,2,Input_C);
+            if ND_temp < 0:
+                ND_temp = 0;
+            (noise,noise_filt) = noiseOutput(noise,noise_filt,ND_temp,t);             
+            
         # Calculate neural drive to motor unit pool
         ND[t] = ND_temp + noise_filt[t];
         
@@ -759,7 +790,7 @@ def TwitchBasedMuscleModel():
         
         U_eff_vec[t] = U_eff; 
         
-        Ia_vec[t] = Output_Primary;        
+        Ia_vec[t] = FR_Ia[t];        
         
         Ib_vec[t] = FR_Ib[t];
         
@@ -769,14 +800,20 @@ def TwitchBasedMuscleModel():
         
         C_vec[t] = Input_C;
         
+        
     end_time = time.time()
     print(end_time - start_time)
     
     output = {'Time':time_sim,'Tendon Force':ForceSE_vec, 'Muscle Force':Force_vec, 
               'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec,
               'Muscle Velocity': Vce_vec, 'Muscle Acceleration': Ace_vec,
-              'Ia': Ia_vec,'Ib': Ib_vec, 'RI': RI_vec, 'PN': PN_vec, 'noise': noise_filt,
-              'C': C_vec, 'ND': ND, 'U_eff': U_eff_vec};
+              'Ia': Ia_vec, 'Input Ia' : Input_Ia,
+              'Ib': Ib_vec, 'Input Ib' : Input_Ib,
+              'RI': RI_vec, 'Input RI' : Input_RI,
+              'PN': PN_vec, 'Input PN': Input_PN,             
+              'C': C_vec, 'ND': ND, 'U_eff': U_eff_vec}
+              #, 'temp1': temp1,'temp2': temp2,
+              #'temp3': temp3};
     
     default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';  
     save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';          
