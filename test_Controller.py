@@ -10,8 +10,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';  
-save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';  
+default_path = '/Users/akira/Documents/Github/python-code/';  
+save_path = '/Users/akira/Documents/Github/python-code/Data';  
         
 os.chdir(save_path)
 output = np.load('output.npy').item()
@@ -36,6 +36,7 @@ Force = output['Tendon Force'];
 delay_C = 50*Fs/1000;
 K = 0.001;
 
+
 Input_C = 0.0;
 C_vec = np.zeros(len(time_sim));
 dif_vec = np.zeros(len(time_sim));
@@ -44,7 +45,7 @@ force_vec = np.zeros(len(time_sim));
 for t in xrange(len(time_sim)):
     if t > delay_C:
         difference = F_target[t]-force_vec[t-delay_C];
-        Input_C += K*(F_target[t]-force_vec[t-delay_C]); 
+        Input_C += K*(F_target[t]-force_vec[t-delay_C]);
         C_vec[t] = Input_C;
         dif_vec[t] = difference
         
@@ -54,5 +55,4 @@ for t in xrange(len(time_sim)):
 plt.show()
 plt.plot(F_target)    
 plt.plot(force_vec)
-
 

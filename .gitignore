@@ -1,5 +1,6 @@
 
 numpy/
+<<<<<<< Updated upstream
 AnalysisCode.py
 Data/output.npy
 Data/output_FCR.npy
@@ -9,3 +10,7 @@ build/temp.macosx-10.6-x86_64-2.7/TwitchBasedMuscleModel_FCR.o
 build/temp.macosx-10.6-x86_64-2.7/TwitchBasedMuscleModel_noTendon.o
 build/temp.macosx-10.6-x86_64-2.7/TwitchBasedMuscleModel_v3.o-21413af7
 build/temp.macosx-10.6-x86_64-2.7/TwitchBasedMuscleModel_v3.o
+=======
+
+TwitchBasedMuscleModel_v2.so
+>>>>>>> Stashed changes
