@@ -18,3 +18,5 @@ TwitchBasedMuscleModel_v2.so
 Data/output_2.npy
 
 *.npy
+
+Data/output.npy
