@@ -641,7 +641,7 @@ def TwitchBasedMuscleModel():
             ND_temp = actionPotentialGeneration(exc_input,inh_input,2,2,Input_C);
             if ND_temp < 0:
                 ND_temp = 0;
-            (noise,noise_filt) = noiseOutput(noise,noise_filt,ND_temp,t);             
+            (noise,noise_filt) = noiseOutput(noise,noise_filt,ND_temp,t); 
             
         # Calculate neural drive to motor unit pool
         ND[t] = ND_temp + noise_filt[t];

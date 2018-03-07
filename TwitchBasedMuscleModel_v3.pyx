@@ -499,7 +499,7 @@ def TwitchBasedMuscleModel():
     cdef double K = 0.001;
     cdef double Gain_Ia = 400.0;
     cdef double Gain_Ib = 400.0;
-    cdef double Gain_RI = 2.0;
+    cdef double Gain_RI = 2.0tw\;
     cdef double Ia_PC = -0.3;
     cdef double Ib_PC = -0.3;
     cdef double RI_PC = -0.3;
@@ -599,7 +599,7 @@ def TwitchBasedMuscleModel():
             Input_Ia[t] = Input_Ia_temp + noise_Ia_filt[t];
             if Input_Ia[t] < 0:
                 Input_Ia[t] = 0;
-        
+                        
         # Obtain GTO output
         if t > 5:
             (FR_Ib,FR_Ib_temp,x_GTO) = GTOOutput(FR_Ib,FR_Ib_temp,x_GTO,ForceSE,t);

@@ -260,9 +260,10 @@ def TwitchBasedMuscleModel():
     t_twitch = np.arange(0,1,step)
     cdef double m = 6
     
-    cdef double amp = 1.0
+    cdef double amp = 0.1
     time_sim = np.arange(0,5,step)
-    Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)
+    #Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)
+    Input = np.concatenate((np.zeros(1*Fs),amp*np.ones(1*Fs),np.zeros(1*Fs),amp*np.ones(1*Fs),np.zeros(1*Fs)),axis = 0)
     F_target = F0*Input;      
 
     # Muscle length 
@@ -291,9 +292,12 @@ def TwitchBasedMuscleModel():
     Ace_vec = np.zeros(len(time_sim));
     U_eff_vec = np.zeros(len(time_sim));
     f_env_vec = np.zeros(len(time_sim));
+    FR_vec = np.zeros(len(time_sim));
+    FR_mat = np.zeros((N_MU,len(time_sim)));
     Af_vec = np.zeros(len(time_sim));
     FF_vec = np.zeros(len(time_sim));
     S_vec_store = np.zeros(len(time_sim));
+    spike_time_vec = np.zeros(len(time_sim));
     Y_vec = np.zeros(N_MU);
     S_vec = np.zeros(N_MU);
     Y_temp = float(0);
@@ -316,9 +320,9 @@ def TwitchBasedMuscleModel():
         
         
         # Calculate firing rate of each unit
-        FR = np.multiply((PFR_MU-MFR_MU)/(1-U_th),(U_eff-U_th)) + MFR_MU;
+        FR = np.multiply((PFR_MU-MFR_MU)/(1-U_th),(U_eff-U_th)) + MFR_MU;        
         FR[FR<8] = 0;
-        
+        FR_mat[:,t] = FR;
         f_env = np.divide(FR,FR_half);
         force_half = np.divide(force[:,t],Pi_half);
         
@@ -338,37 +342,17 @@ def TwitchBasedMuscleModel():
                 Af[k] = Af_fast_function(force_half[k],Lce,S_vec[k]);
                 if f_env[k] != 0:
                     FF[k] = Af_cor_fast_function(f_env[k],Lce,S_vec[k]);                
-      
-        index_temp1 = np.all(spike_train==0,axis = 1);
-        index_1 = np.where(np.logical_and(FR >= MFR_MU,index_temp1));
-        index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));
-        index = np.append(index_1,index_2);
-        
-        if index.size != 0:
-            for j in xrange(len(index)):
-                n = index[j];
-                if FR[n] > PFR_MU[n]:
-                    FR[n] = PFR_MU[n]   
-                
-                if any(spike_train[n,:]) != True:
-                    spike_train[n,t] = 1;                    
-                    mu = 1/float(FR[n]);
-                    Z = np.random.randn(1);
-                    if Z > 3.9:
-                        Z = 3.9
-                    elif Z < -3.9:
-                        Z = -3.9
-                    spike_time_temp = (mu + mu*cv*Z)*Fs;
-                    spike_time[n] = round(spike_time_temp) + t; 
-                    twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
-                    twitch = Pi[n]*twitch_temp*FF[n]; 
-                    if len(time_sim)-t >= len(t_twitch):                       
-                        force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
-                    else:
-                        force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];    
-                else:
-                    if spike_time[n] == t:
-                        spike_train[n,t] = 1;                        
+            
+        if t > 1:            
+            index_1 = np.where(np.logical_and(FR >= MFR_MU,FR_mat[:,t-1] < MFR_MU));
+            index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));        
+            index = np.append(index_1,index_2);
+            
+            if index.size != 0:
+                for j in xrange(len(index)):
+                    n = index[j];                
+                    if any(spike_train[n,:]) != True:
+                        spike_train[n,t] = 1;                    
                         mu = 1/float(FR[n]);
                         Z = np.random.randn(1);
                         if Z > 3.9:
@@ -378,34 +362,58 @@ def TwitchBasedMuscleModel():
                         spike_time_temp = (mu + mu*cv*Z)*Fs;
                         spike_time[n] = round(spike_time_temp) + t; 
                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
-                        twitch = Pi[n]*twitch_temp*FF[n];                        
-                        if len(time_sim)-t >= len(t_twitch):                       
-                            force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
-                        else:
-                            force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];            
-                    elif t > spike_time[n] + round(1/float(FR[n])*Fs):
-                        spike_train[n,t] = 1;                        
-                        spike_time[n] = t;                        
-                        twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
                         twitch = Pi[n]*twitch_temp*FF[n]; 
                         if len(time_sim)-t >= len(t_twitch):                       
                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
                         else:
-                            force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
-                if n <= index_slow:
-                    FL_temp = FL_slow_function(Lce);
-                    if Vce > 0:
-                        FV_temp = FV_ecc_slow_function(Lce,Vce);
+                            force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];    
                     else:
-                        FV_temp = FV_con_slow_function(Lce,Vce);
-                else:
-                    FL_temp = FL_fast_function(Lce);
-                    if Vce > 0:
-                        FV_temp = FV_ecc_fast_function(Lce,Vce);
+                        if spike_time[n] == t:
+                            spike_train[n,t] = 1;                        
+                            mu = 1/float(FR[n]);
+                            Z = np.random.randn(1);
+                            if Z > 3.9:
+                                Z = 3.9
+                            elif Z < -3.9:
+                                Z = -3.9
+                            spike_time_temp = (mu + mu*cv*Z)*Fs;
+                            spike_time[n] = round(spike_time_temp) + t; 
+                            twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
+                            twitch = Pi[n]*twitch_temp*FF[n];                        
+                            if len(time_sim)-t >= len(t_twitch):                       
+                                force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
+                            else:
+                                force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];            
+                        elif t > spike_time[n] + round(1/FR[n]*Fs):
+                            spike_train[n,t] = 1;                        
+                            mu = 1/float(FR[n]);
+                            Z = np.random.randn(1);
+                            if Z > 3.9:
+                                Z = 3.9
+                            elif Z < -3.9:
+                                Z = -3.9
+                            spike_time_temp = (mu + mu*cv*Z)*Fs;
+                            spike_time[n] = round(spike_time_temp) + t;                         
+                            twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
+                            twitch = Pi[n]*twitch_temp*FF[n]; 
+                            if len(time_sim)-t >= len(t_twitch):                       
+                                force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
+                            else:
+                                force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
+                    if n <= index_slow:
+                        FL_temp = FL_slow_function(Lce);
+                        if Vce > 0:
+                            FV_temp = FV_ecc_slow_function(Lce,Vce);
+                        else:
+                            FV_temp = FV_con_slow_function(Lce,Vce);
                     else:
-                        FV_temp = FV_con_fast_function(Lce,Vce);
-                                
-                force[n,t] = force[n,t] #*FL_temp*FV_temp;                
+                        FL_temp = FL_fast_function(Lce);
+                        if Vce > 0:
+                            FV_temp = FV_ecc_fast_function(Lce,Vce);
+                        else:
+                            FV_temp = FV_con_fast_function(Lce,Vce);
+                                    
+                    force[n,t] = force[n,t] #*FL_temp*FV_temp;                
         
         #FP1 = F_pe_1_function(Lce/Lmax,Vce);
         #FP2 = F_pe_2_function(Lce);
@@ -420,10 +428,13 @@ def TwitchBasedMuscleModel():
         Force_vec[t] = Force;
         Lce_vec[t] = Lce;
         U_eff_vec[t] = U_eff;
-        f_env_vec[t] = f_env[-1];
-        Af_vec[t] = Af[-1];
-        FF_vec[t] = FF[-1];
-        S_vec_store[t] = S_vec[-1];
+        f_env_vec[t] = f_env[0];
+        FR_vec[t] = FR[0];
+        Af_vec[t] = Af[0];
+        FF_vec[t] = FF[0];
+        S_vec_store[t] = S_vec[0];
+        spike_time_vec[t] = spike_time[0];
+        #index_vec[t] = index[0];
         
     end_time = time.time()
     print(end_time - start_time)
@@ -431,7 +442,7 @@ def TwitchBasedMuscleModel():
     output = {'Time':time_sim, 'Muscle Force':Force_vec, 'Input': Input,
               'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec,
               'U_eff': U_eff_vec,'f_env':f_env_vec, 'Af':Af_vec,'FF':FF_vec,
-              'S': S_vec_store}
+              'S': S_vec_store,'FR':FR_vec,'spike_time':spike_time_vec}
               
     
     default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';  

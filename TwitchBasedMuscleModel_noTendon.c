@@ -1065,14 +1065,6 @@ static int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v);
 static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v,
                                                int is_list, int wraparound, int boundscheck);
 
-/* PyIntBinop.proto */
-#if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, long intval, int inplace);
-#else
-#define __Pyx_PyInt_EqObjC(op1, op2, intval, inplace)\
-    PyObject_RichCompare(op1, op2, Py_EQ)
-    #endif
-
 /* IncludeStringH.proto */
 #include <string.h>
 
@@ -1247,7 +1239,6 @@ static const char __pyx_k_V_y[] = "V_y";
 static const char __pyx_k_Vce[] = "Vce";
 static const char __pyx_k_a_f[] = "a_f";
 static const char __pyx_k_a_s[] = "a_s";
-static const char __pyx_k_all[] = "all";
 static const char __pyx_k_amp[] = "amp";
 static const char __pyx_k_any[] = "any";
 static const char __pyx_k_av0[] = "av0";
@@ -1325,6 +1316,8 @@ static const char __pyx_k_where[] = "where";
 static const char __pyx_k_zeros[] = "zeros";
 static const char __pyx_k_Af_vec[] = "Af_vec";
 static const char __pyx_k_FF_vec[] = "FF_vec";
+static const char __pyx_k_FR_mat[] = "FR_mat";
+static const char __pyx_k_FR_vec[] = "FR_vec";
 static const char __pyx_k_LrT_se[] = "LrT_se";
 static const char __pyx_k_MFR_MU[] = "MFR_MU";
 static const char __pyx_k_PFR_MU[] = "PFR_MU";
@@ -1396,7 +1389,6 @@ static const char __pyx_k_S_vec_store[] = "S_vec_store";
 static const char __pyx_k_Spike_Train[] = "Spike Train";
 static const char __pyx_k_add_subplot[] = "add_subplot";
 static const char __pyx_k_concatenate[] = "concatenate";
-static const char __pyx_k_index_temp1[] = "index_temp1";
 static const char __pyx_k_logical_and[] = "logical_and";
 static const char __pyx_k_spike_train[] = "spike_train";
 static const char __pyx_k_twitch_temp[] = "twitch_temp";
@@ -1412,6 +1404,7 @@ static const char __pyx_k_F_se_function[] = "F_se_function";
 static const char __pyx_k_InitialLength[] = "InitialLength";
 static const char __pyx_k_Muscle_Length[] = "Muscle Length";
 static const char __pyx_k_MuscleVelocity[] = "MuscleVelocity";
+static const char __pyx_k_spike_time_vec[] = "spike_time_vec";
 static const char __pyx_k_yield_function[] = "yield_function";
 static const char __pyx_k_F_pe_1_function[] = "F_pe_1_function";
 static const char __pyx_k_F_pe_2_function[] = "F_pe_2_function";
@@ -1476,6 +1469,8 @@ static PyObject *__pyx_n_s_FL_temp;
 static PyObject *__pyx_n_s_FR;
 static PyObject *__pyx_n_s_FR_half;
 static PyObject *__pyx_n_s_FR_half_n;
+static PyObject *__pyx_n_s_FR_mat;
+static PyObject *__pyx_n_s_FR_vec;
 static PyObject *__pyx_n_s_FV_con_fast_function;
 static PyObject *__pyx_n_s_FV_con_slow_function;
 static PyObject *__pyx_n_s_FV_ecc_fast_function;
@@ -1603,7 +1598,6 @@ static PyObject *__pyx_n_s_a_f;
 static PyObject *__pyx_n_s_a_s;
 static PyObject *__pyx_n_s_a_twitch;
 static PyObject *__pyx_n_s_add_subplot;
-static PyObject *__pyx_n_s_all;
 static PyObject *__pyx_n_s_alpha;
 static PyObject *__pyx_n_s_amp;
 static PyObject *__pyx_n_s_any;
@@ -1655,7 +1649,6 @@ static PyObject *__pyx_n_s_index;
 static PyObject *__pyx_n_s_index_1;
 static PyObject *__pyx_n_s_index_2;
 static PyObject *__pyx_n_s_index_slow;
-static PyObject *__pyx_n_s_index_temp1;
 static PyObject *__pyx_n_s_j;
 static PyObject *__pyx_n_s_k;
 static PyObject *__pyx_n_s_k1;
@@ -1699,6 +1692,7 @@ static PyObject *__pyx_n_s_sign;
 static PyObject *__pyx_n_s_size;
 static PyObject *__pyx_n_s_spike_time;
 static PyObject *__pyx_n_s_spike_time_temp;
+static PyObject *__pyx_n_s_spike_time_vec;
 static PyObject *__pyx_n_s_spike_train;
 static PyObject *__pyx_n_s_start_time;
 static PyObject *__pyx_n_s_step;
@@ -1746,7 +1740,6 @@ static PyObject *__pyx_float_neg_3_9;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_2;
-static PyObject *__pyx_int_3;
 static PyObject *__pyx_int_5;
 static PyObject *__pyx_int_8;
 static PyObject *__pyx_int_10;
@@ -1766,7 +1759,9 @@ static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_slice__38;
 static PyObject *__pyx_slice__39;
-static PyObject *__pyx_slice__42;
+static PyObject *__pyx_slice__40;
+static PyObject *__pyx_slice__41;
+static PyObject *__pyx_slice__45;
 static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__12;
 static PyObject *__pyx_tuple__14;
@@ -1781,10 +1776,11 @@ static PyObject *__pyx_tuple__30;
 static PyObject *__pyx_tuple__32;
 static PyObject *__pyx_tuple__34;
 static PyObject *__pyx_tuple__36;
-static PyObject *__pyx_tuple__40;
-static PyObject *__pyx_tuple__41;
+static PyObject *__pyx_tuple__42;
 static PyObject *__pyx_tuple__43;
 static PyObject *__pyx_tuple__44;
+static PyObject *__pyx_tuple__46;
+static PyObject *__pyx_tuple__47;
 static PyObject *__pyx_codeobj__3;
 static PyObject *__pyx_codeobj__5;
 static PyObject *__pyx_codeobj__7;
@@ -1803,7 +1799,7 @@ static PyObject *__pyx_codeobj__31;
 static PyObject *__pyx_codeobj__33;
 static PyObject *__pyx_codeobj__35;
 static PyObject *__pyx_codeobj__37;
-static PyObject *__pyx_codeobj__45;
+static PyObject *__pyx_codeobj__48;
 
 /* "TwitchBasedMuscleModel_noTendon.pyx":16
  * from libc.math cimport sqrt
@@ -5988,9 +5984,12 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
   CYTHON_UNUSED PyObject *__pyx_v_Ace_vec = NULL;
   PyObject *__pyx_v_U_eff_vec = NULL;
   PyObject *__pyx_v_f_env_vec = NULL;
+  PyObject *__pyx_v_FR_vec = NULL;
+  PyObject *__pyx_v_FR_mat = NULL;
   PyObject *__pyx_v_Af_vec = NULL;
   PyObject *__pyx_v_FF_vec = NULL;
   PyObject *__pyx_v_S_vec_store = NULL;
+  PyObject *__pyx_v_spike_time_vec = NULL;
   PyObject *__pyx_v_Y_vec = NULL;
   PyObject *__pyx_v_S_vec = NULL;
   PyObject *__pyx_v_Y_temp = NULL;
@@ -6006,7 +6005,6 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
   PyObject *__pyx_v_f_env = NULL;
   PyObject *__pyx_v_force_half = NULL;
   int __pyx_v_k;
-  PyObject *__pyx_v_index_temp1 = NULL;
   PyObject *__pyx_v_index_1 = NULL;
   PyObject *__pyx_v_index_2 = NULL;
   PyObject *__pyx_v_index = NULL;
@@ -6043,13 +6041,14 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
   PyObject *__pyx_t_13 = NULL;
   PyObject *__pyx_t_14 = NULL;
   PyObject *__pyx_t_15 = NULL;
-  Py_ssize_t __pyx_t_16;
-  PyObject *(*__pyx_t_17)(PyObject *);
-  int __pyx_t_18;
+  PyObject *__pyx_t_16 = NULL;
+  Py_ssize_t __pyx_t_17;
+  PyObject *(*__pyx_t_18)(PyObject *);
   int __pyx_t_19;
-  Py_ssize_t __pyx_t_20;
+  int __pyx_t_20;
   Py_ssize_t __pyx_t_21;
   Py_ssize_t __pyx_t_22;
+  Py_ssize_t __pyx_t_23;
   __Pyx_RefNannySetupContext("TwitchBasedMuscleModel", 0);
   __pyx_cur_scope = (struct __pyx_obj_31TwitchBasedMuscleModel_noTendon___pyx_scope_struct__TwitchBasedMuscleModel *)__pyx_tp_new_31TwitchBasedMuscleModel_noTendon___pyx_scope_struct__TwitchBasedMuscleModel(__pyx_ptype_31TwitchBasedMuscleModel_noTendon___pyx_scope_struct__TwitchBasedMuscleModel, __pyx_empty_tuple, NULL);
   if (unlikely(!__pyx_cur_scope)) {
@@ -7409,25 +7408,25 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
  *     t_twitch = np.arange(0,1,step)
  *     cdef double m = 6             # <<<<<<<<<<<<<<
  * 
- *     cdef double amp = 1.0
+ *     cdef double amp = 0.1
  */
   __pyx_v_m = 6.0;
 
   /* "TwitchBasedMuscleModel_noTendon.pyx":263
  *     cdef double m = 6
  * 
- *     cdef double amp = 1.0             # <<<<<<<<<<<<<<
+ *     cdef double amp = 0.1             # <<<<<<<<<<<<<<
  *     time_sim = np.arange(0,5,step)
- *     Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)
+ *     #Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)
  */
-  __pyx_v_amp = 1.0;
+  __pyx_v_amp = 0.1;
 
   /* "TwitchBasedMuscleModel_noTendon.pyx":264
  * 
- *     cdef double amp = 1.0
+ *     cdef double amp = 0.1
  *     time_sim = np.arange(0,5,step)             # <<<<<<<<<<<<<<
- *     Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)
- *     F_target = F0*Input;
+ *     #Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)
+ *     Input = np.concatenate((np.zeros(1*Fs),amp*np.ones(1*Fs),np.zeros(1*Fs),amp*np.ones(1*Fs),np.zeros(1*Fs)),axis = 0)
  */
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_arange); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 264, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
@@ -7486,18 +7485,18 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
   __pyx_v_time_sim = __pyx_t_7;
   __pyx_t_7 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":265
- *     cdef double amp = 1.0
+  /* "TwitchBasedMuscleModel_noTendon.pyx":266
  *     time_sim = np.arange(0,5,step)
- *     Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)             # <<<<<<<<<<<<<<
+ *     #Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)
+ *     Input = np.concatenate((np.zeros(1*Fs),amp*np.ones(1*Fs),np.zeros(1*Fs),amp*np.ones(1*Fs),np.zeros(1*Fs)),axis = 0)             # <<<<<<<<<<<<<<
  *     F_target = F0*Input;
  * 
  */
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_concatenate); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_concatenate); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = PyNumber_Multiply(__pyx_int_1, __pyx_v_Fs); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Multiply(__pyx_int_1, __pyx_v_Fs); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_1 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -7510,14 +7509,14 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
     }
   }
   if (!__pyx_t_1) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 266, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_t_4};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 266, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -7526,33 +7525,32 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_t_4};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 266, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     {
-      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 265, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 266, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1); __pyx_t_1 = NULL;
       __Pyx_GIVEREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_4);
       __pyx_t_4 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 266, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyFloat_FromDouble((__pyx_v_amp / 2.0)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_amp); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_arange); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_ones); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Multiply(__pyx_int_1, __pyx_v_Fs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_13 = NULL;
-  __pyx_t_11 = 0;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
     __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_4);
     if (likely(__pyx_t_13)) {
@@ -7560,63 +7558,495 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
       __Pyx_INCREF(__pyx_t_13);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_4, function);
-      __pyx_t_11 = 1;
     }
   }
-  #if CYTHON_FAST_PYCALL
-  if (PyFunction_Check(__pyx_t_4)) {
-    PyObject *__pyx_temp[4] = {__pyx_t_13, __pyx_int_0, __pyx_int_2, __pyx_t_1};
-    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 265, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-    __Pyx_GOTREF(__pyx_t_2);
+  if (!__pyx_t_13) {
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 266, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  } else
-  #endif
-  #if CYTHON_FAST_PYCCALL
-  if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-    PyObject *__pyx_temp[4] = {__pyx_t_13, __pyx_int_0, __pyx_int_2, __pyx_t_1};
-    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 265, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  } else
-  #endif
-  {
-    __pyx_t_14 = PyTuple_New(3+__pyx_t_11); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 265, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_14);
-    if (__pyx_t_13) {
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_1};
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_1};
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
       __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_13); __pyx_t_13 = NULL;
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_1);
+      __pyx_t_1 = 0;
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     }
-    __Pyx_INCREF(__pyx_int_0);
-    __Pyx_GIVEREF(__pyx_int_0);
-    PyTuple_SET_ITEM(__pyx_t_14, 0+__pyx_t_11, __pyx_int_0);
-    __Pyx_INCREF(__pyx_int_2);
-    __Pyx_GIVEREF(__pyx_int_2);
-    PyTuple_SET_ITEM(__pyx_t_14, 1+__pyx_t_11, __pyx_int_2);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_14, 2+__pyx_t_11, __pyx_t_1);
-    __pyx_t_1 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 265, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyNumber_Multiply(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Multiply(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_amp); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 265, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_ones); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_14 = PyNumber_Multiply(__pyx_int_1, __pyx_v_Fs); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_1 = PyNumber_Multiply(__pyx_int_5, __pyx_v_Fs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_1 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_1)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_1);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  if (!__pyx_t_1) {
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 266, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    __Pyx_GOTREF(__pyx_t_2);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_t_14};
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_t_14};
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_1); __pyx_t_1 = NULL;
+      __Pyx_GIVEREF(__pyx_t_14);
+      PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_14);
+      __pyx_t_14 = 0;
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_13, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_amp); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_ones); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_1 = PyNumber_Multiply(__pyx_int_1, __pyx_v_Fs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_13 = PyNumber_Multiply(__pyx_int_3, __pyx_v_Fs); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 265, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_13);
-  __pyx_t_15 = PyNumber_Subtract(__pyx_t_1, __pyx_t_13); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 265, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_15);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_15 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_15)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_15);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
+    }
+  }
+  if (!__pyx_t_15) {
+    __pyx_t_13 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 266, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_GOTREF(__pyx_t_13);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_15, __pyx_t_1};
+      __pyx_t_13 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_15, __pyx_t_1};
+      __pyx_t_13 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_16 = PyTuple_New(1+1); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_16);
+      __Pyx_GIVEREF(__pyx_t_15); PyTuple_SET_ITEM(__pyx_t_16, 0, __pyx_t_15); __pyx_t_15 = NULL;
+      __Pyx_GIVEREF(__pyx_t_1);
+      PyTuple_SET_ITEM(__pyx_t_16, 0+1, __pyx_t_1);
+      __pyx_t_1 = 0;
+      __pyx_t_13 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_16, NULL); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_t_14 = PyNumber_Multiply(__pyx_t_6, __pyx_t_13); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_16 = PyNumber_Multiply(__pyx_int_1, __pyx_v_Fs); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_16);
+  __pyx_t_1 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_1)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_1);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  if (!__pyx_t_1) {
+    __pyx_t_13 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_16); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 266, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+    __Pyx_GOTREF(__pyx_t_13);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_t_16};
+      __pyx_t_13 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_t_16};
+      __pyx_t_13 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_15 = PyTuple_New(1+1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_15);
+      __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_1); __pyx_t_1 = NULL;
+      __Pyx_GIVEREF(__pyx_t_16);
+      PyTuple_SET_ITEM(__pyx_t_15, 0+1, __pyx_t_16);
+      __pyx_t_16 = 0;
+      __pyx_t_13 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_15, NULL); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = PyTuple_New(5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_5);
+  PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_6, 2, __pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_14);
+  PyTuple_SET_ITEM(__pyx_t_6, 3, __pyx_t_14);
+  __Pyx_GIVEREF(__pyx_t_13);
+  PyTuple_SET_ITEM(__pyx_t_6, 4, __pyx_t_13);
+  __pyx_t_5 = 0;
+  __pyx_t_4 = 0;
+  __pyx_t_2 = 0;
+  __pyx_t_14 = 0;
+  __pyx_t_13 = 0;
+  __pyx_t_13 = PyTuple_New(1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
+  __Pyx_GIVEREF(__pyx_t_6);
+  PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_6);
+  __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_axis, __pyx_int_0) < 0) __PYX_ERR(0, 266, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_13, __pyx_t_6); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_v_Input = __pyx_t_14;
+  __pyx_t_14 = 0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":267
+ *     #Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)
+ *     Input = np.concatenate((np.zeros(1*Fs),amp*np.ones(1*Fs),np.zeros(1*Fs),amp*np.ones(1*Fs),np.zeros(1*Fs)),axis = 0)
+ *     F_target = F0*Input;             # <<<<<<<<<<<<<<
+ * 
+ *     # Muscle length
+ */
+  __pyx_t_14 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_6 = PyNumber_Multiply(__pyx_t_14, __pyx_v_Input); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_v_F_target = __pyx_t_6;
+  __pyx_t_6 = 0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":270
+ * 
+ *     # Muscle length
+ *     cdef double MuscleVelocity = 0;             # <<<<<<<<<<<<<<
+ *     cdef double MuscleLength = Lce*L0/100;
+ * 
+ */
+  __pyx_v_MuscleVelocity = 0.0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":271
+ *     # Muscle length
+ *     cdef double MuscleVelocity = 0;
+ *     cdef double MuscleLength = Lce*L0/100;             # <<<<<<<<<<<<<<
+ * 
+ *     # Parameter initialization
+ */
+  __pyx_v_MuscleLength = ((__pyx_v_Lce * __pyx_v_L0) / 100.0);
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":275
+ *     # Parameter initialization
+ *     # Neural drive
+ *     cdef double U_eff = 0.0;             # <<<<<<<<<<<<<<
+ *     cdef double Input_C_temp = 0.0;
+ *     cdef double Input_C = 0.0;
+ */
+  __pyx_v_U_eff = 0.0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":276
+ *     # Neural drive
+ *     cdef double U_eff = 0.0;
+ *     cdef double Input_C_temp = 0.0;             # <<<<<<<<<<<<<<
+ *     cdef double Input_C = 0.0;
+ *     cdef double ND_temp = 0.0;
+ */
+  __pyx_v_Input_C_temp = 0.0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":277
+ *     cdef double U_eff = 0.0;
+ *     cdef double Input_C_temp = 0.0;
+ *     cdef double Input_C = 0.0;             # <<<<<<<<<<<<<<
+ *     cdef double ND_temp = 0.0;
+ *     # Muscle dynamics
+ */
+  __pyx_v_Input_C = 0.0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":278
+ *     cdef double Input_C_temp = 0.0;
+ *     cdef double Input_C = 0.0;
+ *     cdef double ND_temp = 0.0;             # <<<<<<<<<<<<<<
+ *     # Muscle dynamics
+ *     Ace = 0;
+ */
+  __pyx_v_ND_temp = 0.0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":280
+ *     cdef double ND_temp = 0.0;
+ *     # Muscle dynamics
+ *     Ace = 0;             # <<<<<<<<<<<<<<
+ *     Vce = 0;
+ *     Y = 0;
+ */
+  __pyx_v_Ace = 0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":281
+ *     # Muscle dynamics
+ *     Ace = 0;
+ *     Vce = 0;             # <<<<<<<<<<<<<<
+ *     Y = 0;
+ *     S = 0;
+ */
+  __pyx_v_Vce = 0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":282
+ *     Ace = 0;
+ *     Vce = 0;
+ *     Y = 0;             # <<<<<<<<<<<<<<
+ *     S = 0;
+ * 
+ */
+  __pyx_v_Y = 0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":283
+ *     Vce = 0;
+ *     Y = 0;
+ *     S = 0;             # <<<<<<<<<<<<<<
+ * 
+ *     spike_train = np.zeros((N_MU,len(time_sim)))
+ */
+  __pyx_v_S = 0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":285
+ *     S = 0;
+ * 
+ *     spike_train = np.zeros((N_MU,len(time_sim)))             # <<<<<<<<<<<<<<
+ *     spike_time = np.zeros(N_MU)
+ *     force = np.zeros((N_MU,len(time_sim)))
+ */
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 285, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 285, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_13);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_13);
+  __Pyx_GIVEREF(__pyx_t_7);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_7);
+  __pyx_t_13 = 0;
+  __pyx_t_7 = 0;
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
+    }
+  }
+  if (!__pyx_t_7) {
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 285, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_6);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_2};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 285, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_2};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 285, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 285, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_7); __pyx_t_7 = NULL;
+      __Pyx_GIVEREF(__pyx_t_2);
+      PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_2);
+      __pyx_t_2 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_13, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 285, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_v_spike_train = __pyx_t_6;
+  __pyx_t_6 = 0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":286
+ * 
+ *     spike_train = np.zeros((N_MU,len(time_sim)))
+ *     spike_time = np.zeros(N_MU)             # <<<<<<<<<<<<<<
+ *     force = np.zeros((N_MU,len(time_sim)))
+ *     Force_vec = np.zeros(len(time_sim));
+ */
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
+  __pyx_t_2 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
+    }
+  }
+  if (!__pyx_t_2) {
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_13); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 286, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __Pyx_GOTREF(__pyx_t_6);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_13};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 286, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_13};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 286, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 286, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_2); __pyx_t_2 = NULL;
+      __Pyx_GIVEREF(__pyx_t_13);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_13);
+      __pyx_t_13 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 286, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_v_spike_time = __pyx_t_6;
+  __pyx_t_6 = 0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":287
+ *     spike_train = np.zeros((N_MU,len(time_sim)))
+ *     spike_time = np.zeros(N_MU)
+ *     force = np.zeros((N_MU,len(time_sim)))             # <<<<<<<<<<<<<<
+ *     Force_vec = np.zeros(len(time_sim));
+ *     ForceSE_vec = np.zeros(len(time_sim));
+ */
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 287, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 287, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 287, __pyx_L1_error)
+  __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 287, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 287, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_7);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_7);
+  __Pyx_GIVEREF(__pyx_t_13);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_13);
+  __pyx_t_7 = 0;
+  __pyx_t_13 = 0;
   __pyx_t_13 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
     __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_14);
@@ -7628,1415 +8058,1273 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
     }
   }
   if (!__pyx_t_13) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_15); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 265, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 287, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_14)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_15};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 265, __pyx_L1_error)
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_2};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 287, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_15};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 265, __pyx_L1_error)
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_2};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 287, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     {
-      __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 265, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_13); __pyx_t_13 = NULL;
-      __Pyx_GIVEREF(__pyx_t_15);
-      PyTuple_SET_ITEM(__pyx_t_1, 0+1, __pyx_t_15);
-      __pyx_t_15 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_1, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 265, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-  __pyx_t_14 = PyNumber_Multiply(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 265, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 265, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_GIVEREF(__pyx_t_5);
-  PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_4);
-  PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_4);
-  __Pyx_GIVEREF(__pyx_t_14);
-  PyTuple_SET_ITEM(__pyx_t_6, 2, __pyx_t_14);
-  __pyx_t_5 = 0;
-  __pyx_t_4 = 0;
-  __pyx_t_14 = 0;
-  __pyx_t_14 = PyTuple_New(1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 265, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  __Pyx_GIVEREF(__pyx_t_6);
-  PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_6);
-  __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 265, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_axis, __pyx_int_0) < 0) __PYX_ERR(0, 265, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_14, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 265, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_Input = __pyx_t_4;
-  __pyx_t_4 = 0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":266
- *     time_sim = np.arange(0,5,step)
- *     Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)
- *     F_target = F0*Input;             # <<<<<<<<<<<<<<
- * 
- *     # Muscle length
- */
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 266, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = PyNumber_Multiply(__pyx_t_4, __pyx_v_Input); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 266, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_F_target = __pyx_t_6;
-  __pyx_t_6 = 0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":269
- * 
- *     # Muscle length
- *     cdef double MuscleVelocity = 0;             # <<<<<<<<<<<<<<
- *     cdef double MuscleLength = Lce*L0/100;
- * 
- */
-  __pyx_v_MuscleVelocity = 0.0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":270
- *     # Muscle length
- *     cdef double MuscleVelocity = 0;
- *     cdef double MuscleLength = Lce*L0/100;             # <<<<<<<<<<<<<<
- * 
- *     # Parameter initialization
- */
-  __pyx_v_MuscleLength = ((__pyx_v_Lce * __pyx_v_L0) / 100.0);
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":274
- *     # Parameter initialization
- *     # Neural drive
- *     cdef double U_eff = 0.0;             # <<<<<<<<<<<<<<
- *     cdef double Input_C_temp = 0.0;
- *     cdef double Input_C = 0.0;
- */
-  __pyx_v_U_eff = 0.0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":275
- *     # Neural drive
- *     cdef double U_eff = 0.0;
- *     cdef double Input_C_temp = 0.0;             # <<<<<<<<<<<<<<
- *     cdef double Input_C = 0.0;
- *     cdef double ND_temp = 0.0;
- */
-  __pyx_v_Input_C_temp = 0.0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":276
- *     cdef double U_eff = 0.0;
- *     cdef double Input_C_temp = 0.0;
- *     cdef double Input_C = 0.0;             # <<<<<<<<<<<<<<
- *     cdef double ND_temp = 0.0;
- *     # Muscle dynamics
- */
-  __pyx_v_Input_C = 0.0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":277
- *     cdef double Input_C_temp = 0.0;
- *     cdef double Input_C = 0.0;
- *     cdef double ND_temp = 0.0;             # <<<<<<<<<<<<<<
- *     # Muscle dynamics
- *     Ace = 0;
- */
-  __pyx_v_ND_temp = 0.0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":279
- *     cdef double ND_temp = 0.0;
- *     # Muscle dynamics
- *     Ace = 0;             # <<<<<<<<<<<<<<
- *     Vce = 0;
- *     Y = 0;
- */
-  __pyx_v_Ace = 0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":280
- *     # Muscle dynamics
- *     Ace = 0;
- *     Vce = 0;             # <<<<<<<<<<<<<<
- *     Y = 0;
- *     S = 0;
- */
-  __pyx_v_Vce = 0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":281
- *     Ace = 0;
- *     Vce = 0;
- *     Y = 0;             # <<<<<<<<<<<<<<
- *     S = 0;
- * 
- */
-  __pyx_v_Y = 0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":282
- *     Vce = 0;
- *     Y = 0;
- *     S = 0;             # <<<<<<<<<<<<<<
- * 
- *     spike_train = np.zeros((N_MU,len(time_sim)))
- */
-  __pyx_v_S = 0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":284
- *     S = 0;
- * 
- *     spike_train = np.zeros((N_MU,len(time_sim)))             # <<<<<<<<<<<<<<
- *     spike_time = np.zeros(N_MU)
- *     force = np.zeros((N_MU,len(time_sim)))
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 284, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 284, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 284, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 284, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 284, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_14);
-  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_14);
-  __Pyx_GIVEREF(__pyx_t_7);
-  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_7);
-  __pyx_t_14 = 0;
-  __pyx_t_7 = 0;
-  __pyx_t_7 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_7)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_7);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_7) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 284, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_GOTREF(__pyx_t_6);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_5};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 284, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_5};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 284, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 284, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_7); __pyx_t_7 = NULL;
-      __Pyx_GIVEREF(__pyx_t_5);
-      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_5);
-      __pyx_t_5 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 284, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_spike_train = __pyx_t_6;
-  __pyx_t_6 = 0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":285
- * 
- *     spike_train = np.zeros((N_MU,len(time_sim)))
- *     spike_time = np.zeros(N_MU)             # <<<<<<<<<<<<<<
- *     force = np.zeros((N_MU,len(time_sim)))
- *     Force_vec = np.zeros(len(time_sim));
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 285, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 285, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_5);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_5) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 285, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __Pyx_GOTREF(__pyx_t_6);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_14};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 285, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_14};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 285, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 285, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 287, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
-      __Pyx_GIVEREF(__pyx_t_14);
-      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_14);
-      __pyx_t_14 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 285, __pyx_L1_error)
+      __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_13); __pyx_t_13 = NULL;
+      __Pyx_GIVEREF(__pyx_t_2);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_2);
+      __pyx_t_2 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 287, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_spike_time = __pyx_t_6;
-  __pyx_t_6 = 0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":286
- *     spike_train = np.zeros((N_MU,len(time_sim)))
- *     spike_time = np.zeros(N_MU)
- *     force = np.zeros((N_MU,len(time_sim)))             # <<<<<<<<<<<<<<
- *     Force_vec = np.zeros(len(time_sim));
- *     ForceSE_vec = np.zeros(len(time_sim));
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 286, __pyx_L1_error)
-  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_7);
-  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7);
-  __Pyx_GIVEREF(__pyx_t_14);
-  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_14);
-  __pyx_t_7 = 0;
-  __pyx_t_14 = 0;
-  __pyx_t_14 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_14)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_14);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_14) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 286, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_GOTREF(__pyx_t_6);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 286, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 286, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 286, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
-      __Pyx_GIVEREF(__pyx_t_5);
-      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
-      __pyx_t_5 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 286, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   __pyx_v_force = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":287
+  /* "TwitchBasedMuscleModel_noTendon.pyx":288
  *     spike_time = np.zeros(N_MU)
  *     force = np.zeros((N_MU,len(time_sim)))
  *     Force_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     ForceSE_vec = np.zeros(len(time_sim));
  *     Lce_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 287, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 287, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 287, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 288, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 288, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_5);
+  __pyx_t_2 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_2);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
     }
   }
-  if (!__pyx_t_5) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 287, __pyx_L1_error)
+  if (!__pyx_t_2) {
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 288, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
     #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_7};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 288, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_7};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 288, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 287, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_5); __pyx_t_5 = NULL;
+      __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 288, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_2); __pyx_t_2 = NULL;
       __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 287, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_13, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 288, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     }
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   __pyx_v_Force_vec = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":288
+  /* "TwitchBasedMuscleModel_noTendon.pyx":289
  *     force = np.zeros((N_MU,len(time_sim)))
  *     Force_vec = np.zeros(len(time_sim));
  *     ForceSE_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     Lce_vec = np.zeros(len(time_sim));
  *     Vce_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 288, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 288, __pyx_L1_error)
-  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 288, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 289, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 289, __pyx_L1_error)
+  __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 289, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
   __pyx_t_7 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_14);
     if (likely(__pyx_t_7)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
       __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 288, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_13); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
     #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 288, __pyx_L1_error)
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_13};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 288, __pyx_L1_error)
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_13};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 288, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
-      __Pyx_GIVEREF(__pyx_t_14);
-      PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_14);
-      __pyx_t_14 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 288, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 289, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_7); __pyx_t_7 = NULL;
+      __Pyx_GIVEREF(__pyx_t_13);
+      PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_13);
+      __pyx_t_13 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   __pyx_v_ForceSE_vec = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":289
+  /* "TwitchBasedMuscleModel_noTendon.pyx":290
  *     Force_vec = np.zeros(len(time_sim));
  *     ForceSE_vec = np.zeros(len(time_sim));
  *     Lce_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     Vce_vec = np.zeros(len(time_sim));
  *     Ace_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 289, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 289, __pyx_L1_error)
-  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 289, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_14 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_14)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_14);
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 290, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 290, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 290, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_13 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_13)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_13);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
     }
   }
-  if (!__pyx_t_14) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (!__pyx_t_13) {
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 290, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
     #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_2};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 290, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_2};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 290, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 289, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 290, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
-      __Pyx_GIVEREF(__pyx_t_5);
-      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
-      __pyx_t_5 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L1_error)
+      __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_13); __pyx_t_13 = NULL;
+      __Pyx_GIVEREF(__pyx_t_2);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_2);
+      __pyx_t_2 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 290, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   __pyx_v_Lce_vec = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":290
+  /* "TwitchBasedMuscleModel_noTendon.pyx":291
  *     ForceSE_vec = np.zeros(len(time_sim));
  *     Lce_vec = np.zeros(len(time_sim));
  *     Vce_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     Ace_vec = np.zeros(len(time_sim));
  *     U_eff_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 290, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 290, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 290, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 291, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 291, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_5);
+  __pyx_t_2 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_2);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
     }
   }
-  if (!__pyx_t_5) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 290, __pyx_L1_error)
+  if (!__pyx_t_2) {
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 291, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
     #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 290, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_7};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 291, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 290, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_7};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 291, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 290, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_5); __pyx_t_5 = NULL;
+      __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 291, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_2); __pyx_t_2 = NULL;
       __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 290, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_13, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 291, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     }
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   __pyx_v_Vce_vec = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":291
+  /* "TwitchBasedMuscleModel_noTendon.pyx":292
  *     Lce_vec = np.zeros(len(time_sim));
  *     Vce_vec = np.zeros(len(time_sim));
  *     Ace_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     U_eff_vec = np.zeros(len(time_sim));
  *     f_env_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 291, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 291, __pyx_L1_error)
-  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 291, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 292, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 292, __pyx_L1_error)
+  __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 292, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
   __pyx_t_7 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_14);
     if (likely(__pyx_t_7)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
       __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 291, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_13); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 292, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
     #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 291, __pyx_L1_error)
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_13};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 292, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 291, __pyx_L1_error)
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_13};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 292, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 291, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
-      __Pyx_GIVEREF(__pyx_t_14);
-      PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_14);
-      __pyx_t_14 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 291, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 292, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_7); __pyx_t_7 = NULL;
+      __Pyx_GIVEREF(__pyx_t_13);
+      PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_13);
+      __pyx_t_13 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 292, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   __pyx_v_Ace_vec = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":292
+  /* "TwitchBasedMuscleModel_noTendon.pyx":293
  *     Vce_vec = np.zeros(len(time_sim));
  *     Ace_vec = np.zeros(len(time_sim));
  *     U_eff_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     f_env_vec = np.zeros(len(time_sim));
- *     Af_vec = np.zeros(len(time_sim));
+ *     FR_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 292, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 292, __pyx_L1_error)
-  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 292, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_14 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_14)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_14);
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 293, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 293, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 293, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_13 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_13)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_13);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
     }
   }
-  if (!__pyx_t_14) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 292, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (!__pyx_t_13) {
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 293, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
     #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 292, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_2};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 293, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 292, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_2};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 293, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 292, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 293, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
-      __Pyx_GIVEREF(__pyx_t_5);
-      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
-      __pyx_t_5 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 292, __pyx_L1_error)
+      __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_13); __pyx_t_13 = NULL;
+      __Pyx_GIVEREF(__pyx_t_2);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_2);
+      __pyx_t_2 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 293, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   __pyx_v_U_eff_vec = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":293
+  /* "TwitchBasedMuscleModel_noTendon.pyx":294
  *     Ace_vec = np.zeros(len(time_sim));
  *     U_eff_vec = np.zeros(len(time_sim));
  *     f_env_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     Af_vec = np.zeros(len(time_sim));
- *     FF_vec = np.zeros(len(time_sim));
+ *     FR_vec = np.zeros(len(time_sim));
+ *     FR_mat = np.zeros((N_MU,len(time_sim)));
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 293, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 293, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 293, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 294, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 294, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 294, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_5);
+  __pyx_t_2 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_2);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
     }
   }
-  if (!__pyx_t_5) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 293, __pyx_L1_error)
+  if (!__pyx_t_2) {
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 294, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
     #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 293, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_7};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 294, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 293, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_7};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 294, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 293, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_5); __pyx_t_5 = NULL;
+      __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 294, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_2); __pyx_t_2 = NULL;
       __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 293, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_13, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 294, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     }
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   __pyx_v_f_env_vec = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":294
+  /* "TwitchBasedMuscleModel_noTendon.pyx":295
  *     U_eff_vec = np.zeros(len(time_sim));
  *     f_env_vec = np.zeros(len(time_sim));
+ *     FR_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     FR_mat = np.zeros((N_MU,len(time_sim)));
+ *     Af_vec = np.zeros(len(time_sim));
+ */
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 295, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 295, __pyx_L1_error)
+  __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 295, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
+    }
+  }
+  if (!__pyx_t_7) {
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_13); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 295, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __Pyx_GOTREF(__pyx_t_6);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_13};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 295, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_13};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 295, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 295, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_7); __pyx_t_7 = NULL;
+      __Pyx_GIVEREF(__pyx_t_13);
+      PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_13);
+      __pyx_t_13 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 295, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_v_FR_vec = __pyx_t_6;
+  __pyx_t_6 = 0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":296
+ *     f_env_vec = np.zeros(len(time_sim));
+ *     FR_vec = np.zeros(len(time_sim));
+ *     FR_mat = np.zeros((N_MU,len(time_sim)));             # <<<<<<<<<<<<<<
+ *     Af_vec = np.zeros(len(time_sim));
+ *     FF_vec = np.zeros(len(time_sim));
+ */
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 296, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 296, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 296, __pyx_L1_error)
+  __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 296, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
+  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 296, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_13);
+  PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_13);
+  __pyx_t_2 = 0;
+  __pyx_t_13 = 0;
+  __pyx_t_13 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_13)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_13);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
+    }
+  }
+  if (!__pyx_t_13) {
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 296, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_6);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_7};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 296, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_7};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 296, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 296, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_13); __pyx_t_13 = NULL;
+      __Pyx_GIVEREF(__pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 296, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_v_FR_mat = __pyx_t_6;
+  __pyx_t_6 = 0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":297
+ *     FR_vec = np.zeros(len(time_sim));
+ *     FR_mat = np.zeros((N_MU,len(time_sim)));
  *     Af_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     FF_vec = np.zeros(len(time_sim));
  *     S_vec_store = np.zeros(len(time_sim));
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 294, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 294, __pyx_L1_error)
-  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 294, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 297, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 297, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 297, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_7 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_14);
     if (likely(__pyx_t_7)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
       __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 294, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 297, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
     #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 294, __pyx_L1_error)
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_2};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 297, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 294, __pyx_L1_error)
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_2};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 297, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 294, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
-      __Pyx_GIVEREF(__pyx_t_14);
-      PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_14);
-      __pyx_t_14 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 294, __pyx_L1_error)
+      __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 297, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_7); __pyx_t_7 = NULL;
+      __Pyx_GIVEREF(__pyx_t_2);
+      PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_2);
+      __pyx_t_2 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_13, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 297, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     }
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   __pyx_v_Af_vec = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":295
- *     f_env_vec = np.zeros(len(time_sim));
+  /* "TwitchBasedMuscleModel_noTendon.pyx":298
+ *     FR_mat = np.zeros((N_MU,len(time_sim)));
  *     Af_vec = np.zeros(len(time_sim));
  *     FF_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     S_vec_store = np.zeros(len(time_sim));
- *     Y_vec = np.zeros(N_MU);
+ *     spike_time_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 295, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 295, __pyx_L1_error)
-  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 295, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_14 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_14)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_14);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_14) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 295, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_GOTREF(__pyx_t_6);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 295, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 295, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 295, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
-      __Pyx_GIVEREF(__pyx_t_5);
-      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
-      __pyx_t_5 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 295, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_FF_vec = __pyx_t_6;
-  __pyx_t_6 = 0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":296
- *     Af_vec = np.zeros(len(time_sim));
- *     FF_vec = np.zeros(len(time_sim));
- *     S_vec_store = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     Y_vec = np.zeros(N_MU);
- *     S_vec = np.zeros(N_MU);
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 296, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 296, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 296, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_5);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_5) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 296, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_GOTREF(__pyx_t_6);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 296, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 296, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 296, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_5); __pyx_t_5 = NULL;
-      __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
-      __pyx_t_7 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 296, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_S_vec_store = __pyx_t_6;
-  __pyx_t_6 = 0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":297
- *     FF_vec = np.zeros(len(time_sim));
- *     S_vec_store = np.zeros(len(time_sim));
- *     Y_vec = np.zeros(N_MU);             # <<<<<<<<<<<<<<
- *     S_vec = np.zeros(N_MU);
- *     Y_temp = float(0);
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 297, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 297, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 298, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_7 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_7)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_7);
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 298, __pyx_L1_error)
+  __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 298, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
+  __pyx_t_2 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_2);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
     }
   }
-  if (!__pyx_t_7) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 297, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  if (!__pyx_t_2) {
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_13); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 298, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
     #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 297, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_13};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 298, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 297, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_13};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 298, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 297, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
-      __Pyx_GIVEREF(__pyx_t_14);
-      PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_14);
-      __pyx_t_14 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 297, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_Y_vec = __pyx_t_6;
-  __pyx_t_6 = 0;
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":298
- *     S_vec_store = np.zeros(len(time_sim));
- *     Y_vec = np.zeros(N_MU);
- *     S_vec = np.zeros(N_MU);             # <<<<<<<<<<<<<<
- *     Y_temp = float(0);
- *     S_temp = 1.76*np.ones(N_MU);
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 298, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 298, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_14 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_14)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_14);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_14) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 298, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_GOTREF(__pyx_t_6);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 298, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 298, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     } else
     #endif
     {
       __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 298, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
-      __Pyx_GIVEREF(__pyx_t_5);
-      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
-      __pyx_t_5 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 298, __pyx_L1_error)
+      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_2); __pyx_t_2 = NULL;
+      __Pyx_GIVEREF(__pyx_t_13);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_13);
+      __pyx_t_13 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 298, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_S_vec = __pyx_t_6;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_v_FF_vec = __pyx_t_6;
   __pyx_t_6 = 0;
 
   /* "TwitchBasedMuscleModel_noTendon.pyx":299
+ *     Af_vec = np.zeros(len(time_sim));
+ *     FF_vec = np.zeros(len(time_sim));
+ *     S_vec_store = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     spike_time_vec = np.zeros(len(time_sim));
+ *     Y_vec = np.zeros(N_MU);
+ */
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 299, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 299, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 299, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_13 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_13)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_13);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
+    }
+  }
+  if (!__pyx_t_13) {
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 299, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_6);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_7};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_7};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_13); __pyx_t_13 = NULL;
+      __Pyx_GIVEREF(__pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 299, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_v_S_vec_store = __pyx_t_6;
+  __pyx_t_6 = 0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":300
+ *     FF_vec = np.zeros(len(time_sim));
+ *     S_vec_store = np.zeros(len(time_sim));
+ *     spike_time_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     Y_vec = np.zeros(N_MU);
+ *     S_vec = np.zeros(N_MU);
+ */
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 300, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 300, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 300, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
+    }
+  }
+  if (!__pyx_t_7) {
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 300, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_6);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_2};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 300, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_2};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 300, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 300, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_7); __pyx_t_7 = NULL;
+      __Pyx_GIVEREF(__pyx_t_2);
+      PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_2);
+      __pyx_t_2 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_13, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 300, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_v_spike_time_vec = __pyx_t_6;
+  __pyx_t_6 = 0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":301
+ *     S_vec_store = np.zeros(len(time_sim));
+ *     spike_time_vec = np.zeros(len(time_sim));
+ *     Y_vec = np.zeros(N_MU);             # <<<<<<<<<<<<<<
+ *     S_vec = np.zeros(N_MU);
+ *     Y_temp = float(0);
+ */
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 301, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 301, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
+  __pyx_t_2 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
+    }
+  }
+  if (!__pyx_t_2) {
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_13); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 301, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __Pyx_GOTREF(__pyx_t_6);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_13};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 301, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_13};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 301, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 301, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_2); __pyx_t_2 = NULL;
+      __Pyx_GIVEREF(__pyx_t_13);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_13);
+      __pyx_t_13 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 301, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_v_Y_vec = __pyx_t_6;
+  __pyx_t_6 = 0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":302
+ *     spike_time_vec = np.zeros(len(time_sim));
+ *     Y_vec = np.zeros(N_MU);
+ *     S_vec = np.zeros(N_MU);             # <<<<<<<<<<<<<<
+ *     Y_temp = float(0);
+ *     S_temp = 1.76*np.ones(N_MU);
+ */
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 302, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 302, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_13 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_13)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_13);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
+    }
+  }
+  if (!__pyx_t_13) {
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 302, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_6);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_7};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 302, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_7};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 302, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 302, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_13); __pyx_t_13 = NULL;
+      __Pyx_GIVEREF(__pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 302, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_v_S_vec = __pyx_t_6;
+  __pyx_t_6 = 0;
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":303
  *     Y_vec = np.zeros(N_MU);
  *     S_vec = np.zeros(N_MU);
  *     Y_temp = float(0);             # <<<<<<<<<<<<<<
  *     S_temp = 1.76*np.ones(N_MU);
  *     Af = np.zeros(N_MU);
  */
-  __pyx_t_6 = __Pyx_PyNumber_Float(__pyx_int_0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 299, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyNumber_Float(__pyx_int_0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 303, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_v_Y_temp = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":300
+  /* "TwitchBasedMuscleModel_noTendon.pyx":304
  *     S_vec = np.zeros(N_MU);
  *     Y_temp = float(0);
  *     S_temp = 1.76*np.ones(N_MU);             # <<<<<<<<<<<<<<
  *     Af = np.zeros(N_MU);
  *     FF = np.zeros(N_MU);
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_ones); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 300, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 300, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_5);
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_ones); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 304, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 304, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
     }
   }
-  if (!__pyx_t_5) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 300, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  if (!__pyx_t_7) {
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 304, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
     #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 300, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (PyFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_2};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 304, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 300, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_2};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 304, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 300, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_5); __pyx_t_5 = NULL;
-      __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
-      __pyx_t_7 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 300, __pyx_L1_error)
+      __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 304, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_7); __pyx_t_7 = NULL;
+      __Pyx_GIVEREF(__pyx_t_2);
+      PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_2);
+      __pyx_t_2 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_13, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 304, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     }
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyNumber_Multiply(__pyx_float_1_76, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 300, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_t_14 = PyNumber_Multiply(__pyx_float_1_76, __pyx_t_6); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 304, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_S_temp = __pyx_t_4;
-  __pyx_t_4 = 0;
+  __pyx_v_S_temp = __pyx_t_14;
+  __pyx_t_14 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":301
+  /* "TwitchBasedMuscleModel_noTendon.pyx":305
  *     Y_temp = float(0);
  *     S_temp = 1.76*np.ones(N_MU);
  *     Af = np.zeros(N_MU);             # <<<<<<<<<<<<<<
  *     FF = np.zeros(N_MU);
  *     cdef double ForceSE = F_se_function(Lse) * F0;
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 301, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 305, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 301, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_7 = NULL;
+  __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 305, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_13);
+  __pyx_t_2 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
-    if (likely(__pyx_t_7)) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_2)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(__pyx_t_2);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_6, function);
     }
   }
-  if (!__pyx_t_7) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 301, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __Pyx_GOTREF(__pyx_t_4);
+  if (!__pyx_t_2) {
+    __pyx_t_14 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_13); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 305, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __Pyx_GOTREF(__pyx_t_14);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 301, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_13};
+      __pyx_t_14 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 305, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 301, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_13};
+      __pyx_t_14 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 305, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 301, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
-      __Pyx_GIVEREF(__pyx_t_14);
-      PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_14);
-      __pyx_t_14 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 301, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 305, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_2); __pyx_t_2 = NULL;
+      __Pyx_GIVEREF(__pyx_t_13);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_13);
+      __pyx_t_13 = 0;
+      __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 305, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_Af = __pyx_t_4;
-  __pyx_t_4 = 0;
+  __pyx_v_Af = __pyx_t_14;
+  __pyx_t_14 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":302
+  /* "TwitchBasedMuscleModel_noTendon.pyx":306
  *     S_temp = 1.76*np.ones(N_MU);
  *     Af = np.zeros(N_MU);
  *     FF = np.zeros(N_MU);             # <<<<<<<<<<<<<<
  *     cdef double ForceSE = F_se_function(Lse) * F0;
  * 
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 302, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 306, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 302, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_14 = NULL;
+  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 306, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_13 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_6);
-    if (likely(__pyx_t_14)) {
+    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_13)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-      __Pyx_INCREF(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_13);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_6, function);
     }
   }
-  if (!__pyx_t_14) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 302, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_GOTREF(__pyx_t_4);
+  if (!__pyx_t_13) {
+    __pyx_t_14 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 306, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_14);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 302, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_7};
+      __pyx_t_14 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 306, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 302, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_7};
+      __pyx_t_14 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 306, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 302, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
-      __Pyx_GIVEREF(__pyx_t_5);
-      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
-      __pyx_t_5 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 302, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 306, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_13); __pyx_t_13 = NULL;
+      __Pyx_GIVEREF(__pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_2, NULL); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 306, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_FF = __pyx_t_4;
-  __pyx_t_4 = 0;
+  __pyx_v_FF = __pyx_t_14;
+  __pyx_t_14 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":303
+  /* "TwitchBasedMuscleModel_noTendon.pyx":307
  *     Af = np.zeros(N_MU);
  *     FF = np.zeros(N_MU);
  *     cdef double ForceSE = F_se_function(Lse) * F0;             # <<<<<<<<<<<<<<
  * 
  *     for t in xrange(len(time_sim)):
  */
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_Lse); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 303, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_32F_se_function(__pyx_v_F_se_function, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 303, __pyx_L1_error)
+  __pyx_t_14 = PyFloat_FromDouble(__pyx_v_Lse); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 307, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_6 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_32F_se_function(__pyx_v_F_se_function, __pyx_t_14); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 307, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 303, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_7 = PyNumber_Multiply(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 303, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_t_14 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 307, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_2 = PyNumber_Multiply(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 307, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 303, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 307, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_ForceSE = __pyx_t_10;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":305
+  /* "TwitchBasedMuscleModel_noTendon.pyx":309
  *     cdef double ForceSE = F_se_function(Lse) * F0;
  * 
  *     for t in xrange(len(time_sim)):             # <<<<<<<<<<<<<<
  * 
  *         U = Input[t];
  */
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 305, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 305, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 305, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_GIVEREF(__pyx_t_7);
-  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_7);
-  __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_xrange, __pyx_t_4, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 305, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (likely(PyList_CheckExact(__pyx_t_7)) || PyTuple_CheckExact(__pyx_t_7)) {
-    __pyx_t_4 = __pyx_t_7; __Pyx_INCREF(__pyx_t_4); __pyx_t_16 = 0;
-    __pyx_t_17 = NULL;
+  __pyx_t_17 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_17 == ((Py_ssize_t)-1))) __PYX_ERR(0, 309, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_17); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 309, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_14 = PyTuple_New(1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 309, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_2);
+  __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_xrange, __pyx_t_14, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 309, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
+    __pyx_t_14 = __pyx_t_2; __Pyx_INCREF(__pyx_t_14); __pyx_t_17 = 0;
+    __pyx_t_18 = NULL;
   } else {
-    __pyx_t_16 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 305, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_17 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 305, __pyx_L1_error)
+    __pyx_t_17 = -1; __pyx_t_14 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 309, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_14);
+    __pyx_t_18 = Py_TYPE(__pyx_t_14)->tp_iternext; if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 309, __pyx_L1_error)
   }
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
-    if (likely(!__pyx_t_17)) {
-      if (likely(PyList_CheckExact(__pyx_t_4))) {
-        if (__pyx_t_16 >= PyList_GET_SIZE(__pyx_t_4)) break;
+    if (likely(!__pyx_t_18)) {
+      if (likely(PyList_CheckExact(__pyx_t_14))) {
+        if (__pyx_t_17 >= PyList_GET_SIZE(__pyx_t_14)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_7 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_16); __Pyx_INCREF(__pyx_t_7); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 305, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_14, __pyx_t_17); __Pyx_INCREF(__pyx_t_2); __pyx_t_17++; if (unlikely(0 < 0)) __PYX_ERR(0, 309, __pyx_L1_error)
         #else
-        __pyx_t_7 = PySequence_ITEM(__pyx_t_4, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 305, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_14, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 309, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
-        if (__pyx_t_16 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
+        if (__pyx_t_17 >= PyTuple_GET_SIZE(__pyx_t_14)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_16); __Pyx_INCREF(__pyx_t_7); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 305, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_14, __pyx_t_17); __Pyx_INCREF(__pyx_t_2); __pyx_t_17++; if (unlikely(0 < 0)) __PYX_ERR(0, 309, __pyx_L1_error)
         #else
-        __pyx_t_7 = PySequence_ITEM(__pyx_t_4, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 305, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_14, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 309, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
     } else {
-      __pyx_t_7 = __pyx_t_17(__pyx_t_4);
-      if (unlikely(!__pyx_t_7)) {
+      __pyx_t_2 = __pyx_t_18(__pyx_t_14);
+      if (unlikely(!__pyx_t_2)) {
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 305, __pyx_L1_error)
+          else __PYX_ERR(0, 309, __pyx_L1_error)
         }
         break;
       }
-      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GOTREF(__pyx_t_2);
     }
-    __Pyx_XDECREF_SET(__pyx_v_t, __pyx_t_7);
-    __pyx_t_7 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_t, __pyx_t_2);
+    __pyx_t_2 = 0;
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":307
+    /* "TwitchBasedMuscleModel_noTendon.pyx":311
  *     for t in xrange(len(time_sim)):
  * 
  *         U = Input[t];             # <<<<<<<<<<<<<<
  * 
  *         if U >= U_eff:
  */
-    __pyx_t_7 = PyObject_GetItem(__pyx_v_Input, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 307, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_XDECREF_SET(__pyx_v_U, __pyx_t_7);
-    __pyx_t_7 = 0;
+    __pyx_t_2 = PyObject_GetItem(__pyx_v_Input, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 311, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_XDECREF_SET(__pyx_v_U, __pyx_t_2);
+    __pyx_t_2 = 0;
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":309
+    /* "TwitchBasedMuscleModel_noTendon.pyx":313
  *         U = Input[t];
  * 
  *         if U >= U_eff:             # <<<<<<<<<<<<<<
  *             T_U = 0.03;
  *         else:
  */
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 309, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = PyObject_RichCompare(__pyx_v_U, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 309, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 309, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 313, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_6 = PyObject_RichCompare(__pyx_v_U, __pyx_t_2, Py_GE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 313, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 313, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (__pyx_t_18) {
+    if (__pyx_t_19) {
 
-      /* "TwitchBasedMuscleModel_noTendon.pyx":310
+      /* "TwitchBasedMuscleModel_noTendon.pyx":314
  * 
  *         if U >= U_eff:
  *             T_U = 0.03;             # <<<<<<<<<<<<<<
@@ -9045,7 +9333,7 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
  */
       __pyx_v_T_U = 0.03;
 
-      /* "TwitchBasedMuscleModel_noTendon.pyx":309
+      /* "TwitchBasedMuscleModel_noTendon.pyx":313
  *         U = Input[t];
  * 
  *         if U >= U_eff:             # <<<<<<<<<<<<<<
@@ -9055,7 +9343,7 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
       goto __pyx_L7;
     }
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":312
+    /* "TwitchBasedMuscleModel_noTendon.pyx":316
  *             T_U = 0.03;
  *         else:
  *             T_U = 0.15;             # <<<<<<<<<<<<<<
@@ -9067,153 +9355,78 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
     }
     __pyx_L7:;
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":314
+    /* "TwitchBasedMuscleModel_noTendon.pyx":318
  *             T_U = 0.15;
  * 
  *         U_eff_dot = (U-U_eff)/(T_U);             # <<<<<<<<<<<<<<
  *         U_eff = U_eff_dot*step + U_eff;
  * 
  */
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 314, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 318, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = PyNumber_Subtract(__pyx_v_U, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 314, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Subtract(__pyx_v_U, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 318, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_T_U); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 318, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 318, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_T_U); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 314, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 314, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_U_eff_dot, __pyx_t_5);
-    __pyx_t_5 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_U_eff_dot, __pyx_t_7);
+    __pyx_t_7 = 0;
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":315
+    /* "TwitchBasedMuscleModel_noTendon.pyx":319
  * 
  *         U_eff_dot = (U-U_eff)/(T_U);
  *         U_eff = U_eff_dot*step + U_eff;             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 315, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyNumber_Multiply(__pyx_v_U_eff_dot, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 315, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 315, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = PyNumber_Add(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 315, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 319, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 315, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_Multiply(__pyx_v_U_eff_dot, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 319, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 319, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_2 = PyNumber_Add(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 319, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 319, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_U_eff = __pyx_t_10;
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":319
+    /* "TwitchBasedMuscleModel_noTendon.pyx":323
  * 
  *         # Calculate firing rate of each unit
  *         FR = np.multiply((PFR_MU-MFR_MU)/(1-U_th),(U_eff-U_th)) + MFR_MU;             # <<<<<<<<<<<<<<
  *         FR[FR<8] = 0;
- * 
+ *         FR_mat[:,t] = FR;
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_multiply); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 319, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyNumber_Subtract(__pyx_v_PFR_MU, __pyx_v_MFR_MU); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 319, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_14 = __Pyx_PyInt_SubtractCObj(__pyx_int_1, __pyx_v_U_th, 1, 0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 319, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_14);
-    __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 319, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __pyx_t_14 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 319, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_14);
-    __pyx_t_6 = PyNumber_Subtract(__pyx_t_14, __pyx_v_U_th); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 319, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __pyx_t_14 = NULL;
-    __pyx_t_11 = 0;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-      __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_5);
-      if (likely(__pyx_t_14)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-        __Pyx_INCREF(__pyx_t_14);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_5, function);
-        __pyx_t_11 = 1;
-      }
-    }
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_5)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_14, __pyx_t_2, __pyx_t_6};
-      __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 319, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_14, __pyx_t_2, __pyx_t_6};
-      __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 319, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_1 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 319, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      if (__pyx_t_14) {
-        __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_14); __pyx_t_14 = NULL;
-      }
-      __Pyx_GIVEREF(__pyx_t_2);
-      PyTuple_SET_ITEM(__pyx_t_1, 0+__pyx_t_11, __pyx_t_2);
-      __Pyx_GIVEREF(__pyx_t_6);
-      PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_11, __pyx_t_6);
-      __pyx_t_2 = 0;
-      __pyx_t_6 = 0;
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_1, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 319, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    }
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyNumber_Add(__pyx_t_7, __pyx_v_MFR_MU); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 319, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_FR, __pyx_t_5);
-    __pyx_t_5 = 0;
-
-    /* "TwitchBasedMuscleModel_noTendon.pyx":320
- *         # Calculate firing rate of each unit
- *         FR = np.multiply((PFR_MU-MFR_MU)/(1-U_th),(U_eff-U_th)) + MFR_MU;
- *         FR[FR<8] = 0;             # <<<<<<<<<<<<<<
- * 
- *         f_env = np.divide(FR,FR_half);
- */
-    __pyx_t_5 = PyObject_RichCompare(__pyx_v_FR, __pyx_int_8, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 320, __pyx_L1_error)
-    if (unlikely(PyObject_SetItem(__pyx_v_FR, __pyx_t_5, __pyx_int_0) < 0)) __PYX_ERR(0, 320, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-    /* "TwitchBasedMuscleModel_noTendon.pyx":322
- *         FR[FR<8] = 0;
- * 
- *         f_env = np.divide(FR,FR_half);             # <<<<<<<<<<<<<<
- *         force_half = np.divide(force[:,t],Pi_half);
- * 
- */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_divide); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 322, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_multiply); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 323, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_1 = NULL;
+    __pyx_t_6 = PyNumber_Subtract(__pyx_v_PFR_MU, __pyx_v_MFR_MU); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 323, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_13 = __Pyx_PyInt_SubtractCObj(__pyx_int_1, __pyx_v_U_th, 1, 0); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 323, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_13); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 323, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __pyx_t_13 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 323, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __pyx_t_6 = PyNumber_Subtract(__pyx_t_13, __pyx_v_U_th); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 323, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __pyx_t_13 = NULL;
     __pyx_t_11 = 0;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_7);
-      if (likely(__pyx_t_1)) {
+      __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_7);
+      if (likely(__pyx_t_13)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-        __Pyx_INCREF(__pyx_t_1);
+        __Pyx_INCREF(__pyx_t_13);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_7, function);
         __pyx_t_11 = 1;
@@ -9221,25 +9434,118 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
     }
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_7)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_FR, __pyx_v_FR_half};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 322, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
+      PyObject *__pyx_temp[3] = {__pyx_t_13, __pyx_t_4, __pyx_t_6};
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 323, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_FR, __pyx_v_FR_half};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 322, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
+      PyObject *__pyx_temp[3] = {__pyx_t_13, __pyx_t_4, __pyx_t_6};
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 323, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 322, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 323, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      if (__pyx_t_13) {
+        __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_13); __pyx_t_13 = NULL;
+      }
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_11, __pyx_t_4);
+      __Pyx_GIVEREF(__pyx_t_6);
+      PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_11, __pyx_t_6);
+      __pyx_t_4 = 0;
+      __pyx_t_6 = 0;
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 323, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    }
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_7 = PyNumber_Add(__pyx_t_2, __pyx_v_MFR_MU); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 323, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_FR, __pyx_t_7);
+    __pyx_t_7 = 0;
+
+    /* "TwitchBasedMuscleModel_noTendon.pyx":324
+ *         # Calculate firing rate of each unit
+ *         FR = np.multiply((PFR_MU-MFR_MU)/(1-U_th),(U_eff-U_th)) + MFR_MU;
+ *         FR[FR<8] = 0;             # <<<<<<<<<<<<<<
+ *         FR_mat[:,t] = FR;
+ *         f_env = np.divide(FR,FR_half);
+ */
+    __pyx_t_7 = PyObject_RichCompare(__pyx_v_FR, __pyx_int_8, Py_LT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 324, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_FR, __pyx_t_7, __pyx_int_0) < 0)) __PYX_ERR(0, 324, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+    /* "TwitchBasedMuscleModel_noTendon.pyx":325
+ *         FR = np.multiply((PFR_MU-MFR_MU)/(1-U_th),(U_eff-U_th)) + MFR_MU;
+ *         FR[FR<8] = 0;
+ *         FR_mat[:,t] = FR;             # <<<<<<<<<<<<<<
+ *         f_env = np.divide(FR,FR_half);
+ *         force_half = np.divide(force[:,t],Pi_half);
+ */
+    __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 325, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_INCREF(__pyx_slice__38);
+    __Pyx_GIVEREF(__pyx_slice__38);
+    PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_slice__38);
+    __Pyx_INCREF(__pyx_v_t);
+    __Pyx_GIVEREF(__pyx_v_t);
+    PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_v_t);
+    if (unlikely(PyObject_SetItem(__pyx_v_FR_mat, __pyx_t_7, __pyx_v_FR) < 0)) __PYX_ERR(0, 325, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+    /* "TwitchBasedMuscleModel_noTendon.pyx":326
+ *         FR[FR<8] = 0;
+ *         FR_mat[:,t] = FR;
+ *         f_env = np.divide(FR,FR_half);             # <<<<<<<<<<<<<<
+ *         force_half = np.divide(force[:,t],Pi_half);
+ * 
+ */
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_divide); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 326, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_5 = NULL;
+    __pyx_t_11 = 0;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
+      if (likely(__pyx_t_5)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+        __Pyx_INCREF(__pyx_t_5);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_2, function);
+        __pyx_t_11 = 1;
+      }
+    }
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_2)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_v_FR, __pyx_v_FR_half};
+      __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 326, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_GOTREF(__pyx_t_7);
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_v_FR, __pyx_v_FR_half};
+      __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 326, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_GOTREF(__pyx_t_7);
+    } else
+    #endif
+    {
+      __pyx_t_6 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 326, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      if (__pyx_t_1) {
-        __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_1); __pyx_t_1 = NULL;
+      if (__pyx_t_5) {
+        __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
       }
       __Pyx_INCREF(__pyx_v_FR);
       __Pyx_GIVEREF(__pyx_v_FR);
@@ -9247,115 +9553,115 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
       __Pyx_INCREF(__pyx_v_FR_half);
       __Pyx_GIVEREF(__pyx_v_FR_half);
       PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_11, __pyx_v_FR_half);
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 322, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 326, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_f_env, __pyx_t_5);
-    __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_f_env, __pyx_t_7);
+    __pyx_t_7 = 0;
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":323
- * 
+    /* "TwitchBasedMuscleModel_noTendon.pyx":327
+ *         FR_mat[:,t] = FR;
  *         f_env = np.divide(FR,FR_half);
  *         force_half = np.divide(force[:,t],Pi_half);             # <<<<<<<<<<<<<<
  * 
  *         Y_temp = yield_function(Y_temp,Vce,step);
  */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_divide); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 323, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 323, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_divide); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 327, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 327, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_INCREF(__pyx_slice__38);
-    __Pyx_GIVEREF(__pyx_slice__38);
-    PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_slice__38);
+    __Pyx_INCREF(__pyx_slice__39);
+    __Pyx_GIVEREF(__pyx_slice__39);
+    PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_slice__39);
     __Pyx_INCREF(__pyx_v_t);
     __Pyx_GIVEREF(__pyx_v_t);
     PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_v_t);
-    __pyx_t_1 = PyObject_GetItem(__pyx_v_force, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 323, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_5 = PyObject_GetItem(__pyx_v_force, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 327, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_6 = NULL;
     __pyx_t_11 = 0;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_7);
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_2);
       if (likely(__pyx_t_6)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
         __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_7, function);
+        __Pyx_DECREF_SET(__pyx_t_2, function);
         __pyx_t_11 = 1;
       }
     }
     #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_7)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_1, __pyx_v_Pi_half};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 323, __pyx_L1_error)
+    if (PyFunction_Check(__pyx_t_2)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_5, __pyx_v_Pi_half};
+      __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 327, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_1, __pyx_v_Pi_half};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 323, __pyx_L1_error)
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_5, __pyx_v_Pi_half};
+      __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 327, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else
     #endif
     {
-      __pyx_t_2 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 323, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_4 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 327, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
       if (__pyx_t_6) {
-        __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_6); __pyx_t_6 = NULL;
+        __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_6); __pyx_t_6 = NULL;
       }
-      __Pyx_GIVEREF(__pyx_t_1);
-      PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_11, __pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_5);
+      PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_11, __pyx_t_5);
       __Pyx_INCREF(__pyx_v_Pi_half);
       __Pyx_GIVEREF(__pyx_v_Pi_half);
-      PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_11, __pyx_v_Pi_half);
-      __pyx_t_1 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 323, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_11, __pyx_v_Pi_half);
+      __pyx_t_5 = 0;
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 327, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_force_half, __pyx_t_5);
-    __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_force_half, __pyx_t_7);
+    __pyx_t_7 = 0;
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":325
+    /* "TwitchBasedMuscleModel_noTendon.pyx":329
  *         force_half = np.divide(force[:,t],Pi_half);
  * 
  *         Y_temp = yield_function(Y_temp,Vce,step);             # <<<<<<<<<<<<<<
  *         Y_vec[0:index_slow-1] = Y_temp;
  * 
  */
-    __pyx_t_5 = __Pyx_PyInt_From_long(__pyx_v_Vce); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 325, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 325, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_From_long(__pyx_v_Vce); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 329, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_2 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_2yield_function(__pyx_v_yield_function, __pyx_v_Y_temp, __pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 325, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 329, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_4 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_2yield_function(__pyx_v_yield_function, __pyx_v_Y_temp, __pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 329, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF_SET(__pyx_v_Y_temp, __pyx_t_2);
-    __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF_SET(__pyx_v_Y_temp, __pyx_t_4);
+    __pyx_t_4 = 0;
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":326
+    /* "TwitchBasedMuscleModel_noTendon.pyx":330
  * 
  *         Y_temp = yield_function(Y_temp,Vce,step);
  *         Y_vec[0:index_slow-1] = Y_temp;             # <<<<<<<<<<<<<<
  * 
  *         for k in xrange(N_MU):
  */
-    __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_v_index_slow, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 326, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    if (__Pyx_PyObject_SetSlice(__pyx_v_Y_vec, __pyx_v_Y_temp, 0, 0, NULL, &__pyx_t_2, NULL, 1, 0, 1) < 0) __PYX_ERR(0, 326, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_4 = __Pyx_PyInt_SubtractObjC(__pyx_v_index_slow, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 330, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (__Pyx_PyObject_SetSlice(__pyx_v_Y_vec, __pyx_v_Y_temp, 0, 0, NULL, &__pyx_t_4, NULL, 1, 0, 1) < 0) __PYX_ERR(0, 330, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":328
+    /* "TwitchBasedMuscleModel_noTendon.pyx":332
  *         Y_vec[0:index_slow-1] = Y_temp;
  * 
  *         for k in xrange(N_MU):             # <<<<<<<<<<<<<<
@@ -9363,40 +9669,40 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
  *                 FR[k] = PFR_MU[k];
  */
     __pyx_t_11 = __pyx_v_N_MU;
-    for (__pyx_t_19 = 0; __pyx_t_19 < __pyx_t_11; __pyx_t_19+=1) {
-      __pyx_v_k = __pyx_t_19;
+    for (__pyx_t_20 = 0; __pyx_t_20 < __pyx_t_11; __pyx_t_20+=1) {
+      __pyx_v_k = __pyx_t_20;
 
-      /* "TwitchBasedMuscleModel_noTendon.pyx":329
+      /* "TwitchBasedMuscleModel_noTendon.pyx":333
  * 
  *         for k in xrange(N_MU):
  *             if FR[k] > PFR_MU[k]:             # <<<<<<<<<<<<<<
  *                 FR[k] = PFR_MU[k];
  *             if k <= index_slow-1:
  */
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_FR, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 329, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_FR, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 333, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_PFR_MU, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 333, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_PFR_MU, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 329, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_5 = PyObject_RichCompare(__pyx_t_2, __pyx_t_7, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 329, __pyx_L1_error)
+      __pyx_t_7 = PyObject_RichCompare(__pyx_t_4, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 333, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 333, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 329, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (__pyx_t_18) {
+      if (__pyx_t_19) {
 
-        /* "TwitchBasedMuscleModel_noTendon.pyx":330
+        /* "TwitchBasedMuscleModel_noTendon.pyx":334
  *         for k in xrange(N_MU):
  *             if FR[k] > PFR_MU[k]:
  *                 FR[k] = PFR_MU[k];             # <<<<<<<<<<<<<<
  *             if k <= index_slow-1:
  *                 Af[k] = Af_slow_function(force_half[k],Lce,Y_vec[k]);
  */
-        __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_PFR_MU, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 330, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        if (unlikely(__Pyx_SetItemInt(__pyx_v_FR, __pyx_v_k, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 330, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_PFR_MU, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 334, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        if (unlikely(__Pyx_SetItemInt(__pyx_v_FR, __pyx_v_k, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 334, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "TwitchBasedMuscleModel_noTendon.pyx":329
+        /* "TwitchBasedMuscleModel_noTendon.pyx":333
  * 
  *         for k in xrange(N_MU):
  *             if FR[k] > PFR_MU[k]:             # <<<<<<<<<<<<<<
@@ -9405,82 +9711,82 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
  */
       }
 
-      /* "TwitchBasedMuscleModel_noTendon.pyx":331
+      /* "TwitchBasedMuscleModel_noTendon.pyx":335
  *             if FR[k] > PFR_MU[k]:
  *                 FR[k] = PFR_MU[k];
  *             if k <= index_slow-1:             # <<<<<<<<<<<<<<
  *                 Af[k] = Af_slow_function(force_half[k],Lce,Y_vec[k]);
  *                 if f_env[k] != 0:
  */
-      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_k); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 331, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_7 = __Pyx_PyInt_SubtractObjC(__pyx_v_index_slow, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 331, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_k); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 335, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_2 = PyObject_RichCompare(__pyx_t_5, __pyx_t_7, Py_LE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 331, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_v_index_slow, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 335, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_4 = PyObject_RichCompare(__pyx_t_7, __pyx_t_2, Py_LE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 335, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 331, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (__pyx_t_18) {
+      __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 335, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (__pyx_t_19) {
 
-        /* "TwitchBasedMuscleModel_noTendon.pyx":332
+        /* "TwitchBasedMuscleModel_noTendon.pyx":336
  *                 FR[k] = PFR_MU[k];
  *             if k <= index_slow-1:
  *                 Af[k] = Af_slow_function(force_half[k],Lce,Y_vec[k]);             # <<<<<<<<<<<<<<
  *                 if f_env[k] != 0:
  *                     FF[k] = Af_cor_slow_function(f_env[k],Lce,Y_vec[k]);
  */
-        __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_force_half, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 332, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_force_half, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 336, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 336, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_7 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 332, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_Y_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 336, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_Y_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 332, __pyx_L1_error)
+        __pyx_t_5 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_6Af_slow_function(__pyx_v_Af_slow_function, __pyx_t_4, __pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 336, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_1 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_6Af_slow_function(__pyx_v_Af_slow_function, __pyx_t_2, __pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 332, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        if (unlikely(__Pyx_SetItemInt(__pyx_v_Af, __pyx_v_k, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 336, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (unlikely(__Pyx_SetItemInt(__pyx_v_Af, __pyx_v_k, __pyx_t_1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 332, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "TwitchBasedMuscleModel_noTendon.pyx":333
+        /* "TwitchBasedMuscleModel_noTendon.pyx":337
  *             if k <= index_slow-1:
  *                 Af[k] = Af_slow_function(force_half[k],Lce,Y_vec[k]);
  *                 if f_env[k] != 0:             # <<<<<<<<<<<<<<
  *                     FF[k] = Af_cor_slow_function(f_env[k],Lce,Y_vec[k]);
  *             else:
  */
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 333, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_5 = PyObject_RichCompare(__pyx_t_1, __pyx_int_0, Py_NE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 333, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 333, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 337, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_7 = PyObject_RichCompare(__pyx_t_5, __pyx_int_0, Py_NE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 337, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (__pyx_t_18) {
+        __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 337, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        if (__pyx_t_19) {
 
-          /* "TwitchBasedMuscleModel_noTendon.pyx":334
+          /* "TwitchBasedMuscleModel_noTendon.pyx":338
  *                 Af[k] = Af_slow_function(force_half[k],Lce,Y_vec[k]);
  *                 if f_env[k] != 0:
  *                     FF[k] = Af_cor_slow_function(f_env[k],Lce,Y_vec[k]);             # <<<<<<<<<<<<<<
  *             else:
  *                 S_temp[k] = sag_function(S_temp[k],f_env[k],step);
  */
-          __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 334, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 334, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_Y_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 334, __pyx_L1_error)
+          __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 338, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_2 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_10Af_cor_slow_function(__pyx_v_Af_cor_slow_function, __pyx_t_5, __pyx_t_1, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 334, __pyx_L1_error)
+          __pyx_t_5 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 338, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_Y_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 338, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+          __pyx_t_4 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_10Af_cor_slow_function(__pyx_v_Af_cor_slow_function, __pyx_t_7, __pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 338, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          if (unlikely(__Pyx_SetItemInt(__pyx_v_FF, __pyx_v_k, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 334, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          if (unlikely(__Pyx_SetItemInt(__pyx_v_FF, __pyx_v_k, __pyx_t_4, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 338, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-          /* "TwitchBasedMuscleModel_noTendon.pyx":333
+          /* "TwitchBasedMuscleModel_noTendon.pyx":337
  *             if k <= index_slow-1:
  *                 Af[k] = Af_slow_function(force_half[k],Lce,Y_vec[k]);
  *                 if f_env[k] != 0:             # <<<<<<<<<<<<<<
@@ -9489,7 +9795,7 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
  */
         }
 
-        /* "TwitchBasedMuscleModel_noTendon.pyx":331
+        /* "TwitchBasedMuscleModel_noTendon.pyx":335
  *             if FR[k] > PFR_MU[k]:
  *                 FR[k] = PFR_MU[k];
  *             if k <= index_slow-1:             # <<<<<<<<<<<<<<
@@ -9499,7 +9805,7 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
         goto __pyx_L11;
       }
 
-      /* "TwitchBasedMuscleModel_noTendon.pyx":336
+      /* "TwitchBasedMuscleModel_noTendon.pyx":340
  *                     FF[k] = Af_cor_slow_function(f_env[k],Lce,Y_vec[k]);
  *             else:
  *                 S_temp[k] = sag_function(S_temp[k],f_env[k],step);             # <<<<<<<<<<<<<<
@@ -9507,90 +9813,90 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
  *                 Af[k] = Af_fast_function(force_half[k],Lce,S_vec[k]);
  */
       /*else*/ {
-        __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_S_temp, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 336, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_S_temp, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 340, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 340, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 336, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_1 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 336, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_5 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_4sag_function(__pyx_v_sag_function, __pyx_t_2, __pyx_t_7, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 336, __pyx_L1_error)
+        __pyx_t_5 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 340, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_7 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_4sag_function(__pyx_v_sag_function, __pyx_t_4, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 340, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        if (unlikely(__Pyx_SetItemInt(__pyx_v_S_temp, __pyx_v_k, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 336, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        if (unlikely(__Pyx_SetItemInt(__pyx_v_S_temp, __pyx_v_k, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 340, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "TwitchBasedMuscleModel_noTendon.pyx":337
+        /* "TwitchBasedMuscleModel_noTendon.pyx":341
  *             else:
  *                 S_temp[k] = sag_function(S_temp[k],f_env[k],step);
  *                 S_vec[k] = S_temp[k];             # <<<<<<<<<<<<<<
  *                 Af[k] = Af_fast_function(force_half[k],Lce,S_vec[k]);
  *                 if f_env[k] != 0:
  */
-        __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_S_temp, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 337, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        if (unlikely(__Pyx_SetItemInt(__pyx_v_S_vec, __pyx_v_k, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 337, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_S_temp, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 341, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        if (unlikely(__Pyx_SetItemInt(__pyx_v_S_vec, __pyx_v_k, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 341, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "TwitchBasedMuscleModel_noTendon.pyx":338
+        /* "TwitchBasedMuscleModel_noTendon.pyx":342
  *                 S_temp[k] = sag_function(S_temp[k],f_env[k],step);
  *                 S_vec[k] = S_temp[k];
  *                 Af[k] = Af_fast_function(force_half[k],Lce,S_vec[k]);             # <<<<<<<<<<<<<<
  *                 if f_env[k] != 0:
  *                     FF[k] = Af_cor_fast_function(f_env[k],Lce,S_vec[k]);
  */
-        __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_force_half, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 338, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 338, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_S_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 338, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_force_half, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 342, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_2 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_8Af_fast_function(__pyx_v_Af_fast_function, __pyx_t_5, __pyx_t_1, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 338, __pyx_L1_error)
+        __pyx_t_5 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 342, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_S_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 342, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_t_4 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_8Af_fast_function(__pyx_v_Af_fast_function, __pyx_t_7, __pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 342, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        if (unlikely(__Pyx_SetItemInt(__pyx_v_Af, __pyx_v_k, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 338, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        if (unlikely(__Pyx_SetItemInt(__pyx_v_Af, __pyx_v_k, __pyx_t_4, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 342, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "TwitchBasedMuscleModel_noTendon.pyx":339
+        /* "TwitchBasedMuscleModel_noTendon.pyx":343
  *                 S_vec[k] = S_temp[k];
  *                 Af[k] = Af_fast_function(force_half[k],Lce,S_vec[k]);
  *                 if f_env[k] != 0:             # <<<<<<<<<<<<<<
  *                     FF[k] = Af_cor_fast_function(f_env[k],Lce,S_vec[k]);
  * 
  */
-        __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 339, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_7 = PyObject_RichCompare(__pyx_t_2, __pyx_int_0, Py_NE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 339, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 343, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_2 = PyObject_RichCompare(__pyx_t_4, __pyx_int_0, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 343, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 343, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 339, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        if (__pyx_t_18) {
+        if (__pyx_t_19) {
 
-          /* "TwitchBasedMuscleModel_noTendon.pyx":340
+          /* "TwitchBasedMuscleModel_noTendon.pyx":344
  *                 Af[k] = Af_fast_function(force_half[k],Lce,S_vec[k]);
  *                 if f_env[k] != 0:
  *                     FF[k] = Af_cor_fast_function(f_env[k],Lce,S_vec[k]);             # <<<<<<<<<<<<<<
  * 
- *         index_temp1 = np.all(spike_train==0,axis = 1);
+ *         if t > 1:
  */
-          __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 340, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_2 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 340, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 344, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_S_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 340, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_5 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_12Af_cor_fast_function(__pyx_v_Af_cor_fast_function, __pyx_t_7, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 340, __pyx_L1_error)
+          __pyx_t_4 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 344, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
+          __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_S_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 344, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+          __pyx_t_7 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_12Af_cor_fast_function(__pyx_v_Af_cor_fast_function, __pyx_t_2, __pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 344, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_7);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          if (unlikely(__Pyx_SetItemInt(__pyx_v_FF, __pyx_v_k, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 340, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+          if (unlikely(__Pyx_SetItemInt(__pyx_v_FF, __pyx_v_k, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 344, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-          /* "TwitchBasedMuscleModel_noTendon.pyx":339
+          /* "TwitchBasedMuscleModel_noTendon.pyx":343
  *                 S_vec[k] = S_temp[k];
  *                 Af[k] = Af_fast_function(force_half[k],Lce,S_vec[k]);
  *                 if f_env[k] != 0:             # <<<<<<<<<<<<<<
@@ -9602,857 +9908,447 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
       __pyx_L11:;
     }
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":342
+    /* "TwitchBasedMuscleModel_noTendon.pyx":346
  *                     FF[k] = Af_cor_fast_function(f_env[k],Lce,S_vec[k]);
  * 
- *         index_temp1 = np.all(spike_train==0,axis = 1);             # <<<<<<<<<<<<<<
- *         index_1 = np.where(np.logical_and(FR >= MFR_MU,index_temp1));
- *         index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));
+ *         if t > 1:             # <<<<<<<<<<<<<<
+ *             index_1 = np.where(np.logical_and(FR >= MFR_MU,FR_mat[:,t-1] < MFR_MU));
+ *             index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_all); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 342, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_v_spike_train, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 342, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 342, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
-    __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 342, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_axis, __pyx_int_1) < 0) __PYX_ERR(0, 342, __pyx_L1_error)
-    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 342, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_index_temp1, __pyx_t_7);
-    __pyx_t_7 = 0;
-
-    /* "TwitchBasedMuscleModel_noTendon.pyx":343
- * 
- *         index_temp1 = np.all(spike_train==0,axis = 1);
- *         index_1 = np.where(np.logical_and(FR >= MFR_MU,index_temp1));             # <<<<<<<<<<<<<<
- *         index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));
- *         index = np.append(index_1,index_2);
- */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_where); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 343, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_logical_and); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 343, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyObject_RichCompare(__pyx_v_FR, __pyx_v_MFR_MU, Py_GE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 343, __pyx_L1_error)
-    __pyx_t_14 = NULL;
-    __pyx_t_11 = 0;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-      __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_5);
-      if (likely(__pyx_t_14)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-        __Pyx_INCREF(__pyx_t_14);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_5, function);
-        __pyx_t_11 = 1;
-      }
-    }
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_5)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_14, __pyx_t_6, __pyx_v_index_temp1};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 343, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_14, __pyx_t_6, __pyx_v_index_temp1};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 343, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_15 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 343, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_15);
-      if (__pyx_t_14) {
-        __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_14); __pyx_t_14 = NULL;
-      }
-      __Pyx_GIVEREF(__pyx_t_6);
-      PyTuple_SET_ITEM(__pyx_t_15, 0+__pyx_t_11, __pyx_t_6);
-      __Pyx_INCREF(__pyx_v_index_temp1);
-      __Pyx_GIVEREF(__pyx_v_index_temp1);
-      PyTuple_SET_ITEM(__pyx_t_15, 1+__pyx_t_11, __pyx_v_index_temp1);
-      __pyx_t_6 = 0;
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_15, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 343, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    }
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_1);
-      if (likely(__pyx_t_5)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-        __Pyx_INCREF(__pyx_t_5);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_1, function);
-      }
-    }
-    if (!__pyx_t_5) {
-      __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 343, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_GOTREF(__pyx_t_7);
-    } else {
-      #if CYTHON_FAST_PYCALL
-      if (PyFunction_Check(__pyx_t_1)) {
-        PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_2};
-        __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 343, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      } else
-      #endif
-      #if CYTHON_FAST_PYCCALL
-      if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
-        PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_2};
-        __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 343, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      } else
-      #endif
-      {
-        __pyx_t_15 = PyTuple_New(1+1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 343, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_5); __pyx_t_5 = NULL;
-        __Pyx_GIVEREF(__pyx_t_2);
-        PyTuple_SET_ITEM(__pyx_t_15, 0+1, __pyx_t_2);
-        __pyx_t_2 = 0;
-        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_15, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 343, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-      }
-    }
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_index_1, __pyx_t_7);
-    __pyx_t_7 = 0;
-
-    /* "TwitchBasedMuscleModel_noTendon.pyx":344
- *         index_temp1 = np.all(spike_train==0,axis = 1);
- *         index_1 = np.where(np.logical_and(FR >= MFR_MU,index_temp1));
- *         index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));             # <<<<<<<<<<<<<<
- *         index = np.append(index_1,index_2);
- * 
- */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_where); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 344, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_logical_and); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 344, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = PyObject_RichCompare(__pyx_v_FR, __pyx_v_MFR_MU, Py_GE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 344, __pyx_L1_error)
-    __pyx_t_6 = PyObject_RichCompare(__pyx_v_spike_time, __pyx_v_t, Py_EQ); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 344, __pyx_L1_error)
-    __pyx_t_14 = NULL;
-    __pyx_t_11 = 0;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_14)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_14);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
-        __pyx_t_11 = 1;
-      }
-    }
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_2)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_14, __pyx_t_5, __pyx_t_6};
-      __pyx_t_15 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 344, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_15);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_14, __pyx_t_5, __pyx_t_6};
-      __pyx_t_15 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 344, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_15);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_13 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 344, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_13);
-      if (__pyx_t_14) {
-        __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_14); __pyx_t_14 = NULL;
-      }
-      __Pyx_GIVEREF(__pyx_t_5);
-      PyTuple_SET_ITEM(__pyx_t_13, 0+__pyx_t_11, __pyx_t_5);
-      __Pyx_GIVEREF(__pyx_t_6);
-      PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_11, __pyx_t_6);
-      __pyx_t_5 = 0;
-      __pyx_t_6 = 0;
-      __pyx_t_15 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_13, NULL); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 344, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_15);
-      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-    }
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
-      __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
-      if (likely(__pyx_t_2)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-        __Pyx_INCREF(__pyx_t_2);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_1, function);
-      }
-    }
-    if (!__pyx_t_2) {
-      __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_15); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 344, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-      __Pyx_GOTREF(__pyx_t_7);
-    } else {
-      #if CYTHON_FAST_PYCALL
-      if (PyFunction_Check(__pyx_t_1)) {
-        PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_15};
-        __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 344, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-      } else
-      #endif
-      #if CYTHON_FAST_PYCCALL
-      if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
-        PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_15};
-        __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 344, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-      } else
-      #endif
-      {
-        __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 344, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_13);
-        __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_2); __pyx_t_2 = NULL;
-        __Pyx_GIVEREF(__pyx_t_15);
-        PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_15);
-        __pyx_t_15 = 0;
-        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_13, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 344, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-      }
-    }
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_index_2, __pyx_t_7);
-    __pyx_t_7 = 0;
-
-    /* "TwitchBasedMuscleModel_noTendon.pyx":345
- *         index_1 = np.where(np.logical_and(FR >= MFR_MU,index_temp1));
- *         index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));
- *         index = np.append(index_1,index_2);             # <<<<<<<<<<<<<<
- * 
- *         if index.size != 0:
- */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_append); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 345, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_13 = NULL;
-    __pyx_t_11 = 0;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
-      __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_1);
-      if (likely(__pyx_t_13)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-        __Pyx_INCREF(__pyx_t_13);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_1, function);
-        __pyx_t_11 = 1;
-      }
-    }
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_1)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_13, __pyx_v_index_1, __pyx_v_index_2};
-      __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 345, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-      __Pyx_GOTREF(__pyx_t_7);
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_13, __pyx_v_index_1, __pyx_v_index_2};
-      __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 345, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-      __Pyx_GOTREF(__pyx_t_7);
-    } else
-    #endif
-    {
-      __pyx_t_15 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 345, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_15);
-      if (__pyx_t_13) {
-        __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_13); __pyx_t_13 = NULL;
-      }
-      __Pyx_INCREF(__pyx_v_index_1);
-      __Pyx_GIVEREF(__pyx_v_index_1);
-      PyTuple_SET_ITEM(__pyx_t_15, 0+__pyx_t_11, __pyx_v_index_1);
-      __Pyx_INCREF(__pyx_v_index_2);
-      __Pyx_GIVEREF(__pyx_v_index_2);
-      PyTuple_SET_ITEM(__pyx_t_15, 1+__pyx_t_11, __pyx_v_index_2);
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_15, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 345, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    }
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_index, __pyx_t_7);
-    __pyx_t_7 = 0;
-
-    /* "TwitchBasedMuscleModel_noTendon.pyx":347
- *         index = np.append(index_1,index_2);
- * 
- *         if index.size != 0:             # <<<<<<<<<<<<<<
- *             for j in xrange(len(index)):
- *                 n = index[j];
- */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_index, __pyx_n_s_size); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 347, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_1 = PyObject_RichCompare(__pyx_t_7, __pyx_int_0, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 347, __pyx_L1_error)
+    __pyx_t_7 = PyObject_RichCompare(__pyx_v_t, __pyx_int_1, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 346, __pyx_L1_error)
+    __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 346, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 347, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (__pyx_t_18) {
+    if (__pyx_t_19) {
+
+      /* "TwitchBasedMuscleModel_noTendon.pyx":347
+ * 
+ *         if t > 1:
+ *             index_1 = np.where(np.logical_and(FR >= MFR_MU,FR_mat[:,t-1] < MFR_MU));             # <<<<<<<<<<<<<<
+ *             index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));
+ *             index = np.append(index_1,index_2);
+ */
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_where); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 347, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_logical_and); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 347, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_6 = PyObject_RichCompare(__pyx_v_FR, __pyx_v_MFR_MU, Py_GE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 347, __pyx_L1_error)
+      __pyx_t_13 = __Pyx_PyInt_SubtractObjC(__pyx_v_t, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 347, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 347, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_15);
+      __Pyx_INCREF(__pyx_slice__40);
+      __Pyx_GIVEREF(__pyx_slice__40);
+      PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_slice__40);
+      __Pyx_GIVEREF(__pyx_t_13);
+      PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_13);
+      __pyx_t_13 = 0;
+      __pyx_t_13 = PyObject_GetItem(__pyx_v_FR_mat, __pyx_t_15); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 347, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+      __pyx_t_15 = PyObject_RichCompare(__pyx_t_13, __pyx_v_MFR_MU, Py_LT); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 347, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __pyx_t_13 = NULL;
+      __pyx_t_11 = 0;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+        __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_2);
+        if (likely(__pyx_t_13)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+          __Pyx_INCREF(__pyx_t_13);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_2, function);
+          __pyx_t_11 = 1;
+        }
+      }
+      #if CYTHON_FAST_PYCALL
+      if (PyFunction_Check(__pyx_t_2)) {
+        PyObject *__pyx_temp[3] = {__pyx_t_13, __pyx_t_6, __pyx_t_15};
+        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 347, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+      } else
+      #endif
+      #if CYTHON_FAST_PYCCALL
+      if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
+        PyObject *__pyx_temp[3] = {__pyx_t_13, __pyx_t_6, __pyx_t_15};
+        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 347, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+      } else
+      #endif
+      {
+        __pyx_t_16 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 347, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        if (__pyx_t_13) {
+          __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_16, 0, __pyx_t_13); __pyx_t_13 = NULL;
+        }
+        __Pyx_GIVEREF(__pyx_t_6);
+        PyTuple_SET_ITEM(__pyx_t_16, 0+__pyx_t_11, __pyx_t_6);
+        __Pyx_GIVEREF(__pyx_t_15);
+        PyTuple_SET_ITEM(__pyx_t_16, 1+__pyx_t_11, __pyx_t_15);
+        __pyx_t_6 = 0;
+        __pyx_t_15 = 0;
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_16, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 347, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+      }
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+        __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_5);
+        if (likely(__pyx_t_2)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          __Pyx_INCREF(__pyx_t_2);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_5, function);
+        }
+      }
+      if (!__pyx_t_2) {
+        __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 347, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_GOTREF(__pyx_t_7);
+      } else {
+        #if CYTHON_FAST_PYCALL
+        if (PyFunction_Check(__pyx_t_5)) {
+          PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_4};
+          __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 347, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __Pyx_GOTREF(__pyx_t_7);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        } else
+        #endif
+        #if CYTHON_FAST_PYCCALL
+        if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
+          PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_4};
+          __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 347, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __Pyx_GOTREF(__pyx_t_7);
+          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        } else
+        #endif
+        {
+          __pyx_t_16 = PyTuple_New(1+1); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 347, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_16);
+          __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_16, 0, __pyx_t_2); __pyx_t_2 = NULL;
+          __Pyx_GIVEREF(__pyx_t_4);
+          PyTuple_SET_ITEM(__pyx_t_16, 0+1, __pyx_t_4);
+          __pyx_t_4 = 0;
+          __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_16, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 347, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_7);
+          __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        }
+      }
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_index_1, __pyx_t_7);
+      __pyx_t_7 = 0;
 
       /* "TwitchBasedMuscleModel_noTendon.pyx":348
- * 
- *         if index.size != 0:
- *             for j in xrange(len(index)):             # <<<<<<<<<<<<<<
- *                 n = index[j];
- *                 if FR[n] > PFR_MU[n]:
- */
-      __pyx_t_20 = PyObject_Length(__pyx_v_index); if (unlikely(__pyx_t_20 == ((Py_ssize_t)-1))) __PYX_ERR(0, 348, __pyx_L1_error)
-      for (__pyx_t_21 = 0; __pyx_t_21 < __pyx_t_20; __pyx_t_21+=1) {
-        __pyx_v_j = __pyx_t_21;
-
-        /* "TwitchBasedMuscleModel_noTendon.pyx":349
- *         if index.size != 0:
- *             for j in xrange(len(index)):
- *                 n = index[j];             # <<<<<<<<<<<<<<
- *                 if FR[n] > PFR_MU[n]:
- *                     FR[n] = PFR_MU[n]
- */
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_index, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 349, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_XDECREF_SET(__pyx_v_n, __pyx_t_1);
-        __pyx_t_1 = 0;
-
-        /* "TwitchBasedMuscleModel_noTendon.pyx":350
- *             for j in xrange(len(index)):
- *                 n = index[j];
- *                 if FR[n] > PFR_MU[n]:             # <<<<<<<<<<<<<<
- *                     FR[n] = PFR_MU[n]
+ *         if t > 1:
+ *             index_1 = np.where(np.logical_and(FR >= MFR_MU,FR_mat[:,t-1] < MFR_MU));
+ *             index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));             # <<<<<<<<<<<<<<
+ *             index = np.append(index_1,index_2);
  * 
  */
-        __pyx_t_1 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 350, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_7 = PyObject_GetItem(__pyx_v_PFR_MU, __pyx_v_n); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 350, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_15 = PyObject_RichCompare(__pyx_t_1, __pyx_t_7, Py_GT); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 350, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 350, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        if (__pyx_t_18) {
-
-          /* "TwitchBasedMuscleModel_noTendon.pyx":351
- *                 n = index[j];
- *                 if FR[n] > PFR_MU[n]:
- *                     FR[n] = PFR_MU[n]             # <<<<<<<<<<<<<<
- * 
- *                 if any(spike_train[n,:]) != True:
- */
-          __pyx_t_15 = PyObject_GetItem(__pyx_v_PFR_MU, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 351, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          if (unlikely(PyObject_SetItem(__pyx_v_FR, __pyx_v_n, __pyx_t_15) < 0)) __PYX_ERR(0, 351, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-
-          /* "TwitchBasedMuscleModel_noTendon.pyx":350
- *             for j in xrange(len(index)):
- *                 n = index[j];
- *                 if FR[n] > PFR_MU[n]:             # <<<<<<<<<<<<<<
- *                     FR[n] = PFR_MU[n]
- * 
- */
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_where); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 348, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_logical_and); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 348, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_2 = PyObject_RichCompare(__pyx_v_FR, __pyx_v_MFR_MU, Py_GE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 348, __pyx_L1_error)
+      __pyx_t_15 = PyObject_RichCompare(__pyx_v_spike_time, __pyx_v_t, Py_EQ); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 348, __pyx_L1_error)
+      __pyx_t_6 = NULL;
+      __pyx_t_11 = 0;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+        if (likely(__pyx_t_6)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+          __Pyx_INCREF(__pyx_t_6);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_4, function);
+          __pyx_t_11 = 1;
         }
-
-        /* "TwitchBasedMuscleModel_noTendon.pyx":353
- *                     FR[n] = PFR_MU[n]
- * 
- *                 if any(spike_train[n,:]) != True:             # <<<<<<<<<<<<<<
- *                     spike_train[n,t] = 1;
- *                     mu = 1/float(FR[n]);
- */
-        __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 353, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        __Pyx_INCREF(__pyx_v_n);
-        __Pyx_GIVEREF(__pyx_v_n);
-        PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_v_n);
-        __Pyx_INCREF(__pyx_slice__39);
-        __Pyx_GIVEREF(__pyx_slice__39);
-        PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_slice__39);
-        __pyx_t_7 = PyObject_GetItem(__pyx_v_spike_train, __pyx_t_15); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 353, __pyx_L1_error)
+      }
+      #if CYTHON_FAST_PYCALL
+      if (PyFunction_Check(__pyx_t_4)) {
+        PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_2, __pyx_t_15};
+        __pyx_t_16 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 348, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+        __Pyx_GOTREF(__pyx_t_16);
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+      } else
+      #endif
+      #if CYTHON_FAST_PYCCALL
+      if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+        PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_2, __pyx_t_15};
+        __pyx_t_16 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 348, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+        __Pyx_GOTREF(__pyx_t_16);
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+      } else
+      #endif
+      {
+        __pyx_t_13 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 348, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_13);
+        if (__pyx_t_6) {
+          __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_6); __pyx_t_6 = NULL;
+        }
+        __Pyx_GIVEREF(__pyx_t_2);
+        PyTuple_SET_ITEM(__pyx_t_13, 0+__pyx_t_11, __pyx_t_2);
+        __Pyx_GIVEREF(__pyx_t_15);
+        PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_11, __pyx_t_15);
+        __pyx_t_2 = 0;
+        __pyx_t_15 = 0;
+        __pyx_t_16 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_13, NULL); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 348, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+      }
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_4 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
+        if (likely(__pyx_t_4)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          __Pyx_INCREF(__pyx_t_4);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_5, function);
+        }
+      }
+      if (!__pyx_t_4) {
+        __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 348, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
         __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        __pyx_t_15 = PyTuple_New(1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 353, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        __Pyx_GIVEREF(__pyx_t_7);
-        PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_7);
-        __pyx_t_7 = 0;
-        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_any, __pyx_t_15, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 353, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        __pyx_t_15 = PyObject_RichCompare(__pyx_t_7, Py_True, Py_NE); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 353, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 353, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        if (__pyx_t_18) {
+      } else {
+        #if CYTHON_FAST_PYCALL
+        if (PyFunction_Check(__pyx_t_5)) {
+          PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_16};
+          __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 348, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_GOTREF(__pyx_t_7);
+          __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        } else
+        #endif
+        #if CYTHON_FAST_PYCCALL
+        if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
+          PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_16};
+          __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 348, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __Pyx_GOTREF(__pyx_t_7);
+          __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        } else
+        #endif
+        {
+          __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 348, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_13);
+          __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_4); __pyx_t_4 = NULL;
+          __Pyx_GIVEREF(__pyx_t_16);
+          PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_16);
+          __pyx_t_16 = 0;
+          __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_13, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 348, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_7);
+          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        }
+      }
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_index_2, __pyx_t_7);
+      __pyx_t_7 = 0;
 
-          /* "TwitchBasedMuscleModel_noTendon.pyx":354
+      /* "TwitchBasedMuscleModel_noTendon.pyx":349
+ *             index_1 = np.where(np.logical_and(FR >= MFR_MU,FR_mat[:,t-1] < MFR_MU));
+ *             index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));
+ *             index = np.append(index_1,index_2);             # <<<<<<<<<<<<<<
  * 
- *                 if any(spike_train[n,:]) != True:
- *                     spike_train[n,t] = 1;             # <<<<<<<<<<<<<<
- *                     mu = 1/float(FR[n]);
- *                     Z = np.random.randn(1);
+ *             if index.size != 0:
  */
-          __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 354, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __Pyx_INCREF(__pyx_v_n);
-          __Pyx_GIVEREF(__pyx_v_n);
-          PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_v_n);
-          __Pyx_INCREF(__pyx_v_t);
-          __Pyx_GIVEREF(__pyx_v_t);
-          PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_v_t);
-          if (unlikely(PyObject_SetItem(__pyx_v_spike_train, __pyx_t_15, __pyx_int_1) < 0)) __PYX_ERR(0, 354, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_append); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 349, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_13 = NULL;
+      __pyx_t_11 = 0;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+        __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_5);
+        if (likely(__pyx_t_13)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          __Pyx_INCREF(__pyx_t_13);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_5, function);
+          __pyx_t_11 = 1;
+        }
+      }
+      #if CYTHON_FAST_PYCALL
+      if (PyFunction_Check(__pyx_t_5)) {
+        PyObject *__pyx_temp[3] = {__pyx_t_13, __pyx_v_index_1, __pyx_v_index_2};
+        __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 349, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __Pyx_GOTREF(__pyx_t_7);
+      } else
+      #endif
+      #if CYTHON_FAST_PYCCALL
+      if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
+        PyObject *__pyx_temp[3] = {__pyx_t_13, __pyx_v_index_1, __pyx_v_index_2};
+        __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 349, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __Pyx_GOTREF(__pyx_t_7);
+      } else
+      #endif
+      {
+        __pyx_t_16 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 349, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        if (__pyx_t_13) {
+          __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_16, 0, __pyx_t_13); __pyx_t_13 = NULL;
+        }
+        __Pyx_INCREF(__pyx_v_index_1);
+        __Pyx_GIVEREF(__pyx_v_index_1);
+        PyTuple_SET_ITEM(__pyx_t_16, 0+__pyx_t_11, __pyx_v_index_1);
+        __Pyx_INCREF(__pyx_v_index_2);
+        __Pyx_GIVEREF(__pyx_v_index_2);
+        PyTuple_SET_ITEM(__pyx_t_16, 1+__pyx_t_11, __pyx_v_index_2);
+        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_16, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 349, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+      }
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_index, __pyx_t_7);
+      __pyx_t_7 = 0;
 
-          /* "TwitchBasedMuscleModel_noTendon.pyx":355
- *                 if any(spike_train[n,:]) != True:
- *                     spike_train[n,t] = 1;
- *                     mu = 1/float(FR[n]);             # <<<<<<<<<<<<<<
- *                     Z = np.random.randn(1);
- *                     if Z > 3.9:
+      /* "TwitchBasedMuscleModel_noTendon.pyx":351
+ *             index = np.append(index_1,index_2);
+ * 
+ *             if index.size != 0:             # <<<<<<<<<<<<<<
+ *                 for j in xrange(len(index)):
+ *                     n = index[j];
  */
-          __pyx_t_15 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 355, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_10 = __Pyx_PyObject_AsDouble(__pyx_t_15); if (unlikely(__pyx_t_10 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 355, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          if (unlikely(__pyx_t_10 == 0)) {
-            PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-            __PYX_ERR(0, 355, __pyx_L1_error)
-          }
-          __pyx_v_mu = (1.0 / __pyx_t_10);
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_index, __pyx_n_s_size); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 351, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_5 = PyObject_RichCompare(__pyx_t_7, __pyx_int_0, Py_NE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 351, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 351, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      if (__pyx_t_19) {
 
-          /* "TwitchBasedMuscleModel_noTendon.pyx":356
- *                     spike_train[n,t] = 1;
- *                     mu = 1/float(FR[n]);
- *                     Z = np.random.randn(1);             # <<<<<<<<<<<<<<
- *                     if Z > 3.9:
- *                         Z = 3.9
+        /* "TwitchBasedMuscleModel_noTendon.pyx":352
+ * 
+ *             if index.size != 0:
+ *                 for j in xrange(len(index)):             # <<<<<<<<<<<<<<
+ *                     n = index[j];
+ *                     if any(spike_train[n,:]) != True:
  */
-          __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_random); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 356, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_15, __pyx_n_s_randn); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 356, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __pyx_t_15 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__40, NULL); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 356, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_Z, __pyx_t_15);
-          __pyx_t_15 = 0;
-
-          /* "TwitchBasedMuscleModel_noTendon.pyx":357
- *                     mu = 1/float(FR[n]);
- *                     Z = np.random.randn(1);
- *                     if Z > 3.9:             # <<<<<<<<<<<<<<
- *                         Z = 3.9
- *                     elif Z < -3.9:
- */
-          __pyx_t_15 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_3_9, Py_GT); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 357, __pyx_L1_error)
-          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 357, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          if (__pyx_t_18) {
-
-            /* "TwitchBasedMuscleModel_noTendon.pyx":358
- *                     Z = np.random.randn(1);
- *                     if Z > 3.9:
- *                         Z = 3.9             # <<<<<<<<<<<<<<
- *                     elif Z < -3.9:
- *                         Z = -3.9
- */
-            __Pyx_INCREF(__pyx_float_3_9);
-            __Pyx_DECREF_SET(__pyx_v_Z, __pyx_float_3_9);
-
-            /* "TwitchBasedMuscleModel_noTendon.pyx":357
- *                     mu = 1/float(FR[n]);
- *                     Z = np.random.randn(1);
- *                     if Z > 3.9:             # <<<<<<<<<<<<<<
- *                         Z = 3.9
- *                     elif Z < -3.9:
- */
-            goto __pyx_L19;
-          }
-
-          /* "TwitchBasedMuscleModel_noTendon.pyx":359
- *                     if Z > 3.9:
- *                         Z = 3.9
- *                     elif Z < -3.9:             # <<<<<<<<<<<<<<
- *                         Z = -3.9
- *                     spike_time_temp = (mu + mu*cv*Z)*Fs;
- */
-          __pyx_t_15 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_neg_3_9, Py_LT); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 359, __pyx_L1_error)
-          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 359, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          if (__pyx_t_18) {
-
-            /* "TwitchBasedMuscleModel_noTendon.pyx":360
- *                         Z = 3.9
- *                     elif Z < -3.9:
- *                         Z = -3.9             # <<<<<<<<<<<<<<
- *                     spike_time_temp = (mu + mu*cv*Z)*Fs;
- *                     spike_time[n] = round(spike_time_temp) + t;
- */
-            __Pyx_INCREF(__pyx_float_neg_3_9);
-            __Pyx_DECREF_SET(__pyx_v_Z, __pyx_float_neg_3_9);
-
-            /* "TwitchBasedMuscleModel_noTendon.pyx":359
- *                     if Z > 3.9:
- *                         Z = 3.9
- *                     elif Z < -3.9:             # <<<<<<<<<<<<<<
- *                         Z = -3.9
- *                     spike_time_temp = (mu + mu*cv*Z)*Fs;
- */
-          }
-          __pyx_L19:;
-
-          /* "TwitchBasedMuscleModel_noTendon.pyx":361
- *                     elif Z < -3.9:
- *                         Z = -3.9
- *                     spike_time_temp = (mu + mu*cv*Z)*Fs;             # <<<<<<<<<<<<<<
- *                     spike_time[n] = round(spike_time_temp) + t;
- *                     twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
- */
-          __pyx_t_15 = PyFloat_FromDouble(__pyx_v_mu); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 361, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_7 = PyFloat_FromDouble(__pyx_v_mu); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 361, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_1 = PyNumber_Multiply(__pyx_t_7, __pyx_v_cv); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 361, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          __pyx_t_7 = PyNumber_Multiply(__pyx_t_1, __pyx_v_Z); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 361, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __pyx_t_1 = PyNumber_Add(__pyx_t_15, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 361, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          __pyx_t_7 = PyNumber_Multiply(__pyx_t_1, __pyx_v_Fs); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 361, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_spike_time_temp, __pyx_t_7);
-          __pyx_t_7 = 0;
-
-          /* "TwitchBasedMuscleModel_noTendon.pyx":362
- *                         Z = -3.9
- *                     spike_time_temp = (mu + mu*cv*Z)*Fs;
- *                     spike_time[n] = round(spike_time_temp) + t;             # <<<<<<<<<<<<<<
- *                     twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
- *                     twitch = Pi[n]*twitch_temp*FF[n];
- */
-          __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_v_spike_time_temp); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 362, __pyx_L1_error)
-          __pyx_t_7 = PyFloat_FromDouble(round(__pyx_t_10)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 362, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_1 = PyNumber_Add(__pyx_t_7, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 362, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          if (unlikely(PyObject_SetItem(__pyx_v_spike_time, __pyx_v_n, __pyx_t_1) < 0)) __PYX_ERR(0, 362, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-          /* "TwitchBasedMuscleModel_noTendon.pyx":363
- *                     spike_time_temp = (mu + mu*cv*Z)*Fs;
- *                     spike_time[n] = round(spike_time_temp) + t;
- *                     twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);             # <<<<<<<<<<<<<<
- *                     twitch = Pi[n]*twitch_temp*FF[n];
- *                     if len(time_sim)-t >= len(t_twitch):
- */
-          __pyx_t_1 = PyObject_GetItem(__pyx_v_Af, __pyx_v_n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 363, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_7 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 363, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_15 = PyObject_GetItem(__pyx_v_CT, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 363, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_13 = PyObject_GetItem(__pyx_v_RT, __pyx_v_n); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 363, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __pyx_t_2 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_14twitch_function(__pyx_v_twitch_function, __pyx_t_1, __pyx_t_7, __pyx_t_15, __pyx_t_13, __pyx_v_Fs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 363, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_twitch_temp, __pyx_t_2);
-          __pyx_t_2 = 0;
-
-          /* "TwitchBasedMuscleModel_noTendon.pyx":364
- *                     spike_time[n] = round(spike_time_temp) + t;
- *                     twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
- *                     twitch = Pi[n]*twitch_temp*FF[n];             # <<<<<<<<<<<<<<
- *                     if len(time_sim)-t >= len(t_twitch):
- *                         force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
- */
-          __pyx_t_2 = PyObject_GetItem(__pyx_v_Pi, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 364, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_13 = PyNumber_Multiply(__pyx_t_2, __pyx_v_twitch_temp); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 364, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = PyObject_GetItem(__pyx_v_FF, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 364, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_15 = PyNumber_Multiply(__pyx_t_13, __pyx_t_2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 364, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_twitch, __pyx_t_15);
-          __pyx_t_15 = 0;
-
-          /* "TwitchBasedMuscleModel_noTendon.pyx":365
- *                     twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
- *                     twitch = Pi[n]*twitch_temp*FF[n];
- *                     if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
- *                         force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
- *                     else:
- */
-          __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 365, __pyx_L1_error)
-          __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 365, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_2 = PyNumber_Subtract(__pyx_t_15, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 365, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 365, __pyx_L1_error)
-          __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 365, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_13 = PyObject_RichCompare(__pyx_t_2, __pyx_t_15, Py_GE); __Pyx_XGOTREF(__pyx_t_13); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 365, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_13); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 365, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-          if (__pyx_t_18) {
-
-            /* "TwitchBasedMuscleModel_noTendon.pyx":366
- *                     twitch = Pi[n]*twitch_temp*FF[n];
- *                     if len(time_sim)-t >= len(t_twitch):
- *                         force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;             # <<<<<<<<<<<<<<
- *                     else:
- *                         force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
- */
-            __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 366, __pyx_L1_error)
-            __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 366, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_15 = PyNumber_Add(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 366, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_15, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 366, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 366, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_INCREF(__pyx_v_n);
-            __Pyx_GIVEREF(__pyx_v_n);
-            PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_v_n);
-            __Pyx_GIVEREF(__pyx_t_13);
-            PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_13);
-            __pyx_t_13 = 0;
-            __pyx_t_13 = PyObject_GetItem(__pyx_v_force, __pyx_t_15); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 366, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_15 = PyNumber_Add(__pyx_t_13, __pyx_v_twitch); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 366, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 366, __pyx_L1_error)
-            __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 366, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_2 = PyNumber_Add(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 366, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_2, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 366, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 366, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_INCREF(__pyx_v_n);
-            __Pyx_GIVEREF(__pyx_v_n);
-            PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_n);
-            __Pyx_GIVEREF(__pyx_t_13);
-            PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_13);
-            __pyx_t_13 = 0;
-            if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_2, __pyx_t_15) < 0)) __PYX_ERR(0, 366, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-
-            /* "TwitchBasedMuscleModel_noTendon.pyx":365
- *                     twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
- *                     twitch = Pi[n]*twitch_temp*FF[n];
- *                     if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
- *                         force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
- *                     else:
- */
-            goto __pyx_L20;
-          }
-
-          /* "TwitchBasedMuscleModel_noTendon.pyx":368
- *                         force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
- *                     else:
- *                         force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];             # <<<<<<<<<<<<<<
- *                 else:
- *                     if spike_time[n] == t:
- */
-          /*else*/ {
-            __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 368, __pyx_L1_error)
-            __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 368, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_2 = PySlice_New(__pyx_v_t, __pyx_t_15, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 368, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 368, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_INCREF(__pyx_v_n);
-            __Pyx_GIVEREF(__pyx_v_n);
-            PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_v_n);
-            __Pyx_GIVEREF(__pyx_t_2);
-            PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_2);
-            __pyx_t_2 = 0;
-            __pyx_t_2 = PyObject_GetItem(__pyx_v_force, __pyx_t_15); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 368, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 368, __pyx_L1_error)
-            __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 368, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_13 = PyNumber_Subtract(__pyx_t_15, __pyx_v_t); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 368, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_15 = __Pyx_PyObject_GetSlice(__pyx_v_twitch, 0, 0, NULL, &__pyx_t_13, NULL, 1, 0, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 368, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __pyx_t_13 = PyNumber_Add(__pyx_t_2, __pyx_t_15); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 368, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 368, __pyx_L1_error)
-            __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 368, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_2 = PySlice_New(__pyx_v_t, __pyx_t_15, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 368, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 368, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_INCREF(__pyx_v_n);
-            __Pyx_GIVEREF(__pyx_v_n);
-            PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_v_n);
-            __Pyx_GIVEREF(__pyx_t_2);
-            PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_2);
-            __pyx_t_2 = 0;
-            if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_15, __pyx_t_13) < 0)) __PYX_ERR(0, 368, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-          }
-          __pyx_L20:;
+        __pyx_t_21 = PyObject_Length(__pyx_v_index); if (unlikely(__pyx_t_21 == ((Py_ssize_t)-1))) __PYX_ERR(0, 352, __pyx_L1_error)
+        for (__pyx_t_22 = 0; __pyx_t_22 < __pyx_t_21; __pyx_t_22+=1) {
+          __pyx_v_j = __pyx_t_22;
 
           /* "TwitchBasedMuscleModel_noTendon.pyx":353
- *                     FR[n] = PFR_MU[n]
- * 
- *                 if any(spike_train[n,:]) != True:             # <<<<<<<<<<<<<<
- *                     spike_train[n,t] = 1;
- *                     mu = 1/float(FR[n]);
+ *             if index.size != 0:
+ *                 for j in xrange(len(index)):
+ *                     n = index[j];             # <<<<<<<<<<<<<<
+ *                     if any(spike_train[n,:]) != True:
+ *                         spike_train[n,t] = 1;
  */
-          goto __pyx_L18;
-        }
+          __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_index, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 353, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __Pyx_XDECREF_SET(__pyx_v_n, __pyx_t_5);
+          __pyx_t_5 = 0;
 
-        /* "TwitchBasedMuscleModel_noTendon.pyx":370
- *                         force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
- *                 else:
- *                     if spike_time[n] == t:             # <<<<<<<<<<<<<<
+          /* "TwitchBasedMuscleModel_noTendon.pyx":354
+ *                 for j in xrange(len(index)):
+ *                     n = index[j];
+ *                     if any(spike_train[n,:]) != True:             # <<<<<<<<<<<<<<
  *                         spike_train[n,t] = 1;
  *                         mu = 1/float(FR[n]);
  */
-        /*else*/ {
-          __pyx_t_13 = PyObject_GetItem(__pyx_v_spike_time, __pyx_v_n); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 370, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __pyx_t_15 = PyObject_RichCompare(__pyx_t_13, __pyx_v_t, Py_EQ); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 370, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 370, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          if (__pyx_t_18) {
+          __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 354, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __Pyx_INCREF(__pyx_v_n);
+          __Pyx_GIVEREF(__pyx_v_n);
+          PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
+          __Pyx_INCREF(__pyx_slice__41);
+          __Pyx_GIVEREF(__pyx_slice__41);
+          PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_slice__41);
+          __pyx_t_7 = PyObject_GetItem(__pyx_v_spike_train, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 354, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_7);
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 354, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __Pyx_GIVEREF(__pyx_t_7);
+          PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7);
+          __pyx_t_7 = 0;
+          __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_any, __pyx_t_5, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 354, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_7);
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __pyx_t_5 = PyObject_RichCompare(__pyx_t_7, Py_True, Py_NE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 354, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+          __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 354, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+          if (__pyx_t_19) {
 
-            /* "TwitchBasedMuscleModel_noTendon.pyx":371
- *                 else:
- *                     if spike_time[n] == t:
+            /* "TwitchBasedMuscleModel_noTendon.pyx":355
+ *                     n = index[j];
+ *                     if any(spike_train[n,:]) != True:
  *                         spike_train[n,t] = 1;             # <<<<<<<<<<<<<<
  *                         mu = 1/float(FR[n]);
  *                         Z = np.random.randn(1);
  */
-            __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 371, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
+            __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 355, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
             __Pyx_INCREF(__pyx_v_n);
             __Pyx_GIVEREF(__pyx_v_n);
-            PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_v_n);
+            PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
             __Pyx_INCREF(__pyx_v_t);
             __Pyx_GIVEREF(__pyx_v_t);
-            PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_v_t);
-            if (unlikely(PyObject_SetItem(__pyx_v_spike_train, __pyx_t_15, __pyx_int_1) < 0)) __PYX_ERR(0, 371, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+            PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_v_t);
+            if (unlikely(PyObject_SetItem(__pyx_v_spike_train, __pyx_t_5, __pyx_int_1) < 0)) __PYX_ERR(0, 355, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-            /* "TwitchBasedMuscleModel_noTendon.pyx":372
- *                     if spike_time[n] == t:
+            /* "TwitchBasedMuscleModel_noTendon.pyx":356
+ *                     if any(spike_train[n,:]) != True:
  *                         spike_train[n,t] = 1;
  *                         mu = 1/float(FR[n]);             # <<<<<<<<<<<<<<
  *                         Z = np.random.randn(1);
  *                         if Z > 3.9:
  */
-            __pyx_t_15 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 372, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_10 = __Pyx_PyObject_AsDouble(__pyx_t_15); if (unlikely(__pyx_t_10 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 372, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+            __pyx_t_5 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 356, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_10 = __Pyx_PyObject_AsDouble(__pyx_t_5); if (unlikely(__pyx_t_10 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 356, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
             if (unlikely(__pyx_t_10 == 0)) {
               PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-              __PYX_ERR(0, 372, __pyx_L1_error)
+              __PYX_ERR(0, 356, __pyx_L1_error)
             }
             __pyx_v_mu = (1.0 / __pyx_t_10);
 
-            /* "TwitchBasedMuscleModel_noTendon.pyx":373
+            /* "TwitchBasedMuscleModel_noTendon.pyx":357
  *                         spike_train[n,t] = 1;
  *                         mu = 1/float(FR[n]);
  *                         Z = np.random.randn(1);             # <<<<<<<<<<<<<<
  *                         if Z > 3.9:
  *                             Z = 3.9
  */
-            __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_random); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 373, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_15, __pyx_n_s_randn); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 373, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_15 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_tuple__41, NULL); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 373, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_Z, __pyx_t_15);
-            __pyx_t_15 = 0;
+            __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_random); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 357, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_randn); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 357, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_7);
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__42, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 357, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+            __Pyx_XDECREF_SET(__pyx_v_Z, __pyx_t_5);
+            __pyx_t_5 = 0;
 
-            /* "TwitchBasedMuscleModel_noTendon.pyx":374
+            /* "TwitchBasedMuscleModel_noTendon.pyx":358
  *                         mu = 1/float(FR[n]);
  *                         Z = np.random.randn(1);
  *                         if Z > 3.9:             # <<<<<<<<<<<<<<
  *                             Z = 3.9
  *                         elif Z < -3.9:
  */
-            __pyx_t_15 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_3_9, Py_GT); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 374, __pyx_L1_error)
-            __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 374, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            if (__pyx_t_18) {
+            __pyx_t_5 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_3_9, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 358, __pyx_L1_error)
+            __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 358, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            if (__pyx_t_19) {
 
-              /* "TwitchBasedMuscleModel_noTendon.pyx":375
+              /* "TwitchBasedMuscleModel_noTendon.pyx":359
  *                         Z = np.random.randn(1);
  *                         if Z > 3.9:
  *                             Z = 3.9             # <<<<<<<<<<<<<<
@@ -10462,29 +10358,29 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
               __Pyx_INCREF(__pyx_float_3_9);
               __Pyx_DECREF_SET(__pyx_v_Z, __pyx_float_3_9);
 
-              /* "TwitchBasedMuscleModel_noTendon.pyx":374
+              /* "TwitchBasedMuscleModel_noTendon.pyx":358
  *                         mu = 1/float(FR[n]);
  *                         Z = np.random.randn(1);
  *                         if Z > 3.9:             # <<<<<<<<<<<<<<
  *                             Z = 3.9
  *                         elif Z < -3.9:
  */
-              goto __pyx_L22;
+              goto __pyx_L19;
             }
 
-            /* "TwitchBasedMuscleModel_noTendon.pyx":376
+            /* "TwitchBasedMuscleModel_noTendon.pyx":360
  *                         if Z > 3.9:
  *                             Z = 3.9
  *                         elif Z < -3.9:             # <<<<<<<<<<<<<<
  *                             Z = -3.9
  *                         spike_time_temp = (mu + mu*cv*Z)*Fs;
  */
-            __pyx_t_15 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_neg_3_9, Py_LT); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 376, __pyx_L1_error)
-            __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 376, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            if (__pyx_t_18) {
+            __pyx_t_5 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_neg_3_9, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 360, __pyx_L1_error)
+            __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 360, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            if (__pyx_t_19) {
 
-              /* "TwitchBasedMuscleModel_noTendon.pyx":377
+              /* "TwitchBasedMuscleModel_noTendon.pyx":361
  *                             Z = 3.9
  *                         elif Z < -3.9:
  *                             Z = -3.9             # <<<<<<<<<<<<<<
@@ -10494,7 +10390,7 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
               __Pyx_INCREF(__pyx_float_neg_3_9);
               __Pyx_DECREF_SET(__pyx_v_Z, __pyx_float_neg_3_9);
 
-              /* "TwitchBasedMuscleModel_noTendon.pyx":376
+              /* "TwitchBasedMuscleModel_noTendon.pyx":360
  *                         if Z > 3.9:
  *                             Z = 3.9
  *                         elif Z < -3.9:             # <<<<<<<<<<<<<<
@@ -10502,874 +10398,1408 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
  *                         spike_time_temp = (mu + mu*cv*Z)*Fs;
  */
             }
-            __pyx_L22:;
+            __pyx_L19:;
 
-            /* "TwitchBasedMuscleModel_noTendon.pyx":378
+            /* "TwitchBasedMuscleModel_noTendon.pyx":362
  *                         elif Z < -3.9:
  *                             Z = -3.9
  *                         spike_time_temp = (mu + mu*cv*Z)*Fs;             # <<<<<<<<<<<<<<
  *                         spike_time[n] = round(spike_time_temp) + t;
  *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  */
-            __pyx_t_15 = PyFloat_FromDouble(__pyx_v_mu); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 378, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_13 = PyFloat_FromDouble(__pyx_v_mu); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 378, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_2 = PyNumber_Multiply(__pyx_t_13, __pyx_v_cv); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 378, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __pyx_t_13 = PyNumber_Multiply(__pyx_t_2, __pyx_v_Z); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 378, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = PyNumber_Add(__pyx_t_15, __pyx_t_13); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 378, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __pyx_t_13 = PyNumber_Multiply(__pyx_t_2, __pyx_v_Fs); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 378, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_spike_time_temp, __pyx_t_13);
-            __pyx_t_13 = 0;
+            __pyx_t_5 = PyFloat_FromDouble(__pyx_v_mu); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 362, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_7 = PyFloat_FromDouble(__pyx_v_mu); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 362, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_7);
+            __pyx_t_16 = PyNumber_Multiply(__pyx_t_7, __pyx_v_cv); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 362, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_16);
+            __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+            __pyx_t_7 = PyNumber_Multiply(__pyx_t_16, __pyx_v_Z); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 362, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_7);
+            __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+            __pyx_t_16 = PyNumber_Add(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 362, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_16);
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+            __pyx_t_7 = PyNumber_Multiply(__pyx_t_16, __pyx_v_Fs); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 362, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_7);
+            __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+            __Pyx_XDECREF_SET(__pyx_v_spike_time_temp, __pyx_t_7);
+            __pyx_t_7 = 0;
 
-            /* "TwitchBasedMuscleModel_noTendon.pyx":379
+            /* "TwitchBasedMuscleModel_noTendon.pyx":363
  *                             Z = -3.9
  *                         spike_time_temp = (mu + mu*cv*Z)*Fs;
  *                         spike_time[n] = round(spike_time_temp) + t;             # <<<<<<<<<<<<<<
  *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  *                         twitch = Pi[n]*twitch_temp*FF[n];
  */
-            __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_v_spike_time_temp); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 379, __pyx_L1_error)
-            __pyx_t_13 = PyFloat_FromDouble(round(__pyx_t_10)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 379, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_2 = PyNumber_Add(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 379, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            if (unlikely(PyObject_SetItem(__pyx_v_spike_time, __pyx_v_n, __pyx_t_2) < 0)) __PYX_ERR(0, 379, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+            __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_v_spike_time_temp); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 363, __pyx_L1_error)
+            __pyx_t_7 = PyFloat_FromDouble(round(__pyx_t_10)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 363, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_7);
+            __pyx_t_16 = PyNumber_Add(__pyx_t_7, __pyx_v_t); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 363, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_16);
+            __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+            if (unlikely(PyObject_SetItem(__pyx_v_spike_time, __pyx_v_n, __pyx_t_16) < 0)) __PYX_ERR(0, 363, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
 
-            /* "TwitchBasedMuscleModel_noTendon.pyx":380
+            /* "TwitchBasedMuscleModel_noTendon.pyx":364
  *                         spike_time_temp = (mu + mu*cv*Z)*Fs;
  *                         spike_time[n] = round(spike_time_temp) + t;
  *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);             # <<<<<<<<<<<<<<
  *                         twitch = Pi[n]*twitch_temp*FF[n];
  *                         if len(time_sim)-t >= len(t_twitch):
  */
-            __pyx_t_2 = PyObject_GetItem(__pyx_v_Af, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 380, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_13 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 380, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_15 = PyObject_GetItem(__pyx_v_CT, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 380, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_7 = PyObject_GetItem(__pyx_v_RT, __pyx_v_n); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 380, __pyx_L1_error)
+            __pyx_t_16 = PyObject_GetItem(__pyx_v_Af, __pyx_v_n); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 364, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_16);
+            __pyx_t_7 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 364, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_7);
-            __pyx_t_1 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_14twitch_function(__pyx_v_twitch_function, __pyx_t_2, __pyx_t_13, __pyx_t_15, __pyx_t_7, __pyx_v_Fs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 380, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_1);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+            __pyx_t_5 = PyObject_GetItem(__pyx_v_CT, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 364, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_13 = PyObject_GetItem(__pyx_v_RT, __pyx_v_n); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 364, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __pyx_t_4 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_14twitch_function(__pyx_v_twitch_function, __pyx_t_16, __pyx_t_7, __pyx_t_5, __pyx_t_13, __pyx_v_Fs); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 364, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_4);
+            __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
             __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_twitch_temp, __pyx_t_1);
-            __pyx_t_1 = 0;
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            __Pyx_XDECREF_SET(__pyx_v_twitch_temp, __pyx_t_4);
+            __pyx_t_4 = 0;
 
-            /* "TwitchBasedMuscleModel_noTendon.pyx":381
+            /* "TwitchBasedMuscleModel_noTendon.pyx":365
  *                         spike_time[n] = round(spike_time_temp) + t;
  *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  *                         twitch = Pi[n]*twitch_temp*FF[n];             # <<<<<<<<<<<<<<
  *                         if len(time_sim)-t >= len(t_twitch):
  *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
  */
-            __pyx_t_1 = PyObject_GetItem(__pyx_v_Pi, __pyx_v_n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 381, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_7 = PyNumber_Multiply(__pyx_t_1, __pyx_v_twitch_temp); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 381, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_7);
-            __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-            __pyx_t_1 = PyObject_GetItem(__pyx_v_FF, __pyx_v_n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 381, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_15 = PyNumber_Multiply(__pyx_t_7, __pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 381, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-            __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_twitch, __pyx_t_15);
-            __pyx_t_15 = 0;
+            __pyx_t_4 = PyObject_GetItem(__pyx_v_Pi, __pyx_v_n); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 365, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_4);
+            __pyx_t_13 = PyNumber_Multiply(__pyx_t_4, __pyx_v_twitch_temp); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 365, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+            __pyx_t_4 = PyObject_GetItem(__pyx_v_FF, __pyx_v_n); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 365, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_4);
+            __pyx_t_5 = PyNumber_Multiply(__pyx_t_13, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 365, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+            __Pyx_XDECREF_SET(__pyx_v_twitch, __pyx_t_5);
+            __pyx_t_5 = 0;
 
-            /* "TwitchBasedMuscleModel_noTendon.pyx":382
+            /* "TwitchBasedMuscleModel_noTendon.pyx":366
  *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  *                         twitch = Pi[n]*twitch_temp*FF[n];
  *                         if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
  *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
  *                         else:
  */
-            __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 382, __pyx_L1_error)
-            __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 382, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_1 = PyNumber_Subtract(__pyx_t_15, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 382, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_1);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 382, __pyx_L1_error)
-            __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 382, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_15, Py_GE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 382, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 382, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-            if (__pyx_t_18) {
+            __pyx_t_23 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 366, __pyx_L1_error)
+            __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 366, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_4 = PyNumber_Subtract(__pyx_t_5, __pyx_v_t); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 366, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_4);
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __pyx_t_23 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 366, __pyx_L1_error)
+            __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 366, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_13 = PyObject_RichCompare(__pyx_t_4, __pyx_t_5, Py_GE); __Pyx_XGOTREF(__pyx_t_13); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 366, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_13); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 366, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            if (__pyx_t_19) {
 
-              /* "TwitchBasedMuscleModel_noTendon.pyx":383
+              /* "TwitchBasedMuscleModel_noTendon.pyx":367
  *                         twitch = Pi[n]*twitch_temp*FF[n];
  *                         if len(time_sim)-t >= len(t_twitch):
  *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;             # <<<<<<<<<<<<<<
  *                         else:
  *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
  */
-              __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 383, __pyx_L1_error)
-              __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 383, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
-              __pyx_t_15 = PyNumber_Add(__pyx_t_7, __pyx_v_t); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 383, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_15);
-              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-              __pyx_t_7 = PySlice_New(__pyx_v_t, __pyx_t_15, Py_None); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 383, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
-              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-              __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 383, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_15);
+              __pyx_t_23 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 367, __pyx_L1_error)
+              __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 367, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __pyx_t_5 = PyNumber_Add(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 367, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 367, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 367, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
               __Pyx_INCREF(__pyx_v_n);
               __Pyx_GIVEREF(__pyx_v_n);
-              PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_v_n);
-              __Pyx_GIVEREF(__pyx_t_7);
-              PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_7);
-              __pyx_t_7 = 0;
-              __pyx_t_7 = PyObject_GetItem(__pyx_v_force, __pyx_t_15); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 383, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
-              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-              __pyx_t_15 = PyNumber_Add(__pyx_t_7, __pyx_v_twitch); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 383, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_15);
-              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-              __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 383, __pyx_L1_error)
-              __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 383, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
-              __pyx_t_1 = PyNumber_Add(__pyx_t_7, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 383, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_1);
-              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-              __pyx_t_7 = PySlice_New(__pyx_v_t, __pyx_t_1, Py_None); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 383, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
-              __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-              __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 383, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_1);
+              PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
+              __Pyx_GIVEREF(__pyx_t_13);
+              PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_13);
+              __pyx_t_13 = 0;
+              __pyx_t_13 = PyObject_GetItem(__pyx_v_force, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 367, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_5 = PyNumber_Add(__pyx_t_13, __pyx_v_twitch); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 367, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __pyx_t_23 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 367, __pyx_L1_error)
+              __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 367, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __pyx_t_4 = PyNumber_Add(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 367, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_4, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 367, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+              __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 367, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
               __Pyx_INCREF(__pyx_v_n);
               __Pyx_GIVEREF(__pyx_v_n);
-              PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_n);
-              __Pyx_GIVEREF(__pyx_t_7);
-              PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_7);
-              __pyx_t_7 = 0;
-              if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_1, __pyx_t_15) < 0)) __PYX_ERR(0, 383, __pyx_L1_error)
-              __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+              PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_n);
+              __Pyx_GIVEREF(__pyx_t_13);
+              PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_13);
+              __pyx_t_13 = 0;
+              if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_4, __pyx_t_5) < 0)) __PYX_ERR(0, 367, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-              /* "TwitchBasedMuscleModel_noTendon.pyx":382
+              /* "TwitchBasedMuscleModel_noTendon.pyx":366
  *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  *                         twitch = Pi[n]*twitch_temp*FF[n];
  *                         if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
  *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
  *                         else:
  */
-              goto __pyx_L23;
+              goto __pyx_L20;
             }
 
-            /* "TwitchBasedMuscleModel_noTendon.pyx":385
+            /* "TwitchBasedMuscleModel_noTendon.pyx":369
  *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
  *                         else:
  *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];             # <<<<<<<<<<<<<<
- *                     elif t > spike_time[n] + round(1/float(FR[n])*Fs):
- *                         spike_train[n,t] = 1;
+ *                     else:
+ *                         if spike_time[n] == t:
  */
             /*else*/ {
-              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 385, __pyx_L1_error)
-              __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 385, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_15);
-              __pyx_t_1 = PySlice_New(__pyx_v_t, __pyx_t_15, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 385, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_1);
-              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-              __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 385, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_15);
+              __pyx_t_23 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 369, __pyx_L1_error)
+              __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 369, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_4 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 369, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 369, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
               __Pyx_INCREF(__pyx_v_n);
               __Pyx_GIVEREF(__pyx_v_n);
-              PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_v_n);
-              __Pyx_GIVEREF(__pyx_t_1);
-              PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_1);
-              __pyx_t_1 = 0;
-              __pyx_t_1 = PyObject_GetItem(__pyx_v_force, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 385, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_1);
-              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 385, __pyx_L1_error)
-              __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 385, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_15);
-              __pyx_t_7 = PyNumber_Subtract(__pyx_t_15, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 385, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
-              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-              __pyx_t_15 = __Pyx_PyObject_GetSlice(__pyx_v_twitch, 0, 0, NULL, &__pyx_t_7, NULL, 1, 0, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 385, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_15);
-              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-              __pyx_t_7 = PyNumber_Add(__pyx_t_1, __pyx_t_15); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 385, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
-              __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 385, __pyx_L1_error)
-              __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 385, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_15);
-              __pyx_t_1 = PySlice_New(__pyx_v_t, __pyx_t_15, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 385, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_1);
-              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-              __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 385, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_15);
+              PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
+              __Pyx_GIVEREF(__pyx_t_4);
+              PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4);
+              __pyx_t_4 = 0;
+              __pyx_t_4 = PyObject_GetItem(__pyx_v_force, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 369, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_23 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 369, __pyx_L1_error)
+              __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 369, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_13 = PyNumber_Subtract(__pyx_t_5, __pyx_v_t); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 369, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_v_twitch, 0, 0, NULL, &__pyx_t_13, NULL, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 369, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __pyx_t_13 = PyNumber_Add(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 369, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_23 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 369, __pyx_L1_error)
+              __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 369, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_4 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 369, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 369, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
               __Pyx_INCREF(__pyx_v_n);
               __Pyx_GIVEREF(__pyx_v_n);
-              PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_v_n);
-              __Pyx_GIVEREF(__pyx_t_1);
-              PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_1);
-              __pyx_t_1 = 0;
-              if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_15, __pyx_t_7) < 0)) __PYX_ERR(0, 385, __pyx_L1_error)
-              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+              PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
+              __Pyx_GIVEREF(__pyx_t_4);
+              PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4);
+              __pyx_t_4 = 0;
+              if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_5, __pyx_t_13) < 0)) __PYX_ERR(0, 369, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
             }
-            __pyx_L23:;
+            __pyx_L20:;
 
-            /* "TwitchBasedMuscleModel_noTendon.pyx":370
- *                         force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
- *                 else:
- *                     if spike_time[n] == t:             # <<<<<<<<<<<<<<
+            /* "TwitchBasedMuscleModel_noTendon.pyx":354
+ *                 for j in xrange(len(index)):
+ *                     n = index[j];
+ *                     if any(spike_train[n,:]) != True:             # <<<<<<<<<<<<<<
  *                         spike_train[n,t] = 1;
  *                         mu = 1/float(FR[n]);
  */
-            goto __pyx_L21;
+            goto __pyx_L18;
           }
 
-          /* "TwitchBasedMuscleModel_noTendon.pyx":386
- *                         else:
+          /* "TwitchBasedMuscleModel_noTendon.pyx":371
  *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
- *                     elif t > spike_time[n] + round(1/float(FR[n])*Fs):             # <<<<<<<<<<<<<<
- *                         spike_train[n,t] = 1;
- *                         spike_time[n] = t;
+ *                     else:
+ *                         if spike_time[n] == t:             # <<<<<<<<<<<<<<
+ *                             spike_train[n,t] = 1;
+ *                             mu = 1/float(FR[n]);
  */
-          __pyx_t_7 = PyObject_GetItem(__pyx_v_spike_time, __pyx_v_n); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 386, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_15 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 386, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_10 = __Pyx_PyObject_AsDouble(__pyx_t_15); if (unlikely(__pyx_t_10 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 386, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          if (unlikely(__pyx_t_10 == 0)) {
-            PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-            __PYX_ERR(0, 386, __pyx_L1_error)
-          }
-          __pyx_t_15 = PyFloat_FromDouble((1.0 / __pyx_t_10)); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 386, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_1 = PyNumber_Multiply(__pyx_t_15, __pyx_v_Fs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 386, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 386, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __pyx_t_1 = PyFloat_FromDouble(round(__pyx_t_10)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 386, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_15 = PyNumber_Add(__pyx_t_7, __pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 386, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __pyx_t_1 = PyObject_RichCompare(__pyx_v_t, __pyx_t_15, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 386, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 386, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          if (__pyx_t_18) {
+          /*else*/ {
+            __pyx_t_13 = PyObject_GetItem(__pyx_v_spike_time, __pyx_v_n); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 371, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __pyx_t_5 = PyObject_RichCompare(__pyx_t_13, __pyx_v_t, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 371, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 371, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            if (__pyx_t_19) {
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":372
+ *                     else:
+ *                         if spike_time[n] == t:
+ *                             spike_train[n,t] = 1;             # <<<<<<<<<<<<<<
+ *                             mu = 1/float(FR[n]);
+ *                             Z = np.random.randn(1);
+ */
+              __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 372, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __Pyx_INCREF(__pyx_v_n);
+              __Pyx_GIVEREF(__pyx_v_n);
+              PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
+              __Pyx_INCREF(__pyx_v_t);
+              __Pyx_GIVEREF(__pyx_v_t);
+              PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_v_t);
+              if (unlikely(PyObject_SetItem(__pyx_v_spike_train, __pyx_t_5, __pyx_int_1) < 0)) __PYX_ERR(0, 372, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":373
+ *                         if spike_time[n] == t:
+ *                             spike_train[n,t] = 1;
+ *                             mu = 1/float(FR[n]);             # <<<<<<<<<<<<<<
+ *                             Z = np.random.randn(1);
+ *                             if Z > 3.9:
+ */
+              __pyx_t_5 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 373, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_10 = __Pyx_PyObject_AsDouble(__pyx_t_5); if (unlikely(__pyx_t_10 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 373, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              if (unlikely(__pyx_t_10 == 0)) {
+                PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+                __PYX_ERR(0, 373, __pyx_L1_error)
+              }
+              __pyx_v_mu = (1.0 / __pyx_t_10);
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":374
+ *                             spike_train[n,t] = 1;
+ *                             mu = 1/float(FR[n]);
+ *                             Z = np.random.randn(1);             # <<<<<<<<<<<<<<
+ *                             if Z > 3.9:
+ *                                 Z = 3.9
+ */
+              __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_random); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 374, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_randn); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 374, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 374, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __Pyx_XDECREF_SET(__pyx_v_Z, __pyx_t_5);
+              __pyx_t_5 = 0;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":375
+ *                             mu = 1/float(FR[n]);
+ *                             Z = np.random.randn(1);
+ *                             if Z > 3.9:             # <<<<<<<<<<<<<<
+ *                                 Z = 3.9
+ *                             elif Z < -3.9:
+ */
+              __pyx_t_5 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_3_9, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 375, __pyx_L1_error)
+              __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 375, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              if (__pyx_t_19) {
+
+                /* "TwitchBasedMuscleModel_noTendon.pyx":376
+ *                             Z = np.random.randn(1);
+ *                             if Z > 3.9:
+ *                                 Z = 3.9             # <<<<<<<<<<<<<<
+ *                             elif Z < -3.9:
+ *                                 Z = -3.9
+ */
+                __Pyx_INCREF(__pyx_float_3_9);
+                __Pyx_DECREF_SET(__pyx_v_Z, __pyx_float_3_9);
+
+                /* "TwitchBasedMuscleModel_noTendon.pyx":375
+ *                             mu = 1/float(FR[n]);
+ *                             Z = np.random.randn(1);
+ *                             if Z > 3.9:             # <<<<<<<<<<<<<<
+ *                                 Z = 3.9
+ *                             elif Z < -3.9:
+ */
+                goto __pyx_L22;
+              }
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":377
+ *                             if Z > 3.9:
+ *                                 Z = 3.9
+ *                             elif Z < -3.9:             # <<<<<<<<<<<<<<
+ *                                 Z = -3.9
+ *                             spike_time_temp = (mu + mu*cv*Z)*Fs;
+ */
+              __pyx_t_5 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_neg_3_9, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 377, __pyx_L1_error)
+              __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 377, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              if (__pyx_t_19) {
+
+                /* "TwitchBasedMuscleModel_noTendon.pyx":378
+ *                                 Z = 3.9
+ *                             elif Z < -3.9:
+ *                                 Z = -3.9             # <<<<<<<<<<<<<<
+ *                             spike_time_temp = (mu + mu*cv*Z)*Fs;
+ *                             spike_time[n] = round(spike_time_temp) + t;
+ */
+                __Pyx_INCREF(__pyx_float_neg_3_9);
+                __Pyx_DECREF_SET(__pyx_v_Z, __pyx_float_neg_3_9);
+
+                /* "TwitchBasedMuscleModel_noTendon.pyx":377
+ *                             if Z > 3.9:
+ *                                 Z = 3.9
+ *                             elif Z < -3.9:             # <<<<<<<<<<<<<<
+ *                                 Z = -3.9
+ *                             spike_time_temp = (mu + mu*cv*Z)*Fs;
+ */
+              }
+              __pyx_L22:;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":379
+ *                             elif Z < -3.9:
+ *                                 Z = -3.9
+ *                             spike_time_temp = (mu + mu*cv*Z)*Fs;             # <<<<<<<<<<<<<<
+ *                             spike_time[n] = round(spike_time_temp) + t;
+ *                             twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
+ */
+              __pyx_t_5 = PyFloat_FromDouble(__pyx_v_mu); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 379, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_13 = PyFloat_FromDouble(__pyx_v_mu); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 379, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __pyx_t_4 = PyNumber_Multiply(__pyx_t_13, __pyx_v_cv); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 379, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __pyx_t_13 = PyNumber_Multiply(__pyx_t_4, __pyx_v_Z); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 379, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+              __pyx_t_4 = PyNumber_Add(__pyx_t_5, __pyx_t_13); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 379, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __pyx_t_13 = PyNumber_Multiply(__pyx_t_4, __pyx_v_Fs); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 379, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+              __Pyx_XDECREF_SET(__pyx_v_spike_time_temp, __pyx_t_13);
+              __pyx_t_13 = 0;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":380
+ *                                 Z = -3.9
+ *                             spike_time_temp = (mu + mu*cv*Z)*Fs;
+ *                             spike_time[n] = round(spike_time_temp) + t;             # <<<<<<<<<<<<<<
+ *                             twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
+ *                             twitch = Pi[n]*twitch_temp*FF[n];
+ */
+              __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_v_spike_time_temp); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 380, __pyx_L1_error)
+              __pyx_t_13 = PyFloat_FromDouble(round(__pyx_t_10)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 380, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __pyx_t_4 = PyNumber_Add(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 380, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              if (unlikely(PyObject_SetItem(__pyx_v_spike_time, __pyx_v_n, __pyx_t_4) < 0)) __PYX_ERR(0, 380, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":381
+ *                             spike_time_temp = (mu + mu*cv*Z)*Fs;
+ *                             spike_time[n] = round(spike_time_temp) + t;
+ *                             twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);             # <<<<<<<<<<<<<<
+ *                             twitch = Pi[n]*twitch_temp*FF[n];
+ *                             if len(time_sim)-t >= len(t_twitch):
+ */
+              __pyx_t_4 = PyObject_GetItem(__pyx_v_Af, __pyx_v_n); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 381, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __pyx_t_13 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 381, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __pyx_t_5 = PyObject_GetItem(__pyx_v_CT, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 381, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_7 = PyObject_GetItem(__pyx_v_RT, __pyx_v_n); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 381, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_7);
+              __pyx_t_16 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_14twitch_function(__pyx_v_twitch_function, __pyx_t_4, __pyx_t_13, __pyx_t_5, __pyx_t_7, __pyx_v_Fs); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 381, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_16);
+              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+              __Pyx_XDECREF_SET(__pyx_v_twitch_temp, __pyx_t_16);
+              __pyx_t_16 = 0;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":382
+ *                             spike_time[n] = round(spike_time_temp) + t;
+ *                             twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
+ *                             twitch = Pi[n]*twitch_temp*FF[n];             # <<<<<<<<<<<<<<
+ *                             if len(time_sim)-t >= len(t_twitch):
+ *                                 force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
+ */
+              __pyx_t_16 = PyObject_GetItem(__pyx_v_Pi, __pyx_v_n); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 382, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_16);
+              __pyx_t_7 = PyNumber_Multiply(__pyx_t_16, __pyx_v_twitch_temp); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 382, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_7);
+              __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+              __pyx_t_16 = PyObject_GetItem(__pyx_v_FF, __pyx_v_n); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 382, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_16);
+              __pyx_t_5 = PyNumber_Multiply(__pyx_t_7, __pyx_t_16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 382, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+              __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+              __Pyx_XDECREF_SET(__pyx_v_twitch, __pyx_t_5);
+              __pyx_t_5 = 0;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":383
+ *                             twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
+ *                             twitch = Pi[n]*twitch_temp*FF[n];
+ *                             if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
+ *                                 force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
+ *                             else:
+ */
+              __pyx_t_23 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 383, __pyx_L1_error)
+              __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 383, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_16 = PyNumber_Subtract(__pyx_t_5, __pyx_v_t); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 383, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_16);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_23 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 383, __pyx_L1_error)
+              __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 383, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_7 = PyObject_RichCompare(__pyx_t_16, __pyx_t_5, Py_GE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 383, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 383, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+              if (__pyx_t_19) {
+
+                /* "TwitchBasedMuscleModel_noTendon.pyx":384
+ *                             twitch = Pi[n]*twitch_temp*FF[n];
+ *                             if len(time_sim)-t >= len(t_twitch):
+ *                                 force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;             # <<<<<<<<<<<<<<
+ *                             else:
+ *                                 force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
+ */
+                __pyx_t_23 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 384, __pyx_L1_error)
+                __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 384, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_7);
+                __pyx_t_5 = PyNumber_Add(__pyx_t_7, __pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 384, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+                __pyx_t_7 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 384, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_7);
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 384, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __Pyx_INCREF(__pyx_v_n);
+                __Pyx_GIVEREF(__pyx_v_n);
+                PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
+                __Pyx_GIVEREF(__pyx_t_7);
+                PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_7);
+                __pyx_t_7 = 0;
+                __pyx_t_7 = PyObject_GetItem(__pyx_v_force, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 384, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_7);
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_5 = PyNumber_Add(__pyx_t_7, __pyx_v_twitch); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 384, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+                __pyx_t_23 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 384, __pyx_L1_error)
+                __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 384, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_7);
+                __pyx_t_16 = PyNumber_Add(__pyx_t_7, __pyx_v_t); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 384, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_16);
+                __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+                __pyx_t_7 = PySlice_New(__pyx_v_t, __pyx_t_16, Py_None); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 384, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_7);
+                __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+                __pyx_t_16 = PyTuple_New(2); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 384, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_16);
+                __Pyx_INCREF(__pyx_v_n);
+                __Pyx_GIVEREF(__pyx_v_n);
+                PyTuple_SET_ITEM(__pyx_t_16, 0, __pyx_v_n);
+                __Pyx_GIVEREF(__pyx_t_7);
+                PyTuple_SET_ITEM(__pyx_t_16, 1, __pyx_t_7);
+                __pyx_t_7 = 0;
+                if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_16, __pyx_t_5) < 0)) __PYX_ERR(0, 384, __pyx_L1_error)
+                __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+                /* "TwitchBasedMuscleModel_noTendon.pyx":383
+ *                             twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
+ *                             twitch = Pi[n]*twitch_temp*FF[n];
+ *                             if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
+ *                                 force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
+ *                             else:
+ */
+                goto __pyx_L23;
+              }
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":386
+ *                                 force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
+ *                             else:
+ *                                 force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];             # <<<<<<<<<<<<<<
+ *                         elif t > spike_time[n] + round(1/FR[n]*Fs):
+ *                             spike_train[n,t] = 1;
+ */
+              /*else*/ {
+                __pyx_t_23 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 386, __pyx_L1_error)
+                __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 386, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __pyx_t_16 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 386, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_16);
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 386, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __Pyx_INCREF(__pyx_v_n);
+                __Pyx_GIVEREF(__pyx_v_n);
+                PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
+                __Pyx_GIVEREF(__pyx_t_16);
+                PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_16);
+                __pyx_t_16 = 0;
+                __pyx_t_16 = PyObject_GetItem(__pyx_v_force, __pyx_t_5); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 386, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_16);
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_23 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 386, __pyx_L1_error)
+                __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 386, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __pyx_t_7 = PyNumber_Subtract(__pyx_t_5, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 386, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_7);
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_v_twitch, 0, 0, NULL, &__pyx_t_7, NULL, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 386, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+                __pyx_t_7 = PyNumber_Add(__pyx_t_16, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 386, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_7);
+                __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_23 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 386, __pyx_L1_error)
+                __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 386, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __pyx_t_16 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 386, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_16);
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 386, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __Pyx_INCREF(__pyx_v_n);
+                __Pyx_GIVEREF(__pyx_v_n);
+                PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
+                __Pyx_GIVEREF(__pyx_t_16);
+                PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_16);
+                __pyx_t_16 = 0;
+                if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_5, __pyx_t_7) < 0)) __PYX_ERR(0, 386, __pyx_L1_error)
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+              }
+              __pyx_L23:;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":371
+ *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
+ *                     else:
+ *                         if spike_time[n] == t:             # <<<<<<<<<<<<<<
+ *                             spike_train[n,t] = 1;
+ *                             mu = 1/float(FR[n]);
+ */
+              goto __pyx_L21;
+            }
 
             /* "TwitchBasedMuscleModel_noTendon.pyx":387
- *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
- *                     elif t > spike_time[n] + round(1/float(FR[n])*Fs):
- *                         spike_train[n,t] = 1;             # <<<<<<<<<<<<<<
- *                         spike_time[n] = t;
- *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
+ *                             else:
+ *                                 force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
+ *                         elif t > spike_time[n] + round(1/FR[n]*Fs):             # <<<<<<<<<<<<<<
+ *                             spike_train[n,t] = 1;
+ *                             mu = 1/float(FR[n]);
  */
-            __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 387, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_1);
-            __Pyx_INCREF(__pyx_v_n);
-            __Pyx_GIVEREF(__pyx_v_n);
-            PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_n);
-            __Pyx_INCREF(__pyx_v_t);
-            __Pyx_GIVEREF(__pyx_v_t);
-            PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_t);
-            if (unlikely(PyObject_SetItem(__pyx_v_spike_train, __pyx_t_1, __pyx_int_1) < 0)) __PYX_ERR(0, 387, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-            /* "TwitchBasedMuscleModel_noTendon.pyx":388
- *                     elif t > spike_time[n] + round(1/float(FR[n])*Fs):
- *                         spike_train[n,t] = 1;
- *                         spike_time[n] = t;             # <<<<<<<<<<<<<<
- *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
- *                         twitch = Pi[n]*twitch_temp*FF[n];
- */
-            if (unlikely(PyObject_SetItem(__pyx_v_spike_time, __pyx_v_n, __pyx_v_t) < 0)) __PYX_ERR(0, 388, __pyx_L1_error)
-
-            /* "TwitchBasedMuscleModel_noTendon.pyx":389
- *                         spike_train[n,t] = 1;
- *                         spike_time[n] = t;
- *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);             # <<<<<<<<<<<<<<
- *                         twitch = Pi[n]*twitch_temp*FF[n];
- *                         if len(time_sim)-t >= len(t_twitch):
- */
-            __pyx_t_1 = PyObject_GetItem(__pyx_v_Af, __pyx_v_n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 389, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 389, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_7 = PyObject_GetItem(__pyx_v_CT, __pyx_v_n); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 389, __pyx_L1_error)
+            __pyx_t_7 = PyObject_GetItem(__pyx_v_spike_time, __pyx_v_n); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 387, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_7);
-            __pyx_t_13 = PyObject_GetItem(__pyx_v_RT, __pyx_v_n); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 389, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_2 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_14twitch_function(__pyx_v_twitch_function, __pyx_t_1, __pyx_t_15, __pyx_t_7, __pyx_t_13, __pyx_v_Fs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 389, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+            __pyx_t_5 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 387, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_16 = __Pyx_PyNumber_Divide(__pyx_int_1, __pyx_t_5); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 387, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_16);
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __pyx_t_5 = PyNumber_Multiply(__pyx_t_16, __pyx_v_Fs); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 387, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+            __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 387, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __pyx_t_5 = PyFloat_FromDouble(round(__pyx_t_10)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 387, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_16 = PyNumber_Add(__pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 387, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_16);
             __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_twitch_temp, __pyx_t_2);
-            __pyx_t_2 = 0;
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __pyx_t_5 = PyObject_RichCompare(__pyx_v_t, __pyx_t_16, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 387, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+            __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 387, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            if (__pyx_t_19) {
 
-            /* "TwitchBasedMuscleModel_noTendon.pyx":390
- *                         spike_time[n] = t;
- *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
- *                         twitch = Pi[n]*twitch_temp*FF[n];             # <<<<<<<<<<<<<<
- *                         if len(time_sim)-t >= len(t_twitch):
- *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
+              /* "TwitchBasedMuscleModel_noTendon.pyx":388
+ *                                 force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
+ *                         elif t > spike_time[n] + round(1/FR[n]*Fs):
+ *                             spike_train[n,t] = 1;             # <<<<<<<<<<<<<<
+ *                             mu = 1/float(FR[n]);
+ *                             Z = np.random.randn(1);
  */
-            __pyx_t_2 = PyObject_GetItem(__pyx_v_Pi, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 390, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_13 = PyNumber_Multiply(__pyx_t_2, __pyx_v_twitch_temp); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 390, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = PyObject_GetItem(__pyx_v_FF, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 390, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_7 = PyNumber_Multiply(__pyx_t_13, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 390, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_7);
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_twitch, __pyx_t_7);
-            __pyx_t_7 = 0;
-
-            /* "TwitchBasedMuscleModel_noTendon.pyx":391
- *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
- *                         twitch = Pi[n]*twitch_temp*FF[n];
- *                         if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
- *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
- *                         else:
- */
-            __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 391, __pyx_L1_error)
-            __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 391, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_7);
-            __pyx_t_2 = PyNumber_Subtract(__pyx_t_7, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 391, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-            __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 391, __pyx_L1_error)
-            __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 391, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_7);
-            __pyx_t_13 = PyObject_RichCompare(__pyx_t_2, __pyx_t_7, Py_GE); __Pyx_XGOTREF(__pyx_t_13); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 391, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-            __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_13); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 391, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            if (__pyx_t_18) {
-
-              /* "TwitchBasedMuscleModel_noTendon.pyx":392
- *                         twitch = Pi[n]*twitch_temp*FF[n];
- *                         if len(time_sim)-t >= len(t_twitch):
- *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;             # <<<<<<<<<<<<<<
- *                         else:
- *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
- */
-              __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 392, __pyx_L1_error)
-              __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 392, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
-              __pyx_t_7 = PyNumber_Add(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 392, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_7, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 392, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
-              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-              __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 392, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
+              __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 388, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
               __Pyx_INCREF(__pyx_v_n);
               __Pyx_GIVEREF(__pyx_v_n);
-              PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_v_n);
-              __Pyx_GIVEREF(__pyx_t_13);
-              PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_13);
-              __pyx_t_13 = 0;
-              __pyx_t_13 = PyObject_GetItem(__pyx_v_force, __pyx_t_7); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 392, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
-              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-              __pyx_t_7 = PyNumber_Add(__pyx_t_13, __pyx_v_twitch); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 392, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 392, __pyx_L1_error)
-              __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 392, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
-              __pyx_t_2 = PyNumber_Add(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 392, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_2);
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_2, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 392, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
-              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-              __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 392, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_2);
-              __Pyx_INCREF(__pyx_v_n);
-              __Pyx_GIVEREF(__pyx_v_n);
-              PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_n);
-              __Pyx_GIVEREF(__pyx_t_13);
-              PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_13);
-              __pyx_t_13 = 0;
-              if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_2, __pyx_t_7) < 0)) __PYX_ERR(0, 392, __pyx_L1_error)
-              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+              PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
+              __Pyx_INCREF(__pyx_v_t);
+              __Pyx_GIVEREF(__pyx_v_t);
+              PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_v_t);
+              if (unlikely(PyObject_SetItem(__pyx_v_spike_train, __pyx_t_5, __pyx_int_1) < 0)) __PYX_ERR(0, 388, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":389
+ *                         elif t > spike_time[n] + round(1/FR[n]*Fs):
+ *                             spike_train[n,t] = 1;
+ *                             mu = 1/float(FR[n]);             # <<<<<<<<<<<<<<
+ *                             Z = np.random.randn(1);
+ *                             if Z > 3.9:
+ */
+              __pyx_t_5 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 389, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_10 = __Pyx_PyObject_AsDouble(__pyx_t_5); if (unlikely(__pyx_t_10 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 389, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              if (unlikely(__pyx_t_10 == 0)) {
+                PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+                __PYX_ERR(0, 389, __pyx_L1_error)
+              }
+              __pyx_v_mu = (1.0 / __pyx_t_10);
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":390
+ *                             spike_train[n,t] = 1;
+ *                             mu = 1/float(FR[n]);
+ *                             Z = np.random.randn(1);             # <<<<<<<<<<<<<<
+ *                             if Z > 3.9:
+ *                                 Z = 3.9
+ */
+              __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_random); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 390, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_16 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_randn); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 390, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_16);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_16, __pyx_tuple__44, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 390, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+              __Pyx_XDECREF_SET(__pyx_v_Z, __pyx_t_5);
+              __pyx_t_5 = 0;
 
               /* "TwitchBasedMuscleModel_noTendon.pyx":391
- *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
- *                         twitch = Pi[n]*twitch_temp*FF[n];
- *                         if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
- *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
+ *                             mu = 1/float(FR[n]);
+ *                             Z = np.random.randn(1);
+ *                             if Z > 3.9:             # <<<<<<<<<<<<<<
+ *                                 Z = 3.9
+ *                             elif Z < -3.9:
+ */
+              __pyx_t_5 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_3_9, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 391, __pyx_L1_error)
+              __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 391, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              if (__pyx_t_19) {
+
+                /* "TwitchBasedMuscleModel_noTendon.pyx":392
+ *                             Z = np.random.randn(1);
+ *                             if Z > 3.9:
+ *                                 Z = 3.9             # <<<<<<<<<<<<<<
+ *                             elif Z < -3.9:
+ *                                 Z = -3.9
+ */
+                __Pyx_INCREF(__pyx_float_3_9);
+                __Pyx_DECREF_SET(__pyx_v_Z, __pyx_float_3_9);
+
+                /* "TwitchBasedMuscleModel_noTendon.pyx":391
+ *                             mu = 1/float(FR[n]);
+ *                             Z = np.random.randn(1);
+ *                             if Z > 3.9:             # <<<<<<<<<<<<<<
+ *                                 Z = 3.9
+ *                             elif Z < -3.9:
+ */
+                goto __pyx_L24;
+              }
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":393
+ *                             if Z > 3.9:
+ *                                 Z = 3.9
+ *                             elif Z < -3.9:             # <<<<<<<<<<<<<<
+ *                                 Z = -3.9
+ *                             spike_time_temp = (mu + mu*cv*Z)*Fs;
+ */
+              __pyx_t_5 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_neg_3_9, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 393, __pyx_L1_error)
+              __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 393, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              if (__pyx_t_19) {
+
+                /* "TwitchBasedMuscleModel_noTendon.pyx":394
+ *                                 Z = 3.9
+ *                             elif Z < -3.9:
+ *                                 Z = -3.9             # <<<<<<<<<<<<<<
+ *                             spike_time_temp = (mu + mu*cv*Z)*Fs;
+ *                             spike_time[n] = round(spike_time_temp) + t;
+ */
+                __Pyx_INCREF(__pyx_float_neg_3_9);
+                __Pyx_DECREF_SET(__pyx_v_Z, __pyx_float_neg_3_9);
+
+                /* "TwitchBasedMuscleModel_noTendon.pyx":393
+ *                             if Z > 3.9:
+ *                                 Z = 3.9
+ *                             elif Z < -3.9:             # <<<<<<<<<<<<<<
+ *                                 Z = -3.9
+ *                             spike_time_temp = (mu + mu*cv*Z)*Fs;
+ */
+              }
+              __pyx_L24:;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":395
+ *                             elif Z < -3.9:
+ *                                 Z = -3.9
+ *                             spike_time_temp = (mu + mu*cv*Z)*Fs;             # <<<<<<<<<<<<<<
+ *                             spike_time[n] = round(spike_time_temp) + t;
+ *                             twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
+ */
+              __pyx_t_5 = PyFloat_FromDouble(__pyx_v_mu); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 395, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_16 = PyFloat_FromDouble(__pyx_v_mu); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 395, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_16);
+              __pyx_t_7 = PyNumber_Multiply(__pyx_t_16, __pyx_v_cv); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 395, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_7);
+              __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+              __pyx_t_16 = PyNumber_Multiply(__pyx_t_7, __pyx_v_Z); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 395, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_16);
+              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+              __pyx_t_7 = PyNumber_Add(__pyx_t_5, __pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 395, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_7);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+              __pyx_t_16 = PyNumber_Multiply(__pyx_t_7, __pyx_v_Fs); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 395, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_16);
+              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+              __Pyx_XDECREF_SET(__pyx_v_spike_time_temp, __pyx_t_16);
+              __pyx_t_16 = 0;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":396
+ *                                 Z = -3.9
+ *                             spike_time_temp = (mu + mu*cv*Z)*Fs;
+ *                             spike_time[n] = round(spike_time_temp) + t;             # <<<<<<<<<<<<<<
+ *                             twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
+ *                             twitch = Pi[n]*twitch_temp*FF[n];
+ */
+              __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_v_spike_time_temp); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 396, __pyx_L1_error)
+              __pyx_t_16 = PyFloat_FromDouble(round(__pyx_t_10)); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 396, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_16);
+              __pyx_t_7 = PyNumber_Add(__pyx_t_16, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 396, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_7);
+              __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+              if (unlikely(PyObject_SetItem(__pyx_v_spike_time, __pyx_v_n, __pyx_t_7) < 0)) __PYX_ERR(0, 396, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":397
+ *                             spike_time_temp = (mu + mu*cv*Z)*Fs;
+ *                             spike_time[n] = round(spike_time_temp) + t;
+ *                             twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);             # <<<<<<<<<<<<<<
+ *                             twitch = Pi[n]*twitch_temp*FF[n];
+ *                             if len(time_sim)-t >= len(t_twitch):
+ */
+              __pyx_t_7 = PyObject_GetItem(__pyx_v_Af, __pyx_v_n); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 397, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_7);
+              __pyx_t_16 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 397, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_16);
+              __pyx_t_5 = PyObject_GetItem(__pyx_v_CT, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 397, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_13 = PyObject_GetItem(__pyx_v_RT, __pyx_v_n); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 397, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __pyx_t_4 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_14twitch_function(__pyx_v_twitch_function, __pyx_t_7, __pyx_t_16, __pyx_t_5, __pyx_t_13, __pyx_v_Fs); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 397, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+              __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __Pyx_XDECREF_SET(__pyx_v_twitch_temp, __pyx_t_4);
+              __pyx_t_4 = 0;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":398
+ *                             spike_time[n] = round(spike_time_temp) + t;
+ *                             twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
+ *                             twitch = Pi[n]*twitch_temp*FF[n];             # <<<<<<<<<<<<<<
+ *                             if len(time_sim)-t >= len(t_twitch):
+ *                                 force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
+ */
+              __pyx_t_4 = PyObject_GetItem(__pyx_v_Pi, __pyx_v_n); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 398, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __pyx_t_13 = PyNumber_Multiply(__pyx_t_4, __pyx_v_twitch_temp); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 398, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+              __pyx_t_4 = PyObject_GetItem(__pyx_v_FF, __pyx_v_n); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 398, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __pyx_t_5 = PyNumber_Multiply(__pyx_t_13, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 398, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+              __Pyx_XDECREF_SET(__pyx_v_twitch, __pyx_t_5);
+              __pyx_t_5 = 0;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":399
+ *                             twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
+ *                             twitch = Pi[n]*twitch_temp*FF[n];
+ *                             if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
+ *                                 force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
+ *                             else:
+ */
+              __pyx_t_23 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 399, __pyx_L1_error)
+              __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 399, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_4 = PyNumber_Subtract(__pyx_t_5, __pyx_v_t); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 399, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_23 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 399, __pyx_L1_error)
+              __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 399, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_13 = PyObject_RichCompare(__pyx_t_4, __pyx_t_5, Py_GE); __Pyx_XGOTREF(__pyx_t_13); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 399, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_13); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 399, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              if (__pyx_t_19) {
+
+                /* "TwitchBasedMuscleModel_noTendon.pyx":400
+ *                             twitch = Pi[n]*twitch_temp*FF[n];
+ *                             if len(time_sim)-t >= len(t_twitch):
+ *                                 force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;             # <<<<<<<<<<<<<<
+ *                             else:
+ *                                 force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
+ */
+                __pyx_t_23 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 400, __pyx_L1_error)
+                __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 400, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_13);
+                __pyx_t_5 = PyNumber_Add(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 400, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+                __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 400, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_13);
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 400, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __Pyx_INCREF(__pyx_v_n);
+                __Pyx_GIVEREF(__pyx_v_n);
+                PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
+                __Pyx_GIVEREF(__pyx_t_13);
+                PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_13);
+                __pyx_t_13 = 0;
+                __pyx_t_13 = PyObject_GetItem(__pyx_v_force, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 400, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_13);
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_5 = PyNumber_Add(__pyx_t_13, __pyx_v_twitch); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 400, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+                __pyx_t_23 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 400, __pyx_L1_error)
+                __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 400, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_13);
+                __pyx_t_4 = PyNumber_Add(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 400, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_4);
+                __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+                __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_4, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 400, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_13);
+                __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+                __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 400, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_4);
+                __Pyx_INCREF(__pyx_v_n);
+                __Pyx_GIVEREF(__pyx_v_n);
+                PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_n);
+                __Pyx_GIVEREF(__pyx_t_13);
+                PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_13);
+                __pyx_t_13 = 0;
+                if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_4, __pyx_t_5) < 0)) __PYX_ERR(0, 400, __pyx_L1_error)
+                __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+                /* "TwitchBasedMuscleModel_noTendon.pyx":399
+ *                             twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
+ *                             twitch = Pi[n]*twitch_temp*FF[n];
+ *                             if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
+ *                                 force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
+ *                             else:
+ */
+                goto __pyx_L25;
+              }
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":402
+ *                                 force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
+ *                             else:
+ *                                 force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];             # <<<<<<<<<<<<<<
+ *                     if n <= index_slow:
+ *                         FL_temp = FL_slow_function(Lce);
+ */
+              /*else*/ {
+                __pyx_t_23 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 402, __pyx_L1_error)
+                __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 402, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __pyx_t_4 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 402, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_4);
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 402, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __Pyx_INCREF(__pyx_v_n);
+                __Pyx_GIVEREF(__pyx_v_n);
+                PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
+                __Pyx_GIVEREF(__pyx_t_4);
+                PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4);
+                __pyx_t_4 = 0;
+                __pyx_t_4 = PyObject_GetItem(__pyx_v_force, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 402, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_4);
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_23 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 402, __pyx_L1_error)
+                __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 402, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __pyx_t_13 = PyNumber_Subtract(__pyx_t_5, __pyx_v_t); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 402, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_13);
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_v_twitch, 0, 0, NULL, &__pyx_t_13, NULL, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 402, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+                __pyx_t_13 = PyNumber_Add(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 402, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_13);
+                __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_23 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_23 == ((Py_ssize_t)-1))) __PYX_ERR(0, 402, __pyx_L1_error)
+                __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_23); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 402, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __pyx_t_4 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 402, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_4);
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 402, __pyx_L1_error)
+                __Pyx_GOTREF(__pyx_t_5);
+                __Pyx_INCREF(__pyx_v_n);
+                __Pyx_GIVEREF(__pyx_v_n);
+                PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
+                __Pyx_GIVEREF(__pyx_t_4);
+                PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4);
+                __pyx_t_4 = 0;
+                if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_5, __pyx_t_13) < 0)) __PYX_ERR(0, 402, __pyx_L1_error)
+                __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+                __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              }
+              __pyx_L25:;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":387
+ *                             else:
+ *                                 force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
+ *                         elif t > spike_time[n] + round(1/FR[n]*Fs):             # <<<<<<<<<<<<<<
+ *                             spike_train[n,t] = 1;
+ *                             mu = 1/float(FR[n]);
+ */
+            }
+            __pyx_L21:;
+          }
+          __pyx_L18:;
+
+          /* "TwitchBasedMuscleModel_noTendon.pyx":403
+ *                             else:
+ *                                 force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
+ *                     if n <= index_slow:             # <<<<<<<<<<<<<<
+ *                         FL_temp = FL_slow_function(Lce);
+ *                         if Vce > 0:
+ */
+          __pyx_t_13 = PyObject_RichCompare(__pyx_v_n, __pyx_v_index_slow, Py_LE); __Pyx_XGOTREF(__pyx_t_13); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 403, __pyx_L1_error)
+          __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_13); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 403, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+          if (__pyx_t_19) {
+
+            /* "TwitchBasedMuscleModel_noTendon.pyx":404
+ *                                 force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
+ *                     if n <= index_slow:
+ *                         FL_temp = FL_slow_function(Lce);             # <<<<<<<<<<<<<<
+ *                         if Vce > 0:
+ *                             FV_temp = FV_ecc_slow_function(Lce,Vce);
+ */
+            __pyx_t_13 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 404, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __pyx_t_5 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_16FL_slow_function(__pyx_v_FL_slow_function, __pyx_t_13); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 404, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            __Pyx_XDECREF_SET(__pyx_v_FL_temp, __pyx_t_5);
+            __pyx_t_5 = 0;
+
+            /* "TwitchBasedMuscleModel_noTendon.pyx":405
+ *                     if n <= index_slow:
+ *                         FL_temp = FL_slow_function(Lce);
+ *                         if Vce > 0:             # <<<<<<<<<<<<<<
+ *                             FV_temp = FV_ecc_slow_function(Lce,Vce);
  *                         else:
  */
-              goto __pyx_L24;
+            __pyx_t_19 = ((__pyx_v_Vce > 0) != 0);
+            if (__pyx_t_19) {
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":406
+ *                         FL_temp = FL_slow_function(Lce);
+ *                         if Vce > 0:
+ *                             FV_temp = FV_ecc_slow_function(Lce,Vce);             # <<<<<<<<<<<<<<
+ *                         else:
+ *                             FV_temp = FV_con_slow_function(Lce,Vce);
+ */
+              __pyx_t_5 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 406, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_13 = __Pyx_PyInt_From_long(__pyx_v_Vce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 406, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __pyx_t_4 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_24FV_ecc_slow_function(__pyx_v_FV_ecc_slow_function, __pyx_t_5, __pyx_t_13); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 406, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __Pyx_XDECREF_SET(__pyx_v_FV_temp, __pyx_t_4);
+              __pyx_t_4 = 0;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":405
+ *                     if n <= index_slow:
+ *                         FL_temp = FL_slow_function(Lce);
+ *                         if Vce > 0:             # <<<<<<<<<<<<<<
+ *                             FV_temp = FV_ecc_slow_function(Lce,Vce);
+ *                         else:
+ */
+              goto __pyx_L27;
             }
 
-            /* "TwitchBasedMuscleModel_noTendon.pyx":394
- *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + twitch;
+            /* "TwitchBasedMuscleModel_noTendon.pyx":408
+ *                             FV_temp = FV_ecc_slow_function(Lce,Vce);
  *                         else:
- *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];             # <<<<<<<<<<<<<<
- *                 if n <= index_slow:
- *                     FL_temp = FL_slow_function(Lce);
+ *                             FV_temp = FV_con_slow_function(Lce,Vce);             # <<<<<<<<<<<<<<
+ *                     else:
+ *                         FL_temp = FL_fast_function(Lce);
  */
             /*else*/ {
-              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 394, __pyx_L1_error)
-              __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 394, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
-              __pyx_t_2 = PySlice_New(__pyx_v_t, __pyx_t_7, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 394, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_2);
-              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-              __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 394, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
-              __Pyx_INCREF(__pyx_v_n);
-              __Pyx_GIVEREF(__pyx_v_n);
-              PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_v_n);
-              __Pyx_GIVEREF(__pyx_t_2);
-              PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_2);
-              __pyx_t_2 = 0;
-              __pyx_t_2 = PyObject_GetItem(__pyx_v_force, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 394, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_2);
-              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 394, __pyx_L1_error)
-              __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 394, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
-              __pyx_t_13 = PyNumber_Subtract(__pyx_t_7, __pyx_v_t); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 394, __pyx_L1_error)
+              __pyx_t_4 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 408, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __pyx_t_13 = __Pyx_PyInt_From_long(__pyx_v_Vce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 408, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_13);
-              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-              __pyx_t_7 = __Pyx_PyObject_GetSlice(__pyx_v_twitch, 0, 0, NULL, &__pyx_t_13, NULL, 1, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 394, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
+              __pyx_t_5 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_20FV_con_slow_function(__pyx_v_FV_con_slow_function, __pyx_t_4, __pyx_t_13); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 408, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
               __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_13 = PyNumber_Add(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 394, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
-              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 394, __pyx_L1_error)
-              __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 394, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
-              __pyx_t_2 = PySlice_New(__pyx_v_t, __pyx_t_7, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 394, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_2);
-              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-              __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 394, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_7);
-              __Pyx_INCREF(__pyx_v_n);
-              __Pyx_GIVEREF(__pyx_v_n);
-              PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_v_n);
-              __Pyx_GIVEREF(__pyx_t_2);
-              PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_2);
-              __pyx_t_2 = 0;
-              if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_7, __pyx_t_13) < 0)) __PYX_ERR(0, 394, __pyx_L1_error)
-              __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __Pyx_XDECREF_SET(__pyx_v_FV_temp, __pyx_t_5);
+              __pyx_t_5 = 0;
             }
-            __pyx_L24:;
+            __pyx_L27:;
 
-            /* "TwitchBasedMuscleModel_noTendon.pyx":386
- *                         else:
- *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
- *                     elif t > spike_time[n] + round(1/float(FR[n])*Fs):             # <<<<<<<<<<<<<<
- *                         spike_train[n,t] = 1;
- *                         spike_time[n] = t;
- */
-          }
-          __pyx_L21:;
-        }
-        __pyx_L18:;
-
-        /* "TwitchBasedMuscleModel_noTendon.pyx":395
- *                         else:
- *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
- *                 if n <= index_slow:             # <<<<<<<<<<<<<<
- *                     FL_temp = FL_slow_function(Lce);
- *                     if Vce > 0:
- */
-        __pyx_t_13 = PyObject_RichCompare(__pyx_v_n, __pyx_v_index_slow, Py_LE); __Pyx_XGOTREF(__pyx_t_13); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 395, __pyx_L1_error)
-        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_13); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 395, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-        if (__pyx_t_18) {
-
-          /* "TwitchBasedMuscleModel_noTendon.pyx":396
- *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
- *                 if n <= index_slow:
- *                     FL_temp = FL_slow_function(Lce);             # <<<<<<<<<<<<<<
- *                     if Vce > 0:
- *                         FV_temp = FV_ecc_slow_function(Lce,Vce);
- */
-          __pyx_t_13 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 396, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __pyx_t_7 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_16FL_slow_function(__pyx_v_FL_slow_function, __pyx_t_13); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 396, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_FL_temp, __pyx_t_7);
-          __pyx_t_7 = 0;
-
-          /* "TwitchBasedMuscleModel_noTendon.pyx":397
- *                 if n <= index_slow:
- *                     FL_temp = FL_slow_function(Lce);
- *                     if Vce > 0:             # <<<<<<<<<<<<<<
- *                         FV_temp = FV_ecc_slow_function(Lce,Vce);
- *                     else:
- */
-          __pyx_t_18 = ((__pyx_v_Vce > 0) != 0);
-          if (__pyx_t_18) {
-
-            /* "TwitchBasedMuscleModel_noTendon.pyx":398
- *                     FL_temp = FL_slow_function(Lce);
- *                     if Vce > 0:
- *                         FV_temp = FV_ecc_slow_function(Lce,Vce);             # <<<<<<<<<<<<<<
- *                     else:
- *                         FV_temp = FV_con_slow_function(Lce,Vce);
- */
-            __pyx_t_7 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 398, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_7);
-            __pyx_t_13 = __Pyx_PyInt_From_long(__pyx_v_Vce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 398, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_2 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_24FV_ecc_slow_function(__pyx_v_FV_ecc_slow_function, __pyx_t_7, __pyx_t_13); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 398, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_FV_temp, __pyx_t_2);
-            __pyx_t_2 = 0;
-
-            /* "TwitchBasedMuscleModel_noTendon.pyx":397
- *                 if n <= index_slow:
- *                     FL_temp = FL_slow_function(Lce);
- *                     if Vce > 0:             # <<<<<<<<<<<<<<
- *                         FV_temp = FV_ecc_slow_function(Lce,Vce);
- *                     else:
+            /* "TwitchBasedMuscleModel_noTendon.pyx":403
+ *                             else:
+ *                                 force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
+ *                     if n <= index_slow:             # <<<<<<<<<<<<<<
+ *                         FL_temp = FL_slow_function(Lce);
+ *                         if Vce > 0:
  */
             goto __pyx_L26;
           }
 
-          /* "TwitchBasedMuscleModel_noTendon.pyx":400
- *                         FV_temp = FV_ecc_slow_function(Lce,Vce);
+          /* "TwitchBasedMuscleModel_noTendon.pyx":410
+ *                             FV_temp = FV_con_slow_function(Lce,Vce);
  *                     else:
- *                         FV_temp = FV_con_slow_function(Lce,Vce);             # <<<<<<<<<<<<<<
- *                 else:
- *                     FL_temp = FL_fast_function(Lce);
+ *                         FL_temp = FL_fast_function(Lce);             # <<<<<<<<<<<<<<
+ *                         if Vce > 0:
+ *                             FV_temp = FV_ecc_fast_function(Lce,Vce);
  */
           /*else*/ {
-            __pyx_t_2 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 400, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_13 = __Pyx_PyInt_From_long(__pyx_v_Vce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 400, __pyx_L1_error)
+            __pyx_t_5 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 410, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_13 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_18FL_fast_function(__pyx_v_FL_fast_function, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 410, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_7 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_20FV_con_slow_function(__pyx_v_FV_con_slow_function, __pyx_t_2, __pyx_t_13); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 400, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_7);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_FV_temp, __pyx_t_7);
-            __pyx_t_7 = 0;
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __Pyx_XDECREF_SET(__pyx_v_FL_temp, __pyx_t_13);
+            __pyx_t_13 = 0;
+
+            /* "TwitchBasedMuscleModel_noTendon.pyx":411
+ *                     else:
+ *                         FL_temp = FL_fast_function(Lce);
+ *                         if Vce > 0:             # <<<<<<<<<<<<<<
+ *                             FV_temp = FV_ecc_fast_function(Lce,Vce);
+ *                         else:
+ */
+            __pyx_t_19 = ((__pyx_v_Vce > 0) != 0);
+            if (__pyx_t_19) {
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":412
+ *                         FL_temp = FL_fast_function(Lce);
+ *                         if Vce > 0:
+ *                             FV_temp = FV_ecc_fast_function(Lce,Vce);             # <<<<<<<<<<<<<<
+ *                         else:
+ *                             FV_temp = FV_con_fast_function(Lce,Vce);
+ */
+              __pyx_t_13 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 412, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __pyx_t_5 = __Pyx_PyInt_From_long(__pyx_v_Vce); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 412, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_4 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_26FV_ecc_fast_function(__pyx_v_FV_ecc_fast_function, __pyx_t_13, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 412, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __Pyx_XDECREF_SET(__pyx_v_FV_temp, __pyx_t_4);
+              __pyx_t_4 = 0;
+
+              /* "TwitchBasedMuscleModel_noTendon.pyx":411
+ *                     else:
+ *                         FL_temp = FL_fast_function(Lce);
+ *                         if Vce > 0:             # <<<<<<<<<<<<<<
+ *                             FV_temp = FV_ecc_fast_function(Lce,Vce);
+ *                         else:
+ */
+              goto __pyx_L28;
+            }
+
+            /* "TwitchBasedMuscleModel_noTendon.pyx":414
+ *                             FV_temp = FV_ecc_fast_function(Lce,Vce);
+ *                         else:
+ *                             FV_temp = FV_con_fast_function(Lce,Vce);             # <<<<<<<<<<<<<<
+ * 
+ *                     force[n,t] = force[n,t] #*FL_temp*FV_temp;
+ */
+            /*else*/ {
+              __pyx_t_4 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 414, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_4);
+              __pyx_t_5 = __Pyx_PyInt_From_long(__pyx_v_Vce); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 414, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_13 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_22FV_con_fast_function(__pyx_v_FV_con_fast_function, __pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 414, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_13);
+              __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __Pyx_XDECREF_SET(__pyx_v_FV_temp, __pyx_t_13);
+              __pyx_t_13 = 0;
+            }
+            __pyx_L28:;
           }
           __pyx_L26:;
 
-          /* "TwitchBasedMuscleModel_noTendon.pyx":395
- *                         else:
- *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + twitch[0:len(time_sim)-t];
- *                 if n <= index_slow:             # <<<<<<<<<<<<<<
- *                     FL_temp = FL_slow_function(Lce);
- *                     if Vce > 0:
- */
-          goto __pyx_L25;
-        }
-
-        /* "TwitchBasedMuscleModel_noTendon.pyx":402
- *                         FV_temp = FV_con_slow_function(Lce,Vce);
- *                 else:
- *                     FL_temp = FL_fast_function(Lce);             # <<<<<<<<<<<<<<
- *                     if Vce > 0:
- *                         FV_temp = FV_ecc_fast_function(Lce,Vce);
- */
-        /*else*/ {
-          __pyx_t_7 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 402, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_13 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_18FL_fast_function(__pyx_v_FL_fast_function, __pyx_t_7); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 402, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_FL_temp, __pyx_t_13);
-          __pyx_t_13 = 0;
-
-          /* "TwitchBasedMuscleModel_noTendon.pyx":403
- *                 else:
- *                     FL_temp = FL_fast_function(Lce);
- *                     if Vce > 0:             # <<<<<<<<<<<<<<
- *                         FV_temp = FV_ecc_fast_function(Lce,Vce);
- *                     else:
- */
-          __pyx_t_18 = ((__pyx_v_Vce > 0) != 0);
-          if (__pyx_t_18) {
-
-            /* "TwitchBasedMuscleModel_noTendon.pyx":404
- *                     FL_temp = FL_fast_function(Lce);
- *                     if Vce > 0:
- *                         FV_temp = FV_ecc_fast_function(Lce,Vce);             # <<<<<<<<<<<<<<
- *                     else:
- *                         FV_temp = FV_con_fast_function(Lce,Vce);
- */
-            __pyx_t_13 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 404, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_7 = __Pyx_PyInt_From_long(__pyx_v_Vce); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 404, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_7);
-            __pyx_t_2 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_26FV_ecc_fast_function(__pyx_v_FV_ecc_fast_function, __pyx_t_13, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 404, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_FV_temp, __pyx_t_2);
-            __pyx_t_2 = 0;
-
-            /* "TwitchBasedMuscleModel_noTendon.pyx":403
- *                 else:
- *                     FL_temp = FL_fast_function(Lce);
- *                     if Vce > 0:             # <<<<<<<<<<<<<<
- *                         FV_temp = FV_ecc_fast_function(Lce,Vce);
- *                     else:
- */
-            goto __pyx_L27;
-          }
-
-          /* "TwitchBasedMuscleModel_noTendon.pyx":406
- *                         FV_temp = FV_ecc_fast_function(Lce,Vce);
- *                     else:
- *                         FV_temp = FV_con_fast_function(Lce,Vce);             # <<<<<<<<<<<<<<
+          /* "TwitchBasedMuscleModel_noTendon.pyx":416
+ *                             FV_temp = FV_con_fast_function(Lce,Vce);
  * 
- *                 force[n,t] = force[n,t] #*FL_temp*FV_temp;
- */
-          /*else*/ {
-            __pyx_t_2 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 406, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_7 = __Pyx_PyInt_From_long(__pyx_v_Vce); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 406, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_7);
-            __pyx_t_13 = __pyx_pf_31TwitchBasedMuscleModel_noTendon_22TwitchBasedMuscleModel_22FV_con_fast_function(__pyx_v_FV_con_fast_function, __pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 406, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_FV_temp, __pyx_t_13);
-            __pyx_t_13 = 0;
-          }
-          __pyx_L27:;
-        }
-        __pyx_L25:;
-
-        /* "TwitchBasedMuscleModel_noTendon.pyx":408
- *                         FV_temp = FV_con_fast_function(Lce,Vce);
- * 
- *                 force[n,t] = force[n,t] #*FL_temp*FV_temp;             # <<<<<<<<<<<<<<
+ *                     force[n,t] = force[n,t] #*FL_temp*FV_temp;             # <<<<<<<<<<<<<<
  * 
  *         #FP1 = F_pe_1_function(Lce/Lmax,Vce);
  */
-        __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 408, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_13);
-        __Pyx_INCREF(__pyx_v_n);
-        __Pyx_GIVEREF(__pyx_v_n);
-        PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_v_n);
-        __Pyx_INCREF(__pyx_v_t);
-        __Pyx_GIVEREF(__pyx_v_t);
-        PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_v_t);
-        __pyx_t_7 = PyObject_GetItem(__pyx_v_force, __pyx_t_13); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 408, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-        __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 408, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_13);
-        __Pyx_INCREF(__pyx_v_n);
-        __Pyx_GIVEREF(__pyx_v_n);
-        PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_v_n);
-        __Pyx_INCREF(__pyx_v_t);
-        __Pyx_GIVEREF(__pyx_v_t);
-        PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_v_t);
-        if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_13, __pyx_t_7) < 0)) __PYX_ERR(0, 408, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+          __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 416, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_13);
+          __Pyx_INCREF(__pyx_v_n);
+          __Pyx_GIVEREF(__pyx_v_n);
+          PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_v_n);
+          __Pyx_INCREF(__pyx_v_t);
+          __Pyx_GIVEREF(__pyx_v_t);
+          PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_v_t);
+          __pyx_t_5 = PyObject_GetItem(__pyx_v_force, __pyx_t_13); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 416, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+          __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 416, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_13);
+          __Pyx_INCREF(__pyx_v_n);
+          __Pyx_GIVEREF(__pyx_v_n);
+          PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_v_n);
+          __Pyx_INCREF(__pyx_v_t);
+          __Pyx_GIVEREF(__pyx_v_t);
+          PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_v_t);
+          if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_13, __pyx_t_5) < 0)) __PYX_ERR(0, 416, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        }
+
+        /* "TwitchBasedMuscleModel_noTendon.pyx":351
+ *             index = np.append(index_1,index_2);
+ * 
+ *             if index.size != 0:             # <<<<<<<<<<<<<<
+ *                 for j in xrange(len(index)):
+ *                     n = index[j];
+ */
       }
 
-      /* "TwitchBasedMuscleModel_noTendon.pyx":347
- *         index = np.append(index_1,index_2);
+      /* "TwitchBasedMuscleModel_noTendon.pyx":346
+ *                     FF[k] = Af_cor_fast_function(f_env[k],Lce,S_vec[k]);
  * 
- *         if index.size != 0:             # <<<<<<<<<<<<<<
- *             for j in xrange(len(index)):
- *                 n = index[j];
+ *         if t > 1:             # <<<<<<<<<<<<<<
+ *             index_1 = np.where(np.logical_and(FR >= MFR_MU,FR_mat[:,t-1] < MFR_MU));
+ *             index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));
  */
     }
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":415
+    /* "TwitchBasedMuscleModel_noTendon.pyx":423
  *         #    FP2 = 0;
  * 
  *         Force = np.sum(force[:,t])             # <<<<<<<<<<<<<<
  *         #+ FP1*F0 + FP2*F0
  * 
  */
-    __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_sum); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 415, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_sum); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 423, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
-    __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 415, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_INCREF(__pyx_slice__42);
-    __Pyx_GIVEREF(__pyx_slice__42);
-    PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_slice__42);
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 423, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_INCREF(__pyx_slice__45);
+    __Pyx_GIVEREF(__pyx_slice__45);
+    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_slice__45);
     __Pyx_INCREF(__pyx_v_t);
     __Pyx_GIVEREF(__pyx_v_t);
-    PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_t);
-    __pyx_t_15 = PyObject_GetItem(__pyx_v_force, __pyx_t_2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 415, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = NULL;
+    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_v_t);
+    __pyx_t_16 = PyObject_GetItem(__pyx_v_force, __pyx_t_4); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 423, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_16);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
-      __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_13);
-      if (likely(__pyx_t_2)) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_13);
+      if (likely(__pyx_t_4)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
-        __Pyx_INCREF(__pyx_t_2);
+        __Pyx_INCREF(__pyx_t_4);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_13, function);
       }
     }
-    if (!__pyx_t_2) {
-      __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_t_15); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 415, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-      __Pyx_GOTREF(__pyx_t_7);
+    if (!__pyx_t_4) {
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_t_16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 423, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_13)) {
-        PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_15};
-        __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_13, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 415, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+        PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_16};
+        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_13, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 423, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
       } else
       #endif
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_13)) {
-        PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_15};
-        __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_13, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 415, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+        PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_16};
+        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_13, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 423, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
       } else
       #endif
       {
-        __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 415, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2); __pyx_t_2 = NULL;
-        __Pyx_GIVEREF(__pyx_t_15);
-        PyTuple_SET_ITEM(__pyx_t_1, 0+1, __pyx_t_15);
-        __pyx_t_15 = 0;
-        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_1, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 415, __pyx_L1_error)
+        __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 423, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
+        __Pyx_GIVEREF(__pyx_t_16);
+        PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_16);
+        __pyx_t_16 = 0;
+        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 423, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_Force, __pyx_t_7);
-    __pyx_t_7 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_Force, __pyx_t_5);
+    __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":420
+    /* "TwitchBasedMuscleModel_noTendon.pyx":428
  * 
  *         #ForceSE_vec[t] = ForceSE;
  *         Force_vec[t] = Force;             # <<<<<<<<<<<<<<
  *         Lce_vec[t] = Lce;
  *         U_eff_vec[t] = U_eff;
  */
-    if (unlikely(PyObject_SetItem(__pyx_v_Force_vec, __pyx_v_t, __pyx_v_Force) < 0)) __PYX_ERR(0, 420, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_Force_vec, __pyx_v_t, __pyx_v_Force) < 0)) __PYX_ERR(0, 428, __pyx_L1_error)
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":421
+    /* "TwitchBasedMuscleModel_noTendon.pyx":429
  *         #ForceSE_vec[t] = ForceSE;
  *         Force_vec[t] = Force;
  *         Lce_vec[t] = Lce;             # <<<<<<<<<<<<<<
  *         U_eff_vec[t] = U_eff;
- *         f_env_vec[t] = f_env[-1];
+ *         f_env_vec[t] = f_env[0];
  */
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 421, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (unlikely(PyObject_SetItem(__pyx_v_Lce_vec, __pyx_v_t, __pyx_t_7) < 0)) __PYX_ERR(0, 421, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 429, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(PyObject_SetItem(__pyx_v_Lce_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 429, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":422
+    /* "TwitchBasedMuscleModel_noTendon.pyx":430
  *         Force_vec[t] = Force;
  *         Lce_vec[t] = Lce;
  *         U_eff_vec[t] = U_eff;             # <<<<<<<<<<<<<<
- *         f_env_vec[t] = f_env[-1];
- *         Af_vec[t] = Af[-1];
+ *         f_env_vec[t] = f_env[0];
+ *         FR_vec[t] = FR[0];
  */
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 422, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (unlikely(PyObject_SetItem(__pyx_v_U_eff_vec, __pyx_v_t, __pyx_t_7) < 0)) __PYX_ERR(0, 422, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 430, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(PyObject_SetItem(__pyx_v_U_eff_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 430, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":423
+    /* "TwitchBasedMuscleModel_noTendon.pyx":431
  *         Lce_vec[t] = Lce;
  *         U_eff_vec[t] = U_eff;
- *         f_env_vec[t] = f_env[-1];             # <<<<<<<<<<<<<<
- *         Af_vec[t] = Af[-1];
- *         FF_vec[t] = FF[-1];
+ *         f_env_vec[t] = f_env[0];             # <<<<<<<<<<<<<<
+ *         FR_vec[t] = FR[0];
+ *         Af_vec[t] = Af[0];
  */
-    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_f_env, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 423, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (unlikely(PyObject_SetItem(__pyx_v_f_env_vec, __pyx_v_t, __pyx_t_7) < 0)) __PYX_ERR(0, 423, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_f_env, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 431, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(PyObject_SetItem(__pyx_v_f_env_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 431, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":424
+    /* "TwitchBasedMuscleModel_noTendon.pyx":432
  *         U_eff_vec[t] = U_eff;
- *         f_env_vec[t] = f_env[-1];
- *         Af_vec[t] = Af[-1];             # <<<<<<<<<<<<<<
- *         FF_vec[t] = FF[-1];
- *         S_vec_store[t] = S_vec[-1];
+ *         f_env_vec[t] = f_env[0];
+ *         FR_vec[t] = FR[0];             # <<<<<<<<<<<<<<
+ *         Af_vec[t] = Af[0];
+ *         FF_vec[t] = FF[0];
  */
-    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_Af, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 424, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (unlikely(PyObject_SetItem(__pyx_v_Af_vec, __pyx_v_t, __pyx_t_7) < 0)) __PYX_ERR(0, 424, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_FR, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 432, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(PyObject_SetItem(__pyx_v_FR_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 432, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":425
- *         f_env_vec[t] = f_env[-1];
- *         Af_vec[t] = Af[-1];
- *         FF_vec[t] = FF[-1];             # <<<<<<<<<<<<<<
- *         S_vec_store[t] = S_vec[-1];
+    /* "TwitchBasedMuscleModel_noTendon.pyx":433
+ *         f_env_vec[t] = f_env[0];
+ *         FR_vec[t] = FR[0];
+ *         Af_vec[t] = Af[0];             # <<<<<<<<<<<<<<
+ *         FF_vec[t] = FF[0];
+ *         S_vec_store[t] = S_vec[0];
+ */
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_Af, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 433, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(PyObject_SetItem(__pyx_v_Af_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 433, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "TwitchBasedMuscleModel_noTendon.pyx":434
+ *         FR_vec[t] = FR[0];
+ *         Af_vec[t] = Af[0];
+ *         FF_vec[t] = FF[0];             # <<<<<<<<<<<<<<
+ *         S_vec_store[t] = S_vec[0];
+ *         spike_time_vec[t] = spike_time[0];
+ */
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_FF, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 434, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(PyObject_SetItem(__pyx_v_FF_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 434, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "TwitchBasedMuscleModel_noTendon.pyx":435
+ *         Af_vec[t] = Af[0];
+ *         FF_vec[t] = FF[0];
+ *         S_vec_store[t] = S_vec[0];             # <<<<<<<<<<<<<<
+ *         spike_time_vec[t] = spike_time[0];
+ *         #index_vec[t] = index[0];
+ */
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_S_vec, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 435, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(PyObject_SetItem(__pyx_v_S_vec_store, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 435, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "TwitchBasedMuscleModel_noTendon.pyx":436
+ *         FF_vec[t] = FF[0];
+ *         S_vec_store[t] = S_vec[0];
+ *         spike_time_vec[t] = spike_time[0];             # <<<<<<<<<<<<<<
+ *         #index_vec[t] = index[0];
  * 
  */
-    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_FF, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 425, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (unlikely(PyObject_SetItem(__pyx_v_FF_vec, __pyx_v_t, __pyx_t_7) < 0)) __PYX_ERR(0, 425, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_spike_time, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 436, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(PyObject_SetItem(__pyx_v_spike_time_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 436, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_noTendon.pyx":426
- *         Af_vec[t] = Af[-1];
- *         FF_vec[t] = FF[-1];
- *         S_vec_store[t] = S_vec[-1];             # <<<<<<<<<<<<<<
- * 
- *     end_time = time.time()
- */
-    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_S_vec, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 426, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (unlikely(PyObject_SetItem(__pyx_v_S_vec_store, __pyx_v_t, __pyx_t_7) < 0)) __PYX_ERR(0, 426, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-    /* "TwitchBasedMuscleModel_noTendon.pyx":305
+    /* "TwitchBasedMuscleModel_noTendon.pyx":309
  *     cdef double ForceSE = F_se_function(Lse) * F0;
  * 
  *     for t in xrange(len(time_sim)):             # <<<<<<<<<<<<<<
@@ -11377,98 +11807,100 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
  *         U = Input[t];
  */
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":428
- *         S_vec_store[t] = S_vec[-1];
+  /* "TwitchBasedMuscleModel_noTendon.pyx":439
+ *         #index_vec[t] = index[0];
  * 
  *     end_time = time.time()             # <<<<<<<<<<<<<<
  *     print(end_time - start_time)
  * 
  */
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_time); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 428, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_time); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 439, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_13 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_7);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_5);
     if (likely(__pyx_t_13)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_13);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_7, function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
     }
   }
   if (__pyx_t_13) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_13); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 428, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_13); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 439, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
   } else {
-    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 428, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 439, __pyx_L1_error)
   }
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_v_end_time = __pyx_t_4;
-  __pyx_t_4 = 0;
+  __Pyx_GOTREF(__pyx_t_14);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_end_time = __pyx_t_14;
+  __pyx_t_14 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":429
+  /* "TwitchBasedMuscleModel_noTendon.pyx":440
  * 
  *     end_time = time.time()
  *     print(end_time - start_time)             # <<<<<<<<<<<<<<
  * 
  *     output = {'Time':time_sim, 'Muscle Force':Force_vec, 'Input': Input,
  */
-  __pyx_t_4 = PyNumber_Subtract(__pyx_v_end_time, __pyx_v_start_time); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 429, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (__Pyx_PrintOne(0, __pyx_t_4) < 0) __PYX_ERR(0, 429, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_14 = PyNumber_Subtract(__pyx_v_end_time, __pyx_v_start_time); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 440, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  if (__Pyx_PrintOne(0, __pyx_t_14) < 0) __PYX_ERR(0, 440, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":431
+  /* "TwitchBasedMuscleModel_noTendon.pyx":442
  *     print(end_time - start_time)
  * 
  *     output = {'Time':time_sim, 'Muscle Force':Force_vec, 'Input': Input,             # <<<<<<<<<<<<<<
  *               'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec,
  *               'U_eff': U_eff_vec,'f_env':f_env_vec, 'Af':Af_vec,'FF':FF_vec,
  */
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 431, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_Time, __pyx_v_time_sim) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Muscle_Force, __pyx_v_Force_vec) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_Input, __pyx_v_Input) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyDict_NewPresized(13); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 442, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  if (PyDict_SetItem(__pyx_t_14, __pyx_n_s_Time, __pyx_v_time_sim) < 0) __PYX_ERR(0, 442, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_14, __pyx_kp_s_Muscle_Force, __pyx_v_Force_vec) < 0) __PYX_ERR(0, 442, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_14, __pyx_n_s_Input, __pyx_v_Input) < 0) __PYX_ERR(0, 442, __pyx_L1_error)
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":432
+  /* "TwitchBasedMuscleModel_noTendon.pyx":443
  * 
  *     output = {'Time':time_sim, 'Muscle Force':Force_vec, 'Input': Input,
  *               'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec,             # <<<<<<<<<<<<<<
  *               'U_eff': U_eff_vec,'f_env':f_env_vec, 'Af':Af_vec,'FF':FF_vec,
- *               'S': S_vec_store}
+ *               'S': S_vec_store,'FR':FR_vec,'spike_time':spike_time_vec}
  */
-  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Twitch_Force, __pyx_v_force) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Spike_Train, __pyx_v_spike_train) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Muscle_Length, __pyx_v_Lce_vec) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_14, __pyx_kp_s_Twitch_Force, __pyx_v_force) < 0) __PYX_ERR(0, 442, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_14, __pyx_kp_s_Spike_Train, __pyx_v_spike_train) < 0) __PYX_ERR(0, 442, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_14, __pyx_kp_s_Muscle_Length, __pyx_v_Lce_vec) < 0) __PYX_ERR(0, 442, __pyx_L1_error)
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":433
+  /* "TwitchBasedMuscleModel_noTendon.pyx":444
  *     output = {'Time':time_sim, 'Muscle Force':Force_vec, 'Input': Input,
  *               'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec,
  *               'U_eff': U_eff_vec,'f_env':f_env_vec, 'Af':Af_vec,'FF':FF_vec,             # <<<<<<<<<<<<<<
- *               'S': S_vec_store}
+ *               'S': S_vec_store,'FR':FR_vec,'spike_time':spike_time_vec}
  * 
  */
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_U_eff, __pyx_v_U_eff_vec) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_f_env, __pyx_v_f_env_vec) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_Af, __pyx_v_Af_vec) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_FF, __pyx_v_FF_vec) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_14, __pyx_n_s_U_eff, __pyx_v_U_eff_vec) < 0) __PYX_ERR(0, 442, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_14, __pyx_n_s_f_env, __pyx_v_f_env_vec) < 0) __PYX_ERR(0, 442, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_14, __pyx_n_s_Af, __pyx_v_Af_vec) < 0) __PYX_ERR(0, 442, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_14, __pyx_n_s_FF, __pyx_v_FF_vec) < 0) __PYX_ERR(0, 442, __pyx_L1_error)
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":434
+  /* "TwitchBasedMuscleModel_noTendon.pyx":445
  *               'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec,
  *               'U_eff': U_eff_vec,'f_env':f_env_vec, 'Af':Af_vec,'FF':FF_vec,
- *               'S': S_vec_store}             # <<<<<<<<<<<<<<
+ *               'S': S_vec_store,'FR':FR_vec,'spike_time':spike_time_vec}             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_S, __pyx_v_S_vec_store) < 0) __PYX_ERR(0, 431, __pyx_L1_error)
-  __pyx_v_output = ((PyObject*)__pyx_t_4);
-  __pyx_t_4 = 0;
+  if (PyDict_SetItem(__pyx_t_14, __pyx_n_s_S, __pyx_v_S_vec_store) < 0) __PYX_ERR(0, 442, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_14, __pyx_n_s_FR, __pyx_v_FR_vec) < 0) __PYX_ERR(0, 442, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_14, __pyx_n_s_spike_time, __pyx_v_spike_time_vec) < 0) __PYX_ERR(0, 442, __pyx_L1_error)
+  __pyx_v_output = ((PyObject*)__pyx_t_14);
+  __pyx_t_14 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":437
+  /* "TwitchBasedMuscleModel_noTendon.pyx":448
  * 
  * 
  *     default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';             # <<<<<<<<<<<<<<
@@ -11478,7 +11910,7 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
   __Pyx_INCREF(__pyx_kp_s_Users_akiranagamori_Documents_G);
   __pyx_v_default_path = __pyx_kp_s_Users_akiranagamori_Documents_G;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":438
+  /* "TwitchBasedMuscleModel_noTendon.pyx":449
  * 
  *     default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';
  *     save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';             # <<<<<<<<<<<<<<
@@ -11488,102 +11920,102 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
   __Pyx_INCREF(__pyx_kp_s_Users_akiranagamori_Documents_G_2);
   __pyx_v_save_path = __pyx_kp_s_Users_akiranagamori_Documents_G_2;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":439
+  /* "TwitchBasedMuscleModel_noTendon.pyx":450
  *     default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';
  *     save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';
  *     os.chdir(save_path)             # <<<<<<<<<<<<<<
  *     np.save('output_temp.npy',output)
  *     os.chdir(default_path)
  */
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_os, __pyx_n_s_chdir); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 439, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_os, __pyx_n_s_chdir); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 450, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_13 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_7);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_5);
     if (likely(__pyx_t_13)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_13);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_7, function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
     }
   }
   if (!__pyx_t_13) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_v_save_path); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 439, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_14 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_save_path); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 450, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_14);
   } else {
     #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_7)) {
+    if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_v_save_path};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 439, __pyx_L1_error)
+      __pyx_t_14 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 450, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_GOTREF(__pyx_t_14);
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_v_save_path};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 439, __pyx_L1_error)
+      __pyx_t_14 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 450, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_GOTREF(__pyx_t_14);
     } else
     #endif
     {
-      __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 439, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_13); __pyx_t_13 = NULL;
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 450, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_13); __pyx_t_13 = NULL;
       __Pyx_INCREF(__pyx_v_save_path);
       __Pyx_GIVEREF(__pyx_v_save_path);
-      PyTuple_SET_ITEM(__pyx_t_1, 0+1, __pyx_v_save_path);
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_1, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 439, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_v_save_path);
+      __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 450, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":440
+  /* "TwitchBasedMuscleModel_noTendon.pyx":451
  *     save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';
  *     os.chdir(save_path)
  *     np.save('output_temp.npy',output)             # <<<<<<<<<<<<<<
  *     os.chdir(default_path)
  * 
  */
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_save); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 440, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_1 = NULL;
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_save); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 451, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_7 = NULL;
   __pyx_t_11 = 0;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_7);
-    if (likely(__pyx_t_1)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-      __Pyx_INCREF(__pyx_t_1);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_7, function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
       __pyx_t_11 = 1;
     }
   }
   #if CYTHON_FAST_PYCALL
-  if (PyFunction_Check(__pyx_t_7)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_kp_s_output_temp_npy, __pyx_v_output};
-    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 440, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_GOTREF(__pyx_t_4);
+  if (PyFunction_Check(__pyx_t_5)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_kp_s_output_temp_npy, __pyx_v_output};
+    __pyx_t_14 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 451, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_14);
   } else
   #endif
   #if CYTHON_FAST_PYCCALL
-  if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_kp_s_output_temp_npy, __pyx_v_output};
-    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 440, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_GOTREF(__pyx_t_4);
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_kp_s_output_temp_npy, __pyx_v_output};
+    __pyx_t_14 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 451, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_14);
   } else
   #endif
   {
-    __pyx_t_13 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 440, __pyx_L1_error)
+    __pyx_t_13 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 451, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
-    if (__pyx_t_1) {
-      __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_1); __pyx_t_1 = NULL;
+    if (__pyx_t_7) {
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_7); __pyx_t_7 = NULL;
     }
     __Pyx_INCREF(__pyx_kp_s_output_temp_npy);
     __Pyx_GIVEREF(__pyx_kp_s_output_temp_npy);
@@ -11591,154 +12023,154 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
     __Pyx_INCREF(__pyx_v_output);
     __Pyx_GIVEREF(__pyx_v_output);
     PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_11, __pyx_v_output);
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_13, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 440, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_13, NULL); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 451, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_14);
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
   }
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":441
+  /* "TwitchBasedMuscleModel_noTendon.pyx":452
  *     os.chdir(save_path)
  *     np.save('output_temp.npy',output)
  *     os.chdir(default_path)             # <<<<<<<<<<<<<<
  * 
  *     fig1 = plt.figure()
  */
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_os, __pyx_n_s_chdir); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 441, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_os, __pyx_n_s_chdir); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 452, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_13 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_7);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_5);
     if (likely(__pyx_t_13)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_13);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_7, function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
     }
   }
   if (!__pyx_t_13) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_v_default_path); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 441, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_14 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_default_path); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 452, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_14);
   } else {
     #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_7)) {
+    if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_v_default_path};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 441, __pyx_L1_error)
+      __pyx_t_14 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 452, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_GOTREF(__pyx_t_14);
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_v_default_path};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 441, __pyx_L1_error)
+      __pyx_t_14 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 452, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_GOTREF(__pyx_t_14);
     } else
     #endif
     {
-      __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 441, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_13); __pyx_t_13 = NULL;
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 452, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_13); __pyx_t_13 = NULL;
       __Pyx_INCREF(__pyx_v_default_path);
       __Pyx_GIVEREF(__pyx_v_default_path);
-      PyTuple_SET_ITEM(__pyx_t_1, 0+1, __pyx_v_default_path);
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_1, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 441, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_v_default_path);
+      __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 452, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":443
+  /* "TwitchBasedMuscleModel_noTendon.pyx":454
  *     os.chdir(default_path)
  * 
  *     fig1 = plt.figure()             # <<<<<<<<<<<<<<
  *     ax1 = fig1.add_subplot(111)
  *     ax1.plot(time_sim,Force_vec)
  */
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_plt, __pyx_n_s_figure); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 443, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_1 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_7);
-    if (likely(__pyx_t_1)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
-      __Pyx_INCREF(__pyx_t_1);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_plt, __pyx_n_s_figure); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 454, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_7, function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
     }
   }
-  if (__pyx_t_1) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 443, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (__pyx_t_7) {
+    __pyx_t_14 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 454, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   } else {
-    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 443, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 454, __pyx_L1_error)
   }
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_v_fig1 = __pyx_t_4;
-  __pyx_t_4 = 0;
+  __Pyx_GOTREF(__pyx_t_14);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_fig1 = __pyx_t_14;
+  __pyx_t_14 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":444
+  /* "TwitchBasedMuscleModel_noTendon.pyx":455
  * 
  *     fig1 = plt.figure()
  *     ax1 = fig1.add_subplot(111)             # <<<<<<<<<<<<<<
  *     ax1.plot(time_sim,Force_vec)
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_fig1, __pyx_n_s_add_subplot); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 444, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 444, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_ax1 = __pyx_t_7;
-  __pyx_t_7 = 0;
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_v_fig1, __pyx_n_s_add_subplot); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 455, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_tuple__46, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 455, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __pyx_v_ax1 = __pyx_t_5;
+  __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":445
+  /* "TwitchBasedMuscleModel_noTendon.pyx":456
  *     fig1 = plt.figure()
  *     ax1 = fig1.add_subplot(111)
  *     ax1.plot(time_sim,Force_vec)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_ax1, __pyx_n_s_plot); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 445, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = NULL;
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_v_ax1, __pyx_n_s_plot); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 456, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_7 = NULL;
   __pyx_t_11 = 0;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_1)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_1);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_14);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
       __pyx_t_11 = 1;
     }
   }
   #if CYTHON_FAST_PYCALL
-  if (PyFunction_Check(__pyx_t_4)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_time_sim, __pyx_v_Force_vec};
-    __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 445, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_GOTREF(__pyx_t_7);
+  if (PyFunction_Check(__pyx_t_14)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_v_time_sim, __pyx_v_Force_vec};
+    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 456, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
   } else
   #endif
   #if CYTHON_FAST_PYCCALL
-  if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_time_sim, __pyx_v_Force_vec};
-    __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 445, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_GOTREF(__pyx_t_7);
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_v_time_sim, __pyx_v_Force_vec};
+    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 456, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
   } else
   #endif
   {
-    __pyx_t_13 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 445, __pyx_L1_error)
+    __pyx_t_13 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 456, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
-    if (__pyx_t_1) {
-      __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_1); __pyx_t_1 = NULL;
+    if (__pyx_t_7) {
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_7); __pyx_t_7 = NULL;
     }
     __Pyx_INCREF(__pyx_v_time_sim);
     __Pyx_GIVEREF(__pyx_v_time_sim);
@@ -11746,99 +12178,99 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
     __Pyx_INCREF(__pyx_v_Force_vec);
     __Pyx_GIVEREF(__pyx_v_Force_vec);
     PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_11, __pyx_v_Force_vec);
-    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_13, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 445, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_13, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 456, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":452
+  /* "TwitchBasedMuscleModel_noTendon.pyx":463
  * #    ax2.plot(time_sim,Lce_vec)
  * 
  *     plt.show()             # <<<<<<<<<<<<<<
  *     plt.plot(time_sim,ForceSE_vec)
  *     return (Force_vec,ForceSE_vec);
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_plt, __pyx_n_s_show); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 452, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_v_plt, __pyx_n_s_show); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 463, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
   __pyx_t_13 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_4);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_14);
     if (likely(__pyx_t_13)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
       __Pyx_INCREF(__pyx_t_13);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
     }
   }
   if (__pyx_t_13) {
-    __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_13); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 452, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_13); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 463, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
   } else {
-    __pyx_t_7 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 452, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 463, __pyx_L1_error)
   }
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":453
+  /* "TwitchBasedMuscleModel_noTendon.pyx":464
  * 
  *     plt.show()
  *     plt.plot(time_sim,ForceSE_vec)             # <<<<<<<<<<<<<<
  *     return (Force_vec,ForceSE_vec);
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_plt, __pyx_n_s_plot); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 453, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_v_plt, __pyx_n_s_plot); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 464, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
   __pyx_t_13 = NULL;
   __pyx_t_11 = 0;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_4);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_14))) {
+    __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_14);
     if (likely(__pyx_t_13)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
       __Pyx_INCREF(__pyx_t_13);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __Pyx_DECREF_SET(__pyx_t_14, function);
       __pyx_t_11 = 1;
     }
   }
   #if CYTHON_FAST_PYCALL
-  if (PyFunction_Check(__pyx_t_4)) {
+  if (PyFunction_Check(__pyx_t_14)) {
     PyObject *__pyx_temp[3] = {__pyx_t_13, __pyx_v_time_sim, __pyx_v_ForceSE_vec};
-    __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 453, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_GOTREF(__pyx_t_5);
   } else
   #endif
   #if CYTHON_FAST_PYCCALL
-  if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
     PyObject *__pyx_temp[3] = {__pyx_t_13, __pyx_v_time_sim, __pyx_v_ForceSE_vec};
-    __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 453, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 464, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-    __Pyx_GOTREF(__pyx_t_7);
+    __Pyx_GOTREF(__pyx_t_5);
   } else
   #endif
   {
-    __pyx_t_1 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 453, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 464, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_13) {
-      __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_13); __pyx_t_13 = NULL;
+      __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_13); __pyx_t_13 = NULL;
     }
     __Pyx_INCREF(__pyx_v_time_sim);
     __Pyx_GIVEREF(__pyx_v_time_sim);
-    PyTuple_SET_ITEM(__pyx_t_1, 0+__pyx_t_11, __pyx_v_time_sim);
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_11, __pyx_v_time_sim);
     __Pyx_INCREF(__pyx_v_ForceSE_vec);
     __Pyx_GIVEREF(__pyx_v_ForceSE_vec);
-    PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_11, __pyx_v_ForceSE_vec);
-    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_1, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 453, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_11, __pyx_v_ForceSE_vec);
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 464, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":454
+  /* "TwitchBasedMuscleModel_noTendon.pyx":465
  *     plt.show()
  *     plt.plot(time_sim,ForceSE_vec)
  *     return (Force_vec,ForceSE_vec);             # <<<<<<<<<<<<<<
@@ -11846,16 +12278,16 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 454, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 465, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_INCREF(__pyx_v_Force_vec);
   __Pyx_GIVEREF(__pyx_v_Force_vec);
-  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_v_Force_vec);
+  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_Force_vec);
   __Pyx_INCREF(__pyx_v_ForceSE_vec);
   __Pyx_GIVEREF(__pyx_v_ForceSE_vec);
-  PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_v_ForceSE_vec);
-  __pyx_r = __pyx_t_7;
-  __pyx_t_7 = 0;
+  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_v_ForceSE_vec);
+  __pyx_r = __pyx_t_5;
+  __pyx_t_5 = 0;
   goto __pyx_L0;
 
   /* "TwitchBasedMuscleModel_noTendon.pyx":16
@@ -11877,6 +12309,7 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
   __Pyx_XDECREF(__pyx_t_13);
   __Pyx_XDECREF(__pyx_t_14);
   __Pyx_XDECREF(__pyx_t_15);
+  __Pyx_XDECREF(__pyx_t_16);
   __Pyx_AddTraceback("TwitchBasedMuscleModel_noTendon.TwitchBasedMuscleModel", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -11936,9 +12369,12 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
   __Pyx_XDECREF(__pyx_v_Ace_vec);
   __Pyx_XDECREF(__pyx_v_U_eff_vec);
   __Pyx_XDECREF(__pyx_v_f_env_vec);
+  __Pyx_XDECREF(__pyx_v_FR_vec);
+  __Pyx_XDECREF(__pyx_v_FR_mat);
   __Pyx_XDECREF(__pyx_v_Af_vec);
   __Pyx_XDECREF(__pyx_v_FF_vec);
   __Pyx_XDECREF(__pyx_v_S_vec_store);
+  __Pyx_XDECREF(__pyx_v_spike_time_vec);
   __Pyx_XDECREF(__pyx_v_Y_vec);
   __Pyx_XDECREF(__pyx_v_S_vec);
   __Pyx_XDECREF(__pyx_v_Y_temp);
@@ -11951,7 +12387,6 @@ static PyObject *__pyx_pf_31TwitchBasedMuscleModel_noTendon_TwitchBasedMuscleMod
   __Pyx_XDECREF(__pyx_v_FR);
   __Pyx_XDECREF(__pyx_v_f_env);
   __Pyx_XDECREF(__pyx_v_force_half);
-  __Pyx_XDECREF(__pyx_v_index_temp1);
   __Pyx_XDECREF(__pyx_v_index_1);
   __Pyx_XDECREF(__pyx_v_index_2);
   __Pyx_XDECREF(__pyx_v_index);
@@ -12137,6 +12572,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_FR, __pyx_k_FR, sizeof(__pyx_k_FR), 0, 0, 1, 1},
   {&__pyx_n_s_FR_half, __pyx_k_FR_half, sizeof(__pyx_k_FR_half), 0, 0, 1, 1},
   {&__pyx_n_s_FR_half_n, __pyx_k_FR_half_n, sizeof(__pyx_k_FR_half_n), 0, 0, 1, 1},
+  {&__pyx_n_s_FR_mat, __pyx_k_FR_mat, sizeof(__pyx_k_FR_mat), 0, 0, 1, 1},
+  {&__pyx_n_s_FR_vec, __pyx_k_FR_vec, sizeof(__pyx_k_FR_vec), 0, 0, 1, 1},
   {&__pyx_n_s_FV_con_fast_function, __pyx_k_FV_con_fast_function, sizeof(__pyx_k_FV_con_fast_function), 0, 0, 1, 1},
   {&__pyx_n_s_FV_con_slow_function, __pyx_k_FV_con_slow_function, sizeof(__pyx_k_FV_con_slow_function), 0, 0, 1, 1},
   {&__pyx_n_s_FV_ecc_fast_function, __pyx_k_FV_ecc_fast_function, sizeof(__pyx_k_FV_ecc_fast_function), 0, 0, 1, 1},
@@ -12264,7 +12701,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_a_s, __pyx_k_a_s, sizeof(__pyx_k_a_s), 0, 0, 1, 1},
   {&__pyx_n_s_a_twitch, __pyx_k_a_twitch, sizeof(__pyx_k_a_twitch), 0, 0, 1, 1},
   {&__pyx_n_s_add_subplot, __pyx_k_add_subplot, sizeof(__pyx_k_add_subplot), 0, 0, 1, 1},
-  {&__pyx_n_s_all, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
   {&__pyx_n_s_alpha, __pyx_k_alpha, sizeof(__pyx_k_alpha), 0, 0, 1, 1},
   {&__pyx_n_s_amp, __pyx_k_amp, sizeof(__pyx_k_amp), 0, 0, 1, 1},
   {&__pyx_n_s_any, __pyx_k_any, sizeof(__pyx_k_any), 0, 0, 1, 1},
@@ -12316,7 +12752,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_index_1, __pyx_k_index_1, sizeof(__pyx_k_index_1), 0, 0, 1, 1},
   {&__pyx_n_s_index_2, __pyx_k_index_2, sizeof(__pyx_k_index_2), 0, 0, 1, 1},
   {&__pyx_n_s_index_slow, __pyx_k_index_slow, sizeof(__pyx_k_index_slow), 0, 0, 1, 1},
-  {&__pyx_n_s_index_temp1, __pyx_k_index_temp1, sizeof(__pyx_k_index_temp1), 0, 0, 1, 1},
   {&__pyx_n_s_j, __pyx_k_j, sizeof(__pyx_k_j), 0, 0, 1, 1},
   {&__pyx_n_s_k, __pyx_k_k, sizeof(__pyx_k_k), 0, 0, 1, 1},
   {&__pyx_n_s_k1, __pyx_k_k1, sizeof(__pyx_k_k1), 0, 0, 1, 1},
@@ -12360,6 +12795,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
   {&__pyx_n_s_spike_time, __pyx_k_spike_time, sizeof(__pyx_k_spike_time), 0, 0, 1, 1},
   {&__pyx_n_s_spike_time_temp, __pyx_k_spike_time_temp, sizeof(__pyx_k_spike_time_temp), 0, 0, 1, 1},
+  {&__pyx_n_s_spike_time_vec, __pyx_k_spike_time_vec, sizeof(__pyx_k_spike_time_vec), 0, 0, 1, 1},
   {&__pyx_n_s_spike_train, __pyx_k_spike_train, sizeof(__pyx_k_spike_train), 0, 0, 1, 1},
   {&__pyx_n_s_start_time, __pyx_k_start_time, sizeof(__pyx_k_start_time), 0, 0, 1, 1},
   {&__pyx_n_s_step, __pyx_k_step, sizeof(__pyx_k_step), 0, 0, 1, 1},
@@ -12381,11 +12817,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 static int __Pyx_InitCachedBuiltins(void) {
   #if PY_MAJOR_VERSION >= 3
-  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_xrange) __PYX_ERR(0, 305, __pyx_L1_error)
+  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_xrange) __PYX_ERR(0, 309, __pyx_L1_error)
   #else
-  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_xrange); if (!__pyx_builtin_xrange) __PYX_ERR(0, 305, __pyx_L1_error)
+  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_xrange); if (!__pyx_builtin_xrange) __PYX_ERR(0, 309, __pyx_L1_error)
   #endif
-  __pyx_builtin_any = __Pyx_GetBuiltinName(__pyx_n_s_any); if (!__pyx_builtin_any) __PYX_ERR(0, 353, __pyx_L1_error)
+  __pyx_builtin_any = __Pyx_GetBuiltinName(__pyx_n_s_any); if (!__pyx_builtin_any) __PYX_ERR(0, 354, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -12611,71 +13047,104 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__36);
   __pyx_codeobj__37 = (PyObject*)__Pyx_PyCode_New(5, 0, 22, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_TwitchBasedMuscleModel_noTendon, __pyx_n_s_InitialLength, 167, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__37)) __PYX_ERR(0, 167, __pyx_L1_error)
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":323
- * 
+  /* "TwitchBasedMuscleModel_noTendon.pyx":325
+ *         FR = np.multiply((PFR_MU-MFR_MU)/(1-U_th),(U_eff-U_th)) + MFR_MU;
+ *         FR[FR<8] = 0;
+ *         FR_mat[:,t] = FR;             # <<<<<<<<<<<<<<
+ *         f_env = np.divide(FR,FR_half);
+ *         force_half = np.divide(force[:,t],Pi_half);
+ */
+  __pyx_slice__38 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__38)) __PYX_ERR(0, 325, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__38);
+  __Pyx_GIVEREF(__pyx_slice__38);
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":327
+ *         FR_mat[:,t] = FR;
  *         f_env = np.divide(FR,FR_half);
  *         force_half = np.divide(force[:,t],Pi_half);             # <<<<<<<<<<<<<<
  * 
  *         Y_temp = yield_function(Y_temp,Vce,step);
  */
-  __pyx_slice__38 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__38)) __PYX_ERR(0, 323, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_slice__38);
-  __Pyx_GIVEREF(__pyx_slice__38);
-
-  /* "TwitchBasedMuscleModel_noTendon.pyx":353
- *                     FR[n] = PFR_MU[n]
- * 
- *                 if any(spike_train[n,:]) != True:             # <<<<<<<<<<<<<<
- *                     spike_train[n,t] = 1;
- *                     mu = 1/float(FR[n]);
- */
-  __pyx_slice__39 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__39)) __PYX_ERR(0, 353, __pyx_L1_error)
+  __pyx_slice__39 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__39)) __PYX_ERR(0, 327, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__39);
   __Pyx_GIVEREF(__pyx_slice__39);
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":356
- *                     spike_train[n,t] = 1;
- *                     mu = 1/float(FR[n]);
- *                     Z = np.random.randn(1);             # <<<<<<<<<<<<<<
- *                     if Z > 3.9:
- *                         Z = 3.9
+  /* "TwitchBasedMuscleModel_noTendon.pyx":347
+ * 
+ *         if t > 1:
+ *             index_1 = np.where(np.logical_and(FR >= MFR_MU,FR_mat[:,t-1] < MFR_MU));             # <<<<<<<<<<<<<<
+ *             index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));
+ *             index = np.append(index_1,index_2);
  */
-  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(0, 356, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__40);
-  __Pyx_GIVEREF(__pyx_tuple__40);
+  __pyx_slice__40 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__40)) __PYX_ERR(0, 347, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__40);
+  __Pyx_GIVEREF(__pyx_slice__40);
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":373
+  /* "TwitchBasedMuscleModel_noTendon.pyx":354
+ *                 for j in xrange(len(index)):
+ *                     n = index[j];
+ *                     if any(spike_train[n,:]) != True:             # <<<<<<<<<<<<<<
+ *                         spike_train[n,t] = 1;
+ *                         mu = 1/float(FR[n]);
+ */
+  __pyx_slice__41 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__41)) __PYX_ERR(0, 354, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__41);
+  __Pyx_GIVEREF(__pyx_slice__41);
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":357
  *                         spike_train[n,t] = 1;
  *                         mu = 1/float(FR[n]);
  *                         Z = np.random.randn(1);             # <<<<<<<<<<<<<<
  *                         if Z > 3.9:
  *                             Z = 3.9
  */
-  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(0, 373, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__41);
-  __Pyx_GIVEREF(__pyx_tuple__41);
+  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(0, 357, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__42);
+  __Pyx_GIVEREF(__pyx_tuple__42);
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":415
+  /* "TwitchBasedMuscleModel_noTendon.pyx":374
+ *                             spike_train[n,t] = 1;
+ *                             mu = 1/float(FR[n]);
+ *                             Z = np.random.randn(1);             # <<<<<<<<<<<<<<
+ *                             if Z > 3.9:
+ *                                 Z = 3.9
+ */
+  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 374, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__43);
+  __Pyx_GIVEREF(__pyx_tuple__43);
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":390
+ *                             spike_train[n,t] = 1;
+ *                             mu = 1/float(FR[n]);
+ *                             Z = np.random.randn(1);             # <<<<<<<<<<<<<<
+ *                             if Z > 3.9:
+ *                                 Z = 3.9
+ */
+  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 390, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__44);
+  __Pyx_GIVEREF(__pyx_tuple__44);
+
+  /* "TwitchBasedMuscleModel_noTendon.pyx":423
  *         #    FP2 = 0;
  * 
  *         Force = np.sum(force[:,t])             # <<<<<<<<<<<<<<
  *         #+ FP1*F0 + FP2*F0
  * 
  */
-  __pyx_slice__42 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__42)) __PYX_ERR(0, 415, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_slice__42);
-  __Pyx_GIVEREF(__pyx_slice__42);
+  __pyx_slice__45 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__45)) __PYX_ERR(0, 423, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__45);
+  __Pyx_GIVEREF(__pyx_slice__45);
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":444
+  /* "TwitchBasedMuscleModel_noTendon.pyx":455
  * 
  *     fig1 = plt.figure()
  *     ax1 = fig1.add_subplot(111)             # <<<<<<<<<<<<<<
  *     ax1.plot(time_sim,Force_vec)
  * 
  */
-  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_int_111); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(0, 444, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__43);
-  __Pyx_GIVEREF(__pyx_tuple__43);
+  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_int_111); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 455, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__46);
+  __Pyx_GIVEREF(__pyx_tuple__46);
 
   /* "TwitchBasedMuscleModel_noTendon.pyx":16
  * from libc.math cimport sqrt
@@ -12684,10 +13153,10 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     import time
  */
-  __pyx_tuple__44 = PyTuple_Pack(151, __pyx_n_s_time, __pyx_n_s_np, __pyx_n_s_plt, __pyx_n_s_os, __pyx_n_s_sign, __pyx_n_s_sign, __pyx_n_s_yield_function, __pyx_n_s_yield_function, __pyx_n_s_sag_function, __pyx_n_s_sag_function, __pyx_n_s_Af_slow_function, __pyx_n_s_Af_slow_function, __pyx_n_s_Af_fast_function, __pyx_n_s_Af_fast_function, __pyx_n_s_Af_cor_slow_function, __pyx_n_s_Af_cor_slow_function, __pyx_n_s_Af_cor_fast_function, __pyx_n_s_Af_cor_fast_function, __pyx_n_s_twitch_function, __pyx_n_s_twitch_function, __pyx_n_s_FL_slow_function, __pyx_n_s_FL_slow_function, __pyx_n_s_FL_fast_function, __pyx_n_s_FL_fast_function, __pyx_n_s_FV_con_slow_function, __pyx_n_s_FV_con_slow_function, __pyx_n_s_FV_con_fast_function, __pyx_n_s_FV_con_fast_function, __pyx_n_s_FV_ecc_slow_function, __pyx_n_s_FV_ecc_slow_function, __pyx_n_s_FV_ecc_fast_function, __pyx_n_s_FV_ecc_fast_function, __pyx_n_s_F_pe_1_function, __pyx_n_s_F_pe_1_function, __pyx_n_s_F_pe_2_function, __pyx_n_s_F_pe_2_function, __pyx_n_s_F_se_function, __pyx_n_s_F_se_function, __pyx_n_s_InitialLength, __pyx_n_s_InitialLength, __pyx_n_s_Lse, __pyx_n_s_Lce, __pyx_n_s_Lmax, __pyx_n_s_L0, __pyx_n_s_alpha, __pyx_n_s_L_slack, __pyx_n_s_L0T, __pyx_n_s_Lce_initial, __pyx_n_s_Lt_initial, __pyx_n_s_Lmt, __pyx_n_s_density, __pyx_n_s_mass, __pyx_n_s_PCSA, __pyx_n_s_sigma, __pyx_n_s_F0, __pyx_n_s_Ur, __pyx_n_s_F_pcsa_slow, __pyx_n_s_N_MU, __pyx_n_s_i_MU, __pyx_n_s_RP_MU, __pyx_n_s_b_MU, __pyx_n_s_P_MU, __pyx_n_s_PTi, __pyx_n_s_Pi_half, __pyx_n_s_a_twitch, __pyx_n_s_b_twitch, __pyx_n_s_Pi, __pyx_n_s_index_slow, __pyx_n_s_Ur_1, __pyx_n_s_a_U_th, __pyx_n_s_b_U_th, __pyx_n_s_U_th, __pyx_n_s_MFR_MU, __pyx_n_s_PFR1_MU, __pyx_n_s_PFRD_MU, __pyx_n_s_RTEn_MU, __pyx_n_s_PFR_MU, __pyx_n_s_FR_half, __pyx_n_s_CT_n, __pyx_n_s_FR_half_n, __pyx_n_s_CT, __pyx_n_s_RT, __pyx_n_s_cv, __pyx_n_s_start_time, __pyx_n_s_Fs, __pyx_n_s_step, __pyx_n_s_h, __pyx_n_s_t_twitch, __pyx_n_s_m, __pyx_n_s_amp, __pyx_n_s_time_sim, __pyx_n_s_Input, __pyx_n_s_F_target, __pyx_n_s_MuscleVelocity, __pyx_n_s_MuscleLength, __pyx_n_s_U_eff, __pyx_n_s_Input_C_temp, __pyx_n_s_Input_C, __pyx_n_s_ND_temp, __pyx_n_s_Ace, __pyx_n_s_Vce, __pyx_n_s_Y, __pyx_n_s_S, __pyx_n_s_spike_train, __pyx_n_s_spike_time, __pyx_n_s_force, __pyx_n_s_Force_vec, __pyx_n_s_ForceSE_vec, __pyx_n_s_Lce_vec, __pyx_n_s_Vce_vec, __pyx_n_s_Ace_vec, __pyx_n_s_U_eff_vec, __pyx_n_s_f_env_vec, __pyx_n_s_Af_vec, __pyx_n_s_FF_vec, __pyx_n_s_S_vec_store, __pyx_n_s_Y_vec, __pyx_n_s_S_vec, __pyx_n_s_Y_temp, __pyx_n_s_S_temp, __pyx_n_s_Af, __pyx_n_s_FF, __pyx_n_s_ForceSE, __pyx_n_s_t, __pyx_n_s_U, __pyx_n_s_T_U, __pyx_n_s_U_eff_dot, __pyx_n_s_FR, __pyx_n_s_f_env, __pyx_n_s_force_half, __pyx_n_s_k, __pyx_n_s_index_temp1, __pyx_n_s_index_1, __pyx_n_s_index_2, __pyx_n_s_index, __pyx_n_s_j, __pyx_n_s_n, __pyx_n_s_mu, __pyx_n_s_Z, __pyx_n_s_spike_time_temp, __pyx_n_s_twitch_temp, __pyx_n_s_twitch, __pyx_n_s_FL_temp, __pyx_n_s_FV_temp, __pyx_n_s_Force, __pyx_n_s_end_time, __pyx_n_s_output, __pyx_n_s_default_path, __pyx_n_s_save_path, __pyx_n_s_fig1, __pyx_n_s_ax1); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 16, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__44);
-  __Pyx_GIVEREF(__pyx_tuple__44);
-  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(0, 0, 151, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_TwitchBasedMuscleModel_noTendon, __pyx_n_s_TwitchBasedMuscleModel, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __pyx_tuple__47 = PyTuple_Pack(153, __pyx_n_s_time, __pyx_n_s_np, __pyx_n_s_plt, __pyx_n_s_os, __pyx_n_s_sign, __pyx_n_s_sign, __pyx_n_s_yield_function, __pyx_n_s_yield_function, __pyx_n_s_sag_function, __pyx_n_s_sag_function, __pyx_n_s_Af_slow_function, __pyx_n_s_Af_slow_function, __pyx_n_s_Af_fast_function, __pyx_n_s_Af_fast_function, __pyx_n_s_Af_cor_slow_function, __pyx_n_s_Af_cor_slow_function, __pyx_n_s_Af_cor_fast_function, __pyx_n_s_Af_cor_fast_function, __pyx_n_s_twitch_function, __pyx_n_s_twitch_function, __pyx_n_s_FL_slow_function, __pyx_n_s_FL_slow_function, __pyx_n_s_FL_fast_function, __pyx_n_s_FL_fast_function, __pyx_n_s_FV_con_slow_function, __pyx_n_s_FV_con_slow_function, __pyx_n_s_FV_con_fast_function, __pyx_n_s_FV_con_fast_function, __pyx_n_s_FV_ecc_slow_function, __pyx_n_s_FV_ecc_slow_function, __pyx_n_s_FV_ecc_fast_function, __pyx_n_s_FV_ecc_fast_function, __pyx_n_s_F_pe_1_function, __pyx_n_s_F_pe_1_function, __pyx_n_s_F_pe_2_function, __pyx_n_s_F_pe_2_function, __pyx_n_s_F_se_function, __pyx_n_s_F_se_function, __pyx_n_s_InitialLength, __pyx_n_s_InitialLength, __pyx_n_s_Lse, __pyx_n_s_Lce, __pyx_n_s_Lmax, __pyx_n_s_L0, __pyx_n_s_alpha, __pyx_n_s_L_slack, __pyx_n_s_L0T, __pyx_n_s_Lce_initial, __pyx_n_s_Lt_initial, __pyx_n_s_Lmt, __pyx_n_s_density, __pyx_n_s_mass, __pyx_n_s_PCSA, __pyx_n_s_sigma, __pyx_n_s_F0, __pyx_n_s_Ur, __pyx_n_s_F_pcsa_slow, __pyx_n_s_N_MU, __pyx_n_s_i_MU, __pyx_n_s_RP_MU, __pyx_n_s_b_MU, __pyx_n_s_P_MU, __pyx_n_s_PTi, __pyx_n_s_Pi_half, __pyx_n_s_a_twitch, __pyx_n_s_b_twitch, __pyx_n_s_Pi, __pyx_n_s_index_slow, __pyx_n_s_Ur_1, __pyx_n_s_a_U_th, __pyx_n_s_b_U_th, __pyx_n_s_U_th, __pyx_n_s_MFR_MU, __pyx_n_s_PFR1_MU, __pyx_n_s_PFRD_MU, __pyx_n_s_RTEn_MU, __pyx_n_s_PFR_MU, __pyx_n_s_FR_half, __pyx_n_s_CT_n, __pyx_n_s_FR_half_n, __pyx_n_s_CT, __pyx_n_s_RT, __pyx_n_s_cv, __pyx_n_s_start_time, __pyx_n_s_Fs, __pyx_n_s_step, __pyx_n_s_h, __pyx_n_s_t_twitch, __pyx_n_s_m, __pyx_n_s_amp, __pyx_n_s_time_sim, __pyx_n_s_Input, __pyx_n_s_F_target, __pyx_n_s_MuscleVelocity, __pyx_n_s_MuscleLength, __pyx_n_s_U_eff, __pyx_n_s_Input_C_temp, __pyx_n_s_Input_C, __pyx_n_s_ND_temp, __pyx_n_s_Ace, __pyx_n_s_Vce, __pyx_n_s_Y, __pyx_n_s_S, __pyx_n_s_spike_train, __pyx_n_s_spike_time, __pyx_n_s_force, __pyx_n_s_Force_vec, __pyx_n_s_ForceSE_vec, __pyx_n_s_Lce_vec, __pyx_n_s_Vce_vec, __pyx_n_s_Ace_vec, __pyx_n_s_U_eff_vec, __pyx_n_s_f_env_vec, __pyx_n_s_FR_vec, __pyx_n_s_FR_mat, __pyx_n_s_Af_vec, __pyx_n_s_FF_vec, __pyx_n_s_S_vec_store, __pyx_n_s_spike_time_vec, __pyx_n_s_Y_vec, __pyx_n_s_S_vec, __pyx_n_s_Y_temp, __pyx_n_s_S_temp, __pyx_n_s_Af, __pyx_n_s_FF, __pyx_n_s_ForceSE, __pyx_n_s_t, __pyx_n_s_U, __pyx_n_s_T_U, __pyx_n_s_U_eff_dot, __pyx_n_s_FR, __pyx_n_s_f_env, __pyx_n_s_force_half, __pyx_n_s_k, __pyx_n_s_index_1, __pyx_n_s_index_2, __pyx_n_s_index, __pyx_n_s_j, __pyx_n_s_n, __pyx_n_s_mu, __pyx_n_s_Z, __pyx_n_s_spike_time_temp, __pyx_n_s_twitch_temp, __pyx_n_s_twitch, __pyx_n_s_FL_temp, __pyx_n_s_FV_temp, __pyx_n_s_Force, __pyx_n_s_end_time, __pyx_n_s_output, __pyx_n_s_default_path, __pyx_n_s_save_path, __pyx_n_s_fig1, __pyx_n_s_ax1); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__47);
+  __Pyx_GIVEREF(__pyx_tuple__47);
+  __pyx_codeobj__48 = (PyObject*)__Pyx_PyCode_New(0, 0, 153, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__47, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_TwitchBasedMuscleModel_noTendon, __pyx_n_s_TwitchBasedMuscleModel, 16, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__48)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -12707,7 +13176,6 @@ static int __Pyx_InitGlobals(void) {
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_2 = PyInt_FromLong(2); if (unlikely(!__pyx_int_2)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_3 = PyInt_FromLong(3); if (unlikely(!__pyx_int_3)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_5 = PyInt_FromLong(5); if (unlikely(!__pyx_int_5)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_8 = PyInt_FromLong(8); if (unlikely(!__pyx_int_8)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_10 = PyInt_FromLong(10); if (unlikely(!__pyx_int_10)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -12890,13 +13358,13 @@ static int __pyx_pymod_exec_TwitchBasedMuscleModel_noTendon(PyObject *__pyx_pyin
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_TwitchBasedMuscleModel, __pyx_t_1) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "TwitchBasedMuscleModel_noTendon.pyx":457
+  /* "TwitchBasedMuscleModel_noTendon.pyx":468
  * 
  * 
  * (Force_vec,ForceSE_vec) = TwitchBasedMuscleModel()             # <<<<<<<<<<<<<<
  * #(Force,ForceSE) = MuscleModel()
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_TwitchBasedMuscleModel); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 457, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_TwitchBasedMuscleModel); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 468, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -12909,10 +13377,10 @@ static int __pyx_pymod_exec_TwitchBasedMuscleModel_noTendon(PyObject *__pyx_pyin
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 457, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 468, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 457, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 468, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -12926,7 +13394,7 @@ static int __pyx_pymod_exec_TwitchBasedMuscleModel_noTendon(PyObject *__pyx_pyin
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 457, __pyx_L1_error)
+      __PYX_ERR(0, 468, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
@@ -12939,15 +13407,15 @@ static int __pyx_pymod_exec_TwitchBasedMuscleModel_noTendon(PyObject *__pyx_pyin
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_t_3);
     #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 457, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 468, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 457, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 468, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 457, __pyx_L1_error)
+    __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 468, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_5 = Py_TYPE(__pyx_t_4)->tp_iternext;
@@ -12955,7 +13423,7 @@ static int __pyx_pymod_exec_TwitchBasedMuscleModel_noTendon(PyObject *__pyx_pyin
     __Pyx_GOTREF(__pyx_t_2);
     index = 1; __pyx_t_3 = __pyx_t_5(__pyx_t_4); if (unlikely(!__pyx_t_3)) goto __pyx_L2_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 2) < 0) __PYX_ERR(0, 457, __pyx_L1_error)
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 2) < 0) __PYX_ERR(0, 468, __pyx_L1_error)
     __pyx_t_5 = NULL;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     goto __pyx_L3_unpacking_done;
@@ -12963,12 +13431,12 @@ static int __pyx_pymod_exec_TwitchBasedMuscleModel_noTendon(PyObject *__pyx_pyin
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 457, __pyx_L1_error)
+    __PYX_ERR(0, 468, __pyx_L1_error)
     __pyx_L3_unpacking_done:;
   }
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Force_vec, __pyx_t_2) < 0) __PYX_ERR(0, 457, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Force_vec, __pyx_t_2) < 0) __PYX_ERR(0, 468, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ForceSE_vec, __pyx_t_3) < 0) __PYX_ERR(0, 457, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ForceSE_vec, __pyx_t_3) < 0) __PYX_ERR(0, 468, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "TwitchBasedMuscleModel_noTendon.pyx":1
@@ -15089,91 +15557,6 @@ static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObje
 #endif
     return __Pyx_SetItemInt_Generic(o, PyInt_FromSsize_t(i), v);
 }
-
-/* PyIntBinop */
-          #if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, CYTHON_UNUSED int inplace) {
-    if (op1 == op2) {
-        Py_RETURN_TRUE;
-    }
-    #if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_CheckExact(op1))) {
-        const long b = intval;
-        long a = PyInt_AS_LONG(op1);
-        if (a == b) {
-            Py_RETURN_TRUE;
-        } else {
-            Py_RETURN_FALSE;
-        }
-    }
-    #endif
-    #if CYTHON_USE_PYLONG_INTERNALS
-    if (likely(PyLong_CheckExact(op1))) {
-        const long b = intval;
-        long a;
-        const digit* digits = ((PyLongObject*)op1)->ob_digit;
-        const Py_ssize_t size = Py_SIZE(op1);
-        if (likely(__Pyx_sst_abs(size) <= 1)) {
-            a = likely(size) ? digits[0] : 0;
-            if (size == -1) a = -a;
-        } else {
-            switch (size) {
-                case -2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    }
-                case 2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    }
-                case -3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    }
-                case 3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    }
-                case -4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    }
-                case 4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-                    }
-                #if PyLong_SHIFT < 30 && PyLong_SHIFT != 15
-                default: return PyLong_Type.tp_richcompare(op1, op2, Py_EQ);
-                #else
-                default: Py_RETURN_FALSE;
-                #endif
-            }
-        }
-            if (a == b) {
-                Py_RETURN_TRUE;
-            } else {
-                Py_RETURN_FALSE;
-            }
-    }
-    #endif
-    if (PyFloat_CheckExact(op1)) {
-        const long b = intval;
-        double a = PyFloat_AS_DOUBLE(op1);
-            if ((double)a == (double)b) {
-                Py_RETURN_TRUE;
-            } else {
-                Py_RETURN_FALSE;
-            }
-    }
-    return PyObject_RichCompare(op1, op2, Py_EQ);
-}
-#endif
 
 /* GetModuleGlobalName */
           static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
