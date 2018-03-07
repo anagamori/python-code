@@ -15,35 +15,35 @@ default_path = '/Users/akira/Documents/Github/python-code/';
 save_path = '/Users/akira/Documents/Github/python-code/Data';  
         
 os.chdir(save_path)
-output = np.load('output1.npy').item()
+output = np.load('output_FCR_40.npy').item()
 os.chdir(default_path)
 
-Fs = 40000;
+Fs = 10000;
 step = 1/float(Fs);
-Force = output['Tendon Force'][4*Fs:];
-ND = output['ND'][4*Fs:];
+Force = output['Tendon Force'][5*Fs:];
+ND = output['ND'][5*Fs:];
 meanND = np.mean(ND);
 meanForce = np.mean(Force)
 CoVForce = np.std(Force)/meanForce
+print(CoVForce)
 f,Pxx = signal.periodogram(Force-np.mean(Force),Fs);
 
 # interspike-intervals
-spikeTrain = output['Spike Train'][3,4*Fs:];
+spikeTrain = output['Spike Train'][0,5*Fs:];
 index = np.nonzero(spikeTrain);
 index_dif = np.diff(index);
-mean_ISI = np.mean(index_dif)/1000*10;
+mean_ISI = np.mean(index_dif)/1000*Fs/1000;
 sd_ISI = np.std(index_dif);
 CoV = sd_ISI/np.mean(index_dif)*100
-print(CoV)
+#print(CoV)
 
 fig1 = plt.figure()
-plt.plot(output['Muscle Velocity'])
+plt.plot(output['Tendon Force'])
 
-#fig2 = plt.figure()
-#ax2 = fig2.add_subplot(111);
-#ax2.plot(f,Pxx);
-#ax2.set_xlim([0,30]);
+fig2 = plt.figure()
+ax2 = fig2.add_subplot(111);
+ax2.plot(f,Pxx);
+ax2.set_xlim([0,30]);
 
-#fig3 = plt.figure()
 
 
