@@ -12,3 +12,4 @@ build/temp.macosx-10.6-x86_64-2.7/TwitchBasedMuscleModel_v3.o
 AnalysisCode.py
 Data/output.npy
 TwitchBasedMuscleModel_FCR.pyx
+AnalysisCode.py
