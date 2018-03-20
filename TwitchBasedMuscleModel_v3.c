@@ -746,13 +746,12 @@ struct __pyx_obj_25TwitchBasedMuscleModel_v3___pyx_scope_struct__TwitchBasedMusc
 /* "TwitchBasedMuscleModel_v3.pyx":17
  * from libc.math cimport sqrt
  * 
- * def TwitchBasedMuscleModel():             # <<<<<<<<<<<<<<
+ * def TwitchBasedMuscleModel(trialN): #,test_amplitude             # <<<<<<<<<<<<<<
  * 
  *     import time
  */
 struct __pyx_obj_25TwitchBasedMuscleModel_v3___pyx_scope_struct__TwitchBasedMuscleModel {
   PyObject_HEAD
-  long __pyx_v_S;
   PyObject *__pyx_v_np;
   PyObject *__pyx_v_sign;
 };
@@ -926,6 +925,13 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject
 /* PyObjectCallOneArg.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
 
+/* PyIntFromDouble.proto */
+#if PY_MAJOR_VERSION < 3
+static CYTHON_INLINE PyObject* __Pyx_PyInt_FromDouble(double value);
+#else
+#define __Pyx_PyInt_FromDouble(value) PyLong_FromDouble(value)
+#endif
+
 /* SliceObject.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyObject_GetSlice(
         PyObject* obj, Py_ssize_t cstart, Py_ssize_t cstop,
@@ -1057,13 +1063,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
 #define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
 #endif
 
-/* PyIntFromDouble.proto */
-#if PY_MAJOR_VERSION < 3
-static CYTHON_INLINE PyObject* __Pyx_PyInt_FromDouble(double value);
-#else
-#define __Pyx_PyInt_FromDouble(value) PyLong_FromDouble(value)
-#endif
-
 /* SliceObject.proto */
 #define __Pyx_PyObject_DelSlice(obj, cstart, cstop, py_start, py_stop, py_slice, has_cstart, has_cstop, wraparound)\
     __Pyx_PyObject_SetSlice(obj, (PyObject*)NULL, cstart, cstop, py_start, py_stop, py_slice, has_cstart, has_cstop, wraparound)
@@ -1089,9 +1088,6 @@ static PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, long intval, i
 #define __Pyx_PyInt_EqObjC(op1, op2, intval, inplace)\
     PyObject_RichCompare(op1, op2, Py_EQ)
     #endif
-
-/* None.proto */
-static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname);
 
 /* IncludeStringH.proto */
 #include <string.h>
@@ -1245,6 +1241,7 @@ static const char __pyx_k_F0[] = "F0";
 static const char __pyx_k_FF[] = "FF";
 static const char __pyx_k_FL[] = "FL";
 static const char __pyx_k_FR[] = "FR";
+static const char __pyx_k_FV[] = "FV";
 static const char __pyx_k_Fs[] = "Fs";
 static const char __pyx_k_G1[] = "G1";
 static const char __pyx_k_G2[] = "G2";
@@ -1327,6 +1324,7 @@ static const char __pyx_k_l_1[] = "l_1";
 static const char __pyx_k_l_2[] = "l_2";
 static const char __pyx_k_l_3[] = "l_3";
 static const char __pyx_k_n_f[] = "n_f";
+static const char __pyx_k_npy[] = ".npy";
 static const char __pyx_k_plt[] = "plt";
 static const char __pyx_k_rho[] = "rho";
 static const char __pyx_k_sum[] = "sum";
@@ -1413,13 +1411,18 @@ static const char __pyx_k_omega[] = "omega";
 static const char __pyx_k_print[] = "print";
 static const char __pyx_k_randn[] = "randn";
 static const char __pyx_k_range[] = "range";
-static const char __pyx_k_round[] = "round";
 static const char __pyx_k_s_exc[] = "s_exc";
 static const char __pyx_k_s_inh[] = "s_inh";
+static const char __pyx_k_s_s_s[] = "%s%s%s";
 static const char __pyx_k_sigma[] = "sigma";
 static const char __pyx_k_where[] = "where";
 static const char __pyx_k_x_GTO[] = "x_GTO";
 static const char __pyx_k_zeros[] = "zeros";
+static const char __pyx_k_Af_vec[] = "Af_vec";
+static const char __pyx_k_FF_vec[] = "FF_vec";
+static const char __pyx_k_FL_vec[] = "FL_vec";
+static const char __pyx_k_FR_vec[] = "FR_vec";
+static const char __pyx_k_FV_vec[] = "FV_vec";
 static const char __pyx_k_Gamma1[] = "Gamma1";
 static const char __pyx_k_Gamma2[] = "Gamma2";
 static const char __pyx_k_Ia_vec[] = "Ia_vec";
@@ -1448,13 +1451,16 @@ static const char __pyx_k_k1_pe1[] = "k1_pe1";
 static const char __pyx_k_k2_pe2[] = "k2_pe2";
 static const char __pyx_k_output[] = "output";
 static const char __pyx_k_random[] = "random";
+static const char __pyx_k_trialN[] = "trialN";
 static const char __pyx_k_twitch[] = "twitch";
 static const char __pyx_k_xrange[] = "xrange";
 static const char __pyx_k_AP_bag1[] = "AP_bag1";
 static const char __pyx_k_Ace_vec[] = "Ace_vec";
-static const char __pyx_k_FL_temp[] = "FL_temp";
+static const char __pyx_k_FL_fast[] = "FL_fast";
+static const char __pyx_k_FL_slow[] = "FL_slow";
 static const char __pyx_k_FR_half[] = "FR_half";
-static const char __pyx_k_FV_temp[] = "FV_temp";
+static const char __pyx_k_FV_fast[] = "FV_fast";
+static const char __pyx_k_FV_slow[] = "FV_slow";
 static const char __pyx_k_ForceSE[] = "ForceSE";
 static const char __pyx_k_Gain_Ia[] = "Gain_Ia";
 static const char __pyx_k_Gain_Ib[] = "Gain_Ib";
@@ -1465,6 +1471,7 @@ static const char __pyx_k_L_slack[] = "L_slack";
 static const char __pyx_k_Lce_vec[] = "Lce_vec";
 static const char __pyx_k_Lr1_pe1[] = "Lr1_pe1";
 static const char __pyx_k_Lr2_pe2[] = "Lr2_pe2";
+static const char __pyx_k_Lse_vec[] = "Lse_vec";
 static const char __pyx_k_ND_temp[] = "ND_temp";
 static const char __pyx_k_PFR1_MU[] = "PFR1_MU";
 static const char __pyx_k_PFRD_MU[] = "PFRD_MU";
@@ -1481,10 +1488,10 @@ static const char __pyx_k_index_2[] = "index_2";
 static const char __pyx_k_noise_C[] = "noise_C";
 static const char __pyx_k_F_target[] = "F_target";
 static const char __pyx_k_FasclMax[] = "FasclMax";
-static const char __pyx_k_Input_Ia[] = "Input_Ia";
-static const char __pyx_k_Input_Ib[] = "Input_Ib";
-static const char __pyx_k_Input_PN[] = "Input_PN";
-static const char __pyx_k_Input_RI[] = "Input_RI";
+static const char __pyx_k_Input_Ia[] = "Input Ia";
+static const char __pyx_k_Input_Ib[] = "Input Ib";
+static const char __pyx_k_Input_PN[] = "Input PN";
+static const char __pyx_k_Input_RI[] = "Input RI";
 static const char __pyx_k_L0T_temp[] = "L0T_temp";
 static const char __pyx_k_Lmt_temp[] = "Lmt_temp";
 static const char __pyx_k_PN_PC_Ia[] = "PN_PC_Ia";
@@ -1495,6 +1502,7 @@ static const char __pyx_k_delay_Ia[] = "delay_Ia";
 static const char __pyx_k_delay_Ib[] = "delay_Ib";
 static const char __pyx_k_end_time[] = "end_time";
 static const char __pyx_k_f_static[] = "f_static";
+static const char __pyx_k_fileName[] = "fileName";
 static const char __pyx_k_multiply[] = "multiply";
 static const char __pyx_k_noise_Ia[] = "noise_Ia";
 static const char __pyx_k_noise_Ib[] = "noise_Ib";
@@ -1521,6 +1529,10 @@ static const char __pyx_k_noise_amp[] = "noise_amp";
 static const char __pyx_k_save_path[] = "save_path";
 static const char __pyx_k_FR_Ib_temp[] = "FR_Ib_temp";
 static const char __pyx_k_FR_RI_temp[] = "FR_RI_temp";
+static const char __pyx_k_Input_Ia_2[] = "Input_Ia";
+static const char __pyx_k_Input_Ib_2[] = "Input_Ib";
+static const char __pyx_k_Input_PN_2[] = "Input_PN";
+static const char __pyx_k_Input_RI_2[] = "Input_RI";
 static const char __pyx_k_Lt_initial[] = "Lt_initial";
 static const char __pyx_k_ND_delayed[] = "ND_delayed";
 static const char __pyx_k_T_dot_bag1[] = "T_dot_bag1";
@@ -1533,7 +1545,6 @@ static const char __pyx_k_force_temp[] = "force_temp";
 static const char __pyx_k_freq_chain[] = "freq_chain";
 static const char __pyx_k_index_slow[] = "index_slow";
 static const char __pyx_k_noise_filt[] = "noise_filt";
-static const char __pyx_k_output_npy[] = "output.npy";
 static const char __pyx_k_spike_time[] = "spike_time";
 static const char __pyx_k_start_time[] = "start_time";
 static const char __pyx_k_F_pcsa_slow[] = "F_pcsa_slow";
@@ -1541,8 +1552,10 @@ static const char __pyx_k_ForceSE_vec[] = "ForceSE_vec";
 static const char __pyx_k_L_secondary[] = "L_secondary";
 static const char __pyx_k_Lce_initial[] = "Lce_initial";
 static const char __pyx_k_Lse_initial[] = "Lse_initial";
+static const char __pyx_k_S_vec_store[] = "S_vec_store";
 static const char __pyx_k_Spike_Train[] = "Spike Train";
 static const char __pyx_k_T_dot_chain[] = "T_dot_chain";
+static const char __pyx_k_Y_vec_store[] = "Y_vec_store";
 static const char __pyx_k_add_subplot[] = "add_subplot";
 static const char __pyx_k_beta2_chain[] = "beta2_chain";
 static const char __pyx_k_chain_model[] = "chain_model";
@@ -1573,6 +1586,7 @@ static const char __pyx_k_Input_RI_temp[] = "Input_RI_temp";
 static const char __pyx_k_Muscle_Length[] = "Muscle Length";
 static const char __pyx_k_RenshawOutput[] = "RenshawOutput";
 static const char __pyx_k_SpindleOutput[] = "SpindleOutput";
+static const char __pyx_k_Tendon_Length[] = "Tendon Length";
 static const char __pyx_k_f_static_bag2[] = "f_static_bag2";
 static const char __pyx_k_gamma_dynamic[] = "gamma_dynamic";
 static const char __pyx_k_noise_Ia_filt[] = "noise_Ia_filt";
@@ -1585,7 +1599,9 @@ static const char __pyx_k_delay_efferent[] = "delay_efferent";
 static const char __pyx_k_delay_synaptic[] = "delay_synaptic";
 static const char __pyx_k_f_dynamic_bag1[] = "f_dynamic_bag1";
 static const char __pyx_k_f_static_chain[] = "f_static_chain";
+static const char __pyx_k_force_half_vec[] = "force_half_vec";
 static const char __pyx_k_synaptic_delay[] = "synaptic_delay";
+static const char __pyx_k_trail_duration[] = "trail_duration";
 static const char __pyx_k_yield_function[] = "yield_function";
 static const char __pyx_k_AP_primary_bag2[] = "AP_primary_bag2";
 static const char __pyx_k_F_pe_1_function[] = "F_pe_1_function";
@@ -1624,7 +1640,7 @@ static const char __pyx_k_conductionVelocity_efferent[] = "conductionVelocity_ef
 static const char __pyx_k_TwitchBasedMuscleModel_v3_pyx[] = "TwitchBasedMuscleModel_v3.pyx";
 static const char __pyx_k_Created_on_Mon_Feb_26_12_49_43[] = "\nCreated on Mon Feb 26 12:49:43 2018\n\n@author: akiranagamori\n";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_F[] = "TwitchBasedMuscleModel.<locals>.F_pe_1_function";
-static const char __pyx_k_Users_akiranagamori_Documents_G[] = "/Users/akiranagamori/Documents/GitHub/python-code/";
+static const char __pyx_k_Users_akira_Documents_Github_py[] = "/Users/akira/Documents/Github/python-code/";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_Af[] = "TwitchBasedMuscleModel.<locals>.Af_slow_function";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_FL[] = "TwitchBasedMuscleModel.<locals>.FL_slow_function";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_FV[] = "TwitchBasedMuscleModel.<locals>.FV_con_slow_function";
@@ -1643,7 +1659,7 @@ static const char __pyx_k_TwitchBasedMuscleModel_locals_tw[] = "TwitchBasedMuscl
 static const char __pyx_k_TwitchBasedMuscleModel_locals_yi[] = "TwitchBasedMuscleModel.<locals>.yield_function";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_F_2[] = "TwitchBasedMuscleModel.<locals>.F_pe_2_function";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_F_3[] = "TwitchBasedMuscleModel.<locals>.F_se_function";
-static const char __pyx_k_Users_akiranagamori_Documents_G_2[] = "/Users/akiranagamori/Documents/GitHub/python-code/Data";
+static const char __pyx_k_Users_akira_Documents_Github_py_2[] = "/Users/akira/Documents/Github/python-code/Data";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_Af_2[] = "TwitchBasedMuscleModel.<locals>.Af_fast_function";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_Af_3[] = "TwitchBasedMuscleModel.<locals>.Af_cor_slow_function";
 static const char __pyx_k_TwitchBasedMuscleModel_locals_Af_4[] = "TwitchBasedMuscleModel.<locals>.Af_cor_fast_function";
@@ -1665,16 +1681,20 @@ static PyObject *__pyx_n_s_Af_cor_fast_function;
 static PyObject *__pyx_n_s_Af_cor_slow_function;
 static PyObject *__pyx_n_s_Af_fast_function;
 static PyObject *__pyx_n_s_Af_slow_function;
+static PyObject *__pyx_n_s_Af_vec;
 static PyObject *__pyx_n_s_C;
 static PyObject *__pyx_n_s_CT;
 static PyObject *__pyx_n_s_CT_n;
 static PyObject *__pyx_n_s_C_vec;
 static PyObject *__pyx_n_s_F0;
 static PyObject *__pyx_n_s_FF;
+static PyObject *__pyx_n_s_FF_vec;
 static PyObject *__pyx_n_s_FL;
+static PyObject *__pyx_n_s_FL_fast;
 static PyObject *__pyx_n_s_FL_fast_function;
+static PyObject *__pyx_n_s_FL_slow;
 static PyObject *__pyx_n_s_FL_slow_function;
-static PyObject *__pyx_n_s_FL_temp;
+static PyObject *__pyx_n_s_FL_vec;
 static PyObject *__pyx_n_s_FP1;
 static PyObject *__pyx_n_s_FP2;
 static PyObject *__pyx_n_s_FR;
@@ -1686,11 +1706,15 @@ static PyObject *__pyx_n_s_FR_RI;
 static PyObject *__pyx_n_s_FR_RI_temp;
 static PyObject *__pyx_n_s_FR_half;
 static PyObject *__pyx_n_s_FR_half_n;
+static PyObject *__pyx_n_s_FR_vec;
+static PyObject *__pyx_n_s_FV;
 static PyObject *__pyx_n_s_FV_con_fast_function;
 static PyObject *__pyx_n_s_FV_con_slow_function;
 static PyObject *__pyx_n_s_FV_ecc_fast_function;
 static PyObject *__pyx_n_s_FV_ecc_slow_function;
-static PyObject *__pyx_n_s_FV_temp;
+static PyObject *__pyx_n_s_FV_fast;
+static PyObject *__pyx_n_s_FV_slow;
+static PyObject *__pyx_n_s_FV_vec;
 static PyObject *__pyx_n_s_FVcon;
 static PyObject *__pyx_n_s_FVecc;
 static PyObject *__pyx_n_s_F_pcsa_slow;
@@ -1730,13 +1754,17 @@ static PyObject *__pyx_n_s_InitialLength;
 static PyObject *__pyx_n_s_Input;
 static PyObject *__pyx_n_s_Input_C;
 static PyObject *__pyx_n_s_Input_C_temp;
-static PyObject *__pyx_n_s_Input_Ia;
+static PyObject *__pyx_kp_s_Input_Ia;
+static PyObject *__pyx_n_s_Input_Ia_2;
 static PyObject *__pyx_n_s_Input_Ia_temp;
-static PyObject *__pyx_n_s_Input_Ib;
+static PyObject *__pyx_kp_s_Input_Ib;
+static PyObject *__pyx_n_s_Input_Ib_2;
 static PyObject *__pyx_n_s_Input_Ib_temp;
-static PyObject *__pyx_n_s_Input_PN;
+static PyObject *__pyx_kp_s_Input_PN;
+static PyObject *__pyx_n_s_Input_PN_2;
 static PyObject *__pyx_n_s_Input_PN_temp;
-static PyObject *__pyx_n_s_Input_RI;
+static PyObject *__pyx_kp_s_Input_RI;
+static PyObject *__pyx_n_s_Input_RI_2;
 static PyObject *__pyx_n_s_Input_RI_temp;
 static PyObject *__pyx_n_s_K;
 static PyObject *__pyx_n_s_K_PR;
@@ -1768,6 +1796,7 @@ static PyObject *__pyx_n_s_LrT;
 static PyObject *__pyx_n_s_LrT_se;
 static PyObject *__pyx_n_s_Lse;
 static PyObject *__pyx_n_s_Lse_initial;
+static PyObject *__pyx_n_s_Lse_vec;
 static PyObject *__pyx_n_s_Lt_initial;
 static PyObject *__pyx_n_s_M;
 static PyObject *__pyx_n_s_MFR_MU;
@@ -1813,6 +1842,7 @@ static PyObject *__pyx_n_s_SE_Length;
 static PyObject *__pyx_n_s_S_dot;
 static PyObject *__pyx_n_s_S_temp;
 static PyObject *__pyx_n_s_S_vec;
+static PyObject *__pyx_n_s_S_vec_store;
 static PyObject *__pyx_n_s_Smaller;
 static PyObject *__pyx_kp_s_Spike_Train;
 static PyObject *__pyx_n_s_SpindleOutput;
@@ -1832,6 +1862,7 @@ static PyObject *__pyx_n_s_T_dot_chain;
 static PyObject *__pyx_n_s_T_s;
 static PyObject *__pyx_n_s_T_y;
 static PyObject *__pyx_kp_s_Tendon_Force;
+static PyObject *__pyx_kp_s_Tendon_Length;
 static PyObject *__pyx_n_s_Time;
 static PyObject *__pyx_n_s_TwitchBasedMuscleModel;
 static PyObject *__pyx_n_s_TwitchBasedMuscleModel_locals_Af;
@@ -1871,8 +1902,8 @@ static PyObject *__pyx_n_s_U_eff_vec;
 static PyObject *__pyx_n_s_U_th;
 static PyObject *__pyx_n_s_Ur;
 static PyObject *__pyx_n_s_Ur_1;
-static PyObject *__pyx_kp_s_Users_akiranagamori_Documents_G;
-static PyObject *__pyx_kp_s_Users_akiranagamori_Documents_G_2;
+static PyObject *__pyx_kp_s_Users_akira_Documents_Github_py;
+static PyObject *__pyx_kp_s_Users_akira_Documents_Github_py_2;
 static PyObject *__pyx_n_s_V;
 static PyObject *__pyx_n_s_V_y;
 static PyObject *__pyx_n_s_Vce;
@@ -1883,6 +1914,7 @@ static PyObject *__pyx_n_s_Y;
 static PyObject *__pyx_n_s_Y_dot;
 static PyObject *__pyx_n_s_Y_temp;
 static PyObject *__pyx_n_s_Y_vec;
+static PyObject *__pyx_n_s_Y_vec_store;
 static PyObject *__pyx_n_s_Z;
 static PyObject *__pyx_n_s__2;
 static PyObject *__pyx_n_s_a;
@@ -1974,8 +2006,10 @@ static PyObject *__pyx_n_s_fig1;
 static PyObject *__pyx_n_s_fig2;
 static PyObject *__pyx_n_s_figure;
 static PyObject *__pyx_n_s_file;
+static PyObject *__pyx_n_s_fileName;
 static PyObject *__pyx_n_s_force;
 static PyObject *__pyx_n_s_force_half;
+static PyObject *__pyx_n_s_force_half_vec;
 static PyObject *__pyx_n_s_force_temp;
 static PyObject *__pyx_n_s_freq_bag1;
 static PyObject *__pyx_n_s_freq_bag2;
@@ -2034,6 +2068,7 @@ static PyObject *__pyx_n_s_noise_RI_filt;
 static PyObject *__pyx_n_s_noise_amp;
 static PyObject *__pyx_n_s_noise_filt;
 static PyObject *__pyx_n_s_np;
+static PyObject *__pyx_kp_s_npy;
 static PyObject *__pyx_n_s_num1;
 static PyObject *__pyx_n_s_num2;
 static PyObject *__pyx_n_s_num3;
@@ -2042,7 +2077,6 @@ static PyObject *__pyx_n_s_omega;
 static PyObject *__pyx_n_s_ones;
 static PyObject *__pyx_n_s_os;
 static PyObject *__pyx_n_s_output;
-static PyObject *__pyx_kp_s_output_npy;
 static PyObject *__pyx_n_s_p;
 static PyObject *__pyx_n_s_pi;
 static PyObject *__pyx_n_s_plot;
@@ -2054,9 +2088,9 @@ static PyObject *__pyx_n_s_randn;
 static PyObject *__pyx_n_s_random;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_rho;
-static PyObject *__pyx_n_s_round;
 static PyObject *__pyx_n_s_s_exc;
 static PyObject *__pyx_n_s_s_inh;
+static PyObject *__pyx_kp_s_s_s_s;
 static PyObject *__pyx_n_s_sag_function;
 static PyObject *__pyx_n_s_save;
 static PyObject *__pyx_n_s_save_path;
@@ -2080,6 +2114,8 @@ static PyObject *__pyx_n_s_tau_bag2;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_time;
 static PyObject *__pyx_n_s_time_sim;
+static PyObject *__pyx_n_s_trail_duration;
+static PyObject *__pyx_n_s_trialN;
 static PyObject *__pyx_n_s_twitch;
 static PyObject *__pyx_n_s_twitch_function;
 static PyObject *__pyx_n_s_twitch_temp;
@@ -2096,7 +2132,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_4
 static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_6Af_slow_function(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_f_eff, PyObject *__pyx_v_L, PyObject *__pyx_v_Y); /* proto */
 static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_8Af_fast_function(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_f_eff, PyObject *__pyx_v_L, PyObject *__pyx_v_S); /* proto */
 static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_10Af_cor_slow_function(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_f_env, PyObject *__pyx_v_L, PyObject *__pyx_v_Y); /* proto */
-static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_12Af_cor_fast_function(PyObject *__pyx_self, PyObject *__pyx_v_f_env, PyObject *__pyx_v_L, CYTHON_UNUSED PyObject *__pyx_v_Y); /* proto */
+static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_12Af_cor_fast_function(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_f_env, PyObject *__pyx_v_L, PyObject *__pyx_v_S); /* proto */
 static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_14twitch_function(PyObject *__pyx_self, PyObject *__pyx_v_Af, PyObject *__pyx_v_Lce, PyObject *__pyx_v_CT, PyObject *__pyx_v_RT, PyObject *__pyx_v_Fs); /* proto */
 static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_16FL_slow_function(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_L); /* proto */
 static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_18FL_fast_function(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_L); /* proto */
@@ -2117,7 +2153,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_4
 static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_48smoothSaturationFunction(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
 static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_50actionPotentialGeneration(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_exc_input, PyObject *__pyx_v_inh_input, PyObject *__pyx_v_n_exc, PyObject *__pyx_v_n_inh, PyObject *__pyx_v_IC); /* proto */
 static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_52noiseOutput(PyObject *__pyx_self, PyObject *__pyx_v_noise, PyObject *__pyx_v_noise_filt, PyObject *__pyx_v_Input, PyObject *__pyx_v_index); /* proto */
-static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_trialN); /* proto */
 static PyObject *__pyx_tp_new_25TwitchBasedMuscleModel_v3___pyx_scope_struct__TwitchBasedMuscleModel(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_float_0_1;
 static PyObject *__pyx_float_0_5;
@@ -2134,11 +2170,11 @@ static PyObject *__pyx_int_4;
 static PyObject *__pyx_int_5;
 static PyObject *__pyx_int_8;
 static PyObject *__pyx_int_10;
+static PyObject *__pyx_int_11;
 static PyObject *__pyx_int_20;
 static PyObject *__pyx_int_23;
 static PyObject *__pyx_int_25;
 static PyObject *__pyx_int_30;
-static PyObject *__pyx_int_50;
 static PyObject *__pyx_int_60;
 static PyObject *__pyx_int_90;
 static PyObject *__pyx_int_96;
@@ -2148,6 +2184,7 @@ static PyObject *__pyx_int_180;
 static PyObject *__pyx_int_1000;
 static PyObject *__pyx_int_10000;
 static PyObject *__pyx_int_20000;
+static PyObject *__pyx_int_40000;
 static PyObject *__pyx_int_100000;
 static PyObject *__pyx_int_neg_11;
 static PyObject *__pyx_int_neg_21;
@@ -2187,6 +2224,7 @@ static PyObject *__pyx_tuple__60;
 static PyObject *__pyx_tuple__62;
 static PyObject *__pyx_tuple__63;
 static PyObject *__pyx_tuple__64;
+static PyObject *__pyx_tuple__66;
 static PyObject *__pyx_codeobj__4;
 static PyObject *__pyx_codeobj__6;
 static PyObject *__pyx_codeobj__8;
@@ -2219,19 +2257,19 @@ static PyObject *__pyx_codeobj__65;
 /* "TwitchBasedMuscleModel_v3.pyx":17
  * from libc.math cimport sqrt
  * 
- * def TwitchBasedMuscleModel():             # <<<<<<<<<<<<<<
+ * def TwitchBasedMuscleModel(trialN): #,test_amplitude             # <<<<<<<<<<<<<<
  * 
  *     import time
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_25TwitchBasedMuscleModel_v3_1TwitchBasedMuscleModel(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyMethodDef __pyx_mdef_25TwitchBasedMuscleModel_v3_1TwitchBasedMuscleModel = {"TwitchBasedMuscleModel", (PyCFunction)__pyx_pw_25TwitchBasedMuscleModel_v3_1TwitchBasedMuscleModel, METH_NOARGS, 0};
-static PyObject *__pyx_pw_25TwitchBasedMuscleModel_v3_1TwitchBasedMuscleModel(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_25TwitchBasedMuscleModel_v3_1TwitchBasedMuscleModel(PyObject *__pyx_self, PyObject *__pyx_v_trialN); /*proto*/
+static PyMethodDef __pyx_mdef_25TwitchBasedMuscleModel_v3_1TwitchBasedMuscleModel = {"TwitchBasedMuscleModel", (PyCFunction)__pyx_pw_25TwitchBasedMuscleModel_v3_1TwitchBasedMuscleModel, METH_O, 0};
+static PyObject *__pyx_pw_25TwitchBasedMuscleModel_v3_1TwitchBasedMuscleModel(PyObject *__pyx_self, PyObject *__pyx_v_trialN) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("TwitchBasedMuscleModel (wrapper)", 0);
-  __pyx_r = __pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(__pyx_self);
+  __pyx_r = __pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(__pyx_self, ((PyObject *)__pyx_v_trialN));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
@@ -3343,7 +3381,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
  *         FF = FF/f_env;
  *         return FF             # <<<<<<<<<<<<<<
  * 
- *     def Af_cor_fast_function(f_env,L,Y):
+ *     def Af_cor_fast_function(f_env,L,S):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_FF);
@@ -3377,7 +3415,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
 /* "TwitchBasedMuscleModel_v3.pyx":72
  *         return FF
  * 
- *     def Af_cor_fast_function(f_env,L,Y):             # <<<<<<<<<<<<<<
+ *     def Af_cor_fast_function(f_env,L,S):             # <<<<<<<<<<<<<<
  *         a_f = 0.52;
  *         n_f0 = 1.97;
  */
@@ -3388,12 +3426,12 @@ static PyMethodDef __pyx_mdef_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleMod
 static PyObject *__pyx_pw_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_13Af_cor_fast_function(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_f_env = 0;
   PyObject *__pyx_v_L = 0;
-  CYTHON_UNUSED PyObject *__pyx_v_Y = 0;
+  PyObject *__pyx_v_S = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("Af_cor_fast_function (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_f_env,&__pyx_n_s_L,&__pyx_n_s_Y,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_f_env,&__pyx_n_s_L,&__pyx_n_s_S,0};
     PyObject* values[3] = {0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
@@ -3421,7 +3459,7 @@ static PyObject *__pyx_pw_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
         }
         CYTHON_FALLTHROUGH;
         case  2:
-        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_Y)) != 0)) kw_args--;
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_S)) != 0)) kw_args--;
         else {
           __Pyx_RaiseArgtupleInvalid("Af_cor_fast_function", 1, 3, 3, 2); __PYX_ERR(0, 72, __pyx_L3_error)
         }
@@ -3438,7 +3476,7 @@ static PyObject *__pyx_pw_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
     }
     __pyx_v_f_env = values[0];
     __pyx_v_L = values[1];
-    __pyx_v_Y = values[2];
+    __pyx_v_S = values[2];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -3448,16 +3486,14 @@ static PyObject *__pyx_pw_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_12Af_cor_fast_function(__pyx_self, __pyx_v_f_env, __pyx_v_L, __pyx_v_Y);
+  __pyx_r = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_12Af_cor_fast_function(__pyx_self, __pyx_v_f_env, __pyx_v_L, __pyx_v_S);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_12Af_cor_fast_function(PyObject *__pyx_self, PyObject *__pyx_v_f_env, PyObject *__pyx_v_L, CYTHON_UNUSED PyObject *__pyx_v_Y) {
-  struct __pyx_obj_25TwitchBasedMuscleModel_v3___pyx_scope_struct__TwitchBasedMuscleModel *__pyx_cur_scope;
-  struct __pyx_obj_25TwitchBasedMuscleModel_v3___pyx_scope_struct__TwitchBasedMuscleModel *__pyx_outer_scope;
+static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_12Af_cor_fast_function(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_f_env, PyObject *__pyx_v_L, PyObject *__pyx_v_S) {
   double __pyx_v_a_f;
   double __pyx_v_n_f0;
   double __pyx_v_n_f1;
@@ -3472,12 +3508,10 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
   double __pyx_t_5;
   double __pyx_t_6;
   __Pyx_RefNannySetupContext("Af_cor_fast_function", 0);
-  __pyx_outer_scope = (struct __pyx_obj_25TwitchBasedMuscleModel_v3___pyx_scope_struct__TwitchBasedMuscleModel *) __Pyx_CyFunction_GetClosure(__pyx_self);
-  __pyx_cur_scope = __pyx_outer_scope;
 
   /* "TwitchBasedMuscleModel_v3.pyx":73
  * 
- *     def Af_cor_fast_function(f_env,L,Y):
+ *     def Af_cor_fast_function(f_env,L,S):
  *         a_f = 0.52;             # <<<<<<<<<<<<<<
  *         n_f0 = 1.97;
  *         n_f1 = 3.28;
@@ -3485,7 +3519,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
   __pyx_v_a_f = 0.52;
 
   /* "TwitchBasedMuscleModel_v3.pyx":74
- *     def Af_cor_fast_function(f_env,L,Y):
+ *     def Af_cor_fast_function(f_env,L,S):
  *         a_f = 0.52;
  *         n_f0 = 1.97;             # <<<<<<<<<<<<<<
  *         n_f1 = 3.28;
@@ -3536,27 +3570,24 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
  *         FF = FF/f_env;
  *         return FF
  */
-  __pyx_t_4 = __Pyx_PyInt_From_long(__pyx_cur_scope->__pyx_v_S); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Multiply(__pyx_v_S, __pyx_v_f_env); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = PyNumber_Multiply(__pyx_t_4, __pyx_v_f_env); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_a_f); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_1 = PyNumber_Multiply(__pyx_t_3, __pyx_v_n_f); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_a_f); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_v_n_f); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_v_n_f); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L1_error)
-  __pyx_t_4 = PyFloat_FromDouble((1.0 - exp((-pow(__pyx_t_5, __pyx_t_6))))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 77, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_v_FF = __pyx_t_4;
-  __pyx_t_4 = 0;
+  __pyx_t_3 = PyFloat_FromDouble((1.0 - exp((-pow(__pyx_t_5, __pyx_t_6))))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_v_FF = __pyx_t_3;
+  __pyx_t_3 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":78
  *         n_f = n_f0 + n_f1*(1/L-1);
@@ -3565,10 +3596,10 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
  *         return FF
  * 
  */
-  __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_v_FF, __pyx_v_f_env); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 78, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF_SET(__pyx_v_FF, __pyx_t_4);
-  __pyx_t_4 = 0;
+  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_v_FF, __pyx_v_f_env); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 78, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF_SET(__pyx_v_FF, __pyx_t_3);
+  __pyx_t_3 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":79
  *         FF = 1 - exp(-pow(S*f_env/(a_f*n_f),n_f));
@@ -3585,7 +3616,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
   /* "TwitchBasedMuscleModel_v3.pyx":72
  *         return FF
  * 
- *     def Af_cor_fast_function(f_env,L,Y):             # <<<<<<<<<<<<<<
+ *     def Af_cor_fast_function(f_env,L,S):             # <<<<<<<<<<<<<<
  *         a_f = 0.52;
  *         n_f0 = 1.97;
  */
@@ -3874,7 +3905,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
  *         t_twitch = np.arange(0,2,1/float(Fs));
  *         f_1 = np.multiply(t_twitch/T1,np.exp(1-t_twitch/T1));             # <<<<<<<<<<<<<<
  *         f_2 = np.multiply(t_twitch/T2,np.exp(1-t_twitch/T2));
- *         twitch = np.append(f_1[0:int(np.round(T1*Fs))],f_2[int(np.round(T2*Fs+1)):]);
+ *         twitch = np.append(f_1[0:int(round(T1*Fs))],f_2[int(round(T2*Fs+1)):]);
  */
   if (unlikely(!__pyx_cur_scope->__pyx_v_np)) { __Pyx_RaiseClosureNameError("np"); __PYX_ERR(0, 86, __pyx_L1_error) }
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_multiply); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
@@ -3991,7 +4022,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
  *         t_twitch = np.arange(0,2,1/float(Fs));
  *         f_1 = np.multiply(t_twitch/T1,np.exp(1-t_twitch/T1));
  *         f_2 = np.multiply(t_twitch/T2,np.exp(1-t_twitch/T2));             # <<<<<<<<<<<<<<
- *         twitch = np.append(f_1[0:int(np.round(T1*Fs))],f_2[int(np.round(T2*Fs+1)):]);
+ *         twitch = np.append(f_1[0:int(round(T1*Fs))],f_2[int(round(T2*Fs+1)):]);
  *         twitch = twitch[0:1*Fs];
  */
   if (unlikely(!__pyx_cur_scope->__pyx_v_np)) { __Pyx_RaiseClosureNameError("np"); __PYX_ERR(0, 87, __pyx_L1_error) }
@@ -4108,137 +4139,41 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
   /* "TwitchBasedMuscleModel_v3.pyx":88
  *         f_1 = np.multiply(t_twitch/T1,np.exp(1-t_twitch/T1));
  *         f_2 = np.multiply(t_twitch/T2,np.exp(1-t_twitch/T2));
- *         twitch = np.append(f_1[0:int(np.round(T1*Fs))],f_2[int(np.round(T2*Fs+1)):]);             # <<<<<<<<<<<<<<
+ *         twitch = np.append(f_1[0:int(round(T1*Fs))],f_2[int(round(T2*Fs+1)):]);             # <<<<<<<<<<<<<<
  *         twitch = twitch[0:1*Fs];
  *         return twitch
  */
   if (unlikely(!__pyx_cur_scope->__pyx_v_np)) { __Pyx_RaiseClosureNameError("np"); __PYX_ERR(0, 88, __pyx_L1_error) }
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_append); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (unlikely(!__pyx_cur_scope->__pyx_v_np)) { __Pyx_RaiseClosureNameError("np"); __PYX_ERR(0, 88, __pyx_L1_error) }
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_round); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_10 = PyNumber_Multiply(__pyx_v_T1, __pyx_v_Fs); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 88, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_7 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_7)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_7);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-    }
-  }
-  if (!__pyx_t_7) {
-    __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 88, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __Pyx_GOTREF(__pyx_t_8);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_10};
-      __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 88, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_10};
-      __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 88, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 88, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
-      __Pyx_GIVEREF(__pyx_t_10);
-      PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_t_10);
-      __pyx_t_10 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_9, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 88, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyNumber_Int(__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_8 = PyNumber_Multiply(__pyx_v_T1, __pyx_v_Fs); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_8); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __pyx_t_8 = __Pyx_PyInt_FromDouble(round(__pyx_t_1)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_f_1, 0, 0, NULL, &__pyx_t_8, NULL, 1, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyObject_GetSlice(__pyx_v_f_1, 0, 0, NULL, &__pyx_t_3, NULL, 1, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_8 = PyNumber_Multiply(__pyx_v_T2, __pyx_v_Fs); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_cur_scope->__pyx_v_np)) { __Pyx_RaiseClosureNameError("np"); __PYX_ERR(0, 88, __pyx_L1_error) }
-  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_round); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 88, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_10 = PyNumber_Multiply(__pyx_v_T2, __pyx_v_Fs); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyInt_AddObjC(__pyx_t_8, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_7 = __Pyx_PyInt_AddObjC(__pyx_t_10, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 88, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+  __pyx_t_10 = __Pyx_PyInt_FromDouble(round(__pyx_t_1)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+  __pyx_t_8 = __Pyx_PyObject_GetSlice(__pyx_v_f_2, 0, 0, &__pyx_t_10, NULL, NULL, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 88, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   __pyx_t_10 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_9))) {
-    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_9);
-    if (likely(__pyx_t_10)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
-      __Pyx_INCREF(__pyx_t_10);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_9, function);
-    }
-  }
-  if (!__pyx_t_10) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_GOTREF(__pyx_t_3);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_9)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_10, __pyx_t_7};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_9)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_10, __pyx_t_7};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 88, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_10); __pyx_t_10 = NULL;
-      __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_7);
-      __pyx_t_7 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_9 = __Pyx_PyNumber_Int(__pyx_t_3); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 88, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_9);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_v_f_2, 0, 0, &__pyx_t_9, NULL, NULL, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_9 = NULL;
   __pyx_t_6 = 0;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_9)) {
+    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_10)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_9);
+      __Pyx_INCREF(__pyx_t_10);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_2, function);
       __pyx_t_6 = 1;
@@ -4246,39 +4181,39 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_8, __pyx_t_3};
+    PyObject *__pyx_temp[3] = {__pyx_t_10, __pyx_t_3, __pyx_t_8};
     __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   } else
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_8, __pyx_t_3};
+    PyObject *__pyx_temp[3] = {__pyx_t_10, __pyx_t_3, __pyx_t_8};
     __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+    __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   } else
   #endif
   {
-    __pyx_t_5 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 88, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    if (__pyx_t_9) {
-      __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_9); __pyx_t_9 = NULL;
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 88, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    if (__pyx_t_10) {
+      __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_10); __pyx_t_10 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_8);
-    PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_6, __pyx_t_8);
     __Pyx_GIVEREF(__pyx_t_3);
-    PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_6, __pyx_t_3);
-    __pyx_t_8 = 0;
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_6, __pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_8);
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_t_8);
     __pyx_t_3 = 0;
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
+    __pyx_t_8 = 0;
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_twitch = __pyx_t_4;
@@ -4286,7 +4221,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
 
   /* "TwitchBasedMuscleModel_v3.pyx":89
  *         f_2 = np.multiply(t_twitch/T2,np.exp(1-t_twitch/T2));
- *         twitch = np.append(f_1[0:int(np.round(T1*Fs))],f_2[int(np.round(T2*Fs+1)):]);
+ *         twitch = np.append(f_1[0:int(round(T1*Fs))],f_2[int(round(T2*Fs+1)):]);
  *         twitch = twitch[0:1*Fs];             # <<<<<<<<<<<<<<
  *         return twitch
  * 
@@ -4300,7 +4235,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_1
   __pyx_t_2 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":90
- *         twitch = np.append(f_1[0:int(np.round(T1*Fs))],f_2[int(np.round(T2*Fs+1)):]);
+ *         twitch = np.append(f_1[0:int(round(T1*Fs))],f_2[int(round(T2*Fs+1)):]);
  *         twitch = twitch[0:1*Fs];
  *         return twitch             # <<<<<<<<<<<<<<
  * 
@@ -10137,7 +10072,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_5
  *         return y
  * 
  *     def noiseOutput(noise,noise_filt,Input,index):             # <<<<<<<<<<<<<<
- *         noise_amp = 0.001;
+ *         cdef double noise_amp = 0.0;
  *         cdef double b1 = 0.089848614641397*1e-5;
  */
 
@@ -10254,15 +10189,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_5
   /* "TwitchBasedMuscleModel_v3.pyx":378
  * 
  *     def noiseOutput(noise,noise_filt,Input,index):
- *         noise_amp = 0.001;             # <<<<<<<<<<<<<<
+ *         cdef double noise_amp = 0.0;             # <<<<<<<<<<<<<<
  *         cdef double b1 = 0.089848614641397*1e-5;
  *         cdef double b2 = 0.359394458565587*1e-5;
  */
-  __pyx_v_noise_amp = 0.001;
+  __pyx_v_noise_amp = 0.0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":379
  *     def noiseOutput(noise,noise_filt,Input,index):
- *         noise_amp = 0.001;
+ *         cdef double noise_amp = 0.0;
  *         cdef double b1 = 0.089848614641397*1e-5;             # <<<<<<<<<<<<<<
  *         cdef double b2 = 0.359394458565587*1e-5;
  *         cdef double b3 = 0.539091687848381*1e-5;
@@ -10270,7 +10205,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_5
   __pyx_v_b1 = (0.089848614641397 * 1e-5);
 
   /* "TwitchBasedMuscleModel_v3.pyx":380
- *         noise_amp = 0.001;
+ *         cdef double noise_amp = 0.0;
  *         cdef double b1 = 0.089848614641397*1e-5;
  *         cdef double b2 = 0.359394458565587*1e-5;             # <<<<<<<<<<<<<<
  *         cdef double b3 = 0.539091687848381*1e-5;
@@ -10621,7 +10556,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_5
  *         return y
  * 
  *     def noiseOutput(noise,noise_filt,Input,index):             # <<<<<<<<<<<<<<
- *         noise_amp = 0.001;
+ *         cdef double noise_amp = 0.0;
  *         cdef double b1 = 0.089848614641397*1e-5;
  */
 
@@ -10643,12 +10578,12 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_5
 /* "TwitchBasedMuscleModel_v3.pyx":17
  * from libc.math cimport sqrt
  * 
- * def TwitchBasedMuscleModel():             # <<<<<<<<<<<<<<
+ * def TwitchBasedMuscleModel(trialN): #,test_amplitude             # <<<<<<<<<<<<<<
  * 
  *     import time
  */
 
-static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_trialN) {
   struct __pyx_obj_25TwitchBasedMuscleModel_v3___pyx_scope_struct__TwitchBasedMuscleModel *__pyx_cur_scope;
   PyObject *__pyx_v_time = NULL;
   PyObject *__pyx_v_plt = NULL;
@@ -10729,6 +10664,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   PyObject *__pyx_v_t_twitch = NULL;
   double __pyx_v_m;
   double __pyx_v_amp;
+  PyObject *__pyx_v_trail_duration = NULL;
   PyObject *__pyx_v_time_sim = NULL;
   PyObject *__pyx_v_Input = NULL;
   CYTHON_UNUSED PyObject *__pyx_v_F_target = NULL;
@@ -10771,23 +10707,33 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   PyObject *__pyx_v_Ace = NULL;
   double __pyx_v_Vce;
   CYTHON_UNUSED long __pyx_v_Y;
+  CYTHON_UNUSED long __pyx_v_S;
   PyObject *__pyx_v_spike_train = NULL;
-  PyObject *__pyx_v_spike_train_temp = NULL;
+  CYTHON_UNUSED PyObject *__pyx_v_spike_train_temp = NULL;
   PyObject *__pyx_v_spike_time = NULL;
   PyObject *__pyx_v_force = NULL;
   PyObject *__pyx_v_Force_vec = NULL;
   PyObject *__pyx_v_ForceSE_vec = NULL;
+  PyObject *__pyx_v_Lse_vec = NULL;
   PyObject *__pyx_v_Lce_vec = NULL;
   PyObject *__pyx_v_Vce_vec = NULL;
   PyObject *__pyx_v_Ace_vec = NULL;
   PyObject *__pyx_v_U_eff_vec = NULL;
-  CYTHON_UNUSED PyObject *__pyx_v_f_env_vec = NULL;
+  PyObject *__pyx_v_f_env_vec = NULL;
+  PyObject *__pyx_v_force_half_vec = NULL;
+  PyObject *__pyx_v_FL_vec = NULL;
+  PyObject *__pyx_v_FV_vec = NULL;
   PyObject *__pyx_v_Y_vec = NULL;
   PyObject *__pyx_v_S_vec = NULL;
   PyObject *__pyx_v_Y_temp = NULL;
   PyObject *__pyx_v_S_temp = NULL;
   PyObject *__pyx_v_Af = NULL;
   PyObject *__pyx_v_FF = NULL;
+  PyObject *__pyx_v_S_vec_store = NULL;
+  PyObject *__pyx_v_Y_vec_store = NULL;
+  PyObject *__pyx_v_FR_vec = NULL;
+  PyObject *__pyx_v_FF_vec = NULL;
+  PyObject *__pyx_v_Af_vec = NULL;
   double __pyx_v_ForceSE;
   PyObject *__pyx_v_Ia_vec = NULL;
   PyObject *__pyx_v_FR_Ia = NULL;
@@ -10852,8 +10798,10 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   PyObject *__pyx_v_spike_time_temp = NULL;
   PyObject *__pyx_v_twitch_temp = NULL;
   PyObject *__pyx_v_force_temp = NULL;
-  PyObject *__pyx_v_FL_temp = NULL;
-  PyObject *__pyx_v_FV_temp = NULL;
+  PyObject *__pyx_v_FL_slow = NULL;
+  PyObject *__pyx_v_FV_slow = NULL;
+  PyObject *__pyx_v_FL_fast = NULL;
+  PyObject *__pyx_v_FV_fast = NULL;
   PyObject *__pyx_v_FP1 = NULL;
   PyObject *__pyx_v_FP2 = NULL;
   PyObject *__pyx_v_Force = NULL;
@@ -10870,6 +10818,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   PyObject *__pyx_v_output = NULL;
   PyObject *__pyx_v_default_path = NULL;
   PyObject *__pyx_v_save_path = NULL;
+  PyObject *__pyx_v_fileName = NULL;
   PyObject *__pyx_v_fig1 = NULL;
   PyObject *__pyx_v_ax1 = NULL;
   PyObject *__pyx_v_fig2 = NULL;
@@ -10909,7 +10858,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   }
 
   /* "TwitchBasedMuscleModel_v3.pyx":19
- * def TwitchBasedMuscleModel():
+ * def TwitchBasedMuscleModel(trialN): #,test_amplitude
  * 
  *     import time             # <<<<<<<<<<<<<<
  *     import numpy as np
@@ -11039,11 +10988,11 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   /* "TwitchBasedMuscleModel_v3.pyx":72
  *         return FF
  * 
- *     def Af_cor_fast_function(f_env,L,Y):             # <<<<<<<<<<<<<<
+ *     def Af_cor_fast_function(f_env,L,S):             # <<<<<<<<<<<<<<
  *         a_f = 0.52;
  *         n_f0 = 1.97;
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_13Af_cor_fast_function, 0, __pyx_n_s_TwitchBasedMuscleModel_locals_Af_4, ((PyObject*)__pyx_cur_scope), __pyx_n_s_TwitchBasedMuscleModel_v3, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_13Af_cor_fast_function, 0, __pyx_n_s_TwitchBasedMuscleModel_locals_Af_4, NULL, __pyx_n_s_TwitchBasedMuscleModel_v3, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_Af_cor_fast_function = __pyx_t_2;
   __pyx_t_2 = 0;
@@ -11280,7 +11229,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  *         return y
  * 
  *     def noiseOutput(noise,noise_filt,Input,index):             # <<<<<<<<<<<<<<
- *         noise_amp = 0.001;
+ *         cdef double noise_amp = 0.0;
  *         cdef double b1 = 0.089848614641397*1e-5;
  */
   __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_53noiseOutput, 0, __pyx_n_s_TwitchBasedMuscleModel_locals_no, ((PyObject*)__pyx_cur_scope), __pyx_n_s_TwitchBasedMuscleModel_v3, __pyx_d, ((PyObject *)__pyx_codeobj__56)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 377, __pyx_L1_error)
@@ -12220,15 +12169,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  *     # CoV of interspike intervals
  *     cv = 0.1;             # <<<<<<<<<<<<<<
  * 
- *     # Simulation
+ *     # Simulation parameters
  */
   __pyx_v_cv = 0.1;
 
   /* "TwitchBasedMuscleModel_v3.pyx":462
  * 
- *     # Simulation
+ *     # Simulation parameters
  *     start_time = time.time()             # <<<<<<<<<<<<<<
- *     Fs = 10000
+ *     Fs = 40000
  *     step = 1/float(Fs)
  */
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_time); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 462, __pyx_L1_error)
@@ -12255,18 +12204,18 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_t_7 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":463
- *     # Simulation
+ *     # Simulation parameters
  *     start_time = time.time()
- *     Fs = 10000             # <<<<<<<<<<<<<<
+ *     Fs = 40000             # <<<<<<<<<<<<<<
  *     step = 1/float(Fs)
  *     h = step;
  */
-  __Pyx_INCREF(__pyx_int_10000);
-  __pyx_v_Fs = __pyx_int_10000;
+  __Pyx_INCREF(__pyx_int_40000);
+  __pyx_v_Fs = __pyx_int_40000;
 
   /* "TwitchBasedMuscleModel_v3.pyx":464
  *     start_time = time.time()
- *     Fs = 10000
+ *     Fs = 40000
  *     step = 1/float(Fs)             # <<<<<<<<<<<<<<
  *     h = step;
  *     t_twitch = np.arange(0,1,step)
@@ -12279,7 +12228,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_step = (1.0 / __pyx_t_10);
 
   /* "TwitchBasedMuscleModel_v3.pyx":465
- *     Fs = 10000
+ *     Fs = 40000
  *     step = 1/float(Fs)
  *     h = step;             # <<<<<<<<<<<<<<
  *     t_twitch = np.arange(0,1,step)
@@ -12356,29 +12305,39 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  *     t_twitch = np.arange(0,1,step)
  *     cdef double m = 6             # <<<<<<<<<<<<<<
  * 
- *     cdef double amp = 0.1
+ *     cdef double amp = 0.1; #test_amplitude
  */
   __pyx_v_m = 6.0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":469
  *     cdef double m = 6
  * 
- *     cdef double amp = 0.1             # <<<<<<<<<<<<<<
- *     time_sim = np.arange(0,5,step)
- *     Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)
+ *     cdef double amp = 0.1; #test_amplitude             # <<<<<<<<<<<<<<
+ *     trail_duration = 5;
+ *     time_sim = np.arange(0,trail_duration,step)
  */
   __pyx_v_amp = 0.1;
 
   /* "TwitchBasedMuscleModel_v3.pyx":470
  * 
- *     cdef double amp = 0.1
- *     time_sim = np.arange(0,5,step)             # <<<<<<<<<<<<<<
- *     Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)
+ *     cdef double amp = 0.1; #test_amplitude
+ *     trail_duration = 5;             # <<<<<<<<<<<<<<
+ *     time_sim = np.arange(0,trail_duration,step)
+ *     Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(trail_duration*Fs-3*Fs)),axis = 0)
+ */
+  __Pyx_INCREF(__pyx_int_5);
+  __pyx_v_trail_duration = __pyx_int_5;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":471
+ *     cdef double amp = 0.1; #test_amplitude
+ *     trail_duration = 5;
+ *     time_sim = np.arange(0,trail_duration,step)             # <<<<<<<<<<<<<<
+ *     Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(trail_duration*Fs-3*Fs)),axis = 0)
  *     F_target = F0*Input;
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_arange); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 470, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_arange); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 471, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 470, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 471, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_1 = NULL;
   __pyx_t_11 = 0;
@@ -12394,8 +12353,8 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_5)) {
-    PyObject *__pyx_temp[4] = {__pyx_t_1, __pyx_int_0, __pyx_int_5, __pyx_t_4};
-    __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 470, __pyx_L1_error)
+    PyObject *__pyx_temp[4] = {__pyx_t_1, __pyx_int_0, __pyx_v_trail_duration, __pyx_t_4};
+    __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 471, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -12403,15 +12362,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
-    PyObject *__pyx_temp[4] = {__pyx_t_1, __pyx_int_0, __pyx_int_5, __pyx_t_4};
-    __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 470, __pyx_L1_error)
+    PyObject *__pyx_temp[4] = {__pyx_t_1, __pyx_int_0, __pyx_v_trail_duration, __pyx_t_4};
+    __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 471, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(3+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 470, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(3+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 471, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_1) {
       __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_1); __pyx_t_1 = NULL;
@@ -12419,13 +12378,13 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_GIVEREF(__pyx_int_0);
     PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_11, __pyx_int_0);
-    __Pyx_INCREF(__pyx_int_5);
-    __Pyx_GIVEREF(__pyx_int_5);
-    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_11, __pyx_int_5);
+    __Pyx_INCREF(__pyx_v_trail_duration);
+    __Pyx_GIVEREF(__pyx_v_trail_duration);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_11, __pyx_v_trail_duration);
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_6, 2+__pyx_t_11, __pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 470, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 471, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
@@ -12433,18 +12392,18 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_time_sim = __pyx_t_7;
   __pyx_t_7 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":471
- *     cdef double amp = 0.1
- *     time_sim = np.arange(0,5,step)
- *     Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)             # <<<<<<<<<<<<<<
+  /* "TwitchBasedMuscleModel_v3.pyx":472
+ *     trail_duration = 5;
+ *     time_sim = np.arange(0,trail_duration,step)
+ *     Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(trail_duration*Fs-3*Fs)),axis = 0)             # <<<<<<<<<<<<<<
  *     F_target = F0*Input;
  *     # Spindle
  */
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_concatenate); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_concatenate); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = PyNumber_Multiply(__pyx_int_1, __pyx_v_Fs); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Multiply(__pyx_int_1, __pyx_v_Fs); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_1 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -12457,14 +12416,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_1) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 471, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 472, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_t_4};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 471, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -12473,30 +12432,30 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_t_4};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 471, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else
     #endif
     {
-      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 471, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1); __pyx_t_1 = NULL;
       __Pyx_GIVEREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_4);
       __pyx_t_4 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 471, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyFloat_FromDouble((__pyx_v_amp / 2.0)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_6 = PyFloat_FromDouble((__pyx_v_amp / 2.0)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_arange); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_arange); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_13 = NULL;
   __pyx_t_11 = 0;
@@ -12513,7 +12472,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[4] = {__pyx_t_13, __pyx_int_0, __pyx_int_2, __pyx_t_1};
-    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 471, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 472, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12522,14 +12481,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[4] = {__pyx_t_13, __pyx_int_0, __pyx_int_2, __pyx_t_1};
-    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 471, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 472, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else
   #endif
   {
-    __pyx_t_14 = PyTuple_New(3+__pyx_t_11); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 471, __pyx_L1_error)
+    __pyx_t_14 = PyTuple_New(3+__pyx_t_11); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 472, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
     if (__pyx_t_13) {
       __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_13); __pyx_t_13 = NULL;
@@ -12543,24 +12502,24 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_14, 2+__pyx_t_11, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 471, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 472, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyNumber_Multiply(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Multiply(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_amp); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_amp); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_ones); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_ones); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_1 = PyNumber_Multiply(__pyx_int_5, __pyx_v_Fs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_1 = PyNumber_Multiply(__pyx_v_trail_duration, __pyx_v_Fs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_13 = PyNumber_Multiply(__pyx_int_3, __pyx_v_Fs); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_13 = PyNumber_Multiply(__pyx_int_3, __pyx_v_Fs); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
-  __pyx_t_15 = PyNumber_Subtract(__pyx_t_1, __pyx_t_13); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_15 = PyNumber_Subtract(__pyx_t_1, __pyx_t_13); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
@@ -12575,14 +12534,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_13) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_15); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 471, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_15); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 472, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_14)) {
       PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_15};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 471, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
@@ -12591,30 +12550,30 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_14)) {
       PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_15};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 471, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_14, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     } else
     #endif
     {
-      __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 471, __pyx_L1_error)
+      __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_13); __pyx_t_13 = NULL;
       __Pyx_GIVEREF(__pyx_t_15);
       PyTuple_SET_ITEM(__pyx_t_1, 0+1, __pyx_t_15);
       __pyx_t_15 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_1, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 471, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_1, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-  __pyx_t_14 = PyNumber_Multiply(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_14 = PyNumber_Multiply(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5);
@@ -12625,15 +12584,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_t_5 = 0;
   __pyx_t_4 = 0;
   __pyx_t_14 = 0;
-  __pyx_t_14 = PyTuple_New(1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_14 = PyTuple_New(1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __Pyx_GIVEREF(__pyx_t_6);
   PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_6);
   __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 471, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_axis, __pyx_int_0) < 0) __PYX_ERR(0, 471, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_14, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 471, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_axis, __pyx_int_0) < 0) __PYX_ERR(0, 472, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_14, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
@@ -12641,22 +12600,22 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_Input = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":472
- *     time_sim = np.arange(0,5,step)
- *     Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)
+  /* "TwitchBasedMuscleModel_v3.pyx":473
+ *     time_sim = np.arange(0,trail_duration,step)
+ *     Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(trail_duration*Fs-3*Fs)),axis = 0)
  *     F_target = F0*Input;             # <<<<<<<<<<<<<<
  *     # Spindle
  *     cdef double f_dynamic_bag1 = 0;
  */
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 472, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 473, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = PyNumber_Multiply(__pyx_t_4, __pyx_v_Input); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 472, __pyx_L1_error)
+  __pyx_t_6 = PyNumber_Multiply(__pyx_t_4, __pyx_v_Input); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 473, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_F_target = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":474
+  /* "TwitchBasedMuscleModel_v3.pyx":475
  *     F_target = F0*Input;
  *     # Spindle
  *     cdef double f_dynamic_bag1 = 0;             # <<<<<<<<<<<<<<
@@ -12665,7 +12624,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_f_dynamic_bag1 = 0.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":475
+  /* "TwitchBasedMuscleModel_v3.pyx":476
  *     # Spindle
  *     cdef double f_dynamic_bag1 = 0;
  *     cdef double T_bag1 = 0;             # <<<<<<<<<<<<<<
@@ -12674,7 +12633,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_T_bag1 = 0.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":476
+  /* "TwitchBasedMuscleModel_v3.pyx":477
  *     cdef double f_dynamic_bag1 = 0;
  *     cdef double T_bag1 = 0;
  *     cdef double T_dot_bag1 = 0;             # <<<<<<<<<<<<<<
@@ -12683,7 +12642,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_T_dot_bag1 = 0.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":477
+  /* "TwitchBasedMuscleModel_v3.pyx":478
  *     cdef double T_bag1 = 0;
  *     cdef double T_dot_bag1 = 0;
  *     cdef double f_static_bag2 = 0;             # <<<<<<<<<<<<<<
@@ -12692,7 +12651,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_f_static_bag2 = 0.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":478
+  /* "TwitchBasedMuscleModel_v3.pyx":479
  *     cdef double T_dot_bag1 = 0;
  *     cdef double f_static_bag2 = 0;
  *     cdef double T_bag2 = 0;             # <<<<<<<<<<<<<<
@@ -12701,7 +12660,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_T_bag2 = 0.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":479
+  /* "TwitchBasedMuscleModel_v3.pyx":480
  *     cdef double f_static_bag2 = 0;
  *     cdef double T_bag2 = 0;
  *     cdef double T_dot_bag2 = 0;             # <<<<<<<<<<<<<<
@@ -12710,7 +12669,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_T_dot_bag2 = 0.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":480
+  /* "TwitchBasedMuscleModel_v3.pyx":481
  *     cdef double T_bag2 = 0;
  *     cdef double T_dot_bag2 = 0;
  *     cdef double T_chain = 0;             # <<<<<<<<<<<<<<
@@ -12719,7 +12678,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_T_chain = 0.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":481
+  /* "TwitchBasedMuscleModel_v3.pyx":482
  *     cdef double T_dot_bag2 = 0;
  *     cdef double T_chain = 0;
  *     cdef double T_dot_chain = 0;             # <<<<<<<<<<<<<<
@@ -12728,7 +12687,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_T_dot_chain = 0.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":482
+  /* "TwitchBasedMuscleModel_v3.pyx":483
  *     cdef double T_chain = 0;
  *     cdef double T_dot_chain = 0;
  *     cdef double gamma_dynamic = 10;             # <<<<<<<<<<<<<<
@@ -12737,7 +12696,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_gamma_dynamic = 10.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":483
+  /* "TwitchBasedMuscleModel_v3.pyx":484
  *     cdef double T_dot_chain = 0;
  *     cdef double gamma_dynamic = 10;
  *     cdef double gamma_static = 10;             # <<<<<<<<<<<<<<
@@ -12746,7 +12705,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_gamma_static = 10.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":486
+  /* "TwitchBasedMuscleModel_v3.pyx":487
  * 
  *     # Delay parameters
  *     cdef double distance_Muscle2SpinalCord = 0.8;             # <<<<<<<<<<<<<<
@@ -12755,7 +12714,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_distance_Muscle2SpinalCord = 0.8;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":487
+  /* "TwitchBasedMuscleModel_v3.pyx":488
  *     # Delay parameters
  *     cdef double distance_Muscle2SpinalCord = 0.8;
  *     cdef double conductionVelocity_efferent = 48.5;             # <<<<<<<<<<<<<<
@@ -12764,7 +12723,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_conductionVelocity_efferent = 48.5;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":488
+  /* "TwitchBasedMuscleModel_v3.pyx":489
  *     cdef double distance_Muscle2SpinalCord = 0.8;
  *     cdef double conductionVelocity_efferent = 48.5;
  *     cdef double conductionVelocity_Ia = 64.5;             # <<<<<<<<<<<<<<
@@ -12773,7 +12732,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_conductionVelocity_Ia = 64.5;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":489
+  /* "TwitchBasedMuscleModel_v3.pyx":490
  *     cdef double conductionVelocity_efferent = 48.5;
  *     cdef double conductionVelocity_Ia = 64.5;
  *     cdef double conductionVelocity_Ib = 59.0;             # <<<<<<<<<<<<<<
@@ -12782,49 +12741,27 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_conductionVelocity_Ib = 59.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":490
+  /* "TwitchBasedMuscleModel_v3.pyx":491
  *     cdef double conductionVelocity_Ia = 64.5;
  *     cdef double conductionVelocity_Ib = 59.0;
  *     cdef double synaptic_delay = 2.0;             # <<<<<<<<<<<<<<
  * 
- *     delay_efferent = int(round(distance_Muscle2SpinalCord/conductionVelocity_efferent*1000))*Fs/1000;
+ *     delay_efferent = int(round(distance_Muscle2SpinalCord/conductionVelocity_efferent*1000) + synaptic_delay)*Fs/1000;
  */
   __pyx_v_synaptic_delay = 2.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":492
+  /* "TwitchBasedMuscleModel_v3.pyx":493
  *     cdef double synaptic_delay = 2.0;
  * 
- *     delay_efferent = int(round(distance_Muscle2SpinalCord/conductionVelocity_efferent*1000))*Fs/1000;             # <<<<<<<<<<<<<<
+ *     delay_efferent = int(round(distance_Muscle2SpinalCord/conductionVelocity_efferent*1000) + synaptic_delay)*Fs/1000;             # <<<<<<<<<<<<<<
  *     delay_Ia = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ia*1000) + synaptic_delay)*Fs/1000;
  *     delay_Ib = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ib*1000) + synaptic_delay)*Fs/1000;
  */
   if (unlikely(__pyx_v_conductionVelocity_efferent == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 492, __pyx_L1_error)
-  }
-  __pyx_t_6 = __Pyx_PyInt_FromDouble(round(((__pyx_v_distance_Muscle2SpinalCord / __pyx_v_conductionVelocity_efferent) * 1000.0))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 492, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = PyNumber_Multiply(__pyx_t_6, __pyx_v_Fs); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 492, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_int_1000); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 492, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_delay_efferent = __pyx_t_6;
-  __pyx_t_6 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":493
- * 
- *     delay_efferent = int(round(distance_Muscle2SpinalCord/conductionVelocity_efferent*1000))*Fs/1000;
- *     delay_Ia = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ia*1000) + synaptic_delay)*Fs/1000;             # <<<<<<<<<<<<<<
- *     delay_Ib = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ib*1000) + synaptic_delay)*Fs/1000;
- *     cdef int delay_C = 50*Fs/1000;
- */
-  if (unlikely(__pyx_v_conductionVelocity_Ia == 0)) {
-    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
     __PYX_ERR(0, 493, __pyx_L1_error)
   }
-  __pyx_t_6 = __Pyx_PyInt_FromDouble((round(((__pyx_v_distance_Muscle2SpinalCord / __pyx_v_conductionVelocity_Ia) * 1000.0)) + __pyx_v_synaptic_delay)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 493, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_FromDouble((round(((__pyx_v_distance_Muscle2SpinalCord / __pyx_v_conductionVelocity_efferent) * 1000.0)) + __pyx_v_synaptic_delay)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 493, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_4 = PyNumber_Multiply(__pyx_t_6, __pyx_v_Fs); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 493, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -12832,21 +12769,21 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_int_1000); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 493, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_delay_Ia = __pyx_t_6;
+  __pyx_v_delay_efferent = __pyx_t_6;
   __pyx_t_6 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":494
- *     delay_efferent = int(round(distance_Muscle2SpinalCord/conductionVelocity_efferent*1000))*Fs/1000;
- *     delay_Ia = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ia*1000) + synaptic_delay)*Fs/1000;
- *     delay_Ib = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ib*1000) + synaptic_delay)*Fs/1000;             # <<<<<<<<<<<<<<
- *     cdef int delay_C = 50*Fs/1000;
- *     cdef int delay_synaptic = 2;
+ * 
+ *     delay_efferent = int(round(distance_Muscle2SpinalCord/conductionVelocity_efferent*1000) + synaptic_delay)*Fs/1000;
+ *     delay_Ia = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ia*1000) + synaptic_delay)*Fs/1000;             # <<<<<<<<<<<<<<
+ *     delay_Ib = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ib*1000) + synaptic_delay)*Fs/1000;
+ *     cdef int delay_C = 100*Fs/1000;
  */
-  if (unlikely(__pyx_v_conductionVelocity_Ib == 0)) {
+  if (unlikely(__pyx_v_conductionVelocity_Ia == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
     __PYX_ERR(0, 494, __pyx_L1_error)
   }
-  __pyx_t_6 = __Pyx_PyInt_FromDouble((round(((__pyx_v_distance_Muscle2SpinalCord / __pyx_v_conductionVelocity_Ib) * 1000.0)) + __pyx_v_synaptic_delay)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 494, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_FromDouble((round(((__pyx_v_distance_Muscle2SpinalCord / __pyx_v_conductionVelocity_Ia) * 1000.0)) + __pyx_v_synaptic_delay)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 494, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_4 = PyNumber_Multiply(__pyx_t_6, __pyx_v_Fs); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 494, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -12854,54 +12791,76 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_int_1000); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 494, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_delay_Ib = __pyx_t_6;
+  __pyx_v_delay_Ia = __pyx_t_6;
   __pyx_t_6 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":495
+ *     delay_efferent = int(round(distance_Muscle2SpinalCord/conductionVelocity_efferent*1000) + synaptic_delay)*Fs/1000;
+ *     delay_Ia = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ia*1000) + synaptic_delay)*Fs/1000;
+ *     delay_Ib = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ib*1000) + synaptic_delay)*Fs/1000;             # <<<<<<<<<<<<<<
+ *     cdef int delay_C = 100*Fs/1000;
+ *     cdef int delay_synaptic = 2;
+ */
+  if (unlikely(__pyx_v_conductionVelocity_Ib == 0)) {
+    PyErr_SetString(PyExc_ZeroDivisionError, "float division");
+    __PYX_ERR(0, 495, __pyx_L1_error)
+  }
+  __pyx_t_6 = __Pyx_PyInt_FromDouble((round(((__pyx_v_distance_Muscle2SpinalCord / __pyx_v_conductionVelocity_Ib) * 1000.0)) + __pyx_v_synaptic_delay)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 495, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_4 = PyNumber_Multiply(__pyx_t_6, __pyx_v_Fs); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 495, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_t_4, __pyx_int_1000); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 495, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_delay_Ib = __pyx_t_6;
+  __pyx_t_6 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":496
  *     delay_Ia = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ia*1000) + synaptic_delay)*Fs/1000;
  *     delay_Ib = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ib*1000) + synaptic_delay)*Fs/1000;
- *     cdef int delay_C = 50*Fs/1000;             # <<<<<<<<<<<<<<
+ *     cdef int delay_C = 100*Fs/1000;             # <<<<<<<<<<<<<<
  *     cdef int delay_synaptic = 2;
  * 
  */
-  __pyx_t_6 = PyNumber_Multiply(__pyx_int_50, __pyx_v_Fs); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 495, __pyx_L1_error)
+  __pyx_t_6 = PyNumber_Multiply(__pyx_int_100, __pyx_v_Fs); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 496, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_int_1000); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 495, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_int_1000); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 496, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 495, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 496, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_delay_C = __pyx_t_11;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":496
+  /* "TwitchBasedMuscleModel_v3.pyx":497
  *     delay_Ib = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ib*1000) + synaptic_delay)*Fs/1000;
- *     cdef int delay_C = 50*Fs/1000;
+ *     cdef int delay_C = 100*Fs/1000;
  *     cdef int delay_synaptic = 2;             # <<<<<<<<<<<<<<
  * 
  *     # Gain parameters
  */
   __pyx_v_delay_synaptic = 2;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":499
+  /* "TwitchBasedMuscleModel_v3.pyx":500
  * 
  *     # Gain parameters
- *     cdef double K = 0.001;             # <<<<<<<<<<<<<<
+ *     cdef double K = 0.0003;             # <<<<<<<<<<<<<<
  *     cdef double Gain_Ia = 400.0;
  *     cdef double Gain_Ib = 400.0;
  */
-  __pyx_v_K = 0.001;
+  __pyx_v_K = 0.0003;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":500
+  /* "TwitchBasedMuscleModel_v3.pyx":501
  *     # Gain parameters
- *     cdef double K = 0.001;
+ *     cdef double K = 0.0003;
  *     cdef double Gain_Ia = 400.0;             # <<<<<<<<<<<<<<
  *     cdef double Gain_Ib = 400.0;
  *     cdef double Gain_RI = 2.0;
  */
   __pyx_v_Gain_Ia = 400.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":501
- *     cdef double K = 0.001;
+  /* "TwitchBasedMuscleModel_v3.pyx":502
+ *     cdef double K = 0.0003;
  *     cdef double Gain_Ia = 400.0;
  *     cdef double Gain_Ib = 400.0;             # <<<<<<<<<<<<<<
  *     cdef double Gain_RI = 2.0;
@@ -12909,7 +12868,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_Gain_Ib = 400.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":502
+  /* "TwitchBasedMuscleModel_v3.pyx":503
  *     cdef double Gain_Ia = 400.0;
  *     cdef double Gain_Ib = 400.0;
  *     cdef double Gain_RI = 2.0;             # <<<<<<<<<<<<<<
@@ -12918,7 +12877,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_Gain_RI = 2.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":503
+  /* "TwitchBasedMuscleModel_v3.pyx":504
  *     cdef double Gain_Ib = 400.0;
  *     cdef double Gain_RI = 2.0;
  *     cdef double Ia_PC = -0.3;             # <<<<<<<<<<<<<<
@@ -12927,7 +12886,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_Ia_PC = -0.3;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":504
+  /* "TwitchBasedMuscleModel_v3.pyx":505
  *     cdef double Gain_RI = 2.0;
  *     cdef double Ia_PC = -0.3;
  *     cdef double Ib_PC = -0.3;             # <<<<<<<<<<<<<<
@@ -12936,7 +12895,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_Ib_PC = -0.3;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":505
+  /* "TwitchBasedMuscleModel_v3.pyx":506
  *     cdef double Ia_PC = -0.3;
  *     cdef double Ib_PC = -0.3;
  *     cdef double RI_PC = -0.3;             # <<<<<<<<<<<<<<
@@ -12945,7 +12904,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_RI_PC = -0.3;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":506
+  /* "TwitchBasedMuscleModel_v3.pyx":507
  *     cdef double Ib_PC = -0.3;
  *     cdef double RI_PC = -0.3;
  *     cdef double PN_PC_Ia = -0.3;             # <<<<<<<<<<<<<<
@@ -12954,7 +12913,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_PN_PC_Ia = -0.3;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":507
+  /* "TwitchBasedMuscleModel_v3.pyx":508
  *     cdef double RI_PC = -0.3;
  *     cdef double PN_PC_Ia = -0.3;
  *     cdef double PN_PC_Ib = -0.3;             # <<<<<<<<<<<<<<
@@ -12963,7 +12922,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_PN_PC_Ib = -0.3;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":508
+  /* "TwitchBasedMuscleModel_v3.pyx":509
  *     cdef double PN_PC_Ia = -0.3;
  *     cdef double PN_PC_Ib = -0.3;
  *     cdef double PN_PC = -0.3;             # <<<<<<<<<<<<<<
@@ -12972,7 +12931,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_PN_PC = -0.3;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":511
+  /* "TwitchBasedMuscleModel_v3.pyx":512
  * 
  *     # Muscle length
  *     cdef double MuscleVelocity = 0;             # <<<<<<<<<<<<<<
@@ -12981,7 +12940,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_MuscleVelocity = 0.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":512
+  /* "TwitchBasedMuscleModel_v3.pyx":513
  *     # Muscle length
  *     cdef double MuscleVelocity = 0;
  *     cdef double MuscleLength = Lce*L0/100;             # <<<<<<<<<<<<<<
@@ -12990,7 +12949,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_MuscleLength = ((__pyx_v_Lce * __pyx_v_L0) / 100.0);
 
-  /* "TwitchBasedMuscleModel_v3.pyx":516
+  /* "TwitchBasedMuscleModel_v3.pyx":517
  *     # Parameter initialization
  *     # Neural drive
  *     cdef double U_eff = 0.0;             # <<<<<<<<<<<<<<
@@ -12999,7 +12958,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_U_eff = 0.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":517
+  /* "TwitchBasedMuscleModel_v3.pyx":518
  *     # Neural drive
  *     cdef double U_eff = 0.0;
  *     cdef double Input_C_temp = 0.0;             # <<<<<<<<<<<<<<
@@ -13008,7 +12967,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_Input_C_temp = 0.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":518
+  /* "TwitchBasedMuscleModel_v3.pyx":519
  *     cdef double U_eff = 0.0;
  *     cdef double Input_C_temp = 0.0;
  *     cdef double Input_C = 0.0;             # <<<<<<<<<<<<<<
@@ -13017,7 +12976,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_Input_C = 0.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":519
+  /* "TwitchBasedMuscleModel_v3.pyx":520
  *     cdef double Input_C_temp = 0.0;
  *     cdef double Input_C = 0.0;
  *     cdef double ND_temp = 0.0;             # <<<<<<<<<<<<<<
@@ -13026,7 +12985,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_ND_temp = 0.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":521
+  /* "TwitchBasedMuscleModel_v3.pyx":522
  *     cdef double ND_temp = 0.0;
  *     # Muscle dynamics
  *     Ace = 0;             # <<<<<<<<<<<<<<
@@ -13036,7 +12995,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_Ace = __pyx_int_0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":522
+  /* "TwitchBasedMuscleModel_v3.pyx":523
  *     # Muscle dynamics
  *     Ace = 0;
  *     Vce = 0;             # <<<<<<<<<<<<<<
@@ -13045,7 +13004,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_Vce = 0.0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":523
+  /* "TwitchBasedMuscleModel_v3.pyx":524
  *     Ace = 0;
  *     Vce = 0;
  *     Y = 0;             # <<<<<<<<<<<<<<
@@ -13054,30 +13013,30 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
   __pyx_v_Y = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":524
+  /* "TwitchBasedMuscleModel_v3.pyx":525
  *     Vce = 0;
  *     Y = 0;
  *     S = 0;             # <<<<<<<<<<<<<<
  * 
  *     spike_train = np.zeros((N_MU,len(time_sim)))
  */
-  __pyx_cur_scope->__pyx_v_S = 0;
+  __pyx_v_S = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":526
+  /* "TwitchBasedMuscleModel_v3.pyx":527
  *     S = 0;
  * 
  *     spike_train = np.zeros((N_MU,len(time_sim)))             # <<<<<<<<<<<<<<
  *     spike_train_temp = np.zeros(len(time_sim))
  *     spike_time = np.zeros(N_MU)
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 526, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 527, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 526, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 527, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 526, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 526, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 527, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 527, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 526, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 527, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_14);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_14);
@@ -13096,14 +13055,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 526, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 527, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_5};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 526, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 527, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -13112,20 +13071,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_5};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 526, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 527, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else
     #endif
     {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 526, __pyx_L1_error)
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 527, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_GIVEREF(__pyx_t_5);
       PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_5);
       __pyx_t_5 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_14, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 526, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_14, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 527, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     }
@@ -13134,17 +13093,17 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_spike_train = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":527
+  /* "TwitchBasedMuscleModel_v3.pyx":528
  * 
  *     spike_train = np.zeros((N_MU,len(time_sim)))
  *     spike_train_temp = np.zeros(len(time_sim))             # <<<<<<<<<<<<<<
  *     spike_time = np.zeros(N_MU)
  *     force = np.zeros((N_MU,len(time_sim)))
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 527, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 528, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 527, __pyx_L1_error)
-  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 527, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 528, __pyx_L1_error)
+  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 528, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -13157,14 +13116,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 527, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 528, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_14};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 527, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 528, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
@@ -13173,20 +13132,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_14};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 527, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 528, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 527, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 528, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
       __Pyx_GIVEREF(__pyx_t_14);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_14);
       __pyx_t_14 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 527, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 528, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
@@ -13195,16 +13154,16 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_spike_train_temp = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":528
+  /* "TwitchBasedMuscleModel_v3.pyx":529
  *     spike_train = np.zeros((N_MU,len(time_sim)))
  *     spike_train_temp = np.zeros(len(time_sim))
  *     spike_time = np.zeros(N_MU)             # <<<<<<<<<<<<<<
  *     force = np.zeros((N_MU,len(time_sim)))
  *     Force_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 528, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 529, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 528, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 529, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_14 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -13217,14 +13176,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_14) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 528, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 529, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_7};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 528, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 529, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -13233,20 +13192,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_7};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 528, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 529, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 528, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 529, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_14); __pyx_t_14 = NULL;
       __Pyx_GIVEREF(__pyx_t_7);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 528, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 529, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
@@ -13255,21 +13214,21 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_spike_time = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":529
+  /* "TwitchBasedMuscleModel_v3.pyx":530
  *     spike_train_temp = np.zeros(len(time_sim))
  *     spike_time = np.zeros(N_MU)
  *     force = np.zeros((N_MU,len(time_sim)))             # <<<<<<<<<<<<<<
  *     Force_vec = np.zeros(len(time_sim));
  *     ForceSE_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 529, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 530, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 529, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 530, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 529, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 529, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 530, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 530, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_14 = PyTuple_New(2); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 529, __pyx_L1_error)
+  __pyx_t_14 = PyTuple_New(2); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 530, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_5);
@@ -13288,14 +13247,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 529, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 530, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 529, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 530, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
@@ -13304,20 +13263,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 529, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 530, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 529, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 530, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_GIVEREF(__pyx_t_14);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_14);
       __pyx_t_14 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 529, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 530, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
@@ -13326,17 +13285,17 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_force = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":530
+  /* "TwitchBasedMuscleModel_v3.pyx":531
  *     spike_time = np.zeros(N_MU)
  *     force = np.zeros((N_MU,len(time_sim)))
  *     Force_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     ForceSE_vec = np.zeros(len(time_sim));
- *     Lce_vec = np.zeros(len(time_sim));
+ *     Lse_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 530, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 531, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 530, __pyx_L1_error)
-  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 530, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 531, __pyx_L1_error)
+  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 531, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_14 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -13349,14 +13308,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_14) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 530, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 531, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 530, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 531, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -13365,20 +13324,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 530, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 531, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 530, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 531, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
       __Pyx_GIVEREF(__pyx_t_5);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
       __pyx_t_5 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 530, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 531, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
@@ -13387,17 +13346,17 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_Force_vec = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":531
+  /* "TwitchBasedMuscleModel_v3.pyx":532
  *     force = np.zeros((N_MU,len(time_sim)))
  *     Force_vec = np.zeros(len(time_sim));
  *     ForceSE_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     Lse_vec = np.zeros(len(time_sim));
  *     Lce_vec = np.zeros(len(time_sim));
- *     Vce_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 531, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 532, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 531, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 531, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 532, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 532, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -13410,14 +13369,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 531, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 532, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 531, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 532, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -13426,20 +13385,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 531, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 532, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 531, __pyx_L1_error)
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 532, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_5); __pyx_t_5 = NULL;
       __Pyx_GIVEREF(__pyx_t_7);
       PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_14, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 531, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_14, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 532, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     }
@@ -13448,17 +13407,17 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_ForceSE_vec = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":532
+  /* "TwitchBasedMuscleModel_v3.pyx":533
  *     Force_vec = np.zeros(len(time_sim));
  *     ForceSE_vec = np.zeros(len(time_sim));
- *     Lce_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     Lse_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     Lce_vec = np.zeros(len(time_sim));
  *     Vce_vec = np.zeros(len(time_sim));
- *     Ace_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 532, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 533, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 532, __pyx_L1_error)
-  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 532, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 533, __pyx_L1_error)
+  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 533, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -13471,14 +13430,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 532, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 533, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 532, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 533, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
@@ -13487,161 +13446,161 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 532, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 533, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 532, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 533, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_GIVEREF(__pyx_t_14);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_14);
       __pyx_t_14 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 532, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 533, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_v_Lse_vec = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":534
+ *     ForceSE_vec = np.zeros(len(time_sim));
+ *     Lse_vec = np.zeros(len(time_sim));
+ *     Lce_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     Vce_vec = np.zeros(len(time_sim));
+ *     Ace_vec = np.zeros(len(time_sim));
+ */
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 534, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 534, __pyx_L1_error)
+  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 534, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_14 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_14)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_14);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  if (!__pyx_t_14) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 534, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_GOTREF(__pyx_t_4);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 534, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 534, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 534, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
+      __Pyx_GIVEREF(__pyx_t_5);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
+      __pyx_t_5 = 0;
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 534, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_v_Lce_vec = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":533
- *     ForceSE_vec = np.zeros(len(time_sim));
+  /* "TwitchBasedMuscleModel_v3.pyx":535
+ *     Lse_vec = np.zeros(len(time_sim));
  *     Lce_vec = np.zeros(len(time_sim));
  *     Vce_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     Ace_vec = np.zeros(len(time_sim));
  *     U_eff_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 533, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 535, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 533, __pyx_L1_error)
-  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 533, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_14 = NULL;
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 535, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 535, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_6);
-    if (likely(__pyx_t_14)) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_5)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-      __Pyx_INCREF(__pyx_t_14);
+      __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_6, function);
     }
   }
-  if (!__pyx_t_14) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 533, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (!__pyx_t_5) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 535, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 533, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 535, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 533, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 535, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 533, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
-      __Pyx_GIVEREF(__pyx_t_5);
-      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
-      __pyx_t_5 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 533, __pyx_L1_error)
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 535, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_5); __pyx_t_5 = NULL;
+      __Pyx_GIVEREF(__pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_14, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 535, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_v_Vce_vec = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":534
+  /* "TwitchBasedMuscleModel_v3.pyx":536
  *     Lce_vec = np.zeros(len(time_sim));
  *     Vce_vec = np.zeros(len(time_sim));
  *     Ace_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     U_eff_vec = np.zeros(len(time_sim));
  *     f_env_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 534, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 536, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 534, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 534, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-      __Pyx_INCREF(__pyx_t_5);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_6, function);
-    }
-  }
-  if (!__pyx_t_5) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 534, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_GOTREF(__pyx_t_4);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 534, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 534, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 534, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_5); __pyx_t_5 = NULL;
-      __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
-      __pyx_t_7 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_14, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 534, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_Ace_vec = __pyx_t_4;
-  __pyx_t_4 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":535
- *     Vce_vec = np.zeros(len(time_sim));
- *     Ace_vec = np.zeros(len(time_sim));
- *     U_eff_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     f_env_vec = np.zeros(len(time_sim));
- *     Y_vec = np.zeros(N_MU);
- */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 535, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 535, __pyx_L1_error)
-  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 535, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 536, __pyx_L1_error)
+  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 536, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -13654,14 +13613,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 535, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 536, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 535, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 536, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
@@ -13670,39 +13629,39 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 535, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 536, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 535, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 536, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_GIVEREF(__pyx_t_14);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_14);
       __pyx_t_14 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 535, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 536, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_U_eff_vec = __pyx_t_4;
+  __pyx_v_Ace_vec = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":536
+  /* "TwitchBasedMuscleModel_v3.pyx":537
+ *     Vce_vec = np.zeros(len(time_sim));
  *     Ace_vec = np.zeros(len(time_sim));
- *     U_eff_vec = np.zeros(len(time_sim));
- *     f_env_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     Y_vec = np.zeros(N_MU);
- *     S_vec = np.zeros(N_MU);
+ *     U_eff_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     f_env_vec = np.zeros(len(time_sim));
+ *     force_half_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 536, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 537, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 536, __pyx_L1_error)
-  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 536, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 537, __pyx_L1_error)
+  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 537, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_14 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -13715,14 +13674,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_14) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 536, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 537, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 536, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 537, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -13731,38 +13690,39 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 536, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 537, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 536, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 537, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
       __Pyx_GIVEREF(__pyx_t_5);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
       __pyx_t_5 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 536, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 537, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_f_env_vec = __pyx_t_4;
+  __pyx_v_U_eff_vec = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":537
+  /* "TwitchBasedMuscleModel_v3.pyx":538
+ *     Ace_vec = np.zeros(len(time_sim));
  *     U_eff_vec = np.zeros(len(time_sim));
- *     f_env_vec = np.zeros(len(time_sim));
- *     Y_vec = np.zeros(N_MU);             # <<<<<<<<<<<<<<
- *     S_vec = np.zeros(N_MU);
- *     Y_temp = float(0);
+ *     f_env_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     force_half_vec = np.zeros(len(time_sim));
+ *     FL_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 537, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 538, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 537, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 538, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 538, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -13775,14 +13735,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_5) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 537, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 538, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 537, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 538, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -13791,38 +13751,39 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 537, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 538, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 537, __pyx_L1_error)
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 538, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_5); __pyx_t_5 = NULL;
       __Pyx_GIVEREF(__pyx_t_7);
       PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_14, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 537, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_14, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 538, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_Y_vec = __pyx_t_4;
+  __pyx_v_f_env_vec = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":538
+  /* "TwitchBasedMuscleModel_v3.pyx":539
+ *     U_eff_vec = np.zeros(len(time_sim));
  *     f_env_vec = np.zeros(len(time_sim));
- *     Y_vec = np.zeros(N_MU);
- *     S_vec = np.zeros(N_MU);             # <<<<<<<<<<<<<<
- *     Y_temp = float(0);
- *     S_temp = np.zeros(N_MU);
+ *     force_half_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     FL_vec = np.zeros(len(time_sim));
+ *     FV_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 538, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 539, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 538, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 539, __pyx_L1_error)
+  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 539, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -13835,14 +13796,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 538, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 539, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 538, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 539, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
@@ -13851,50 +13812,39 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 538, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 539, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 538, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 539, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_GIVEREF(__pyx_t_14);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_14);
       __pyx_t_14 = 0;
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 538, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 539, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_S_vec = __pyx_t_4;
-  __pyx_t_4 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":539
- *     Y_vec = np.zeros(N_MU);
- *     S_vec = np.zeros(N_MU);
- *     Y_temp = float(0);             # <<<<<<<<<<<<<<
- *     S_temp = np.zeros(N_MU);
- *     Af = np.zeros(N_MU);
- */
-  __pyx_t_4 = __Pyx_PyNumber_Float(__pyx_int_0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 539, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_v_Y_temp = __pyx_t_4;
+  __pyx_v_force_half_vec = __pyx_t_4;
   __pyx_t_4 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":540
- *     S_vec = np.zeros(N_MU);
- *     Y_temp = float(0);
- *     S_temp = np.zeros(N_MU);             # <<<<<<<<<<<<<<
- *     Af = np.zeros(N_MU);
- *     FF = np.zeros(N_MU);
+ *     f_env_vec = np.zeros(len(time_sim));
+ *     force_half_vec = np.zeros(len(time_sim));
+ *     FL_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     FV_vec = np.zeros(len(time_sim));
+ *     Y_vec = np.zeros(N_MU);
  */
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 540, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 540, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 540, __pyx_L1_error)
+  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 540, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_14 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -13942,19 +13892,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_S_temp = __pyx_t_4;
+  __pyx_v_FL_vec = __pyx_t_4;
   __pyx_t_4 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":541
- *     Y_temp = float(0);
- *     S_temp = np.zeros(N_MU);
- *     Af = np.zeros(N_MU);             # <<<<<<<<<<<<<<
- *     FF = np.zeros(N_MU);
- *     cdef double ForceSE = F_se_function(Lse) * F0;
+ *     force_half_vec = np.zeros(len(time_sim));
+ *     FL_vec = np.zeros(len(time_sim));
+ *     FV_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     Y_vec = np.zeros(N_MU);
+ *     S_vec = np.zeros(N_MU);
  */
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 541, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 541, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 541, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 541, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -14002,15 +13953,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_Af = __pyx_t_4;
+  __pyx_v_FV_vec = __pyx_t_4;
   __pyx_t_4 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":542
- *     S_temp = np.zeros(N_MU);
- *     Af = np.zeros(N_MU);
- *     FF = np.zeros(N_MU);             # <<<<<<<<<<<<<<
- *     cdef double ForceSE = F_se_function(Lse) * F0;
- * 
+ *     FL_vec = np.zeros(len(time_sim));
+ *     FV_vec = np.zeros(len(time_sim));
+ *     Y_vec = np.zeros(N_MU);             # <<<<<<<<<<<<<<
+ *     S_vec = np.zeros(N_MU);
+ *     Y_temp = float(0);
  */
   __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 542, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
@@ -14062,586 +14013,594 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_FF = __pyx_t_4;
+  __pyx_v_Y_vec = __pyx_t_4;
   __pyx_t_4 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":543
+ *     FV_vec = np.zeros(len(time_sim));
+ *     Y_vec = np.zeros(N_MU);
+ *     S_vec = np.zeros(N_MU);             # <<<<<<<<<<<<<<
+ *     Y_temp = float(0);
+ *     S_temp = np.zeros(N_MU);
+ */
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 543, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 543, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_14 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_14)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_14);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  if (!__pyx_t_14) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 543, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_GOTREF(__pyx_t_4);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 543, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 543, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 543, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
+      __Pyx_GIVEREF(__pyx_t_5);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
+      __pyx_t_5 = 0;
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 543, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_v_S_vec = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":544
+ *     Y_vec = np.zeros(N_MU);
+ *     S_vec = np.zeros(N_MU);
+ *     Y_temp = float(0);             # <<<<<<<<<<<<<<
+ *     S_temp = np.zeros(N_MU);
+ *     Af = np.zeros(N_MU);
+ */
+  __pyx_t_4 = __Pyx_PyNumber_Float(__pyx_int_0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 544, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_v_Y_temp = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":545
+ *     S_vec = np.zeros(N_MU);
+ *     Y_temp = float(0);
+ *     S_temp = np.zeros(N_MU);             # <<<<<<<<<<<<<<
  *     Af = np.zeros(N_MU);
  *     FF = np.zeros(N_MU);
+ */
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 545, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 545, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_5 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  if (!__pyx_t_5) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 545, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_4);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 545, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 545, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 545, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_5); __pyx_t_5 = NULL;
+      __Pyx_GIVEREF(__pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_14, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 545, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_v_S_temp = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":546
+ *     Y_temp = float(0);
+ *     S_temp = np.zeros(N_MU);
+ *     Af = np.zeros(N_MU);             # <<<<<<<<<<<<<<
+ *     FF = np.zeros(N_MU);
+ * 
+ */
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 546, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 546, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  if (!__pyx_t_7) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 546, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    __Pyx_GOTREF(__pyx_t_4);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 546, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 546, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 546, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
+      __Pyx_GIVEREF(__pyx_t_14);
+      PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_14);
+      __pyx_t_14 = 0;
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 546, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_v_Af = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":547
+ *     S_temp = np.zeros(N_MU);
+ *     Af = np.zeros(N_MU);
+ *     FF = np.zeros(N_MU);             # <<<<<<<<<<<<<<
+ * 
+ *     S_vec_store = np.zeros(len(time_sim));
+ */
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 547, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_N_MU); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 547, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_14 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_14)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_14);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  if (!__pyx_t_14) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 547, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_GOTREF(__pyx_t_4);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 547, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 547, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 547, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
+      __Pyx_GIVEREF(__pyx_t_5);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
+      __pyx_t_5 = 0;
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 547, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_v_FF = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":549
+ *     FF = np.zeros(N_MU);
+ * 
+ *     S_vec_store = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     Y_vec_store = np.zeros(len(time_sim));
+ *     FR_vec = np.zeros(len(time_sim));
+ */
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 549, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 549, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 549, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_5 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  if (!__pyx_t_5) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 549, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_4);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 549, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 549, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 549, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_5); __pyx_t_5 = NULL;
+      __Pyx_GIVEREF(__pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_14, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 549, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_v_S_vec_store = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":550
+ * 
+ *     S_vec_store = np.zeros(len(time_sim));
+ *     Y_vec_store = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     FR_vec = np.zeros(len(time_sim));
+ *     FF_vec = np.zeros(len(time_sim));
+ */
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 550, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 550, __pyx_L1_error)
+  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 550, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  if (!__pyx_t_7) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 550, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    __Pyx_GOTREF(__pyx_t_4);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 550, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 550, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 550, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
+      __Pyx_GIVEREF(__pyx_t_14);
+      PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_14);
+      __pyx_t_14 = 0;
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 550, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_v_Y_vec_store = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":551
+ *     S_vec_store = np.zeros(len(time_sim));
+ *     Y_vec_store = np.zeros(len(time_sim));
+ *     FR_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     FF_vec = np.zeros(len(time_sim));
+ *     Af_vec = np.zeros(len(time_sim));
+ */
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 551, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 551, __pyx_L1_error)
+  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 551, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_14 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_14)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_14);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  if (!__pyx_t_14) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 551, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_GOTREF(__pyx_t_4);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 551, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_5};
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 551, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 551, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
+      __Pyx_GIVEREF(__pyx_t_5);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
+      __pyx_t_5 = 0;
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 551, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_v_FR_vec = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":552
+ *     Y_vec_store = np.zeros(len(time_sim));
+ *     FR_vec = np.zeros(len(time_sim));
+ *     FF_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     Af_vec = np.zeros(len(time_sim));
+ *     cdef double ForceSE = F_se_function(Lse) * F0;
+ */
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 552, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 552, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 552, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_5 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  if (!__pyx_t_5) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 552, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_4);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 552, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 552, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 552, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_5); __pyx_t_5 = NULL;
+      __Pyx_GIVEREF(__pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_14, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 552, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_v_FF_vec = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":553
+ *     FR_vec = np.zeros(len(time_sim));
+ *     FF_vec = np.zeros(len(time_sim));
+ *     Af_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     cdef double ForceSE = F_se_function(Lse) * F0;
+ * 
+ */
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 553, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 553, __pyx_L1_error)
+  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 553, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
+    }
+  }
+  if (!__pyx_t_7) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 553, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    __Pyx_GOTREF(__pyx_t_4);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
+      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 553, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
+      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 553, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 553, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
+      __Pyx_GIVEREF(__pyx_t_14);
+      PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_14);
+      __pyx_t_14 = 0;
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 553, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_v_Af_vec = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":554
+ *     FF_vec = np.zeros(len(time_sim));
+ *     Af_vec = np.zeros(len(time_sim));
  *     cdef double ForceSE = F_se_function(Lse) * F0;             # <<<<<<<<<<<<<<
  * 
  *     Ia_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_Lse); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 543, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_Lse); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 554, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_32F_se_function(__pyx_v_F_se_function, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 543, __pyx_L1_error)
+  __pyx_t_6 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_32F_se_function(__pyx_v_F_se_function, __pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 554, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 543, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 554, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyNumber_Multiply(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 543, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Multiply(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 554, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 543, __pyx_L1_error)
+  __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 554, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_ForceSE = __pyx_t_10;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":545
+  /* "TwitchBasedMuscleModel_v3.pyx":556
  *     cdef double ForceSE = F_se_function(Lse) * F0;
  * 
  *     Ia_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     FR_Ia = np.zeros(len(time_sim));
  *     Input_Ia = np.zeros(len(time_sim));
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 545, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 545, __pyx_L1_error)
-  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 545, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_14 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_14)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_14);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_14) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 545, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_GOTREF(__pyx_t_5);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 545, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 545, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 545, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
-      __Pyx_GIVEREF(__pyx_t_6);
-      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
-      __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 545, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_Ia_vec = __pyx_t_5;
-  __pyx_t_5 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":546
- * 
- *     Ia_vec = np.zeros(len(time_sim));
- *     FR_Ia = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     Input_Ia = np.zeros(len(time_sim));
- * 
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 546, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 546, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 546, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_6) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 546, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_GOTREF(__pyx_t_5);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 546, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 546, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 546, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_6); __pyx_t_6 = NULL;
-      __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
-      __pyx_t_7 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 546, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_FR_Ia = __pyx_t_5;
-  __pyx_t_5 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":547
- *     Ia_vec = np.zeros(len(time_sim));
- *     FR_Ia = np.zeros(len(time_sim));
- *     Input_Ia = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- * 
- *     x_GTO = np.zeros(len(time_sim));
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 547, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 547, __pyx_L1_error)
-  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 547, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_7 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_7)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_7);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_7) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 547, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __Pyx_GOTREF(__pyx_t_5);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 547, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 547, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 547, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
-      __Pyx_GIVEREF(__pyx_t_14);
-      PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_14);
-      __pyx_t_14 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 547, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_Input_Ia = __pyx_t_5;
-  __pyx_t_5 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":549
- *     Input_Ia = np.zeros(len(time_sim));
- * 
- *     x_GTO = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     FR_Ib_temp = np.zeros(len(time_sim));
- *     FR_Ib = np.zeros(len(time_sim));
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 549, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 549, __pyx_L1_error)
-  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 549, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_14 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_14)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_14);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_14) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 549, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_GOTREF(__pyx_t_5);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 549, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 549, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 549, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
-      __Pyx_GIVEREF(__pyx_t_6);
-      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
-      __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 549, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_x_GTO = __pyx_t_5;
-  __pyx_t_5 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":550
- * 
- *     x_GTO = np.zeros(len(time_sim));
- *     FR_Ib_temp = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     FR_Ib = np.zeros(len(time_sim));
- *     Ib_vec = np.zeros(len(time_sim));
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 550, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 550, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 550, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_6) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 550, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_GOTREF(__pyx_t_5);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 550, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 550, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 550, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_6); __pyx_t_6 = NULL;
-      __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
-      __pyx_t_7 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 550, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_FR_Ib_temp = __pyx_t_5;
-  __pyx_t_5 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":551
- *     x_GTO = np.zeros(len(time_sim));
- *     FR_Ib_temp = np.zeros(len(time_sim));
- *     FR_Ib = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     Ib_vec = np.zeros(len(time_sim));
- *     Input_Ib = np.zeros(len(time_sim));
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 551, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 551, __pyx_L1_error)
-  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 551, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_7 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_7)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_7);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_7) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 551, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __Pyx_GOTREF(__pyx_t_5);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 551, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 551, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 551, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
-      __Pyx_GIVEREF(__pyx_t_14);
-      PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_14);
-      __pyx_t_14 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 551, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_FR_Ib = __pyx_t_5;
-  __pyx_t_5 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":552
- *     FR_Ib_temp = np.zeros(len(time_sim));
- *     FR_Ib = np.zeros(len(time_sim));
- *     Ib_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     Input_Ib = np.zeros(len(time_sim));
- * 
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 552, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 552, __pyx_L1_error)
-  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 552, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_14 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_14)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_14);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_14) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 552, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_GOTREF(__pyx_t_5);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 552, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 552, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 552, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
-      __Pyx_GIVEREF(__pyx_t_6);
-      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
-      __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 552, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_Ib_vec = __pyx_t_5;
-  __pyx_t_5 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":553
- *     FR_Ib = np.zeros(len(time_sim));
- *     Ib_vec = np.zeros(len(time_sim));
- *     Input_Ib = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- * 
- *     FR_RI_temp = np.zeros(len(time_sim));
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 553, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 553, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 553, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_6) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 553, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_GOTREF(__pyx_t_5);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 553, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 553, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 553, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_6); __pyx_t_6 = NULL;
-      __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
-      __pyx_t_7 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 553, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_Input_Ib = __pyx_t_5;
-  __pyx_t_5 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":555
- *     Input_Ib = np.zeros(len(time_sim));
- * 
- *     FR_RI_temp = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     FR_RI = np.zeros(len(time_sim));
- *     RI_vec = np.zeros(len(time_sim));
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 555, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 555, __pyx_L1_error)
-  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 555, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_7 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_7)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_7);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_7) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 555, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __Pyx_GOTREF(__pyx_t_5);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 555, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 555, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 555, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
-      __Pyx_GIVEREF(__pyx_t_14);
-      PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_14);
-      __pyx_t_14 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 555, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_FR_RI_temp = __pyx_t_5;
-  __pyx_t_5 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":556
- * 
- *     FR_RI_temp = np.zeros(len(time_sim));
- *     FR_RI = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     RI_vec = np.zeros(len(time_sim));
- *     Input_RI = np.zeros(len(time_sim));
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 556, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -14694,14 +14653,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_FR_RI = __pyx_t_5;
+  __pyx_v_Ia_vec = __pyx_t_5;
   __pyx_t_5 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":557
- *     FR_RI_temp = np.zeros(len(time_sim));
- *     FR_RI = np.zeros(len(time_sim));
- *     RI_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     Input_RI = np.zeros(len(time_sim));
+ * 
+ *     Ia_vec = np.zeros(len(time_sim));
+ *     FR_Ia = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     Input_Ia = np.zeros(len(time_sim));
  * 
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 557, __pyx_L1_error)
@@ -14755,15 +14714,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_RI_vec = __pyx_t_5;
+  __pyx_v_FR_Ia = __pyx_t_5;
   __pyx_t_5 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":558
- *     FR_RI = np.zeros(len(time_sim));
- *     RI_vec = np.zeros(len(time_sim));
- *     Input_RI = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     Ia_vec = np.zeros(len(time_sim));
+ *     FR_Ia = np.zeros(len(time_sim));
+ *     Input_Ia = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  * 
- *     FR_PN = np.zeros(len(time_sim));
+ *     x_GTO = np.zeros(len(time_sim));
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 558, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -14816,15 +14775,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_Input_RI = __pyx_t_5;
+  __pyx_v_Input_Ia = __pyx_t_5;
   __pyx_t_5 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":560
- *     Input_RI = np.zeros(len(time_sim));
+ *     Input_Ia = np.zeros(len(time_sim));
  * 
- *     FR_PN = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     PN_vec = np.zeros(len(time_sim));
- *     Input_PN = np.zeros(len(time_sim));
+ *     x_GTO = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     FR_Ib_temp = np.zeros(len(time_sim));
+ *     FR_Ib = np.zeros(len(time_sim));
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 560, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -14877,15 +14836,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_FR_PN = __pyx_t_5;
+  __pyx_v_x_GTO = __pyx_t_5;
   __pyx_t_5 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":561
  * 
- *     FR_PN = np.zeros(len(time_sim));
- *     PN_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     Input_PN = np.zeros(len(time_sim));
- * 
+ *     x_GTO = np.zeros(len(time_sim));
+ *     FR_Ib_temp = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     FR_Ib = np.zeros(len(time_sim));
+ *     Ib_vec = np.zeros(len(time_sim));
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 561, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -14938,15 +14897,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_PN_vec = __pyx_t_5;
+  __pyx_v_FR_Ib_temp = __pyx_t_5;
   __pyx_t_5 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":562
- *     FR_PN = np.zeros(len(time_sim));
- *     PN_vec = np.zeros(len(time_sim));
- *     Input_PN = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- * 
- *     # noise related
+ *     x_GTO = np.zeros(len(time_sim));
+ *     FR_Ib_temp = np.zeros(len(time_sim));
+ *     FR_Ib = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     Ib_vec = np.zeros(len(time_sim));
+ *     Input_Ib = np.zeros(len(time_sim));
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 562, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -14999,20 +14958,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_Input_PN = __pyx_t_5;
+  __pyx_v_FR_Ib = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":566
- *     # noise related
- *     # noise for neural drive
- *     noise = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     noise_filt = np.zeros(len(time_sim));
- *     # noise for error-based controller
+  /* "TwitchBasedMuscleModel_v3.pyx":563
+ *     FR_Ib_temp = np.zeros(len(time_sim));
+ *     FR_Ib = np.zeros(len(time_sim));
+ *     Ib_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     Input_Ib = np.zeros(len(time_sim));
+ * 
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 566, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 563, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 566, __pyx_L1_error)
-  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 566, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 563, __pyx_L1_error)
+  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 563, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_14 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -15025,14 +14984,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_14) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 566, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 563, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 566, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 563, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -15041,39 +15000,39 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 566, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 563, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 566, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 563, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 566, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 563, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_noise = __pyx_t_5;
+  __pyx_v_Ib_vec = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":567
- *     # noise for neural drive
- *     noise = np.zeros(len(time_sim));
- *     noise_filt = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     # noise for error-based controller
- *     noise_C = np.zeros(len(time_sim));
+  /* "TwitchBasedMuscleModel_v3.pyx":564
+ *     FR_Ib = np.zeros(len(time_sim));
+ *     Ib_vec = np.zeros(len(time_sim));
+ *     Input_Ib = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ * 
+ *     FR_RI_temp = np.zeros(len(time_sim));
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 567, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 564, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 567, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 567, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 564, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 564, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -15086,14 +15045,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_6) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 567, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 564, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 567, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 564, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -15102,34 +15061,217 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 567, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 564, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 567, __pyx_L1_error)
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 564, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_GIVEREF(__pyx_t_7);
       PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 567, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 564, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_noise_filt = __pyx_t_5;
+  __pyx_v_Input_Ib = __pyx_t_5;
+  __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":566
+ *     Input_Ib = np.zeros(len(time_sim));
+ * 
+ *     FR_RI_temp = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     FR_RI = np.zeros(len(time_sim));
+ *     RI_vec = np.zeros(len(time_sim));
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 566, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 566, __pyx_L1_error)
+  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 566, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  if (!__pyx_t_7) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 566, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 566, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 566, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 566, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
+      __Pyx_GIVEREF(__pyx_t_14);
+      PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_14);
+      __pyx_t_14 = 0;
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 566, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_FR_RI_temp = __pyx_t_5;
+  __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":567
+ * 
+ *     FR_RI_temp = np.zeros(len(time_sim));
+ *     FR_RI = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     RI_vec = np.zeros(len(time_sim));
+ *     Input_RI = np.zeros(len(time_sim));
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 567, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 567, __pyx_L1_error)
+  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 567, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_14 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_14)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_14);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  if (!__pyx_t_14) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 567, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 567, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 567, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 567, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
+      __Pyx_GIVEREF(__pyx_t_6);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
+      __pyx_t_6 = 0;
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 567, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_FR_RI = __pyx_t_5;
+  __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":568
+ *     FR_RI_temp = np.zeros(len(time_sim));
+ *     FR_RI = np.zeros(len(time_sim));
+ *     RI_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     Input_RI = np.zeros(len(time_sim));
+ * 
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 568, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 568, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 568, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  if (!__pyx_t_6) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 568, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 568, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 568, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 568, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_6); __pyx_t_6 = NULL;
+      __Pyx_GIVEREF(__pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 568, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_RI_vec = __pyx_t_5;
   __pyx_t_5 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":569
- *     noise_filt = np.zeros(len(time_sim));
- *     # noise for error-based controller
- *     noise_C = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     noise_C_filt = np.zeros(len(time_sim));
- *     # noise for Ia
+ *     FR_RI = np.zeros(len(time_sim));
+ *     RI_vec = np.zeros(len(time_sim));
+ *     Input_RI = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ * 
+ *     FR_PN = np.zeros(len(time_sim));
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 569, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -15182,20 +15324,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_noise_C = __pyx_t_5;
+  __pyx_v_Input_RI = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":570
- *     # noise for error-based controller
- *     noise_C = np.zeros(len(time_sim));
- *     noise_C_filt = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     # noise for Ia
- *     noise_Ia = np.zeros(len(time_sim));
+  /* "TwitchBasedMuscleModel_v3.pyx":571
+ *     Input_RI = np.zeros(len(time_sim));
+ * 
+ *     FR_PN = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     PN_vec = np.zeros(len(time_sim));
+ *     Input_PN = np.zeros(len(time_sim));
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 570, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 571, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 570, __pyx_L1_error)
-  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 570, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 571, __pyx_L1_error)
+  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 571, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_14 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -15208,14 +15350,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_14) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 570, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 571, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 570, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 571, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -15224,34 +15366,34 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 570, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 571, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 570, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 571, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 570, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 571, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_noise_C_filt = __pyx_t_5;
+  __pyx_v_FR_PN = __pyx_t_5;
   __pyx_t_5 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":572
- *     noise_C_filt = np.zeros(len(time_sim));
- *     # noise for Ia
- *     noise_Ia = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     noise_Ia_filt = np.zeros(len(time_sim));
- *     # noise for Ib
+ * 
+ *     FR_PN = np.zeros(len(time_sim));
+ *     PN_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     Input_PN = np.zeros(len(time_sim));
+ * 
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 572, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -15304,15 +15446,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_noise_Ia = __pyx_t_5;
+  __pyx_v_PN_vec = __pyx_t_5;
   __pyx_t_5 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":573
- *     # noise for Ia
- *     noise_Ia = np.zeros(len(time_sim));
- *     noise_Ia_filt = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     # noise for Ib
- *     noise_Ib = np.zeros(len(time_sim));
+ *     FR_PN = np.zeros(len(time_sim));
+ *     PN_vec = np.zeros(len(time_sim));
+ *     Input_PN = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ * 
+ *     # noise related
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 573, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -15365,20 +15507,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_noise_Ia_filt = __pyx_t_5;
+  __pyx_v_Input_PN = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":575
- *     noise_Ia_filt = np.zeros(len(time_sim));
- *     # noise for Ib
- *     noise_Ib = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
- *     noise_Ib_filt = np.zeros(len(time_sim));
- *     # noise for RI
+  /* "TwitchBasedMuscleModel_v3.pyx":577
+ *     # noise related
+ *     # noise for neural drive
+ *     noise = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     noise_filt = np.zeros(len(time_sim));
+ *     # noise for error-based controller
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 575, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 577, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 575, __pyx_L1_error)
-  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 575, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 577, __pyx_L1_error)
+  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 577, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_14 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -15391,14 +15533,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_14) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 575, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 577, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 575, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 577, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -15407,20 +15549,386 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 575, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 577, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 575, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 577, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 575, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 577, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_noise = __pyx_t_5;
+  __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":578
+ *     # noise for neural drive
+ *     noise = np.zeros(len(time_sim));
+ *     noise_filt = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     # noise for error-based controller
+ *     noise_C = np.zeros(len(time_sim));
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 578, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 578, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 578, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  if (!__pyx_t_6) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 578, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 578, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 578, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 578, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_6); __pyx_t_6 = NULL;
+      __Pyx_GIVEREF(__pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 578, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_noise_filt = __pyx_t_5;
+  __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":580
+ *     noise_filt = np.zeros(len(time_sim));
+ *     # noise for error-based controller
+ *     noise_C = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     noise_C_filt = np.zeros(len(time_sim));
+ *     # noise for Ia
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 580, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 580, __pyx_L1_error)
+  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 580, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  if (!__pyx_t_7) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 580, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 580, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 580, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 580, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
+      __Pyx_GIVEREF(__pyx_t_14);
+      PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_14);
+      __pyx_t_14 = 0;
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 580, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_noise_C = __pyx_t_5;
+  __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":581
+ *     # noise for error-based controller
+ *     noise_C = np.zeros(len(time_sim));
+ *     noise_C_filt = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     # noise for Ia
+ *     noise_Ia = np.zeros(len(time_sim));
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 581, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 581, __pyx_L1_error)
+  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 581, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_14 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_14)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_14);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  if (!__pyx_t_14) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 581, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 581, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 581, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 581, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
+      __Pyx_GIVEREF(__pyx_t_6);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
+      __pyx_t_6 = 0;
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 581, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_noise_C_filt = __pyx_t_5;
+  __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":583
+ *     noise_C_filt = np.zeros(len(time_sim));
+ *     # noise for Ia
+ *     noise_Ia = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     noise_Ia_filt = np.zeros(len(time_sim));
+ *     # noise for Ib
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 583, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 583, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 583, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_6 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  if (!__pyx_t_6) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 583, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 583, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 583, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 583, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_6); __pyx_t_6 = NULL;
+      __Pyx_GIVEREF(__pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 583, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_noise_Ia = __pyx_t_5;
+  __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":584
+ *     # noise for Ia
+ *     noise_Ia = np.zeros(len(time_sim));
+ *     noise_Ia_filt = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     # noise for Ib
+ *     noise_Ib = np.zeros(len(time_sim));
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 584, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 584, __pyx_L1_error)
+  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 584, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  if (!__pyx_t_7) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 584, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 584, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 584, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 584, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
+      __Pyx_GIVEREF(__pyx_t_14);
+      PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_14);
+      __pyx_t_14 = 0;
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 584, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_noise_Ia_filt = __pyx_t_5;
+  __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":586
+ *     noise_Ia_filt = np.zeros(len(time_sim));
+ *     # noise for Ib
+ *     noise_Ib = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
+ *     noise_Ib_filt = np.zeros(len(time_sim));
+ *     # noise for RI
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 586, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 586, __pyx_L1_error)
+  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 586, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_14 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_14)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_14);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  if (!__pyx_t_14) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 586, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 586, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 586, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 586, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
+      __Pyx_GIVEREF(__pyx_t_6);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
+      __pyx_t_6 = 0;
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 586, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
@@ -15429,17 +15937,17 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_noise_Ib = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":576
+  /* "TwitchBasedMuscleModel_v3.pyx":587
  *     # noise for Ib
  *     noise_Ib = np.zeros(len(time_sim));
  *     noise_Ib_filt = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     # noise for RI
  *     noise_RI = np.zeros(len(time_sim));
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 576, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 587, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 576, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 576, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 587, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 587, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -15452,14 +15960,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_6) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 576, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 587, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 576, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 587, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -15468,20 +15976,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 576, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 587, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 576, __pyx_L1_error)
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 587, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_GIVEREF(__pyx_t_7);
       PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 576, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 587, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     }
@@ -15490,17 +15998,17 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_noise_Ib_filt = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":578
+  /* "TwitchBasedMuscleModel_v3.pyx":589
  *     noise_Ib_filt = np.zeros(len(time_sim));
  *     # noise for RI
  *     noise_RI = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     noise_RI_filt = np.zeros(len(time_sim));
  *     # noise for PN
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 578, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 589, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 578, __pyx_L1_error)
-  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 578, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 589, __pyx_L1_error)
+  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 589, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -15513,14 +16021,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 578, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 589, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 578, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 589, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
@@ -15529,20 +16037,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 578, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 589, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 578, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 589, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_GIVEREF(__pyx_t_14);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_14);
       __pyx_t_14 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 578, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 589, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
@@ -15551,17 +16059,17 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_noise_RI = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":579
+  /* "TwitchBasedMuscleModel_v3.pyx":590
  *     # noise for RI
  *     noise_RI = np.zeros(len(time_sim));
  *     noise_RI_filt = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     # noise for PN
  *     noise_PN = np.zeros(len(time_sim));
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 579, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 590, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 579, __pyx_L1_error)
-  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 579, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 590, __pyx_L1_error)
+  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 590, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_14 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -15574,14 +16082,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_14) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 579, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 590, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 579, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 590, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -15590,20 +16098,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 579, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 590, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 579, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 590, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 579, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 590, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
@@ -15612,17 +16120,17 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_noise_RI_filt = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":581
+  /* "TwitchBasedMuscleModel_v3.pyx":592
  *     noise_RI_filt = np.zeros(len(time_sim));
  *     # noise for PN
  *     noise_PN = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     noise_PN_filt = np.zeros(len(time_sim));
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 581, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 592, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 581, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 581, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 592, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 592, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -15635,14 +16143,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_6) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 581, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 592, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 581, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 592, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -15651,20 +16159,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 581, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 592, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 581, __pyx_L1_error)
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 592, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_GIVEREF(__pyx_t_7);
       PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 581, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 592, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     }
@@ -15673,17 +16181,17 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_noise_PN = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":582
+  /* "TwitchBasedMuscleModel_v3.pyx":593
  *     # noise for PN
  *     noise_PN = np.zeros(len(time_sim));
  *     noise_PN_filt = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  * 
  *     C_vec = np.zeros(len(time_sim));
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 582, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 593, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 582, __pyx_L1_error)
-  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 582, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 593, __pyx_L1_error)
+  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 593, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -15696,14 +16204,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 582, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 593, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 582, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 593, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
@@ -15712,20 +16220,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 582, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 593, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 582, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 593, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_GIVEREF(__pyx_t_14);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_14);
       __pyx_t_14 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 582, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 593, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
@@ -15734,17 +16242,17 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_noise_PN_filt = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":584
+  /* "TwitchBasedMuscleModel_v3.pyx":595
  *     noise_PN_filt = np.zeros(len(time_sim));
  * 
  *     C_vec = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     ND = np.zeros(len(time_sim));
  *     ND_delayed = np.zeros(len(time_sim));
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 584, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 595, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 584, __pyx_L1_error)
-  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 584, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 595, __pyx_L1_error)
+  __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 595, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_14 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -15757,14 +16265,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_14) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 584, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 595, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 584, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 595, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -15773,20 +16281,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_14, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 584, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 595, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 584, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 595, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_14); __pyx_t_14 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 584, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 595, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
@@ -15795,17 +16303,17 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_C_vec = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":585
+  /* "TwitchBasedMuscleModel_v3.pyx":596
  * 
  *     C_vec = np.zeros(len(time_sim));
  *     ND = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  *     ND_delayed = np.zeros(len(time_sim));
  * 
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 585, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 596, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 585, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 585, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 596, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 596, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -15818,14 +16326,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_6) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 585, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 596, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 585, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 596, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -15834,20 +16342,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 585, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 596, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 585, __pyx_L1_error)
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 596, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_GIVEREF(__pyx_t_7);
       PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 585, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 596, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     }
@@ -15856,17 +16364,17 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_ND = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":586
+  /* "TwitchBasedMuscleModel_v3.pyx":597
  *     C_vec = np.zeros(len(time_sim));
  *     ND = np.zeros(len(time_sim));
  *     ND_delayed = np.zeros(len(time_sim));             # <<<<<<<<<<<<<<
  * 
  *     for t in xrange(len(time_sim)):
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 586, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 597, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 586, __pyx_L1_error)
-  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 586, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 597, __pyx_L1_error)
+  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 597, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -15879,14 +16387,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 586, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 597, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __Pyx_GOTREF(__pyx_t_5);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 586, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 597, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
@@ -15895,20 +16403,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_14};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 586, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 597, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 586, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 597, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_GIVEREF(__pyx_t_14);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_14);
       __pyx_t_14 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 586, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 597, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
@@ -15917,31 +16425,31 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __pyx_v_ND_delayed = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":588
+  /* "TwitchBasedMuscleModel_v3.pyx":599
  *     ND_delayed = np.zeros(len(time_sim));
  * 
  *     for t in xrange(len(time_sim)):             # <<<<<<<<<<<<<<
  * 
  *         # Obtain spindle output
  */
-  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 588, __pyx_L1_error)
-  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 588, __pyx_L1_error)
+  __pyx_t_16 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 599, __pyx_L1_error)
+  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_16); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 599, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 588, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 599, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5);
   __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_xrange, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 588, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_xrange, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 599, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (likely(PyList_CheckExact(__pyx_t_5)) || PyTuple_CheckExact(__pyx_t_5)) {
     __pyx_t_4 = __pyx_t_5; __Pyx_INCREF(__pyx_t_4); __pyx_t_16 = 0;
     __pyx_t_17 = NULL;
   } else {
-    __pyx_t_16 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 588, __pyx_L1_error)
+    __pyx_t_16 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 599, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_17 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 588, __pyx_L1_error)
+    __pyx_t_17 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 599, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   for (;;) {
@@ -15949,17 +16457,17 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       if (likely(PyList_CheckExact(__pyx_t_4))) {
         if (__pyx_t_16 >= PyList_GET_SIZE(__pyx_t_4)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_16); __Pyx_INCREF(__pyx_t_5); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 588, __pyx_L1_error)
+        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_16); __Pyx_INCREF(__pyx_t_5); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 599, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 588, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 599, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       } else {
         if (__pyx_t_16 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_16); __Pyx_INCREF(__pyx_t_5); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 588, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_16); __Pyx_INCREF(__pyx_t_5); __pyx_t_16++; if (unlikely(0 < 0)) __PYX_ERR(0, 599, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 588, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_4, __pyx_t_16); __pyx_t_16++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 599, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       }
@@ -15969,7 +16477,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 588, __pyx_L1_error)
+          else __PYX_ERR(0, 599, __pyx_L1_error)
         }
         break;
       }
@@ -15978,28 +16486,28 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __Pyx_XDECREF_SET(__pyx_v_t, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":591
+    /* "TwitchBasedMuscleModel_v3.pyx":602
  * 
  *         # Obtain spindle output
  *         (AP_bag1,f_dynamic_bag1,T_bag1,T_dot_bag1) = bag1_model(f_dynamic_bag1,gamma_dynamic,T_bag1,T_dot_bag1,Lce,Vce,Ace,step);             # <<<<<<<<<<<<<<
  *         (AP_primary_bag2,AP_secondary_bag2,f_static,T_bag2,T_dot_bag2) = bag2_model(f_static_bag2,gamma_static,T_bag2,T_dot_bag2,Lce,Vce,Ace,step);
  *         (AP_primary_chain,AP_secondary_chain,T_chain,T_dot_chain) = chain_model(gamma_static,T_chain,T_dot_chain,Lce,Vce,Ace,step);
  */
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_f_dynamic_bag1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 591, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_f_dynamic_bag1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 602, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_gamma_dynamic); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 591, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_gamma_dynamic); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 602, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_14 = PyFloat_FromDouble(__pyx_v_T_bag1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 591, __pyx_L1_error)
+    __pyx_t_14 = PyFloat_FromDouble(__pyx_v_T_bag1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 602, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_T_dot_bag1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 591, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_T_dot_bag1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 602, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 591, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 602, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 591, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 602, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 591, __pyx_L1_error)
+    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 602, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_13 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_36bag1_model(__pyx_v_bag1_model, __pyx_t_5, __pyx_t_6, __pyx_t_14, __pyx_t_7, __pyx_t_2, __pyx_t_1, __pyx_v_Ace, __pyx_t_15); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 591, __pyx_L1_error)
+    __pyx_t_13 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_36bag1_model(__pyx_v_bag1_model, __pyx_t_5, __pyx_t_6, __pyx_t_14, __pyx_t_7, __pyx_t_2, __pyx_t_1, __pyx_v_Ace, __pyx_t_15); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 602, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -16018,7 +16526,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       if (unlikely(size != 4)) {
         if (size > 4) __Pyx_RaiseTooManyValuesError(4);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 591, __pyx_L1_error)
+        __PYX_ERR(0, 602, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -16041,7 +16549,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         Py_ssize_t i;
         PyObject** temps[4] = {&__pyx_t_15,&__pyx_t_1,&__pyx_t_2,&__pyx_t_7};
         for (i=0; i < 4; i++) {
-          PyObject* item = PySequence_ITEM(sequence, i); if (unlikely(!item)) __PYX_ERR(0, 591, __pyx_L1_error)
+          PyObject* item = PySequence_ITEM(sequence, i); if (unlikely(!item)) __PYX_ERR(0, 602, __pyx_L1_error)
           __Pyx_GOTREF(item);
           *(temps[i]) = item;
         }
@@ -16051,7 +16559,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     } else {
       Py_ssize_t index = -1;
       PyObject** temps[4] = {&__pyx_t_15,&__pyx_t_1,&__pyx_t_2,&__pyx_t_7};
-      __pyx_t_14 = PyObject_GetIter(__pyx_t_13); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 591, __pyx_L1_error)
+      __pyx_t_14 = PyObject_GetIter(__pyx_t_13); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 602, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       __pyx_t_8 = Py_TYPE(__pyx_t_14)->tp_iternext;
@@ -16060,7 +16568,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_GOTREF(item);
         *(temps[index]) = item;
       }
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_14), 4) < 0) __PYX_ERR(0, 591, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_14), 4) < 0) __PYX_ERR(0, 602, __pyx_L1_error)
       __pyx_t_8 = NULL;
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       goto __pyx_L8_unpacking_done;
@@ -16068,14 +16576,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       __pyx_t_8 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 591, __pyx_L1_error)
+      __PYX_ERR(0, 602, __pyx_L1_error)
       __pyx_L8_unpacking_done:;
     }
-    __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 591, __pyx_L1_error)
+    __pyx_t_10 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_10 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 602, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 591, __pyx_L1_error)
+    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 602, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 591, __pyx_L1_error)
+    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 602, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_XDECREF_SET(__pyx_v_AP_bag1, __pyx_t_15);
     __pyx_t_15 = 0;
@@ -16083,28 +16591,28 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __pyx_v_T_bag1 = __pyx_t_9;
     __pyx_v_T_dot_bag1 = __pyx_t_3;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":592
+    /* "TwitchBasedMuscleModel_v3.pyx":603
  *         # Obtain spindle output
  *         (AP_bag1,f_dynamic_bag1,T_bag1,T_dot_bag1) = bag1_model(f_dynamic_bag1,gamma_dynamic,T_bag1,T_dot_bag1,Lce,Vce,Ace,step);
  *         (AP_primary_bag2,AP_secondary_bag2,f_static,T_bag2,T_dot_bag2) = bag2_model(f_static_bag2,gamma_static,T_bag2,T_dot_bag2,Lce,Vce,Ace,step);             # <<<<<<<<<<<<<<
  *         (AP_primary_chain,AP_secondary_chain,T_chain,T_dot_chain) = chain_model(gamma_static,T_chain,T_dot_chain,Lce,Vce,Ace,step);
  *         (Output_Primary,Output_Secondary) = SpindleOutput(AP_bag1,AP_primary_bag2,AP_secondary_bag2,AP_primary_chain,AP_secondary_chain);
  */
-    __pyx_t_13 = PyFloat_FromDouble(__pyx_v_f_static_bag2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 592, __pyx_L1_error)
+    __pyx_t_13 = PyFloat_FromDouble(__pyx_v_f_static_bag2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 603, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_gamma_static); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 592, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_gamma_static); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 603, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_T_bag2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 592, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_T_bag2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 603, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_T_dot_bag2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 592, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_T_dot_bag2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 603, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 592, __pyx_L1_error)
+    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 603, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_14 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 592, __pyx_L1_error)
+    __pyx_t_14 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 603, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 592, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 603, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_38bag2_model(__pyx_v_bag2_model, __pyx_t_13, __pyx_t_7, __pyx_t_2, __pyx_t_1, __pyx_t_15, __pyx_t_14, __pyx_v_Ace, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 592, __pyx_L1_error)
+    __pyx_t_5 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_38bag2_model(__pyx_v_bag2_model, __pyx_t_13, __pyx_t_7, __pyx_t_2, __pyx_t_1, __pyx_t_15, __pyx_t_14, __pyx_v_Ace, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 603, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -16123,7 +16631,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       if (unlikely(size != 5)) {
         if (size > 5) __Pyx_RaiseTooManyValuesError(5);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 592, __pyx_L1_error)
+        __PYX_ERR(0, 603, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -16149,7 +16657,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         Py_ssize_t i;
         PyObject** temps[5] = {&__pyx_t_6,&__pyx_t_14,&__pyx_t_15,&__pyx_t_1,&__pyx_t_2};
         for (i=0; i < 5; i++) {
-          PyObject* item = PySequence_ITEM(sequence, i); if (unlikely(!item)) __PYX_ERR(0, 592, __pyx_L1_error)
+          PyObject* item = PySequence_ITEM(sequence, i); if (unlikely(!item)) __PYX_ERR(0, 603, __pyx_L1_error)
           __Pyx_GOTREF(item);
           *(temps[i]) = item;
         }
@@ -16159,7 +16667,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     } else {
       Py_ssize_t index = -1;
       PyObject** temps[5] = {&__pyx_t_6,&__pyx_t_14,&__pyx_t_15,&__pyx_t_1,&__pyx_t_2};
-      __pyx_t_7 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 592, __pyx_L1_error)
+      __pyx_t_7 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 603, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_t_8 = Py_TYPE(__pyx_t_7)->tp_iternext;
@@ -16168,7 +16676,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_GOTREF(item);
         *(temps[index]) = item;
       }
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_7), 5) < 0) __PYX_ERR(0, 592, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_7), 5) < 0) __PYX_ERR(0, 603, __pyx_L1_error)
       __pyx_t_8 = NULL;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       goto __pyx_L10_unpacking_done;
@@ -16176,12 +16684,12 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_8 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 592, __pyx_L1_error)
+      __PYX_ERR(0, 603, __pyx_L1_error)
       __pyx_L10_unpacking_done:;
     }
-    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 592, __pyx_L1_error)
+    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 603, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 592, __pyx_L1_error)
+    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 603, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_XDECREF_SET(__pyx_v_AP_primary_bag2, __pyx_t_6);
     __pyx_t_6 = 0;
@@ -16192,26 +16700,26 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __pyx_v_T_bag2 = __pyx_t_3;
     __pyx_v_T_dot_bag2 = __pyx_t_9;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":593
+    /* "TwitchBasedMuscleModel_v3.pyx":604
  *         (AP_bag1,f_dynamic_bag1,T_bag1,T_dot_bag1) = bag1_model(f_dynamic_bag1,gamma_dynamic,T_bag1,T_dot_bag1,Lce,Vce,Ace,step);
  *         (AP_primary_bag2,AP_secondary_bag2,f_static,T_bag2,T_dot_bag2) = bag2_model(f_static_bag2,gamma_static,T_bag2,T_dot_bag2,Lce,Vce,Ace,step);
  *         (AP_primary_chain,AP_secondary_chain,T_chain,T_dot_chain) = chain_model(gamma_static,T_chain,T_dot_chain,Lce,Vce,Ace,step);             # <<<<<<<<<<<<<<
  *         (Output_Primary,Output_Secondary) = SpindleOutput(AP_bag1,AP_primary_bag2,AP_secondary_bag2,AP_primary_chain,AP_secondary_chain);
  *         FR_Ia[t] = Output_Primary;
  */
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_gamma_static); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 593, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_gamma_static); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 604, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_T_chain); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 593, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_T_chain); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 604, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_T_dot_chain); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 593, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_T_dot_chain); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 604, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 593, __pyx_L1_error)
+    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 604, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_14 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 593, __pyx_L1_error)
+    __pyx_t_14 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 604, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 593, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 604, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_40chain_model(__pyx_v_chain_model, __pyx_t_5, __pyx_t_2, __pyx_t_1, __pyx_t_15, __pyx_t_14, __pyx_v_Ace, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 593, __pyx_L1_error)
+    __pyx_t_7 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_40chain_model(__pyx_v_chain_model, __pyx_t_5, __pyx_t_2, __pyx_t_1, __pyx_t_15, __pyx_t_14, __pyx_v_Ace, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 604, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -16229,7 +16737,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       if (unlikely(size != 4)) {
         if (size > 4) __Pyx_RaiseTooManyValuesError(4);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 593, __pyx_L1_error)
+        __PYX_ERR(0, 604, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -16252,7 +16760,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         Py_ssize_t i;
         PyObject** temps[4] = {&__pyx_t_6,&__pyx_t_14,&__pyx_t_15,&__pyx_t_1};
         for (i=0; i < 4; i++) {
-          PyObject* item = PySequence_ITEM(sequence, i); if (unlikely(!item)) __PYX_ERR(0, 593, __pyx_L1_error)
+          PyObject* item = PySequence_ITEM(sequence, i); if (unlikely(!item)) __PYX_ERR(0, 604, __pyx_L1_error)
           __Pyx_GOTREF(item);
           *(temps[i]) = item;
         }
@@ -16262,7 +16770,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     } else {
       Py_ssize_t index = -1;
       PyObject** temps[4] = {&__pyx_t_6,&__pyx_t_14,&__pyx_t_15,&__pyx_t_1};
-      __pyx_t_2 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 593, __pyx_L1_error)
+      __pyx_t_2 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 604, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_8 = Py_TYPE(__pyx_t_2)->tp_iternext;
@@ -16271,7 +16779,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_GOTREF(item);
         *(temps[index]) = item;
       }
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_2), 4) < 0) __PYX_ERR(0, 593, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_2), 4) < 0) __PYX_ERR(0, 604, __pyx_L1_error)
       __pyx_t_8 = NULL;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       goto __pyx_L12_unpacking_done;
@@ -16279,12 +16787,12 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_t_8 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 593, __pyx_L1_error)
+      __PYX_ERR(0, 604, __pyx_L1_error)
       __pyx_L12_unpacking_done:;
     }
-    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_15); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 593, __pyx_L1_error)
+    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_15); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 604, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 593, __pyx_L1_error)
+    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 604, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_XDECREF_SET(__pyx_v_AP_primary_chain, __pyx_t_6);
     __pyx_t_6 = 0;
@@ -16293,14 +16801,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __pyx_v_T_chain = __pyx_t_9;
     __pyx_v_T_dot_chain = __pyx_t_3;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":594
+    /* "TwitchBasedMuscleModel_v3.pyx":605
  *         (AP_primary_bag2,AP_secondary_bag2,f_static,T_bag2,T_dot_bag2) = bag2_model(f_static_bag2,gamma_static,T_bag2,T_dot_bag2,Lce,Vce,Ace,step);
  *         (AP_primary_chain,AP_secondary_chain,T_chain,T_dot_chain) = chain_model(gamma_static,T_chain,T_dot_chain,Lce,Vce,Ace,step);
  *         (Output_Primary,Output_Secondary) = SpindleOutput(AP_bag1,AP_primary_bag2,AP_secondary_bag2,AP_primary_chain,AP_secondary_chain);             # <<<<<<<<<<<<<<
  *         FR_Ia[t] = Output_Primary;
  *         Input_Ia_temp = smoothSaturationFunction(FR_Ia[t]/Gain_Ia + Ia_PC);
  */
-    __pyx_t_7 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_42SpindleOutput(__pyx_v_SpindleOutput, __pyx_v_AP_bag1, __pyx_v_AP_primary_bag2, __pyx_v_AP_secondary_bag2, __pyx_v_AP_primary_chain, __pyx_v_AP_secondary_chain); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 594, __pyx_L1_error)
+    __pyx_t_7 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_42SpindleOutput(__pyx_v_SpindleOutput, __pyx_v_AP_bag1, __pyx_v_AP_primary_bag2, __pyx_v_AP_secondary_bag2, __pyx_v_AP_primary_chain, __pyx_v_AP_secondary_chain); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 605, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if ((likely(PyTuple_CheckExact(__pyx_t_7))) || (PyList_CheckExact(__pyx_t_7))) {
       PyObject* sequence = __pyx_t_7;
@@ -16312,7 +16820,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 594, __pyx_L1_error)
+        __PYX_ERR(0, 605, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -16325,15 +16833,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_INCREF(__pyx_t_1);
       __Pyx_INCREF(__pyx_t_15);
       #else
-      __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 594, __pyx_L1_error)
+      __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 605, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_15 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 594, __pyx_L1_error)
+      __pyx_t_15 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 605, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_15);
       #endif
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_14 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 594, __pyx_L1_error)
+      __pyx_t_14 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 605, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_8 = Py_TYPE(__pyx_t_14)->tp_iternext;
@@ -16341,7 +16849,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_GOTREF(__pyx_t_1);
       index = 1; __pyx_t_15 = __pyx_t_8(__pyx_t_14); if (unlikely(!__pyx_t_15)) goto __pyx_L13_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_15);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_14), 2) < 0) __PYX_ERR(0, 594, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_14), 2) < 0) __PYX_ERR(0, 605, __pyx_L1_error)
       __pyx_t_8 = NULL;
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       goto __pyx_L14_unpacking_done;
@@ -16349,7 +16857,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       __pyx_t_8 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 594, __pyx_L1_error)
+      __PYX_ERR(0, 605, __pyx_L1_error)
       __pyx_L14_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_Output_Primary, __pyx_t_1);
@@ -16357,62 +16865,62 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __Pyx_XDECREF_SET(__pyx_v_Output_Secondary, __pyx_t_15);
     __pyx_t_15 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":595
+    /* "TwitchBasedMuscleModel_v3.pyx":606
  *         (AP_primary_chain,AP_secondary_chain,T_chain,T_dot_chain) = chain_model(gamma_static,T_chain,T_dot_chain,Lce,Vce,Ace,step);
  *         (Output_Primary,Output_Secondary) = SpindleOutput(AP_bag1,AP_primary_bag2,AP_secondary_bag2,AP_primary_chain,AP_secondary_chain);
  *         FR_Ia[t] = Output_Primary;             # <<<<<<<<<<<<<<
  *         Input_Ia_temp = smoothSaturationFunction(FR_Ia[t]/Gain_Ia + Ia_PC);
  *         if t < 5:
  */
-    if (unlikely(PyObject_SetItem(__pyx_v_FR_Ia, __pyx_v_t, __pyx_v_Output_Primary) < 0)) __PYX_ERR(0, 595, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_FR_Ia, __pyx_v_t, __pyx_v_Output_Primary) < 0)) __PYX_ERR(0, 606, __pyx_L1_error)
 
-    /* "TwitchBasedMuscleModel_v3.pyx":596
+    /* "TwitchBasedMuscleModel_v3.pyx":607
  *         (Output_Primary,Output_Secondary) = SpindleOutput(AP_bag1,AP_primary_bag2,AP_secondary_bag2,AP_primary_chain,AP_secondary_chain);
  *         FR_Ia[t] = Output_Primary;
  *         Input_Ia_temp = smoothSaturationFunction(FR_Ia[t]/Gain_Ia + Ia_PC);             # <<<<<<<<<<<<<<
  *         if t < 5:
  *             (noise_Ia,noise_Ia_filt) = noiseOutput(noise_Ia,noise_Ia_filt,Input_Ia_temp,t);
  */
-    __pyx_t_7 = PyObject_GetItem(__pyx_v_FR_Ia, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 596, __pyx_L1_error)
+    __pyx_t_7 = PyObject_GetItem(__pyx_v_FR_Ia, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 607, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Gain_Ia); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 596, __pyx_L1_error)
+    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Gain_Ia); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 607, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 596, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 607, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Ia_PC); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 596, __pyx_L1_error)
+    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Ia_PC); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 607, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_7 = PyNumber_Add(__pyx_t_1, __pyx_t_15); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 596, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Add(__pyx_t_1, __pyx_t_15); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 607, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __pyx_t_15 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_48smoothSaturationFunction(__pyx_v_smoothSaturationFunction, __pyx_t_7); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 596, __pyx_L1_error)
+    __pyx_t_15 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_48smoothSaturationFunction(__pyx_v_smoothSaturationFunction, __pyx_t_7); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 607, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_XDECREF_SET(__pyx_v_Input_Ia_temp, __pyx_t_15);
     __pyx_t_15 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":597
+    /* "TwitchBasedMuscleModel_v3.pyx":608
  *         FR_Ia[t] = Output_Primary;
  *         Input_Ia_temp = smoothSaturationFunction(FR_Ia[t]/Gain_Ia + Ia_PC);
  *         if t < 5:             # <<<<<<<<<<<<<<
  *             (noise_Ia,noise_Ia_filt) = noiseOutput(noise_Ia,noise_Ia_filt,Input_Ia_temp,t);
  *             Input_Ia[t] = Input_Ia_temp + noise_Ia_filt[t];
  */
-    __pyx_t_15 = PyObject_RichCompare(__pyx_v_t, __pyx_int_5, Py_LT); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 597, __pyx_L1_error)
-    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 597, __pyx_L1_error)
+    __pyx_t_15 = PyObject_RichCompare(__pyx_v_t, __pyx_int_5, Py_LT); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 608, __pyx_L1_error)
+    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 608, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     if (__pyx_t_18) {
 
-      /* "TwitchBasedMuscleModel_v3.pyx":598
+      /* "TwitchBasedMuscleModel_v3.pyx":609
  *         Input_Ia_temp = smoothSaturationFunction(FR_Ia[t]/Gain_Ia + Ia_PC);
  *         if t < 5:
  *             (noise_Ia,noise_Ia_filt) = noiseOutput(noise_Ia,noise_Ia_filt,Input_Ia_temp,t);             # <<<<<<<<<<<<<<
  *             Input_Ia[t] = Input_Ia_temp + noise_Ia_filt[t];
  *             if Input_Ia[t] < 0:
  */
-      __pyx_t_15 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_52noiseOutput(__pyx_v_noiseOutput, __pyx_v_noise_Ia, __pyx_v_noise_Ia_filt, __pyx_v_Input_Ia_temp, __pyx_v_t); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 598, __pyx_L1_error)
+      __pyx_t_15 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_52noiseOutput(__pyx_v_noiseOutput, __pyx_v_noise_Ia, __pyx_v_noise_Ia_filt, __pyx_v_Input_Ia_temp, __pyx_v_t); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 609, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_15);
       if ((likely(PyTuple_CheckExact(__pyx_t_15))) || (PyList_CheckExact(__pyx_t_15))) {
         PyObject* sequence = __pyx_t_15;
@@ -16424,7 +16932,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 598, __pyx_L1_error)
+          __PYX_ERR(0, 609, __pyx_L1_error)
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -16437,15 +16945,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(__pyx_t_1);
         #else
-        __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 598, __pyx_L1_error)
+        __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 609, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_1 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 598, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 609, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
         __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_14 = PyObject_GetIter(__pyx_t_15); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 598, __pyx_L1_error)
+        __pyx_t_14 = PyObject_GetIter(__pyx_t_15); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 609, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_14);
         __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
         __pyx_t_8 = Py_TYPE(__pyx_t_14)->tp_iternext;
@@ -16453,7 +16961,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_GOTREF(__pyx_t_7);
         index = 1; __pyx_t_1 = __pyx_t_8(__pyx_t_14); if (unlikely(!__pyx_t_1)) goto __pyx_L16_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_1);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_14), 2) < 0) __PYX_ERR(0, 598, __pyx_L1_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_14), 2) < 0) __PYX_ERR(0, 609, __pyx_L1_error)
         __pyx_t_8 = NULL;
         __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
         goto __pyx_L17_unpacking_done;
@@ -16461,7 +16969,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
         __pyx_t_8 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 598, __pyx_L1_error)
+        __PYX_ERR(0, 609, __pyx_L1_error)
         __pyx_L17_unpacking_done:;
       }
       __Pyx_DECREF_SET(__pyx_v_noise_Ia, __pyx_t_7);
@@ -16469,46 +16977,46 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_DECREF_SET(__pyx_v_noise_Ia_filt, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":599
+      /* "TwitchBasedMuscleModel_v3.pyx":610
  *         if t < 5:
  *             (noise_Ia,noise_Ia_filt) = noiseOutput(noise_Ia,noise_Ia_filt,Input_Ia_temp,t);
  *             Input_Ia[t] = Input_Ia_temp + noise_Ia_filt[t];             # <<<<<<<<<<<<<<
  *             if Input_Ia[t] < 0:
  *                 Input_Ia[t] = 0;
  */
-      __pyx_t_15 = PyObject_GetItem(__pyx_v_noise_Ia_filt, __pyx_v_t); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 599, __pyx_L1_error)
+      __pyx_t_15 = PyObject_GetItem(__pyx_v_noise_Ia_filt, __pyx_v_t); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 610, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_15);
-      __pyx_t_1 = PyNumber_Add(__pyx_v_Input_Ia_temp, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 599, __pyx_L1_error)
+      __pyx_t_1 = PyNumber_Add(__pyx_v_Input_Ia_temp, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 610, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-      if (unlikely(PyObject_SetItem(__pyx_v_Input_Ia, __pyx_v_t, __pyx_t_1) < 0)) __PYX_ERR(0, 599, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_v_Input_Ia, __pyx_v_t, __pyx_t_1) < 0)) __PYX_ERR(0, 610, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":600
+      /* "TwitchBasedMuscleModel_v3.pyx":611
  *             (noise_Ia,noise_Ia_filt) = noiseOutput(noise_Ia,noise_Ia_filt,Input_Ia_temp,t);
  *             Input_Ia[t] = Input_Ia_temp + noise_Ia_filt[t];
  *             if Input_Ia[t] < 0:             # <<<<<<<<<<<<<<
  *                 Input_Ia[t] = 0;
  * 
  */
-      __pyx_t_1 = PyObject_GetItem(__pyx_v_Input_Ia, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 600, __pyx_L1_error)
+      __pyx_t_1 = PyObject_GetItem(__pyx_v_Input_Ia, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 611, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_15 = PyObject_RichCompare(__pyx_t_1, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 600, __pyx_L1_error)
+      __pyx_t_15 = PyObject_RichCompare(__pyx_t_1, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 611, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 600, __pyx_L1_error)
+      __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 611, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
       if (__pyx_t_18) {
 
-        /* "TwitchBasedMuscleModel_v3.pyx":601
+        /* "TwitchBasedMuscleModel_v3.pyx":612
  *             Input_Ia[t] = Input_Ia_temp + noise_Ia_filt[t];
  *             if Input_Ia[t] < 0:
  *                 Input_Ia[t] = 0;             # <<<<<<<<<<<<<<
  * 
  *         # Obtain GTO output
  */
-        if (unlikely(PyObject_SetItem(__pyx_v_Input_Ia, __pyx_v_t, __pyx_int_0) < 0)) __PYX_ERR(0, 601, __pyx_L1_error)
+        if (unlikely(PyObject_SetItem(__pyx_v_Input_Ia, __pyx_v_t, __pyx_int_0) < 0)) __PYX_ERR(0, 612, __pyx_L1_error)
 
-        /* "TwitchBasedMuscleModel_v3.pyx":600
+        /* "TwitchBasedMuscleModel_v3.pyx":611
  *             (noise_Ia,noise_Ia_filt) = noiseOutput(noise_Ia,noise_Ia_filt,Input_Ia_temp,t);
  *             Input_Ia[t] = Input_Ia_temp + noise_Ia_filt[t];
  *             if Input_Ia[t] < 0:             # <<<<<<<<<<<<<<
@@ -16517,7 +17025,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
       }
 
-      /* "TwitchBasedMuscleModel_v3.pyx":597
+      /* "TwitchBasedMuscleModel_v3.pyx":608
  *         FR_Ia[t] = Output_Primary;
  *         Input_Ia_temp = smoothSaturationFunction(FR_Ia[t]/Gain_Ia + Ia_PC);
  *         if t < 5:             # <<<<<<<<<<<<<<
@@ -16526,28 +17034,28 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
     }
 
-    /* "TwitchBasedMuscleModel_v3.pyx":604
+    /* "TwitchBasedMuscleModel_v3.pyx":615
  * 
  *         # Obtain GTO output
  *         if t > 5:             # <<<<<<<<<<<<<<
  *             (FR_Ib,FR_Ib_temp,x_GTO) = GTOOutput(FR_Ib,FR_Ib_temp,x_GTO,ForceSE,t);
  *             Input_Ib_temp = smoothSaturationFunction(FR_Ib[t]/Gain_Ib + Ib_PC);
  */
-    __pyx_t_15 = PyObject_RichCompare(__pyx_v_t, __pyx_int_5, Py_GT); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 604, __pyx_L1_error)
-    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 604, __pyx_L1_error)
+    __pyx_t_15 = PyObject_RichCompare(__pyx_v_t, __pyx_int_5, Py_GT); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 615, __pyx_L1_error)
+    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 615, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     if (__pyx_t_18) {
 
-      /* "TwitchBasedMuscleModel_v3.pyx":605
+      /* "TwitchBasedMuscleModel_v3.pyx":616
  *         # Obtain GTO output
  *         if t > 5:
  *             (FR_Ib,FR_Ib_temp,x_GTO) = GTOOutput(FR_Ib,FR_Ib_temp,x_GTO,ForceSE,t);             # <<<<<<<<<<<<<<
  *             Input_Ib_temp = smoothSaturationFunction(FR_Ib[t]/Gain_Ib + Ib_PC);
  *             (noise_Ib,noise_Ib_filt) = noiseOutput(noise_Ib,noise_Ib_filt,Input_Ib_temp,t);
  */
-      __pyx_t_15 = PyFloat_FromDouble(__pyx_v_ForceSE); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 605, __pyx_L1_error)
+      __pyx_t_15 = PyFloat_FromDouble(__pyx_v_ForceSE); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 616, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_15);
-      __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_44GTOOutput(__pyx_v_GTOOutput, __pyx_v_FR_Ib, __pyx_v_FR_Ib_temp, __pyx_v_x_GTO, __pyx_t_15, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 605, __pyx_L1_error)
+      __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_44GTOOutput(__pyx_v_GTOOutput, __pyx_v_FR_Ib, __pyx_v_FR_Ib_temp, __pyx_v_x_GTO, __pyx_t_15, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 616, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
       if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
@@ -16560,7 +17068,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         if (unlikely(size != 3)) {
           if (size > 3) __Pyx_RaiseTooManyValuesError(3);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 605, __pyx_L1_error)
+          __PYX_ERR(0, 616, __pyx_L1_error)
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -16576,17 +17084,17 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(__pyx_t_14);
         #else
-        __pyx_t_15 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 605, __pyx_L1_error)
+        __pyx_t_15 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 616, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_15);
-        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 605, __pyx_L1_error)
+        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 616, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_14 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 605, __pyx_L1_error)
+        __pyx_t_14 = PySequence_ITEM(sequence, 2); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 616, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_14);
         #endif
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_6 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 605, __pyx_L1_error)
+        __pyx_t_6 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 616, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __pyx_t_8 = Py_TYPE(__pyx_t_6)->tp_iternext;
@@ -16596,7 +17104,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_GOTREF(__pyx_t_7);
         index = 2; __pyx_t_14 = __pyx_t_8(__pyx_t_6); if (unlikely(!__pyx_t_14)) goto __pyx_L20_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_14);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_6), 3) < 0) __PYX_ERR(0, 605, __pyx_L1_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_6), 3) < 0) __PYX_ERR(0, 616, __pyx_L1_error)
         __pyx_t_8 = NULL;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         goto __pyx_L21_unpacking_done;
@@ -16604,7 +17112,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __pyx_t_8 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 605, __pyx_L1_error)
+        __PYX_ERR(0, 616, __pyx_L1_error)
         __pyx_L21_unpacking_done:;
       }
       __Pyx_DECREF_SET(__pyx_v_FR_Ib, __pyx_t_15);
@@ -16614,41 +17122,41 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_DECREF_SET(__pyx_v_x_GTO, __pyx_t_14);
       __pyx_t_14 = 0;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":606
+      /* "TwitchBasedMuscleModel_v3.pyx":617
  *         if t > 5:
  *             (FR_Ib,FR_Ib_temp,x_GTO) = GTOOutput(FR_Ib,FR_Ib_temp,x_GTO,ForceSE,t);
  *             Input_Ib_temp = smoothSaturationFunction(FR_Ib[t]/Gain_Ib + Ib_PC);             # <<<<<<<<<<<<<<
  *             (noise_Ib,noise_Ib_filt) = noiseOutput(noise_Ib,noise_Ib_filt,Input_Ib_temp,t);
  *             Input_Ib[t] = Input_Ib_temp + noise_Ib_filt[t];
  */
-      __pyx_t_1 = PyObject_GetItem(__pyx_v_FR_Ib, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 606, __pyx_L1_error)
+      __pyx_t_1 = PyObject_GetItem(__pyx_v_FR_Ib, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 617, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_14 = PyFloat_FromDouble(__pyx_v_Gain_Ib); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 606, __pyx_L1_error)
+      __pyx_t_14 = PyFloat_FromDouble(__pyx_v_Gain_Ib); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 617, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
-      __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_t_14); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 606, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_t_14); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 617, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __pyx_t_14 = PyFloat_FromDouble(__pyx_v_Ib_PC); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 606, __pyx_L1_error)
+      __pyx_t_14 = PyFloat_FromDouble(__pyx_v_Ib_PC); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 617, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
-      __pyx_t_1 = PyNumber_Add(__pyx_t_7, __pyx_t_14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 606, __pyx_L1_error)
+      __pyx_t_1 = PyNumber_Add(__pyx_t_7, __pyx_t_14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 617, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __pyx_t_14 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_48smoothSaturationFunction(__pyx_v_smoothSaturationFunction, __pyx_t_1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 606, __pyx_L1_error)
+      __pyx_t_14 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_48smoothSaturationFunction(__pyx_v_smoothSaturationFunction, __pyx_t_1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 617, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_XDECREF_SET(__pyx_v_Input_Ib_temp, __pyx_t_14);
       __pyx_t_14 = 0;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":607
+      /* "TwitchBasedMuscleModel_v3.pyx":618
  *             (FR_Ib,FR_Ib_temp,x_GTO) = GTOOutput(FR_Ib,FR_Ib_temp,x_GTO,ForceSE,t);
  *             Input_Ib_temp = smoothSaturationFunction(FR_Ib[t]/Gain_Ib + Ib_PC);
  *             (noise_Ib,noise_Ib_filt) = noiseOutput(noise_Ib,noise_Ib_filt,Input_Ib_temp,t);             # <<<<<<<<<<<<<<
  *             Input_Ib[t] = Input_Ib_temp + noise_Ib_filt[t];
  *             if Input_Ib[t] < 0:
  */
-      __pyx_t_14 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_52noiseOutput(__pyx_v_noiseOutput, __pyx_v_noise_Ib, __pyx_v_noise_Ib_filt, __pyx_v_Input_Ib_temp, __pyx_v_t); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 607, __pyx_L1_error)
+      __pyx_t_14 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_52noiseOutput(__pyx_v_noiseOutput, __pyx_v_noise_Ib, __pyx_v_noise_Ib_filt, __pyx_v_Input_Ib_temp, __pyx_v_t); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 618, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
       if ((likely(PyTuple_CheckExact(__pyx_t_14))) || (PyList_CheckExact(__pyx_t_14))) {
         PyObject* sequence = __pyx_t_14;
@@ -16660,7 +17168,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 607, __pyx_L1_error)
+          __PYX_ERR(0, 618, __pyx_L1_error)
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -16673,15 +17181,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_INCREF(__pyx_t_1);
         __Pyx_INCREF(__pyx_t_7);
         #else
-        __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 607, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 618, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 607, __pyx_L1_error)
+        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 618, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         #endif
         __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_15 = PyObject_GetIter(__pyx_t_14); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 607, __pyx_L1_error)
+        __pyx_t_15 = PyObject_GetIter(__pyx_t_14); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 618, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_15);
         __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
         __pyx_t_8 = Py_TYPE(__pyx_t_15)->tp_iternext;
@@ -16689,7 +17197,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_GOTREF(__pyx_t_1);
         index = 1; __pyx_t_7 = __pyx_t_8(__pyx_t_15); if (unlikely(!__pyx_t_7)) goto __pyx_L22_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_7);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_15), 2) < 0) __PYX_ERR(0, 607, __pyx_L1_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_15), 2) < 0) __PYX_ERR(0, 618, __pyx_L1_error)
         __pyx_t_8 = NULL;
         __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
         goto __pyx_L23_unpacking_done;
@@ -16697,7 +17205,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
         __pyx_t_8 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 607, __pyx_L1_error)
+        __PYX_ERR(0, 618, __pyx_L1_error)
         __pyx_L23_unpacking_done:;
       }
       __Pyx_DECREF_SET(__pyx_v_noise_Ib, __pyx_t_1);
@@ -16705,46 +17213,46 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_DECREF_SET(__pyx_v_noise_Ib_filt, __pyx_t_7);
       __pyx_t_7 = 0;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":608
+      /* "TwitchBasedMuscleModel_v3.pyx":619
  *             Input_Ib_temp = smoothSaturationFunction(FR_Ib[t]/Gain_Ib + Ib_PC);
  *             (noise_Ib,noise_Ib_filt) = noiseOutput(noise_Ib,noise_Ib_filt,Input_Ib_temp,t);
  *             Input_Ib[t] = Input_Ib_temp + noise_Ib_filt[t];             # <<<<<<<<<<<<<<
  *             if Input_Ib[t] < 0:
  *                 Input_Ib[t] = 0;
  */
-      __pyx_t_14 = PyObject_GetItem(__pyx_v_noise_Ib_filt, __pyx_v_t); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 608, __pyx_L1_error)
+      __pyx_t_14 = PyObject_GetItem(__pyx_v_noise_Ib_filt, __pyx_v_t); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 619, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
-      __pyx_t_7 = PyNumber_Add(__pyx_v_Input_Ib_temp, __pyx_t_14); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 608, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Add(__pyx_v_Input_Ib_temp, __pyx_t_14); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 619, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      if (unlikely(PyObject_SetItem(__pyx_v_Input_Ib, __pyx_v_t, __pyx_t_7) < 0)) __PYX_ERR(0, 608, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_v_Input_Ib, __pyx_v_t, __pyx_t_7) < 0)) __PYX_ERR(0, 619, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":609
+      /* "TwitchBasedMuscleModel_v3.pyx":620
  *             (noise_Ib,noise_Ib_filt) = noiseOutput(noise_Ib,noise_Ib_filt,Input_Ib_temp,t);
  *             Input_Ib[t] = Input_Ib_temp + noise_Ib_filt[t];
  *             if Input_Ib[t] < 0:             # <<<<<<<<<<<<<<
  *                 Input_Ib[t] = 0;
  * 
  */
-      __pyx_t_7 = PyObject_GetItem(__pyx_v_Input_Ib, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 609, __pyx_L1_error)
+      __pyx_t_7 = PyObject_GetItem(__pyx_v_Input_Ib, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 620, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_14 = PyObject_RichCompare(__pyx_t_7, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_14); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 609, __pyx_L1_error)
+      __pyx_t_14 = PyObject_RichCompare(__pyx_t_7, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_14); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 620, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_14); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 609, __pyx_L1_error)
+      __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_14); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 620, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       if (__pyx_t_18) {
 
-        /* "TwitchBasedMuscleModel_v3.pyx":610
+        /* "TwitchBasedMuscleModel_v3.pyx":621
  *             Input_Ib[t] = Input_Ib_temp + noise_Ib_filt[t];
  *             if Input_Ib[t] < 0:
  *                 Input_Ib[t] = 0;             # <<<<<<<<<<<<<<
  * 
  *         # Obtain Renshaw cell output
  */
-        if (unlikely(PyObject_SetItem(__pyx_v_Input_Ib, __pyx_v_t, __pyx_int_0) < 0)) __PYX_ERR(0, 610, __pyx_L1_error)
+        if (unlikely(PyObject_SetItem(__pyx_v_Input_Ib, __pyx_v_t, __pyx_int_0) < 0)) __PYX_ERR(0, 621, __pyx_L1_error)
 
-        /* "TwitchBasedMuscleModel_v3.pyx":609
+        /* "TwitchBasedMuscleModel_v3.pyx":620
  *             (noise_Ib,noise_Ib_filt) = noiseOutput(noise_Ib,noise_Ib_filt,Input_Ib_temp,t);
  *             Input_Ib[t] = Input_Ib_temp + noise_Ib_filt[t];
  *             if Input_Ib[t] < 0:             # <<<<<<<<<<<<<<
@@ -16753,7 +17261,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
       }
 
-      /* "TwitchBasedMuscleModel_v3.pyx":604
+      /* "TwitchBasedMuscleModel_v3.pyx":615
  * 
  *         # Obtain GTO output
  *         if t > 5:             # <<<<<<<<<<<<<<
@@ -16762,331 +17270,32 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
     }
 
-    /* "TwitchBasedMuscleModel_v3.pyx":613
+    /* "TwitchBasedMuscleModel_v3.pyx":624
  * 
  *         # Obtain Renshaw cell output
  *         if t > 5:             # <<<<<<<<<<<<<<
  *             (FR_RI,FR_RI_temp) = RenshawOutput(FR_RI,FR_RI_temp,ND[:t],t);
  *             Input_RI_temp = smoothSaturationFunction(FR_RI[t]/Gain_RI + RI_PC);
  */
-    __pyx_t_14 = PyObject_RichCompare(__pyx_v_t, __pyx_int_5, Py_GT); __Pyx_XGOTREF(__pyx_t_14); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 613, __pyx_L1_error)
-    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_14); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 613, __pyx_L1_error)
+    __pyx_t_14 = PyObject_RichCompare(__pyx_v_t, __pyx_int_5, Py_GT); __Pyx_XGOTREF(__pyx_t_14); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 624, __pyx_L1_error)
+    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_14); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 624, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     if (__pyx_t_18) {
 
-      /* "TwitchBasedMuscleModel_v3.pyx":614
+      /* "TwitchBasedMuscleModel_v3.pyx":625
  *         # Obtain Renshaw cell output
  *         if t > 5:
  *             (FR_RI,FR_RI_temp) = RenshawOutput(FR_RI,FR_RI_temp,ND[:t],t);             # <<<<<<<<<<<<<<
  *             Input_RI_temp = smoothSaturationFunction(FR_RI[t]/Gain_RI + RI_PC);
  *             (noise_RI,noise_RI_filt) = noiseOutput(noise_RI,noise_RI_filt,Input_RI_temp,t);
  */
-      __pyx_t_14 = __Pyx_PyObject_GetSlice(__pyx_v_ND, 0, 0, NULL, &__pyx_v_t, NULL, 0, 0, 1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 614, __pyx_L1_error)
+      __pyx_t_14 = __Pyx_PyObject_GetSlice(__pyx_v_ND, 0, 0, NULL, &__pyx_v_t, NULL, 0, 0, 1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 625, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
-      __pyx_t_7 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_46RenshawOutput(__pyx_v_RenshawOutput, __pyx_v_FR_RI, __pyx_v_FR_RI_temp, __pyx_t_14, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 614, __pyx_L1_error)
+      __pyx_t_7 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_46RenshawOutput(__pyx_v_RenshawOutput, __pyx_v_FR_RI, __pyx_v_FR_RI_temp, __pyx_t_14, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 625, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       if ((likely(PyTuple_CheckExact(__pyx_t_7))) || (PyList_CheckExact(__pyx_t_7))) {
         PyObject* sequence = __pyx_t_7;
-        #if !CYTHON_COMPILING_IN_PYPY
-        Py_ssize_t size = Py_SIZE(sequence);
-        #else
-        Py_ssize_t size = PySequence_Size(sequence);
-        #endif
-        if (unlikely(size != 2)) {
-          if (size > 2) __Pyx_RaiseTooManyValuesError(2);
-          else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 614, __pyx_L1_error)
-        }
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        if (likely(PyTuple_CheckExact(sequence))) {
-          __pyx_t_14 = PyTuple_GET_ITEM(sequence, 0); 
-          __pyx_t_1 = PyTuple_GET_ITEM(sequence, 1); 
-        } else {
-          __pyx_t_14 = PyList_GET_ITEM(sequence, 0); 
-          __pyx_t_1 = PyList_GET_ITEM(sequence, 1); 
-        }
-        __Pyx_INCREF(__pyx_t_14);
-        __Pyx_INCREF(__pyx_t_1);
-        #else
-        __pyx_t_14 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 614, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_14);
-        __pyx_t_1 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 614, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        #endif
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      } else {
-        Py_ssize_t index = -1;
-        __pyx_t_15 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 614, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __pyx_t_8 = Py_TYPE(__pyx_t_15)->tp_iternext;
-        index = 0; __pyx_t_14 = __pyx_t_8(__pyx_t_15); if (unlikely(!__pyx_t_14)) goto __pyx_L26_unpacking_failed;
-        __Pyx_GOTREF(__pyx_t_14);
-        index = 1; __pyx_t_1 = __pyx_t_8(__pyx_t_15); if (unlikely(!__pyx_t_1)) goto __pyx_L26_unpacking_failed;
-        __Pyx_GOTREF(__pyx_t_1);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_15), 2) < 0) __PYX_ERR(0, 614, __pyx_L1_error)
-        __pyx_t_8 = NULL;
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        goto __pyx_L27_unpacking_done;
-        __pyx_L26_unpacking_failed:;
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        __pyx_t_8 = NULL;
-        if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 614, __pyx_L1_error)
-        __pyx_L27_unpacking_done:;
-      }
-      __Pyx_DECREF_SET(__pyx_v_FR_RI, __pyx_t_14);
-      __pyx_t_14 = 0;
-      __Pyx_DECREF_SET(__pyx_v_FR_RI_temp, __pyx_t_1);
-      __pyx_t_1 = 0;
-
-      /* "TwitchBasedMuscleModel_v3.pyx":615
- *         if t > 5:
- *             (FR_RI,FR_RI_temp) = RenshawOutput(FR_RI,FR_RI_temp,ND[:t],t);
- *             Input_RI_temp = smoothSaturationFunction(FR_RI[t]/Gain_RI + RI_PC);             # <<<<<<<<<<<<<<
- *             (noise_RI,noise_RI_filt) = noiseOutput(noise_RI,noise_RI_filt,Input_RI_temp,t);
- *             Input_RI[t] = Input_RI_temp + noise_RI_filt[t];
- */
-      __pyx_t_7 = PyObject_GetItem(__pyx_v_FR_RI, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 615, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Gain_RI); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 615, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_14 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 615, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_RI_PC); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 615, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_7 = PyNumber_Add(__pyx_t_14, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 615, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_48smoothSaturationFunction(__pyx_v_smoothSaturationFunction, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 615, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_Input_RI_temp, __pyx_t_1);
-      __pyx_t_1 = 0;
-
-      /* "TwitchBasedMuscleModel_v3.pyx":616
- *             (FR_RI,FR_RI_temp) = RenshawOutput(FR_RI,FR_RI_temp,ND[:t],t);
- *             Input_RI_temp = smoothSaturationFunction(FR_RI[t]/Gain_RI + RI_PC);
- *             (noise_RI,noise_RI_filt) = noiseOutput(noise_RI,noise_RI_filt,Input_RI_temp,t);             # <<<<<<<<<<<<<<
- *             Input_RI[t] = Input_RI_temp + noise_RI_filt[t];
- *             if Input_RI[t] < 0:
- */
-      __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_52noiseOutput(__pyx_v_noiseOutput, __pyx_v_noise_RI, __pyx_v_noise_RI_filt, __pyx_v_Input_RI_temp, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 616, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
-        PyObject* sequence = __pyx_t_1;
-        #if !CYTHON_COMPILING_IN_PYPY
-        Py_ssize_t size = Py_SIZE(sequence);
-        #else
-        Py_ssize_t size = PySequence_Size(sequence);
-        #endif
-        if (unlikely(size != 2)) {
-          if (size > 2) __Pyx_RaiseTooManyValuesError(2);
-          else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 616, __pyx_L1_error)
-        }
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        if (likely(PyTuple_CheckExact(sequence))) {
-          __pyx_t_7 = PyTuple_GET_ITEM(sequence, 0); 
-          __pyx_t_14 = PyTuple_GET_ITEM(sequence, 1); 
-        } else {
-          __pyx_t_7 = PyList_GET_ITEM(sequence, 0); 
-          __pyx_t_14 = PyList_GET_ITEM(sequence, 1); 
-        }
-        __Pyx_INCREF(__pyx_t_7);
-        __Pyx_INCREF(__pyx_t_14);
-        #else
-        __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 616, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_14 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 616, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_14);
-        #endif
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      } else {
-        Py_ssize_t index = -1;
-        __pyx_t_15 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 616, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_8 = Py_TYPE(__pyx_t_15)->tp_iternext;
-        index = 0; __pyx_t_7 = __pyx_t_8(__pyx_t_15); if (unlikely(!__pyx_t_7)) goto __pyx_L28_unpacking_failed;
-        __Pyx_GOTREF(__pyx_t_7);
-        index = 1; __pyx_t_14 = __pyx_t_8(__pyx_t_15); if (unlikely(!__pyx_t_14)) goto __pyx_L28_unpacking_failed;
-        __Pyx_GOTREF(__pyx_t_14);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_15), 2) < 0) __PYX_ERR(0, 616, __pyx_L1_error)
-        __pyx_t_8 = NULL;
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        goto __pyx_L29_unpacking_done;
-        __pyx_L28_unpacking_failed:;
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        __pyx_t_8 = NULL;
-        if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 616, __pyx_L1_error)
-        __pyx_L29_unpacking_done:;
-      }
-      __Pyx_DECREF_SET(__pyx_v_noise_RI, __pyx_t_7);
-      __pyx_t_7 = 0;
-      __Pyx_DECREF_SET(__pyx_v_noise_RI_filt, __pyx_t_14);
-      __pyx_t_14 = 0;
-
-      /* "TwitchBasedMuscleModel_v3.pyx":617
- *             Input_RI_temp = smoothSaturationFunction(FR_RI[t]/Gain_RI + RI_PC);
- *             (noise_RI,noise_RI_filt) = noiseOutput(noise_RI,noise_RI_filt,Input_RI_temp,t);
- *             Input_RI[t] = Input_RI_temp + noise_RI_filt[t];             # <<<<<<<<<<<<<<
- *             if Input_RI[t] < 0:
- *                 Input_RI[t] = 0;
- */
-      __pyx_t_1 = PyObject_GetItem(__pyx_v_noise_RI_filt, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 617, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_14 = PyNumber_Add(__pyx_v_Input_RI_temp, __pyx_t_1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 617, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (unlikely(PyObject_SetItem(__pyx_v_Input_RI, __pyx_v_t, __pyx_t_14) < 0)) __PYX_ERR(0, 617, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-
-      /* "TwitchBasedMuscleModel_v3.pyx":618
- *             (noise_RI,noise_RI_filt) = noiseOutput(noise_RI,noise_RI_filt,Input_RI_temp,t);
- *             Input_RI[t] = Input_RI_temp + noise_RI_filt[t];
- *             if Input_RI[t] < 0:             # <<<<<<<<<<<<<<
- *                 Input_RI[t] = 0;
- * 
- */
-      __pyx_t_14 = PyObject_GetItem(__pyx_v_Input_RI, __pyx_v_t); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 618, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __pyx_t_1 = PyObject_RichCompare(__pyx_t_14, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 618, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 618, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (__pyx_t_18) {
-
-        /* "TwitchBasedMuscleModel_v3.pyx":619
- *             Input_RI[t] = Input_RI_temp + noise_RI_filt[t];
- *             if Input_RI[t] < 0:
- *                 Input_RI[t] = 0;             # <<<<<<<<<<<<<<
- * 
- *         # Obtain propriospinal neuron output
- */
-        if (unlikely(PyObject_SetItem(__pyx_v_Input_RI, __pyx_v_t, __pyx_int_0) < 0)) __PYX_ERR(0, 619, __pyx_L1_error)
-
-        /* "TwitchBasedMuscleModel_v3.pyx":618
- *             (noise_RI,noise_RI_filt) = noiseOutput(noise_RI,noise_RI_filt,Input_RI_temp,t);
- *             Input_RI[t] = Input_RI_temp + noise_RI_filt[t];
- *             if Input_RI[t] < 0:             # <<<<<<<<<<<<<<
- *                 Input_RI[t] = 0;
- * 
- */
-      }
-
-      /* "TwitchBasedMuscleModel_v3.pyx":613
- * 
- *         # Obtain Renshaw cell output
- *         if t > 5:             # <<<<<<<<<<<<<<
- *             (FR_RI,FR_RI_temp) = RenshawOutput(FR_RI,FR_RI_temp,ND[:t],t);
- *             Input_RI_temp = smoothSaturationFunction(FR_RI[t]/Gain_RI + RI_PC);
- */
-    }
-
-    /* "TwitchBasedMuscleModel_v3.pyx":622
- * 
- *         # Obtain propriospinal neuron output
- *         if t > delay_Ib:             # <<<<<<<<<<<<<<
- *             FR_PN[t] = smoothSaturationFunction(FR_Ia[t-delay_Ia]/Gain_Ia + PN_PC_Ia)+smoothSaturationFunction(FR_Ib[t-delay_Ib]/Gain_Ib + PN_PC_Ib);
- *             Input_PN_temp = smoothSaturationFunction(FR_PN[t] + PN_PC);
- */
-    __pyx_t_1 = PyObject_RichCompare(__pyx_v_t, __pyx_v_delay_Ib, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 622, __pyx_L1_error)
-    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 622, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (__pyx_t_18) {
-
-      /* "TwitchBasedMuscleModel_v3.pyx":623
- *         # Obtain propriospinal neuron output
- *         if t > delay_Ib:
- *             FR_PN[t] = smoothSaturationFunction(FR_Ia[t-delay_Ia]/Gain_Ia + PN_PC_Ia)+smoothSaturationFunction(FR_Ib[t-delay_Ib]/Gain_Ib + PN_PC_Ib);             # <<<<<<<<<<<<<<
- *             Input_PN_temp = smoothSaturationFunction(FR_PN[t] + PN_PC);
- *             (noise_PN,noise_PN_filt) = noiseOutput(noise_PN,noise_PN_filt,Input_PN_temp,t);
- */
-      __pyx_t_1 = PyNumber_Subtract(__pyx_v_t, __pyx_v_delay_Ia); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_14 = PyObject_GetItem(__pyx_v_FR_Ia, __pyx_t_1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Gain_Ia); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_t_14, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_PN_PC_Ia); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_14 = PyNumber_Add(__pyx_t_7, __pyx_t_1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_48smoothSaturationFunction(__pyx_v_smoothSaturationFunction, __pyx_t_14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __pyx_t_14 = PyNumber_Subtract(__pyx_v_t, __pyx_v_delay_Ib); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __pyx_t_7 = PyObject_GetItem(__pyx_v_FR_Ib, __pyx_t_14); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __pyx_t_14 = PyFloat_FromDouble(__pyx_v_Gain_Ib); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __pyx_t_15 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_14); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_15);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __pyx_t_14 = PyFloat_FromDouble(__pyx_v_PN_PC_Ib); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __pyx_t_7 = PyNumber_Add(__pyx_t_15, __pyx_t_14); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __pyx_t_14 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_48smoothSaturationFunction(__pyx_v_smoothSaturationFunction, __pyx_t_7); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyNumber_Add(__pyx_t_1, __pyx_t_14); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      if (unlikely(PyObject_SetItem(__pyx_v_FR_PN, __pyx_v_t, __pyx_t_7) < 0)) __PYX_ERR(0, 623, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-      /* "TwitchBasedMuscleModel_v3.pyx":624
- *         if t > delay_Ib:
- *             FR_PN[t] = smoothSaturationFunction(FR_Ia[t-delay_Ia]/Gain_Ia + PN_PC_Ia)+smoothSaturationFunction(FR_Ib[t-delay_Ib]/Gain_Ib + PN_PC_Ib);
- *             Input_PN_temp = smoothSaturationFunction(FR_PN[t] + PN_PC);             # <<<<<<<<<<<<<<
- *             (noise_PN,noise_PN_filt) = noiseOutput(noise_PN,noise_PN_filt,Input_PN_temp,t);
- *             Input_PN[t] = Input_PN_temp + noise_PN_filt[t];
- */
-      __pyx_t_7 = PyObject_GetItem(__pyx_v_FR_PN, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 624, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_14 = PyFloat_FromDouble(__pyx_v_PN_PC); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 624, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __pyx_t_1 = PyNumber_Add(__pyx_t_7, __pyx_t_14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 624, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __pyx_t_14 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_48smoothSaturationFunction(__pyx_v_smoothSaturationFunction, __pyx_t_1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 624, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_Input_PN_temp, __pyx_t_14);
-      __pyx_t_14 = 0;
-
-      /* "TwitchBasedMuscleModel_v3.pyx":625
- *             FR_PN[t] = smoothSaturationFunction(FR_Ia[t-delay_Ia]/Gain_Ia + PN_PC_Ia)+smoothSaturationFunction(FR_Ib[t-delay_Ib]/Gain_Ib + PN_PC_Ib);
- *             Input_PN_temp = smoothSaturationFunction(FR_PN[t] + PN_PC);
- *             (noise_PN,noise_PN_filt) = noiseOutput(noise_PN,noise_PN_filt,Input_PN_temp,t);             # <<<<<<<<<<<<<<
- *             Input_PN[t] = Input_PN_temp + noise_PN_filt[t];
- *             if Input_PN[t] < 0:
- */
-      __pyx_t_14 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_52noiseOutput(__pyx_v_noiseOutput, __pyx_v_noise_PN, __pyx_v_noise_PN_filt, __pyx_v_Input_PN_temp, __pyx_v_t); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 625, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_14);
-      if ((likely(PyTuple_CheckExact(__pyx_t_14))) || (PyList_CheckExact(__pyx_t_14))) {
-        PyObject* sequence = __pyx_t_14;
         #if !CYTHON_COMPILING_IN_PYPY
         Py_ssize_t size = Py_SIZE(sequence);
         #else
@@ -17099,6 +17308,305 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
         if (likely(PyTuple_CheckExact(sequence))) {
+          __pyx_t_14 = PyTuple_GET_ITEM(sequence, 0); 
+          __pyx_t_1 = PyTuple_GET_ITEM(sequence, 1); 
+        } else {
+          __pyx_t_14 = PyList_GET_ITEM(sequence, 0); 
+          __pyx_t_1 = PyList_GET_ITEM(sequence, 1); 
+        }
+        __Pyx_INCREF(__pyx_t_14);
+        __Pyx_INCREF(__pyx_t_1);
+        #else
+        __pyx_t_14 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 625, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_14);
+        __pyx_t_1 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 625, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        #endif
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      } else {
+        Py_ssize_t index = -1;
+        __pyx_t_15 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 625, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_15);
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        __pyx_t_8 = Py_TYPE(__pyx_t_15)->tp_iternext;
+        index = 0; __pyx_t_14 = __pyx_t_8(__pyx_t_15); if (unlikely(!__pyx_t_14)) goto __pyx_L26_unpacking_failed;
+        __Pyx_GOTREF(__pyx_t_14);
+        index = 1; __pyx_t_1 = __pyx_t_8(__pyx_t_15); if (unlikely(!__pyx_t_1)) goto __pyx_L26_unpacking_failed;
+        __Pyx_GOTREF(__pyx_t_1);
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_15), 2) < 0) __PYX_ERR(0, 625, __pyx_L1_error)
+        __pyx_t_8 = NULL;
+        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+        goto __pyx_L27_unpacking_done;
+        __pyx_L26_unpacking_failed:;
+        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+        __pyx_t_8 = NULL;
+        if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
+        __PYX_ERR(0, 625, __pyx_L1_error)
+        __pyx_L27_unpacking_done:;
+      }
+      __Pyx_DECREF_SET(__pyx_v_FR_RI, __pyx_t_14);
+      __pyx_t_14 = 0;
+      __Pyx_DECREF_SET(__pyx_v_FR_RI_temp, __pyx_t_1);
+      __pyx_t_1 = 0;
+
+      /* "TwitchBasedMuscleModel_v3.pyx":626
+ *         if t > 5:
+ *             (FR_RI,FR_RI_temp) = RenshawOutput(FR_RI,FR_RI_temp,ND[:t],t);
+ *             Input_RI_temp = smoothSaturationFunction(FR_RI[t]/Gain_RI + RI_PC);             # <<<<<<<<<<<<<<
+ *             (noise_RI,noise_RI_filt) = noiseOutput(noise_RI,noise_RI_filt,Input_RI_temp,t);
+ *             Input_RI[t] = Input_RI_temp + noise_RI_filt[t];
+ */
+      __pyx_t_7 = PyObject_GetItem(__pyx_v_FR_RI, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 626, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Gain_RI); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 626, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_14 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 626, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_RI_PC); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 626, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_7 = PyNumber_Add(__pyx_t_14, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 626, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_48smoothSaturationFunction(__pyx_v_smoothSaturationFunction, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 626, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_Input_RI_temp, __pyx_t_1);
+      __pyx_t_1 = 0;
+
+      /* "TwitchBasedMuscleModel_v3.pyx":627
+ *             (FR_RI,FR_RI_temp) = RenshawOutput(FR_RI,FR_RI_temp,ND[:t],t);
+ *             Input_RI_temp = smoothSaturationFunction(FR_RI[t]/Gain_RI + RI_PC);
+ *             (noise_RI,noise_RI_filt) = noiseOutput(noise_RI,noise_RI_filt,Input_RI_temp,t);             # <<<<<<<<<<<<<<
+ *             Input_RI[t] = Input_RI_temp + noise_RI_filt[t];
+ *             if Input_RI[t] < 0:
+ */
+      __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_52noiseOutput(__pyx_v_noiseOutput, __pyx_v_noise_RI, __pyx_v_noise_RI_filt, __pyx_v_Input_RI_temp, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 627, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
+        PyObject* sequence = __pyx_t_1;
+        #if !CYTHON_COMPILING_IN_PYPY
+        Py_ssize_t size = Py_SIZE(sequence);
+        #else
+        Py_ssize_t size = PySequence_Size(sequence);
+        #endif
+        if (unlikely(size != 2)) {
+          if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+          else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+          __PYX_ERR(0, 627, __pyx_L1_error)
+        }
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        if (likely(PyTuple_CheckExact(sequence))) {
+          __pyx_t_7 = PyTuple_GET_ITEM(sequence, 0); 
+          __pyx_t_14 = PyTuple_GET_ITEM(sequence, 1); 
+        } else {
+          __pyx_t_7 = PyList_GET_ITEM(sequence, 0); 
+          __pyx_t_14 = PyList_GET_ITEM(sequence, 1); 
+        }
+        __Pyx_INCREF(__pyx_t_7);
+        __Pyx_INCREF(__pyx_t_14);
+        #else
+        __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 627, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_14 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 627, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_14);
+        #endif
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      } else {
+        Py_ssize_t index = -1;
+        __pyx_t_15 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 627, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_15);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_t_8 = Py_TYPE(__pyx_t_15)->tp_iternext;
+        index = 0; __pyx_t_7 = __pyx_t_8(__pyx_t_15); if (unlikely(!__pyx_t_7)) goto __pyx_L28_unpacking_failed;
+        __Pyx_GOTREF(__pyx_t_7);
+        index = 1; __pyx_t_14 = __pyx_t_8(__pyx_t_15); if (unlikely(!__pyx_t_14)) goto __pyx_L28_unpacking_failed;
+        __Pyx_GOTREF(__pyx_t_14);
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_15), 2) < 0) __PYX_ERR(0, 627, __pyx_L1_error)
+        __pyx_t_8 = NULL;
+        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+        goto __pyx_L29_unpacking_done;
+        __pyx_L28_unpacking_failed:;
+        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+        __pyx_t_8 = NULL;
+        if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
+        __PYX_ERR(0, 627, __pyx_L1_error)
+        __pyx_L29_unpacking_done:;
+      }
+      __Pyx_DECREF_SET(__pyx_v_noise_RI, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __Pyx_DECREF_SET(__pyx_v_noise_RI_filt, __pyx_t_14);
+      __pyx_t_14 = 0;
+
+      /* "TwitchBasedMuscleModel_v3.pyx":628
+ *             Input_RI_temp = smoothSaturationFunction(FR_RI[t]/Gain_RI + RI_PC);
+ *             (noise_RI,noise_RI_filt) = noiseOutput(noise_RI,noise_RI_filt,Input_RI_temp,t);
+ *             Input_RI[t] = Input_RI_temp + noise_RI_filt[t];             # <<<<<<<<<<<<<<
+ *             if Input_RI[t] < 0:
+ *                 Input_RI[t] = 0;
+ */
+      __pyx_t_1 = PyObject_GetItem(__pyx_v_noise_RI_filt, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 628, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_14 = PyNumber_Add(__pyx_v_Input_RI_temp, __pyx_t_1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 628, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      if (unlikely(PyObject_SetItem(__pyx_v_Input_RI, __pyx_v_t, __pyx_t_14) < 0)) __PYX_ERR(0, 628, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+
+      /* "TwitchBasedMuscleModel_v3.pyx":629
+ *             (noise_RI,noise_RI_filt) = noiseOutput(noise_RI,noise_RI_filt,Input_RI_temp,t);
+ *             Input_RI[t] = Input_RI_temp + noise_RI_filt[t];
+ *             if Input_RI[t] < 0:             # <<<<<<<<<<<<<<
+ *                 Input_RI[t] = 0;
+ * 
+ */
+      __pyx_t_14 = PyObject_GetItem(__pyx_v_Input_RI, __pyx_v_t); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 629, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __pyx_t_1 = PyObject_RichCompare(__pyx_t_14, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 629, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 629, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      if (__pyx_t_18) {
+
+        /* "TwitchBasedMuscleModel_v3.pyx":630
+ *             Input_RI[t] = Input_RI_temp + noise_RI_filt[t];
+ *             if Input_RI[t] < 0:
+ *                 Input_RI[t] = 0;             # <<<<<<<<<<<<<<
+ * 
+ *         # Obtain propriospinal neuron output
+ */
+        if (unlikely(PyObject_SetItem(__pyx_v_Input_RI, __pyx_v_t, __pyx_int_0) < 0)) __PYX_ERR(0, 630, __pyx_L1_error)
+
+        /* "TwitchBasedMuscleModel_v3.pyx":629
+ *             (noise_RI,noise_RI_filt) = noiseOutput(noise_RI,noise_RI_filt,Input_RI_temp,t);
+ *             Input_RI[t] = Input_RI_temp + noise_RI_filt[t];
+ *             if Input_RI[t] < 0:             # <<<<<<<<<<<<<<
+ *                 Input_RI[t] = 0;
+ * 
+ */
+      }
+
+      /* "TwitchBasedMuscleModel_v3.pyx":624
+ * 
+ *         # Obtain Renshaw cell output
+ *         if t > 5:             # <<<<<<<<<<<<<<
+ *             (FR_RI,FR_RI_temp) = RenshawOutput(FR_RI,FR_RI_temp,ND[:t],t);
+ *             Input_RI_temp = smoothSaturationFunction(FR_RI[t]/Gain_RI + RI_PC);
+ */
+    }
+
+    /* "TwitchBasedMuscleModel_v3.pyx":633
+ * 
+ *         # Obtain propriospinal neuron output
+ *         if t > delay_Ib:             # <<<<<<<<<<<<<<
+ *             FR_PN[t] = smoothSaturationFunction(FR_Ia[t-delay_Ia]/Gain_Ia + PN_PC_Ia)+smoothSaturationFunction(FR_Ib[t-delay_Ib]/Gain_Ib + PN_PC_Ib);
+ *             Input_PN_temp = smoothSaturationFunction(FR_PN[t] + PN_PC);
+ */
+    __pyx_t_1 = PyObject_RichCompare(__pyx_v_t, __pyx_v_delay_Ib, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 633, __pyx_L1_error)
+    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 633, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    if (__pyx_t_18) {
+
+      /* "TwitchBasedMuscleModel_v3.pyx":634
+ *         # Obtain propriospinal neuron output
+ *         if t > delay_Ib:
+ *             FR_PN[t] = smoothSaturationFunction(FR_Ia[t-delay_Ia]/Gain_Ia + PN_PC_Ia)+smoothSaturationFunction(FR_Ib[t-delay_Ib]/Gain_Ib + PN_PC_Ib);             # <<<<<<<<<<<<<<
+ *             Input_PN_temp = smoothSaturationFunction(FR_PN[t] + PN_PC);
+ *             (noise_PN,noise_PN_filt) = noiseOutput(noise_PN,noise_PN_filt,Input_PN_temp,t);
+ */
+      __pyx_t_1 = PyNumber_Subtract(__pyx_v_t, __pyx_v_delay_Ia); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_14 = PyObject_GetItem(__pyx_v_FR_Ia, __pyx_t_1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Gain_Ia); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_t_14, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_PN_PC_Ia); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_14 = PyNumber_Add(__pyx_t_7, __pyx_t_1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_48smoothSaturationFunction(__pyx_v_smoothSaturationFunction, __pyx_t_14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __pyx_t_14 = PyNumber_Subtract(__pyx_v_t, __pyx_v_delay_Ib); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __pyx_t_7 = PyObject_GetItem(__pyx_v_FR_Ib, __pyx_t_14); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __pyx_t_14 = PyFloat_FromDouble(__pyx_v_Gain_Ib); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __pyx_t_15 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_t_14); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_15);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __pyx_t_14 = PyFloat_FromDouble(__pyx_v_PN_PC_Ib); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __pyx_t_7 = PyNumber_Add(__pyx_t_15, __pyx_t_14); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __pyx_t_14 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_48smoothSaturationFunction(__pyx_v_smoothSaturationFunction, __pyx_t_7); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = PyNumber_Add(__pyx_t_1, __pyx_t_14); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      if (unlikely(PyObject_SetItem(__pyx_v_FR_PN, __pyx_v_t, __pyx_t_7) < 0)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+      /* "TwitchBasedMuscleModel_v3.pyx":635
+ *         if t > delay_Ib:
+ *             FR_PN[t] = smoothSaturationFunction(FR_Ia[t-delay_Ia]/Gain_Ia + PN_PC_Ia)+smoothSaturationFunction(FR_Ib[t-delay_Ib]/Gain_Ib + PN_PC_Ib);
+ *             Input_PN_temp = smoothSaturationFunction(FR_PN[t] + PN_PC);             # <<<<<<<<<<<<<<
+ *             (noise_PN,noise_PN_filt) = noiseOutput(noise_PN,noise_PN_filt,Input_PN_temp,t);
+ *             Input_PN[t] = Input_PN_temp + noise_PN_filt[t];
+ */
+      __pyx_t_7 = PyObject_GetItem(__pyx_v_FR_PN, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 635, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_14 = PyFloat_FromDouble(__pyx_v_PN_PC); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 635, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __pyx_t_1 = PyNumber_Add(__pyx_t_7, __pyx_t_14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 635, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __pyx_t_14 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_48smoothSaturationFunction(__pyx_v_smoothSaturationFunction, __pyx_t_1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 635, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_Input_PN_temp, __pyx_t_14);
+      __pyx_t_14 = 0;
+
+      /* "TwitchBasedMuscleModel_v3.pyx":636
+ *             FR_PN[t] = smoothSaturationFunction(FR_Ia[t-delay_Ia]/Gain_Ia + PN_PC_Ia)+smoothSaturationFunction(FR_Ib[t-delay_Ib]/Gain_Ib + PN_PC_Ib);
+ *             Input_PN_temp = smoothSaturationFunction(FR_PN[t] + PN_PC);
+ *             (noise_PN,noise_PN_filt) = noiseOutput(noise_PN,noise_PN_filt,Input_PN_temp,t);             # <<<<<<<<<<<<<<
+ *             Input_PN[t] = Input_PN_temp + noise_PN_filt[t];
+ *             if Input_PN[t] < 0:
+ */
+      __pyx_t_14 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_52noiseOutput(__pyx_v_noiseOutput, __pyx_v_noise_PN, __pyx_v_noise_PN_filt, __pyx_v_Input_PN_temp, __pyx_v_t); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 636, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_14);
+      if ((likely(PyTuple_CheckExact(__pyx_t_14))) || (PyList_CheckExact(__pyx_t_14))) {
+        PyObject* sequence = __pyx_t_14;
+        #if !CYTHON_COMPILING_IN_PYPY
+        Py_ssize_t size = Py_SIZE(sequence);
+        #else
+        Py_ssize_t size = PySequence_Size(sequence);
+        #endif
+        if (unlikely(size != 2)) {
+          if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+          else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+          __PYX_ERR(0, 636, __pyx_L1_error)
+        }
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        if (likely(PyTuple_CheckExact(sequence))) {
           __pyx_t_1 = PyTuple_GET_ITEM(sequence, 0); 
           __pyx_t_7 = PyTuple_GET_ITEM(sequence, 1); 
         } else {
@@ -17108,15 +17616,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_INCREF(__pyx_t_1);
         __Pyx_INCREF(__pyx_t_7);
         #else
-        __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 625, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 636, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 625, __pyx_L1_error)
+        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 636, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         #endif
         __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_15 = PyObject_GetIter(__pyx_t_14); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 625, __pyx_L1_error)
+        __pyx_t_15 = PyObject_GetIter(__pyx_t_14); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 636, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_15);
         __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
         __pyx_t_8 = Py_TYPE(__pyx_t_15)->tp_iternext;
@@ -17124,7 +17632,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_GOTREF(__pyx_t_1);
         index = 1; __pyx_t_7 = __pyx_t_8(__pyx_t_15); if (unlikely(!__pyx_t_7)) goto __pyx_L32_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_7);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_15), 2) < 0) __PYX_ERR(0, 625, __pyx_L1_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_15), 2) < 0) __PYX_ERR(0, 636, __pyx_L1_error)
         __pyx_t_8 = NULL;
         __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
         goto __pyx_L33_unpacking_done;
@@ -17132,7 +17640,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
         __pyx_t_8 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 625, __pyx_L1_error)
+        __PYX_ERR(0, 636, __pyx_L1_error)
         __pyx_L33_unpacking_done:;
       }
       __Pyx_DECREF_SET(__pyx_v_noise_PN, __pyx_t_1);
@@ -17140,46 +17648,46 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_DECREF_SET(__pyx_v_noise_PN_filt, __pyx_t_7);
       __pyx_t_7 = 0;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":626
+      /* "TwitchBasedMuscleModel_v3.pyx":637
  *             Input_PN_temp = smoothSaturationFunction(FR_PN[t] + PN_PC);
  *             (noise_PN,noise_PN_filt) = noiseOutput(noise_PN,noise_PN_filt,Input_PN_temp,t);
  *             Input_PN[t] = Input_PN_temp + noise_PN_filt[t];             # <<<<<<<<<<<<<<
  *             if Input_PN[t] < 0:
  *                 Input_PN[t] = 0;
  */
-      __pyx_t_14 = PyObject_GetItem(__pyx_v_noise_PN_filt, __pyx_v_t); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 626, __pyx_L1_error)
+      __pyx_t_14 = PyObject_GetItem(__pyx_v_noise_PN_filt, __pyx_v_t); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 637, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
-      __pyx_t_7 = PyNumber_Add(__pyx_v_Input_PN_temp, __pyx_t_14); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 626, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Add(__pyx_v_Input_PN_temp, __pyx_t_14); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 637, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      if (unlikely(PyObject_SetItem(__pyx_v_Input_PN, __pyx_v_t, __pyx_t_7) < 0)) __PYX_ERR(0, 626, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_v_Input_PN, __pyx_v_t, __pyx_t_7) < 0)) __PYX_ERR(0, 637, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":627
+      /* "TwitchBasedMuscleModel_v3.pyx":638
  *             (noise_PN,noise_PN_filt) = noiseOutput(noise_PN,noise_PN_filt,Input_PN_temp,t);
  *             Input_PN[t] = Input_PN_temp + noise_PN_filt[t];
  *             if Input_PN[t] < 0:             # <<<<<<<<<<<<<<
  *                 Input_PN[t] = 0;
  * 
  */
-      __pyx_t_7 = PyObject_GetItem(__pyx_v_Input_PN, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 627, __pyx_L1_error)
+      __pyx_t_7 = PyObject_GetItem(__pyx_v_Input_PN, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 638, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_14 = PyObject_RichCompare(__pyx_t_7, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_14); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 627, __pyx_L1_error)
+      __pyx_t_14 = PyObject_RichCompare(__pyx_t_7, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_14); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 638, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_14); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 627, __pyx_L1_error)
+      __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_14); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 638, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       if (__pyx_t_18) {
 
-        /* "TwitchBasedMuscleModel_v3.pyx":628
+        /* "TwitchBasedMuscleModel_v3.pyx":639
  *             Input_PN[t] = Input_PN_temp + noise_PN_filt[t];
  *             if Input_PN[t] < 0:
  *                 Input_PN[t] = 0;             # <<<<<<<<<<<<<<
  * 
  * 
  */
-        if (unlikely(PyObject_SetItem(__pyx_v_Input_PN, __pyx_v_t, __pyx_int_0) < 0)) __PYX_ERR(0, 628, __pyx_L1_error)
+        if (unlikely(PyObject_SetItem(__pyx_v_Input_PN, __pyx_v_t, __pyx_int_0) < 0)) __PYX_ERR(0, 639, __pyx_L1_error)
 
-        /* "TwitchBasedMuscleModel_v3.pyx":627
+        /* "TwitchBasedMuscleModel_v3.pyx":638
  *             (noise_PN,noise_PN_filt) = noiseOutput(noise_PN,noise_PN_filt,Input_PN_temp,t);
  *             Input_PN[t] = Input_PN_temp + noise_PN_filt[t];
  *             if Input_PN[t] < 0:             # <<<<<<<<<<<<<<
@@ -17188,7 +17696,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
       }
 
-      /* "TwitchBasedMuscleModel_v3.pyx":622
+      /* "TwitchBasedMuscleModel_v3.pyx":633
  * 
  *         # Obtain propriospinal neuron output
  *         if t > delay_Ib:             # <<<<<<<<<<<<<<
@@ -17197,74 +17705,74 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
     }
 
-    /* "TwitchBasedMuscleModel_v3.pyx":632
+    /* "TwitchBasedMuscleModel_v3.pyx":643
  * 
  *         # Integreate all the inputs
  *         if t > delay_C:             # <<<<<<<<<<<<<<
  *             Input_C_temp += K*(Input[t]-ForceSE_vec[t-delay_C]/F0);
  *             (noise_C,noise_C_filt) = noiseOutput(noise_C,noise_C_filt,abs(Input_C_temp),t);
  */
-    __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_delay_C); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 632, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_delay_C); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 643, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
-    __pyx_t_7 = PyObject_RichCompare(__pyx_v_t, __pyx_t_14, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 632, __pyx_L1_error)
+    __pyx_t_7 = PyObject_RichCompare(__pyx_v_t, __pyx_t_14, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 643, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 632, __pyx_L1_error)
+    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 643, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (__pyx_t_18) {
 
-      /* "TwitchBasedMuscleModel_v3.pyx":633
+      /* "TwitchBasedMuscleModel_v3.pyx":644
  *         # Integreate all the inputs
  *         if t > delay_C:
  *             Input_C_temp += K*(Input[t]-ForceSE_vec[t-delay_C]/F0);             # <<<<<<<<<<<<<<
  *             (noise_C,noise_C_filt) = noiseOutput(noise_C,noise_C_filt,abs(Input_C_temp),t);
  *             Input_C = Input_C_temp + noise_C_filt[t];
  */
-      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_Input_C_temp); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 633, __pyx_L1_error)
+      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_Input_C_temp); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_14 = PyFloat_FromDouble(__pyx_v_K); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 633, __pyx_L1_error)
+      __pyx_t_14 = PyFloat_FromDouble(__pyx_v_K); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
-      __pyx_t_1 = PyObject_GetItem(__pyx_v_Input, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 633, __pyx_L1_error)
+      __pyx_t_1 = PyObject_GetItem(__pyx_v_Input, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_15 = __Pyx_PyInt_From_int(__pyx_v_delay_C); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 633, __pyx_L1_error)
+      __pyx_t_15 = __Pyx_PyInt_From_int(__pyx_v_delay_C); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_15);
-      __pyx_t_6 = PyNumber_Subtract(__pyx_v_t, __pyx_t_15); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 633, __pyx_L1_error)
+      __pyx_t_6 = PyNumber_Subtract(__pyx_v_t, __pyx_t_15); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-      __pyx_t_15 = PyObject_GetItem(__pyx_v_ForceSE_vec, __pyx_t_6); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 633, __pyx_L1_error)
+      __pyx_t_15 = PyObject_GetItem(__pyx_v_ForceSE_vec, __pyx_t_6); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_15);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 633, __pyx_L1_error)
+      __pyx_t_6 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_15, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 633, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_15, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyNumber_Subtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 633, __pyx_L1_error)
+      __pyx_t_6 = PyNumber_Subtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyNumber_Multiply(__pyx_t_14, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 633, __pyx_L1_error)
+      __pyx_t_2 = PyNumber_Multiply(__pyx_t_14, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 633, __pyx_L1_error)
+      __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 644, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 633, __pyx_L1_error)
+      __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 644, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_v_Input_C_temp = __pyx_t_3;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":634
+      /* "TwitchBasedMuscleModel_v3.pyx":645
  *         if t > delay_C:
  *             Input_C_temp += K*(Input[t]-ForceSE_vec[t-delay_C]/F0);
  *             (noise_C,noise_C_filt) = noiseOutput(noise_C,noise_C_filt,abs(Input_C_temp),t);             # <<<<<<<<<<<<<<
  *             Input_C = Input_C_temp + noise_C_filt[t];
  * 
  */
-      __pyx_t_6 = PyFloat_FromDouble(fabs(__pyx_v_Input_C_temp)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __pyx_t_6 = PyFloat_FromDouble(fabs(__pyx_v_Input_C_temp)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 645, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_2 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_52noiseOutput(__pyx_v_noiseOutput, __pyx_v_noise_C, __pyx_v_noise_C_filt, __pyx_t_6, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 634, __pyx_L1_error)
+      __pyx_t_2 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_52noiseOutput(__pyx_v_noiseOutput, __pyx_v_noise_C, __pyx_v_noise_C_filt, __pyx_t_6, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 645, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       if ((likely(PyTuple_CheckExact(__pyx_t_2))) || (PyList_CheckExact(__pyx_t_2))) {
@@ -17277,7 +17785,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 634, __pyx_L1_error)
+          __PYX_ERR(0, 645, __pyx_L1_error)
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -17290,15 +17798,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(__pyx_t_7);
         #else
-        __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 634, __pyx_L1_error)
+        __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 645, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 634, __pyx_L1_error)
+        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 645, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         #endif
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_14 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 634, __pyx_L1_error)
+        __pyx_t_14 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 645, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_14);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_t_8 = Py_TYPE(__pyx_t_14)->tp_iternext;
@@ -17306,7 +17814,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_GOTREF(__pyx_t_6);
         index = 1; __pyx_t_7 = __pyx_t_8(__pyx_t_14); if (unlikely(!__pyx_t_7)) goto __pyx_L36_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_7);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_14), 2) < 0) __PYX_ERR(0, 634, __pyx_L1_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_14), 2) < 0) __PYX_ERR(0, 645, __pyx_L1_error)
         __pyx_t_8 = NULL;
         __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
         goto __pyx_L37_unpacking_done;
@@ -17314,7 +17822,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
         __pyx_t_8 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 634, __pyx_L1_error)
+        __PYX_ERR(0, 645, __pyx_L1_error)
         __pyx_L37_unpacking_done:;
       }
       __Pyx_DECREF_SET(__pyx_v_noise_C, __pyx_t_6);
@@ -17322,96 +17830,96 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_DECREF_SET(__pyx_v_noise_C_filt, __pyx_t_7);
       __pyx_t_7 = 0;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":635
+      /* "TwitchBasedMuscleModel_v3.pyx":646
  *             Input_C_temp += K*(Input[t]-ForceSE_vec[t-delay_C]/F0);
  *             (noise_C,noise_C_filt) = noiseOutput(noise_C,noise_C_filt,abs(Input_C_temp),t);
  *             Input_C = Input_C_temp + noise_C_filt[t];             # <<<<<<<<<<<<<<
  * 
  *             exc_input = Input_Ia[t-delay_Ia] + Input_PN[t-delay_synaptic];
  */
-      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_Input_C_temp); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 635, __pyx_L1_error)
+      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_Input_C_temp); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 646, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_7 = PyObject_GetItem(__pyx_v_noise_C_filt, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 635, __pyx_L1_error)
+      __pyx_t_7 = PyObject_GetItem(__pyx_v_noise_C_filt, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 646, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_6 = PyNumber_Add(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 635, __pyx_L1_error)
+      __pyx_t_6 = PyNumber_Add(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 646, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 635, __pyx_L1_error)
+      __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 646, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_v_Input_C = __pyx_t_3;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":637
+      /* "TwitchBasedMuscleModel_v3.pyx":648
  *             Input_C = Input_C_temp + noise_C_filt[t];
  * 
  *             exc_input = Input_Ia[t-delay_Ia] + Input_PN[t-delay_synaptic];             # <<<<<<<<<<<<<<
  *             inh_input = Input_Ib[t-delay_Ib] + Input_RI[t-delay_synaptic];
  *             ND_temp = actionPotentialGeneration(exc_input,inh_input,2,2,Input_C);
  */
-      __pyx_t_6 = PyNumber_Subtract(__pyx_v_t, __pyx_v_delay_Ia); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 637, __pyx_L1_error)
+      __pyx_t_6 = PyNumber_Subtract(__pyx_v_t, __pyx_v_delay_Ia); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 648, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = PyObject_GetItem(__pyx_v_Input_Ia, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 637, __pyx_L1_error)
+      __pyx_t_7 = PyObject_GetItem(__pyx_v_Input_Ia, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 648, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_delay_synaptic); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 637, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_delay_synaptic); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 648, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_2 = PyNumber_Subtract(__pyx_v_t, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 637, __pyx_L1_error)
+      __pyx_t_2 = PyNumber_Subtract(__pyx_v_t, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 648, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyObject_GetItem(__pyx_v_Input_PN, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 637, __pyx_L1_error)
+      __pyx_t_6 = PyObject_GetItem(__pyx_v_Input_PN, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 648, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyNumber_Add(__pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 637, __pyx_L1_error)
+      __pyx_t_2 = PyNumber_Add(__pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 648, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_XDECREF_SET(__pyx_v_exc_input, __pyx_t_2);
       __pyx_t_2 = 0;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":638
+      /* "TwitchBasedMuscleModel_v3.pyx":649
  * 
  *             exc_input = Input_Ia[t-delay_Ia] + Input_PN[t-delay_synaptic];
  *             inh_input = Input_Ib[t-delay_Ib] + Input_RI[t-delay_synaptic];             # <<<<<<<<<<<<<<
  *             ND_temp = actionPotentialGeneration(exc_input,inh_input,2,2,Input_C);
  *             if ND_temp < 0:
  */
-      __pyx_t_2 = PyNumber_Subtract(__pyx_v_t, __pyx_v_delay_Ib); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 638, __pyx_L1_error)
+      __pyx_t_2 = PyNumber_Subtract(__pyx_v_t, __pyx_v_delay_Ib); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 649, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_6 = PyObject_GetItem(__pyx_v_Input_Ib, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 638, __pyx_L1_error)
+      __pyx_t_6 = PyObject_GetItem(__pyx_v_Input_Ib, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 649, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_delay_synaptic); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 638, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_delay_synaptic); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 649, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_7 = PyNumber_Subtract(__pyx_v_t, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 638, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Subtract(__pyx_v_t, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 649, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyObject_GetItem(__pyx_v_Input_RI, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 638, __pyx_L1_error)
+      __pyx_t_2 = PyObject_GetItem(__pyx_v_Input_RI, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 649, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyNumber_Add(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 638, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Add(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 649, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_XDECREF_SET(__pyx_v_inh_input, __pyx_t_7);
       __pyx_t_7 = 0;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":639
+      /* "TwitchBasedMuscleModel_v3.pyx":650
  *             exc_input = Input_Ia[t-delay_Ia] + Input_PN[t-delay_synaptic];
  *             inh_input = Input_Ib[t-delay_Ib] + Input_RI[t-delay_synaptic];
  *             ND_temp = actionPotentialGeneration(exc_input,inh_input,2,2,Input_C);             # <<<<<<<<<<<<<<
  *             if ND_temp < 0:
  *                 ND_temp = 0;
  */
-      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_Input_C); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 639, __pyx_L1_error)
+      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_Input_C); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 650, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_2 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_50actionPotentialGeneration(__pyx_v_actionPotentialGeneration, __pyx_v_exc_input, __pyx_v_inh_input, __pyx_int_2, __pyx_int_2, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 639, __pyx_L1_error)
+      __pyx_t_2 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_50actionPotentialGeneration(__pyx_v_actionPotentialGeneration, __pyx_v_exc_input, __pyx_v_inh_input, __pyx_int_2, __pyx_int_2, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 650, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 639, __pyx_L1_error)
+      __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 650, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_v_ND_temp = __pyx_t_3;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":640
+      /* "TwitchBasedMuscleModel_v3.pyx":651
  *             inh_input = Input_Ib[t-delay_Ib] + Input_RI[t-delay_synaptic];
  *             ND_temp = actionPotentialGeneration(exc_input,inh_input,2,2,Input_C);
  *             if ND_temp < 0:             # <<<<<<<<<<<<<<
@@ -17421,7 +17929,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __pyx_t_18 = ((__pyx_v_ND_temp < 0.0) != 0);
       if (__pyx_t_18) {
 
-        /* "TwitchBasedMuscleModel_v3.pyx":641
+        /* "TwitchBasedMuscleModel_v3.pyx":652
  *             ND_temp = actionPotentialGeneration(exc_input,inh_input,2,2,Input_C);
  *             if ND_temp < 0:
  *                 ND_temp = 0;             # <<<<<<<<<<<<<<
@@ -17430,7 +17938,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
         __pyx_v_ND_temp = 0.0;
 
-        /* "TwitchBasedMuscleModel_v3.pyx":640
+        /* "TwitchBasedMuscleModel_v3.pyx":651
  *             inh_input = Input_Ib[t-delay_Ib] + Input_RI[t-delay_synaptic];
  *             ND_temp = actionPotentialGeneration(exc_input,inh_input,2,2,Input_C);
  *             if ND_temp < 0:             # <<<<<<<<<<<<<<
@@ -17439,16 +17947,16 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
       }
 
-      /* "TwitchBasedMuscleModel_v3.pyx":642
+      /* "TwitchBasedMuscleModel_v3.pyx":653
  *             if ND_temp < 0:
  *                 ND_temp = 0;
  *             (noise,noise_filt) = noiseOutput(noise,noise_filt,ND_temp,t);             # <<<<<<<<<<<<<<
  * 
  *         # Calculate neural drive to motor unit pool
  */
-      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_ND_temp); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 642, __pyx_L1_error)
+      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_ND_temp); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 653, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_7 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_52noiseOutput(__pyx_v_noiseOutput, __pyx_v_noise, __pyx_v_noise_filt, __pyx_t_2, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 642, __pyx_L1_error)
+      __pyx_t_7 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_52noiseOutput(__pyx_v_noiseOutput, __pyx_v_noise, __pyx_v_noise_filt, __pyx_t_2, __pyx_v_t); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 653, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       if ((likely(PyTuple_CheckExact(__pyx_t_7))) || (PyList_CheckExact(__pyx_t_7))) {
@@ -17461,7 +17969,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 642, __pyx_L1_error)
+          __PYX_ERR(0, 653, __pyx_L1_error)
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -17474,15 +17982,15 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_INCREF(__pyx_t_2);
         __Pyx_INCREF(__pyx_t_6);
         #else
-        __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 642, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 653, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 642, __pyx_L1_error)
+        __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 653, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         #endif
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_14 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 642, __pyx_L1_error)
+        __pyx_t_14 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 653, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_14);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __pyx_t_8 = Py_TYPE(__pyx_t_14)->tp_iternext;
@@ -17490,7 +17998,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_GOTREF(__pyx_t_2);
         index = 1; __pyx_t_6 = __pyx_t_8(__pyx_t_14); if (unlikely(!__pyx_t_6)) goto __pyx_L39_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_6);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_14), 2) < 0) __PYX_ERR(0, 642, __pyx_L1_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_14), 2) < 0) __PYX_ERR(0, 653, __pyx_L1_error)
         __pyx_t_8 = NULL;
         __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
         goto __pyx_L40_unpacking_done;
@@ -17498,7 +18006,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
         __pyx_t_8 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 642, __pyx_L1_error)
+        __PYX_ERR(0, 653, __pyx_L1_error)
         __pyx_L40_unpacking_done:;
       }
       __Pyx_DECREF_SET(__pyx_v_noise, __pyx_t_2);
@@ -17506,7 +18014,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_DECREF_SET(__pyx_v_noise_filt, __pyx_t_6);
       __pyx_t_6 = 0;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":632
+      /* "TwitchBasedMuscleModel_v3.pyx":643
  * 
  *         # Integreate all the inputs
  *         if t > delay_C:             # <<<<<<<<<<<<<<
@@ -17515,49 +18023,49 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
     }
 
-    /* "TwitchBasedMuscleModel_v3.pyx":645
+    /* "TwitchBasedMuscleModel_v3.pyx":656
  * 
  *         # Calculate neural drive to motor unit pool
  *         ND[t] = ND_temp + noise_filt[t];             # <<<<<<<<<<<<<<
  * 
  *         if ND[t] < 0:
  */
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_ND_temp); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 645, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_ND_temp); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 656, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = PyObject_GetItem(__pyx_v_noise_filt, __pyx_v_t); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 645, __pyx_L1_error)
+    __pyx_t_6 = PyObject_GetItem(__pyx_v_noise_filt, __pyx_v_t); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 656, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_2 = PyNumber_Add(__pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 645, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Add(__pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 656, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(PyObject_SetItem(__pyx_v_ND, __pyx_v_t, __pyx_t_2) < 0)) __PYX_ERR(0, 645, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_ND, __pyx_v_t, __pyx_t_2) < 0)) __PYX_ERR(0, 656, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":647
+    /* "TwitchBasedMuscleModel_v3.pyx":658
  *         ND[t] = ND_temp + noise_filt[t];
  * 
  *         if ND[t] < 0:             # <<<<<<<<<<<<<<
  *             ND[t] = 0;
  * 
  */
-    __pyx_t_2 = PyObject_GetItem(__pyx_v_ND, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 647, __pyx_L1_error)
+    __pyx_t_2 = PyObject_GetItem(__pyx_v_ND, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 658, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = PyObject_RichCompare(__pyx_t_2, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 647, __pyx_L1_error)
+    __pyx_t_6 = PyObject_RichCompare(__pyx_t_2, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 658, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 647, __pyx_L1_error)
+    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 658, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_18) {
 
-      /* "TwitchBasedMuscleModel_v3.pyx":648
+      /* "TwitchBasedMuscleModel_v3.pyx":659
  * 
  *         if ND[t] < 0:
  *             ND[t] = 0;             # <<<<<<<<<<<<<<
  * 
  *         if t > delay_efferent:
  */
-      if (unlikely(PyObject_SetItem(__pyx_v_ND, __pyx_v_t, __pyx_int_0) < 0)) __PYX_ERR(0, 648, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_v_ND, __pyx_v_t, __pyx_int_0) < 0)) __PYX_ERR(0, 659, __pyx_L1_error)
 
-      /* "TwitchBasedMuscleModel_v3.pyx":647
+      /* "TwitchBasedMuscleModel_v3.pyx":658
  *         ND[t] = ND_temp + noise_filt[t];
  * 
  *         if ND[t] < 0:             # <<<<<<<<<<<<<<
@@ -17566,34 +18074,34 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
     }
 
-    /* "TwitchBasedMuscleModel_v3.pyx":650
+    /* "TwitchBasedMuscleModel_v3.pyx":661
  *             ND[t] = 0;
  * 
  *         if t > delay_efferent:             # <<<<<<<<<<<<<<
  *             ND_delayed[t] = ND[t-delay_efferent];
  * 
  */
-    __pyx_t_6 = PyObject_RichCompare(__pyx_v_t, __pyx_v_delay_efferent, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 650, __pyx_L1_error)
-    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 650, __pyx_L1_error)
+    __pyx_t_6 = PyObject_RichCompare(__pyx_v_t, __pyx_v_delay_efferent, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 661, __pyx_L1_error)
+    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 661, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_18) {
 
-      /* "TwitchBasedMuscleModel_v3.pyx":651
+      /* "TwitchBasedMuscleModel_v3.pyx":662
  * 
  *         if t > delay_efferent:
  *             ND_delayed[t] = ND[t-delay_efferent];             # <<<<<<<<<<<<<<
  * 
  *         U = ND_delayed[t];
  */
-      __pyx_t_6 = PyNumber_Subtract(__pyx_v_t, __pyx_v_delay_efferent); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 651, __pyx_L1_error)
+      __pyx_t_6 = PyNumber_Subtract(__pyx_v_t, __pyx_v_delay_efferent); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 662, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_2 = PyObject_GetItem(__pyx_v_ND, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 651, __pyx_L1_error)
+      __pyx_t_2 = PyObject_GetItem(__pyx_v_ND, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 662, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(PyObject_SetItem(__pyx_v_ND_delayed, __pyx_v_t, __pyx_t_2) < 0)) __PYX_ERR(0, 651, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_v_ND_delayed, __pyx_v_t, __pyx_t_2) < 0)) __PYX_ERR(0, 662, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":650
+      /* "TwitchBasedMuscleModel_v3.pyx":661
  *             ND[t] = 0;
  * 
  *         if t > delay_efferent:             # <<<<<<<<<<<<<<
@@ -17602,34 +18110,34 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
     }
 
-    /* "TwitchBasedMuscleModel_v3.pyx":653
+    /* "TwitchBasedMuscleModel_v3.pyx":664
  *             ND_delayed[t] = ND[t-delay_efferent];
  * 
  *         U = ND_delayed[t];             # <<<<<<<<<<<<<<
  * 
  *         if U >= U_eff:
  */
-    __pyx_t_2 = PyObject_GetItem(__pyx_v_ND_delayed, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 653, __pyx_L1_error)
+    __pyx_t_2 = PyObject_GetItem(__pyx_v_ND_delayed, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 664, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_XDECREF_SET(__pyx_v_U, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":655
+    /* "TwitchBasedMuscleModel_v3.pyx":666
  *         U = ND_delayed[t];
  * 
  *         if U >= U_eff:             # <<<<<<<<<<<<<<
  *             T_U = 0.03;
  *         else:
  */
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 655, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 666, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = PyObject_RichCompare(__pyx_v_U, __pyx_t_2, Py_GE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 655, __pyx_L1_error)
+    __pyx_t_6 = PyObject_RichCompare(__pyx_v_U, __pyx_t_2, Py_GE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 666, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 655, __pyx_L1_error)
+    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 666, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_18) {
 
-      /* "TwitchBasedMuscleModel_v3.pyx":656
+      /* "TwitchBasedMuscleModel_v3.pyx":667
  * 
  *         if U >= U_eff:
  *             T_U = 0.03;             # <<<<<<<<<<<<<<
@@ -17638,7 +18146,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
       __pyx_v_T_U = 0.03;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":655
+      /* "TwitchBasedMuscleModel_v3.pyx":666
  *         U = ND_delayed[t];
  * 
  *         if U >= U_eff:             # <<<<<<<<<<<<<<
@@ -17648,7 +18156,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       goto __pyx_L43;
     }
 
-    /* "TwitchBasedMuscleModel_v3.pyx":658
+    /* "TwitchBasedMuscleModel_v3.pyx":669
  *             T_U = 0.03;
  *         else:
  *             T_U = 0.15;             # <<<<<<<<<<<<<<
@@ -17660,69 +18168,69 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
     __pyx_L43:;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":660
+    /* "TwitchBasedMuscleModel_v3.pyx":671
  *             T_U = 0.15;
  * 
  *         U_eff_dot = (U-U_eff)/(T_U);             # <<<<<<<<<<<<<<
  *         U_eff = U_eff_dot*step + U_eff;
  * 
  */
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 660, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 671, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_2 = PyNumber_Subtract(__pyx_v_U, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 660, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Subtract(__pyx_v_U, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 671, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_T_U); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 660, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_T_U); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 671, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 660, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 671, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_XDECREF_SET(__pyx_v_U_eff_dot, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":661
+    /* "TwitchBasedMuscleModel_v3.pyx":672
  * 
  *         U_eff_dot = (U-U_eff)/(T_U);
  *         U_eff = U_eff_dot*step + U_eff;             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 661, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 672, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = PyNumber_Multiply(__pyx_v_U_eff_dot, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 661, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_Multiply(__pyx_v_U_eff_dot, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 672, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 661, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 672, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_2 = PyNumber_Add(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 661, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Add(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 672, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 661, __pyx_L1_error)
+    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 672, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_U_eff = __pyx_t_3;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":665
+    /* "TwitchBasedMuscleModel_v3.pyx":676
  * 
  *         # Calculate firing rate of each unit
  *         FR = np.multiply((PFR_MU-MFR_MU)/(1-U_th),(U_eff-U_th)) + MFR_MU;             # <<<<<<<<<<<<<<
  *         FR[FR<8] = 0;
  * 
  */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_multiply); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 665, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_multiply); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 676, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = PyNumber_Subtract(__pyx_v_PFR_MU, __pyx_v_MFR_MU); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 665, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_Subtract(__pyx_v_PFR_MU, __pyx_v_MFR_MU); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 676, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_14 = __Pyx_PyInt_SubtractCObj(__pyx_int_1, __pyx_v_U_th, 1, 0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 665, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyInt_SubtractCObj(__pyx_int_1, __pyx_v_U_th, 1, 0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 676, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
-    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 665, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 676, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __pyx_t_14 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 665, __pyx_L1_error)
+    __pyx_t_14 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 676, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
-    __pyx_t_6 = PyNumber_Subtract(__pyx_t_14, __pyx_v_U_th); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 665, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_Subtract(__pyx_t_14, __pyx_v_U_th); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 676, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __pyx_t_14 = NULL;
@@ -17740,7 +18248,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[3] = {__pyx_t_14, __pyx_t_1, __pyx_t_6};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 665, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 676, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -17750,7 +18258,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[3] = {__pyx_t_14, __pyx_t_1, __pyx_t_6};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 665, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 676, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -17758,7 +18266,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     } else
     #endif
     {
-      __pyx_t_15 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 665, __pyx_L1_error)
+      __pyx_t_15 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 676, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_15);
       if (__pyx_t_14) {
         __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_14); __pyx_t_14 = NULL;
@@ -17769,36 +18277,36 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       PyTuple_SET_ITEM(__pyx_t_15, 1+__pyx_t_11, __pyx_t_6);
       __pyx_t_1 = 0;
       __pyx_t_6 = 0;
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_15, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 665, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_15, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 676, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     }
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = PyNumber_Add(__pyx_t_2, __pyx_v_MFR_MU); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 665, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Add(__pyx_t_2, __pyx_v_MFR_MU); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 676, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_XDECREF_SET(__pyx_v_FR, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":666
+    /* "TwitchBasedMuscleModel_v3.pyx":677
  *         # Calculate firing rate of each unit
  *         FR = np.multiply((PFR_MU-MFR_MU)/(1-U_th),(U_eff-U_th)) + MFR_MU;
  *         FR[FR<8] = 0;             # <<<<<<<<<<<<<<
  * 
  *         f_env = np.divide(FR,FR_half);
  */
-    __pyx_t_7 = PyObject_RichCompare(__pyx_v_FR, __pyx_int_8, Py_LT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 666, __pyx_L1_error)
-    if (unlikely(PyObject_SetItem(__pyx_v_FR, __pyx_t_7, __pyx_int_0) < 0)) __PYX_ERR(0, 666, __pyx_L1_error)
+    __pyx_t_7 = PyObject_RichCompare(__pyx_v_FR, __pyx_int_8, Py_LT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 677, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_FR, __pyx_t_7, __pyx_int_0) < 0)) __PYX_ERR(0, 677, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":668
+    /* "TwitchBasedMuscleModel_v3.pyx":679
  *         FR[FR<8] = 0;
  * 
  *         f_env = np.divide(FR,FR_half);             # <<<<<<<<<<<<<<
  *         force_half = np.divide(force[:,t],Pi_half);
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_divide); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 668, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_divide); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 679, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_15 = NULL;
     __pyx_t_11 = 0;
@@ -17815,7 +18323,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[3] = {__pyx_t_15, __pyx_v_FR, __pyx_v_FR_half};
-      __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 668, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 679, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
       __Pyx_GOTREF(__pyx_t_7);
     } else
@@ -17823,13 +18331,13 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[3] = {__pyx_t_15, __pyx_v_FR, __pyx_v_FR_half};
-      __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 668, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 679, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
       __Pyx_GOTREF(__pyx_t_7);
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 668, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 679, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       if (__pyx_t_15) {
         __Pyx_GIVEREF(__pyx_t_15); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_15); __pyx_t_15 = NULL;
@@ -17840,7 +18348,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_INCREF(__pyx_v_FR_half);
       __Pyx_GIVEREF(__pyx_v_FR_half);
       PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_11, __pyx_v_FR_half);
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 668, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 679, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
@@ -17848,16 +18356,16 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __Pyx_XDECREF_SET(__pyx_v_f_env, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":669
+    /* "TwitchBasedMuscleModel_v3.pyx":680
  * 
  *         f_env = np.divide(FR,FR_half);
  *         force_half = np.divide(force[:,t],Pi_half);             # <<<<<<<<<<<<<<
  * 
  *         Y_temp = yield_function(Y_temp,Vce,step);
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_divide); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 669, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_divide); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 680, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 669, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 680, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_INCREF(__pyx_slice__57);
     __Pyx_GIVEREF(__pyx_slice__57);
@@ -17865,7 +18373,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __Pyx_INCREF(__pyx_v_t);
     __Pyx_GIVEREF(__pyx_v_t);
     PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_v_t);
-    __pyx_t_15 = PyObject_GetItem(__pyx_v_force, __pyx_t_6); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 669, __pyx_L1_error)
+    __pyx_t_15 = PyObject_GetItem(__pyx_v_force, __pyx_t_6); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 680, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_6 = NULL;
@@ -17883,7 +18391,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_15, __pyx_v_Pi_half};
-      __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 669, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 680, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
@@ -17892,14 +18400,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_15, __pyx_v_Pi_half};
-      __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 669, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 680, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     } else
     #endif
     {
-      __pyx_t_1 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 669, __pyx_L1_error)
+      __pyx_t_1 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 680, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (__pyx_t_6) {
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -17910,7 +18418,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_GIVEREF(__pyx_v_Pi_half);
       PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_11, __pyx_v_Pi_half);
       __pyx_t_15 = 0;
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 669, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 680, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
@@ -17918,37 +18426,37 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __Pyx_XDECREF_SET(__pyx_v_force_half, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":671
+    /* "TwitchBasedMuscleModel_v3.pyx":682
  *         force_half = np.divide(force[:,t],Pi_half);
  * 
  *         Y_temp = yield_function(Y_temp,Vce,step);             # <<<<<<<<<<<<<<
  *         Y_vec[0:index_slow-1] = Y_temp;
  * 
  */
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 671, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 682, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 671, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 682, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_2yield_function(__pyx_v_yield_function, __pyx_v_Y_temp, __pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 671, __pyx_L1_error)
+    __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_2yield_function(__pyx_v_yield_function, __pyx_v_Y_temp, __pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 682, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF_SET(__pyx_v_Y_temp, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":672
+    /* "TwitchBasedMuscleModel_v3.pyx":683
  * 
  *         Y_temp = yield_function(Y_temp,Vce,step);
  *         Y_vec[0:index_slow-1] = Y_temp;             # <<<<<<<<<<<<<<
  * 
  *         for k in xrange(N_MU):
  */
-    __pyx_t_1 = __Pyx_PyInt_SubtractObjC(__pyx_v_index_slow, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 672, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_SubtractObjC(__pyx_v_index_slow, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 683, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (__Pyx_PyObject_SetSlice(__pyx_v_Y_vec, __pyx_v_Y_temp, 0, 0, NULL, &__pyx_t_1, NULL, 1, 0, 1) < 0) __PYX_ERR(0, 672, __pyx_L1_error)
+    if (__Pyx_PyObject_SetSlice(__pyx_v_Y_vec, __pyx_v_Y_temp, 0, 0, NULL, &__pyx_t_1, NULL, 1, 0, 1) < 0) __PYX_ERR(0, 683, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":674
+    /* "TwitchBasedMuscleModel_v3.pyx":685
  *         Y_vec[0:index_slow-1] = Y_temp;
  * 
  *         for k in xrange(N_MU):             # <<<<<<<<<<<<<<
@@ -17959,37 +18467,37 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     for (__pyx_t_19 = 0; __pyx_t_19 < __pyx_t_11; __pyx_t_19+=1) {
       __pyx_v_k = __pyx_t_19;
 
-      /* "TwitchBasedMuscleModel_v3.pyx":675
+      /* "TwitchBasedMuscleModel_v3.pyx":686
  * 
  *         for k in xrange(N_MU):
  *             if FR[k] > PFR_MU[k]:             # <<<<<<<<<<<<<<
  *                 FR[k] = PFR_MU[k];
  *             if k <= index_slow-1:
  */
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_FR, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 675, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_FR, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 686, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_PFR_MU, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 675, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_PFR_MU, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 686, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 675, __pyx_L1_error)
+      __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 686, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 675, __pyx_L1_error)
+      __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 686, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       if (__pyx_t_18) {
 
-        /* "TwitchBasedMuscleModel_v3.pyx":676
+        /* "TwitchBasedMuscleModel_v3.pyx":687
  *         for k in xrange(N_MU):
  *             if FR[k] > PFR_MU[k]:
  *                 FR[k] = PFR_MU[k];             # <<<<<<<<<<<<<<
  *             if k <= index_slow-1:
  *                 Af[k] = Af_slow_function(force_half[k],Lce,Y_vec[k]);
  */
-        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_PFR_MU, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 676, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_PFR_MU, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 687, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        if (unlikely(__Pyx_SetItemInt(__pyx_v_FR, __pyx_v_k, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 676, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(__pyx_v_FR, __pyx_v_k, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 687, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "TwitchBasedMuscleModel_v3.pyx":675
+        /* "TwitchBasedMuscleModel_v3.pyx":686
  * 
  *         for k in xrange(N_MU):
  *             if FR[k] > PFR_MU[k]:             # <<<<<<<<<<<<<<
@@ -17998,82 +18506,82 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
       }
 
-      /* "TwitchBasedMuscleModel_v3.pyx":677
+      /* "TwitchBasedMuscleModel_v3.pyx":688
  *             if FR[k] > PFR_MU[k]:
  *                 FR[k] = PFR_MU[k];
  *             if k <= index_slow-1:             # <<<<<<<<<<<<<<
  *                 Af[k] = Af_slow_function(force_half[k],Lce,Y_vec[k]);
  *                 if f_env[k] != 0:
  */
-      __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_k); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 677, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_k); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 688, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_v_index_slow, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 677, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyInt_SubtractObjC(__pyx_v_index_slow, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 688, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = PyObject_RichCompare(__pyx_t_7, __pyx_t_2, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 677, __pyx_L1_error)
+      __pyx_t_1 = PyObject_RichCompare(__pyx_t_7, __pyx_t_2, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 688, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 677, __pyx_L1_error)
+      __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 688, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       if (__pyx_t_18) {
 
-        /* "TwitchBasedMuscleModel_v3.pyx":678
+        /* "TwitchBasedMuscleModel_v3.pyx":689
  *                 FR[k] = PFR_MU[k];
  *             if k <= index_slow-1:
  *                 Af[k] = Af_slow_function(force_half[k],Lce,Y_vec[k]);             # <<<<<<<<<<<<<<
  *                 if f_env[k] != 0:
  *                     FF[k] = Af_cor_slow_function(f_env[k],Lce,Y_vec[k]);
  */
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_force_half, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 678, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_force_half, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 689, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 678, __pyx_L1_error)
+        __pyx_t_2 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 689, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_Y_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 678, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_Y_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 689, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_15 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_6Af_slow_function(__pyx_v_Af_slow_function, __pyx_t_1, __pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 678, __pyx_L1_error)
+        __pyx_t_15 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_6Af_slow_function(__pyx_v_Af_slow_function, __pyx_t_1, __pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 689, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_15);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        if (unlikely(__Pyx_SetItemInt(__pyx_v_Af, __pyx_v_k, __pyx_t_15, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 678, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(__pyx_v_Af, __pyx_v_k, __pyx_t_15, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 689, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
 
-        /* "TwitchBasedMuscleModel_v3.pyx":679
+        /* "TwitchBasedMuscleModel_v3.pyx":690
  *             if k <= index_slow-1:
  *                 Af[k] = Af_slow_function(force_half[k],Lce,Y_vec[k]);
  *                 if f_env[k] != 0:             # <<<<<<<<<<<<<<
  *                     FF[k] = Af_cor_slow_function(f_env[k],Lce,Y_vec[k]);
  *             else:
  */
-        __pyx_t_15 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 679, __pyx_L1_error)
+        __pyx_t_15 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 690, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_15);
-        __pyx_t_7 = PyObject_RichCompare(__pyx_t_15, __pyx_int_0, Py_NE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 679, __pyx_L1_error)
+        __pyx_t_7 = PyObject_RichCompare(__pyx_t_15, __pyx_int_0, Py_NE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 690, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 679, __pyx_L1_error)
+        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 690, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         if (__pyx_t_18) {
 
-          /* "TwitchBasedMuscleModel_v3.pyx":680
+          /* "TwitchBasedMuscleModel_v3.pyx":691
  *                 Af[k] = Af_slow_function(force_half[k],Lce,Y_vec[k]);
  *                 if f_env[k] != 0:
  *                     FF[k] = Af_cor_slow_function(f_env[k],Lce,Y_vec[k]);             # <<<<<<<<<<<<<<
  *             else:
  *                 S_temp[k] = sag_function(S_temp[k],force_half[k],step);
  */
-          __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 680, __pyx_L1_error)
+          __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 691, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 680, __pyx_L1_error)
+          __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 691, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_Y_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 680, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_Y_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 691, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_10Af_cor_slow_function(__pyx_v_Af_cor_slow_function, __pyx_t_7, __pyx_t_15, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 680, __pyx_L1_error)
+          __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_10Af_cor_slow_function(__pyx_v_Af_cor_slow_function, __pyx_t_7, __pyx_t_15, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 691, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (unlikely(__Pyx_SetItemInt(__pyx_v_FF, __pyx_v_k, __pyx_t_1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 680, __pyx_L1_error)
+          if (unlikely(__Pyx_SetItemInt(__pyx_v_FF, __pyx_v_k, __pyx_t_1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 691, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-          /* "TwitchBasedMuscleModel_v3.pyx":679
+          /* "TwitchBasedMuscleModel_v3.pyx":690
  *             if k <= index_slow-1:
  *                 Af[k] = Af_slow_function(force_half[k],Lce,Y_vec[k]);
  *                 if f_env[k] != 0:             # <<<<<<<<<<<<<<
@@ -18082,7 +18590,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
         }
 
-        /* "TwitchBasedMuscleModel_v3.pyx":677
+        /* "TwitchBasedMuscleModel_v3.pyx":688
  *             if FR[k] > PFR_MU[k]:
  *                 FR[k] = PFR_MU[k];
  *             if k <= index_slow-1:             # <<<<<<<<<<<<<<
@@ -18092,7 +18600,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         goto __pyx_L47;
       }
 
-      /* "TwitchBasedMuscleModel_v3.pyx":682
+      /* "TwitchBasedMuscleModel_v3.pyx":693
  *                     FF[k] = Af_cor_slow_function(f_env[k],Lce,Y_vec[k]);
  *             else:
  *                 S_temp[k] = sag_function(S_temp[k],force_half[k],step);             # <<<<<<<<<<<<<<
@@ -18100,90 +18608,90 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  *                 Af[k] = Af_fast_function(force_half[k],Lce,S_vec[k]);
  */
       /*else*/ {
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_S_temp, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 682, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_S_temp, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 693, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_force_half, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 682, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_force_half, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 693, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_15 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 682, __pyx_L1_error)
+        __pyx_t_15 = PyFloat_FromDouble(__pyx_v_step); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 693, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_15);
-        __pyx_t_7 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_4sag_function(__pyx_v_sag_function, __pyx_t_1, __pyx_t_2, __pyx_t_15); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 682, __pyx_L1_error)
+        __pyx_t_7 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_4sag_function(__pyx_v_sag_function, __pyx_t_1, __pyx_t_2, __pyx_t_15); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 693, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        if (unlikely(__Pyx_SetItemInt(__pyx_v_S_temp, __pyx_v_k, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 682, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(__pyx_v_S_temp, __pyx_v_k, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 693, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "TwitchBasedMuscleModel_v3.pyx":683
+        /* "TwitchBasedMuscleModel_v3.pyx":694
  *             else:
  *                 S_temp[k] = sag_function(S_temp[k],force_half[k],step);
  *                 S_vec[k] = S_temp[k];             # <<<<<<<<<<<<<<
  *                 Af[k] = Af_fast_function(force_half[k],Lce,S_vec[k]);
  *                 if f_env[k] != 0:
  */
-        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_S_temp, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 683, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_S_temp, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 694, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        if (unlikely(__Pyx_SetItemInt(__pyx_v_S_vec, __pyx_v_k, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 683, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(__pyx_v_S_vec, __pyx_v_k, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 694, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-        /* "TwitchBasedMuscleModel_v3.pyx":684
+        /* "TwitchBasedMuscleModel_v3.pyx":695
  *                 S_temp[k] = sag_function(S_temp[k],force_half[k],step);
  *                 S_vec[k] = S_temp[k];
  *                 Af[k] = Af_fast_function(force_half[k],Lce,S_vec[k]);             # <<<<<<<<<<<<<<
  *                 if f_env[k] != 0:
  *                     FF[k] = Af_cor_fast_function(f_env[k],Lce,S_vec[k]);
  */
-        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_force_half, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 684, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_force_half, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 695, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 684, __pyx_L1_error)
+        __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 695, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_15);
-        __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_S_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 684, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_S_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 695, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_8Af_fast_function(__pyx_v_Af_fast_function, __pyx_t_7, __pyx_t_15, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 684, __pyx_L1_error)
+        __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_8Af_fast_function(__pyx_v_Af_fast_function, __pyx_t_7, __pyx_t_15, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 695, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        if (unlikely(__Pyx_SetItemInt(__pyx_v_Af, __pyx_v_k, __pyx_t_1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 684, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(__pyx_v_Af, __pyx_v_k, __pyx_t_1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 695, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "TwitchBasedMuscleModel_v3.pyx":685
+        /* "TwitchBasedMuscleModel_v3.pyx":696
  *                 S_vec[k] = S_temp[k];
  *                 Af[k] = Af_fast_function(force_half[k],Lce,S_vec[k]);
  *                 if f_env[k] != 0:             # <<<<<<<<<<<<<<
  *                     FF[k] = Af_cor_fast_function(f_env[k],Lce,S_vec[k]);
  * 
  */
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 685, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 696, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_int_0, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 685, __pyx_L1_error)
+        __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_int_0, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 696, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 685, __pyx_L1_error)
+        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 696, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         if (__pyx_t_18) {
 
-          /* "TwitchBasedMuscleModel_v3.pyx":686
+          /* "TwitchBasedMuscleModel_v3.pyx":697
  *                 Af[k] = Af_fast_function(force_half[k],Lce,S_vec[k]);
  *                 if f_env[k] != 0:
  *                     FF[k] = Af_cor_fast_function(f_env[k],Lce,S_vec[k]);             # <<<<<<<<<<<<<<
  * 
  *         index_temp1 = np.all(spike_train==0,axis = 1);
  */
-          __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 686, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_f_env, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 697, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 686, __pyx_L1_error)
+          __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 697, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_15 = __Pyx_GetItemInt(__pyx_v_S_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 686, __pyx_L1_error)
+          __pyx_t_15 = __Pyx_GetItemInt(__pyx_v_S_vec, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 697, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_7 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_12Af_cor_fast_function(__pyx_v_Af_cor_fast_function, __pyx_t_2, __pyx_t_1, __pyx_t_15); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 686, __pyx_L1_error)
+          __pyx_t_7 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_12Af_cor_fast_function(__pyx_v_Af_cor_fast_function, __pyx_t_2, __pyx_t_1, __pyx_t_15); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 697, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          if (unlikely(__Pyx_SetItemInt(__pyx_v_FF, __pyx_v_k, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 686, __pyx_L1_error)
+          if (unlikely(__Pyx_SetItemInt(__pyx_v_FF, __pyx_v_k, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 697, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-          /* "TwitchBasedMuscleModel_v3.pyx":685
+          /* "TwitchBasedMuscleModel_v3.pyx":696
  *                 S_vec[k] = S_temp[k];
  *                 Af[k] = Af_fast_function(force_half[k],Lce,S_vec[k]);
  *                 if f_env[k] != 0:             # <<<<<<<<<<<<<<
@@ -18195,26 +18703,26 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __pyx_L47:;
     }
 
-    /* "TwitchBasedMuscleModel_v3.pyx":688
+    /* "TwitchBasedMuscleModel_v3.pyx":699
  *                     FF[k] = Af_cor_fast_function(f_env[k],Lce,S_vec[k]);
  * 
  *         index_temp1 = np.all(spike_train==0,axis = 1);             # <<<<<<<<<<<<<<
  *         index_1 = np.where(np.logical_and(FR >= MFR_MU,index_temp1));
  *         index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));
  */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_all); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 688, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_all); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 699, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_15 = __Pyx_PyInt_EqObjC(__pyx_v_spike_train, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 688, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyInt_EqObjC(__pyx_v_spike_train, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 699, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 688, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 699, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_15);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_15);
     __pyx_t_15 = 0;
-    __pyx_t_15 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 688, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 699, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
-    if (PyDict_SetItem(__pyx_t_15, __pyx_n_s_axis, __pyx_int_1) < 0) __PYX_ERR(0, 688, __pyx_L1_error)
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_1, __pyx_t_15); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 688, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_15, __pyx_n_s_axis, __pyx_int_1) < 0) __PYX_ERR(0, 699, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_1, __pyx_t_15); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 699, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -18222,18 +18730,18 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __Pyx_XDECREF_SET(__pyx_v_index_temp1, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":689
+    /* "TwitchBasedMuscleModel_v3.pyx":700
  * 
  *         index_temp1 = np.all(spike_train==0,axis = 1);
  *         index_1 = np.where(np.logical_and(FR >= MFR_MU,index_temp1));             # <<<<<<<<<<<<<<
  *         index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));
  *         index = np.append(index_1,index_2);
  */
-    __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_where); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 689, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_where); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 700, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_logical_and); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 689, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_logical_and); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 700, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = PyObject_RichCompare(__pyx_v_FR, __pyx_v_MFR_MU, Py_GE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 689, __pyx_L1_error)
+    __pyx_t_6 = PyObject_RichCompare(__pyx_v_FR, __pyx_v_MFR_MU, Py_GE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 700, __pyx_L1_error)
     __pyx_t_14 = NULL;
     __pyx_t_11 = 0;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_7))) {
@@ -18249,7 +18757,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[3] = {__pyx_t_14, __pyx_t_6, __pyx_v_index_temp1};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 689, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 700, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -18258,14 +18766,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[3] = {__pyx_t_14, __pyx_t_6, __pyx_v_index_temp1};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 689, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 700, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 689, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 700, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       if (__pyx_t_14) {
         __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_14); __pyx_t_14 = NULL;
@@ -18276,7 +18784,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_GIVEREF(__pyx_v_index_temp1);
       PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_11, __pyx_v_index_temp1);
       __pyx_t_6 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 689, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 700, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
@@ -18292,14 +18800,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       }
     }
     if (!__pyx_t_7) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_15, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 689, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_15, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 700, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_15)) {
         PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_1};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_15, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 689, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_15, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 700, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -18308,20 +18816,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_15)) {
         PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_1};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_15, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 689, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_15, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 700, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       } else
       #endif
       {
-        __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 689, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 700, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
         __Pyx_GIVEREF(__pyx_t_1);
         PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_1);
         __pyx_t_1 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_15, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 689, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_15, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 700, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       }
@@ -18330,19 +18838,19 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __Pyx_XDECREF_SET(__pyx_v_index_1, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":690
+    /* "TwitchBasedMuscleModel_v3.pyx":701
  *         index_temp1 = np.all(spike_train==0,axis = 1);
  *         index_1 = np.where(np.logical_and(FR >= MFR_MU,index_temp1));
  *         index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));             # <<<<<<<<<<<<<<
  *         index = np.append(index_1,index_2);
  * 
  */
-    __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_where); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 690, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_where); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 701, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_logical_and); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 690, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_logical_and); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 701, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = PyObject_RichCompare(__pyx_v_FR, __pyx_v_MFR_MU, Py_GE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 690, __pyx_L1_error)
-    __pyx_t_6 = PyObject_RichCompare(__pyx_v_spike_time, __pyx_v_t, Py_EQ); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 690, __pyx_L1_error)
+    __pyx_t_7 = PyObject_RichCompare(__pyx_v_FR, __pyx_v_MFR_MU, Py_GE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 701, __pyx_L1_error)
+    __pyx_t_6 = PyObject_RichCompare(__pyx_v_spike_time, __pyx_v_t, Py_EQ); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 701, __pyx_L1_error)
     __pyx_t_14 = NULL;
     __pyx_t_11 = 0;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -18358,7 +18866,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[3] = {__pyx_t_14, __pyx_t_7, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 690, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 701, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -18368,7 +18876,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[3] = {__pyx_t_14, __pyx_t_7, __pyx_t_6};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 690, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 701, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -18376,7 +18884,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     } else
     #endif
     {
-      __pyx_t_13 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 690, __pyx_L1_error)
+      __pyx_t_13 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 701, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_13);
       if (__pyx_t_14) {
         __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_14); __pyx_t_14 = NULL;
@@ -18387,7 +18895,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_11, __pyx_t_6);
       __pyx_t_7 = 0;
       __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_13, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 690, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_13, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 701, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     }
@@ -18403,14 +18911,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       }
     }
     if (!__pyx_t_1) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_15, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 690, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_15, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 701, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_15)) {
         PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_t_5};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_15, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 690, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_15, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 701, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -18419,20 +18927,20 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_15)) {
         PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_t_5};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_15, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 690, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_15, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 701, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       } else
       #endif
       {
-        __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 690, __pyx_L1_error)
+        __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 701, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_13);
         __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_1); __pyx_t_1 = NULL;
         __Pyx_GIVEREF(__pyx_t_5);
         PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_5);
         __pyx_t_5 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_15, __pyx_t_13, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 690, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_15, __pyx_t_13, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 701, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       }
@@ -18441,14 +18949,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __Pyx_XDECREF_SET(__pyx_v_index_2, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":691
+    /* "TwitchBasedMuscleModel_v3.pyx":702
  *         index_1 = np.where(np.logical_and(FR >= MFR_MU,index_temp1));
  *         index_2 = np.where(np.logical_and(FR >= MFR_MU,spike_time == t));
  *         index = np.append(index_1,index_2);             # <<<<<<<<<<<<<<
  * 
  *         if index.size != 0:
  */
-    __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_append); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 691, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_append); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 702, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
     __pyx_t_13 = NULL;
     __pyx_t_11 = 0;
@@ -18465,7 +18973,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_15)) {
       PyObject *__pyx_temp[3] = {__pyx_t_13, __pyx_v_index_1, __pyx_v_index_2};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_15, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 691, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_15, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 702, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else
@@ -18473,13 +18981,13 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_15)) {
       PyObject *__pyx_temp[3] = {__pyx_t_13, __pyx_v_index_1, __pyx_v_index_2};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_15, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 691, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_15, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 702, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 691, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 702, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       if (__pyx_t_13) {
         __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_13); __pyx_t_13 = NULL;
@@ -18490,7 +18998,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_INCREF(__pyx_v_index_2);
       __Pyx_GIVEREF(__pyx_v_index_2);
       PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_11, __pyx_v_index_2);
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_15, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 691, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_15, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 702, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
@@ -18498,152 +19006,91 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __Pyx_XDECREF_SET(__pyx_v_index, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":693
+    /* "TwitchBasedMuscleModel_v3.pyx":704
  *         index = np.append(index_1,index_2);
  * 
  *         if index.size != 0:             # <<<<<<<<<<<<<<
  *             for j in xrange(len(index)):
  *                 n = index[j];
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_index, __pyx_n_s_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 693, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_index, __pyx_n_s_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 704, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_15 = PyObject_RichCompare(__pyx_t_2, __pyx_int_0, Py_NE); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 693, __pyx_L1_error)
+    __pyx_t_15 = PyObject_RichCompare(__pyx_t_2, __pyx_int_0, Py_NE); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 704, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 693, __pyx_L1_error)
+    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 704, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     if (__pyx_t_18) {
 
-      /* "TwitchBasedMuscleModel_v3.pyx":694
+      /* "TwitchBasedMuscleModel_v3.pyx":705
  * 
  *         if index.size != 0:
  *             for j in xrange(len(index)):             # <<<<<<<<<<<<<<
  *                 n = index[j];
  *                 if FR[n] > PFR_MU[n]:
  */
-      __pyx_t_20 = PyObject_Length(__pyx_v_index); if (unlikely(__pyx_t_20 == ((Py_ssize_t)-1))) __PYX_ERR(0, 694, __pyx_L1_error)
+      __pyx_t_20 = PyObject_Length(__pyx_v_index); if (unlikely(__pyx_t_20 == ((Py_ssize_t)-1))) __PYX_ERR(0, 705, __pyx_L1_error)
       for (__pyx_t_21 = 0; __pyx_t_21 < __pyx_t_20; __pyx_t_21+=1) {
         __pyx_v_j = __pyx_t_21;
 
-        /* "TwitchBasedMuscleModel_v3.pyx":695
+        /* "TwitchBasedMuscleModel_v3.pyx":706
  *         if index.size != 0:
  *             for j in xrange(len(index)):
  *                 n = index[j];             # <<<<<<<<<<<<<<
  *                 if FR[n] > PFR_MU[n]:
  *                     FR[n] = PFR_MU[n]
  */
-        __pyx_t_15 = __Pyx_GetItemInt(__pyx_v_index, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 695, __pyx_L1_error)
+        __pyx_t_15 = __Pyx_GetItemInt(__pyx_v_index, __pyx_v_j, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 706, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_15);
         __Pyx_XDECREF_SET(__pyx_v_n, __pyx_t_15);
         __pyx_t_15 = 0;
 
-        /* "TwitchBasedMuscleModel_v3.pyx":696
+        /* "TwitchBasedMuscleModel_v3.pyx":707
  *             for j in xrange(len(index)):
  *                 n = index[j];
  *                 if FR[n] > PFR_MU[n]:             # <<<<<<<<<<<<<<
  *                     FR[n] = PFR_MU[n]
- *                 spike_train_temp = np.zeros(len(time_sim))
+ *                 if any(spike_train[n,:]) != True:
  */
-        __pyx_t_15 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 696, __pyx_L1_error)
+        __pyx_t_15 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 707, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_15);
-        __pyx_t_2 = PyObject_GetItem(__pyx_v_PFR_MU, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 696, __pyx_L1_error)
+        __pyx_t_2 = PyObject_GetItem(__pyx_v_PFR_MU, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 707, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_5 = PyObject_RichCompare(__pyx_t_15, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 696, __pyx_L1_error)
+        __pyx_t_5 = PyObject_RichCompare(__pyx_t_15, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 707, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 696, __pyx_L1_error)
+        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 707, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         if (__pyx_t_18) {
 
-          /* "TwitchBasedMuscleModel_v3.pyx":697
+          /* "TwitchBasedMuscleModel_v3.pyx":708
  *                 n = index[j];
  *                 if FR[n] > PFR_MU[n]:
  *                     FR[n] = PFR_MU[n]             # <<<<<<<<<<<<<<
- *                 spike_train_temp = np.zeros(len(time_sim))
  *                 if any(spike_train[n,:]) != True:
+ *                     spike_train[n,t] = 1;
  */
-          __pyx_t_5 = PyObject_GetItem(__pyx_v_PFR_MU, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 697, __pyx_L1_error)
+          __pyx_t_5 = PyObject_GetItem(__pyx_v_PFR_MU, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 708, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          if (unlikely(PyObject_SetItem(__pyx_v_FR, __pyx_v_n, __pyx_t_5) < 0)) __PYX_ERR(0, 697, __pyx_L1_error)
+          if (unlikely(PyObject_SetItem(__pyx_v_FR, __pyx_v_n, __pyx_t_5) < 0)) __PYX_ERR(0, 708, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-          /* "TwitchBasedMuscleModel_v3.pyx":696
+          /* "TwitchBasedMuscleModel_v3.pyx":707
  *             for j in xrange(len(index)):
  *                 n = index[j];
  *                 if FR[n] > PFR_MU[n]:             # <<<<<<<<<<<<<<
  *                     FR[n] = PFR_MU[n]
- *                 spike_train_temp = np.zeros(len(time_sim))
+ *                 if any(spike_train[n,:]) != True:
  */
         }
 
-        /* "TwitchBasedMuscleModel_v3.pyx":698
+        /* "TwitchBasedMuscleModel_v3.pyx":709
  *                 if FR[n] > PFR_MU[n]:
  *                     FR[n] = PFR_MU[n]
- *                 spike_train_temp = np.zeros(len(time_sim))             # <<<<<<<<<<<<<<
- *                 if any(spike_train[n,:]) != True:
- *                     spike_train[n,t] = 1;
- */
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 698, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 698, __pyx_L1_error)
-        __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 698, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        __pyx_t_13 = NULL;
-        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-          __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_2);
-          if (likely(__pyx_t_13)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-            __Pyx_INCREF(__pyx_t_13);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_2, function);
-          }
-        }
-        if (!__pyx_t_13) {
-          __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_15); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 698, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __Pyx_GOTREF(__pyx_t_5);
-        } else {
-          #if CYTHON_FAST_PYCALL
-          if (PyFunction_Check(__pyx_t_2)) {
-            PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_15};
-            __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 698, __pyx_L1_error)
-            __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          } else
-          #endif
-          #if CYTHON_FAST_PYCCALL
-          if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-            PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_15};
-            __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 698, __pyx_L1_error)
-            __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          } else
-          #endif
-          {
-            __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 698, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_1);
-            __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_13); __pyx_t_13 = NULL;
-            __Pyx_GIVEREF(__pyx_t_15);
-            PyTuple_SET_ITEM(__pyx_t_1, 0+1, __pyx_t_15);
-            __pyx_t_15 = 0;
-            __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 698, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          }
-        }
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_DECREF_SET(__pyx_v_spike_train_temp, __pyx_t_5);
-        __pyx_t_5 = 0;
-
-        /* "TwitchBasedMuscleModel_v3.pyx":699
- *                     FR[n] = PFR_MU[n]
- *                 spike_train_temp = np.zeros(len(time_sim))
  *                 if any(spike_train[n,:]) != True:             # <<<<<<<<<<<<<<
  *                     spike_train[n,t] = 1;
- *                     spike_train_temp[t] = 1;
+ *                     mu = 1/float(FR[n]);
  */
-        __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 699, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 709, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_INCREF(__pyx_v_n);
         __Pyx_GIVEREF(__pyx_v_n);
@@ -18651,31 +19098,31 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
         __Pyx_INCREF(__pyx_slice__58);
         __Pyx_GIVEREF(__pyx_slice__58);
         PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_slice__58);
-        __pyx_t_2 = PyObject_GetItem(__pyx_v_spike_train, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 699, __pyx_L1_error)
+        __pyx_t_2 = PyObject_GetItem(__pyx_v_spike_train, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 709, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 699, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 709, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_GIVEREF(__pyx_t_2);
         PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2);
         __pyx_t_2 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_any, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 699, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_any, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 709, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = PyObject_RichCompare(__pyx_t_2, Py_True, Py_NE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 699, __pyx_L1_error)
+        __pyx_t_5 = PyObject_RichCompare(__pyx_t_2, Py_True, Py_NE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 709, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 699, __pyx_L1_error)
+        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 709, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         if (__pyx_t_18) {
 
-          /* "TwitchBasedMuscleModel_v3.pyx":700
- *                 spike_train_temp = np.zeros(len(time_sim))
+          /* "TwitchBasedMuscleModel_v3.pyx":710
+ *                     FR[n] = PFR_MU[n]
  *                 if any(spike_train[n,:]) != True:
  *                     spike_train[n,t] = 1;             # <<<<<<<<<<<<<<
- *                     spike_train_temp[t] = 1;
  *                     mu = 1/float(FR[n]);
+ *                     Z = np.random.randn(1);
  */
-          __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 700, __pyx_L1_error)
+          __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 710, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_INCREF(__pyx_v_n);
           __Pyx_GIVEREF(__pyx_v_n);
@@ -18683,66 +19130,57 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
           __Pyx_INCREF(__pyx_v_t);
           __Pyx_GIVEREF(__pyx_v_t);
           PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_v_t);
-          if (unlikely(PyObject_SetItem(__pyx_v_spike_train, __pyx_t_5, __pyx_int_1) < 0)) __PYX_ERR(0, 700, __pyx_L1_error)
+          if (unlikely(PyObject_SetItem(__pyx_v_spike_train, __pyx_t_5, __pyx_int_1) < 0)) __PYX_ERR(0, 710, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-          /* "TwitchBasedMuscleModel_v3.pyx":701
+          /* "TwitchBasedMuscleModel_v3.pyx":711
  *                 if any(spike_train[n,:]) != True:
  *                     spike_train[n,t] = 1;
- *                     spike_train_temp[t] = 1;             # <<<<<<<<<<<<<<
- *                     mu = 1/float(FR[n]);
- *                     Z = np.random.randn(1);
- */
-          if (unlikely(PyObject_SetItem(__pyx_v_spike_train_temp, __pyx_v_t, __pyx_int_1) < 0)) __PYX_ERR(0, 701, __pyx_L1_error)
-
-          /* "TwitchBasedMuscleModel_v3.pyx":702
- *                     spike_train[n,t] = 1;
- *                     spike_train_temp[t] = 1;
  *                     mu = 1/float(FR[n]);             # <<<<<<<<<<<<<<
  *                     Z = np.random.randn(1);
  *                     if Z > 3.9:
  */
-          __pyx_t_5 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 702, __pyx_L1_error)
+          __pyx_t_5 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 711, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_3 = __Pyx_PyObject_AsDouble(__pyx_t_5); if (unlikely(__pyx_t_3 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 702, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyObject_AsDouble(__pyx_t_5); if (unlikely(__pyx_t_3 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 711, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           if (unlikely(__pyx_t_3 == 0)) {
             PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-            __PYX_ERR(0, 702, __pyx_L1_error)
+            __PYX_ERR(0, 711, __pyx_L1_error)
           }
           __pyx_v_mu = (1.0 / __pyx_t_3);
 
-          /* "TwitchBasedMuscleModel_v3.pyx":703
- *                     spike_train_temp[t] = 1;
+          /* "TwitchBasedMuscleModel_v3.pyx":712
+ *                     spike_train[n,t] = 1;
  *                     mu = 1/float(FR[n]);
  *                     Z = np.random.randn(1);             # <<<<<<<<<<<<<<
  *                     if Z > 3.9:
  *                         Z = 3.9
  */
-          __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_random); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 703, __pyx_L1_error)
+          __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_random); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 712, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_randn); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 703, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_randn); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 712, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__59, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 703, __pyx_L1_error)
+          __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__59, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 712, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __Pyx_XDECREF_SET(__pyx_v_Z, __pyx_t_5);
           __pyx_t_5 = 0;
 
-          /* "TwitchBasedMuscleModel_v3.pyx":704
+          /* "TwitchBasedMuscleModel_v3.pyx":713
  *                     mu = 1/float(FR[n]);
  *                     Z = np.random.randn(1);
  *                     if Z > 3.9:             # <<<<<<<<<<<<<<
  *                         Z = 3.9
  *                     elif Z < -3.9:
  */
-          __pyx_t_5 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_3_9, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 704, __pyx_L1_error)
-          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 704, __pyx_L1_error)
+          __pyx_t_5 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_3_9, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 713, __pyx_L1_error)
+          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 713, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           if (__pyx_t_18) {
 
-            /* "TwitchBasedMuscleModel_v3.pyx":705
+            /* "TwitchBasedMuscleModel_v3.pyx":714
  *                     Z = np.random.randn(1);
  *                     if Z > 3.9:
  *                         Z = 3.9             # <<<<<<<<<<<<<<
@@ -18752,7 +19190,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
             __Pyx_INCREF(__pyx_float_3_9);
             __Pyx_DECREF_SET(__pyx_v_Z, __pyx_float_3_9);
 
-            /* "TwitchBasedMuscleModel_v3.pyx":704
+            /* "TwitchBasedMuscleModel_v3.pyx":713
  *                     mu = 1/float(FR[n]);
  *                     Z = np.random.randn(1);
  *                     if Z > 3.9:             # <<<<<<<<<<<<<<
@@ -18762,19 +19200,19 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
             goto __pyx_L55;
           }
 
-          /* "TwitchBasedMuscleModel_v3.pyx":706
+          /* "TwitchBasedMuscleModel_v3.pyx":715
  *                     if Z > 3.9:
  *                         Z = 3.9
  *                     elif Z < -3.9:             # <<<<<<<<<<<<<<
  *                         Z = -3.9
  *                     spike_time_temp = (mu + mu*cv*Z)*Fs;
  */
-          __pyx_t_5 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_neg_3_9, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 706, __pyx_L1_error)
-          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 706, __pyx_L1_error)
+          __pyx_t_5 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_neg_3_9, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 715, __pyx_L1_error)
+          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 715, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           if (__pyx_t_18) {
 
-            /* "TwitchBasedMuscleModel_v3.pyx":707
+            /* "TwitchBasedMuscleModel_v3.pyx":716
  *                         Z = 3.9
  *                     elif Z < -3.9:
  *                         Z = -3.9             # <<<<<<<<<<<<<<
@@ -18784,7 +19222,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
             __Pyx_INCREF(__pyx_float_neg_3_9);
             __Pyx_DECREF_SET(__pyx_v_Z, __pyx_float_neg_3_9);
 
-            /* "TwitchBasedMuscleModel_v3.pyx":706
+            /* "TwitchBasedMuscleModel_v3.pyx":715
  *                     if Z > 3.9:
  *                         Z = 3.9
  *                     elif Z < -3.9:             # <<<<<<<<<<<<<<
@@ -18794,166 +19232,166 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
           }
           __pyx_L55:;
 
-          /* "TwitchBasedMuscleModel_v3.pyx":708
+          /* "TwitchBasedMuscleModel_v3.pyx":717
  *                     elif Z < -3.9:
  *                         Z = -3.9
  *                     spike_time_temp = (mu + mu*cv*Z)*Fs;             # <<<<<<<<<<<<<<
  *                     spike_time[n] = round(spike_time_temp) + t;
  *                     twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  */
-          __pyx_t_5 = PyFloat_FromDouble(__pyx_v_mu); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 708, __pyx_L1_error)
+          __pyx_t_5 = PyFloat_FromDouble(__pyx_v_mu); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 717, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_2 = PyFloat_FromDouble((__pyx_v_mu * __pyx_v_cv)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 708, __pyx_L1_error)
+          __pyx_t_2 = PyFloat_FromDouble((__pyx_v_mu * __pyx_v_cv)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 717, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_1 = PyNumber_Multiply(__pyx_t_2, __pyx_v_Z); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 708, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
+          __pyx_t_15 = PyNumber_Multiply(__pyx_t_2, __pyx_v_Z); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 717, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_15);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 708, __pyx_L1_error)
+          __pyx_t_2 = PyNumber_Add(__pyx_t_5, __pyx_t_15); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 717, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __pyx_t_1 = PyNumber_Multiply(__pyx_t_2, __pyx_v_Fs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 708, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
+          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+          __pyx_t_15 = PyNumber_Multiply(__pyx_t_2, __pyx_v_Fs); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 717, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_15);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_spike_time_temp, __pyx_t_1);
-          __pyx_t_1 = 0;
+          __Pyx_XDECREF_SET(__pyx_v_spike_time_temp, __pyx_t_15);
+          __pyx_t_15 = 0;
 
-          /* "TwitchBasedMuscleModel_v3.pyx":709
+          /* "TwitchBasedMuscleModel_v3.pyx":718
  *                         Z = -3.9
  *                     spike_time_temp = (mu + mu*cv*Z)*Fs;
  *                     spike_time[n] = round(spike_time_temp) + t;             # <<<<<<<<<<<<<<
  *                     twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  *                     force_temp = Pi[n]*twitch_temp*FF[n];
  */
-          __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_spike_time_temp); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 709, __pyx_L1_error)
-          __pyx_t_1 = PyFloat_FromDouble(round(__pyx_t_3)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 709, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 709, __pyx_L1_error)
+          __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_spike_time_temp); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 718, __pyx_L1_error)
+          __pyx_t_15 = PyFloat_FromDouble(round(__pyx_t_3)); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 718, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_15);
+          __pyx_t_2 = PyNumber_Add(__pyx_t_15, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 718, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          if (unlikely(PyObject_SetItem(__pyx_v_spike_time, __pyx_v_n, __pyx_t_2) < 0)) __PYX_ERR(0, 709, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+          if (unlikely(PyObject_SetItem(__pyx_v_spike_time, __pyx_v_n, __pyx_t_2) < 0)) __PYX_ERR(0, 718, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-          /* "TwitchBasedMuscleModel_v3.pyx":710
+          /* "TwitchBasedMuscleModel_v3.pyx":719
  *                     spike_time_temp = (mu + mu*cv*Z)*Fs;
  *                     spike_time[n] = round(spike_time_temp) + t;
  *                     twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);             # <<<<<<<<<<<<<<
  *                     force_temp = Pi[n]*twitch_temp*FF[n];
  *                     if len(time_sim)-t >= len(t_twitch):
  */
-          __pyx_t_2 = PyObject_GetItem(__pyx_v_Af, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 710, __pyx_L1_error)
+          __pyx_t_2 = PyObject_GetItem(__pyx_v_Af, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 719, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 710, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_5 = PyObject_GetItem(__pyx_v_CT, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 710, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_15 = PyObject_GetItem(__pyx_v_RT, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 710, __pyx_L1_error)
+          __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 719, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_13 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_14twitch_function(__pyx_v_twitch_function, __pyx_t_2, __pyx_t_1, __pyx_t_5, __pyx_t_15, __pyx_v_Fs); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 710, __pyx_L1_error)
+          __pyx_t_5 = PyObject_GetItem(__pyx_v_CT, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 719, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __pyx_t_13 = PyObject_GetItem(__pyx_v_RT, __pyx_v_n); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 719, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_13);
+          __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_14twitch_function(__pyx_v_twitch_function, __pyx_t_2, __pyx_t_15, __pyx_t_5, __pyx_t_13, __pyx_v_Fs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 719, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_twitch_temp, __pyx_t_13);
-          __pyx_t_13 = 0;
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+          __Pyx_XDECREF_SET(__pyx_v_twitch_temp, __pyx_t_1);
+          __pyx_t_1 = 0;
 
-          /* "TwitchBasedMuscleModel_v3.pyx":711
+          /* "TwitchBasedMuscleModel_v3.pyx":720
  *                     spike_time[n] = round(spike_time_temp) + t;
  *                     twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  *                     force_temp = Pi[n]*twitch_temp*FF[n];             # <<<<<<<<<<<<<<
  *                     if len(time_sim)-t >= len(t_twitch):
  *                         force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + force_temp;
  */
-          __pyx_t_13 = PyObject_GetItem(__pyx_v_Pi, __pyx_v_n); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 711, __pyx_L1_error)
+          __pyx_t_1 = PyObject_GetItem(__pyx_v_Pi, __pyx_v_n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 720, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          __pyx_t_13 = PyNumber_Multiply(__pyx_t_1, __pyx_v_twitch_temp); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 720, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_13);
-          __pyx_t_15 = PyNumber_Multiply(__pyx_t_13, __pyx_v_twitch_temp); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 711, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-          __pyx_t_13 = PyObject_GetItem(__pyx_v_FF, __pyx_v_n); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 711, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __pyx_t_5 = PyNumber_Multiply(__pyx_t_15, __pyx_t_13); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 711, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+          __pyx_t_1 = PyObject_GetItem(__pyx_v_FF, __pyx_v_n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 720, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          __pyx_t_5 = PyNumber_Multiply(__pyx_t_13, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 720, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
           __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
           __Pyx_XDECREF_SET(__pyx_v_force_temp, __pyx_t_5);
           __pyx_t_5 = 0;
 
-          /* "TwitchBasedMuscleModel_v3.pyx":712
+          /* "TwitchBasedMuscleModel_v3.pyx":721
  *                     twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  *                     force_temp = Pi[n]*twitch_temp*FF[n];
  *                     if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
  *                         force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + force_temp;
  *                     else:
  */
-          __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 712, __pyx_L1_error)
-          __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 712, __pyx_L1_error)
+          __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 721, __pyx_L1_error)
+          __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 721, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_13 = PyNumber_Subtract(__pyx_t_5, __pyx_v_t); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 712, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
+          __pyx_t_1 = PyNumber_Subtract(__pyx_t_5, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 721, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 712, __pyx_L1_error)
-          __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 712, __pyx_L1_error)
+          __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 721, __pyx_L1_error)
+          __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 721, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_15 = PyObject_RichCompare(__pyx_t_13, __pyx_t_5, Py_GE); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 712, __pyx_L1_error)
+          __pyx_t_13 = PyObject_RichCompare(__pyx_t_1, __pyx_t_5, Py_GE); __Pyx_XGOTREF(__pyx_t_13); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 721, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_13); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 721, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 712, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
           if (__pyx_t_18) {
 
-            /* "TwitchBasedMuscleModel_v3.pyx":713
+            /* "TwitchBasedMuscleModel_v3.pyx":722
  *                     force_temp = Pi[n]*twitch_temp*FF[n];
  *                     if len(time_sim)-t >= len(t_twitch):
  *                         force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + force_temp;             # <<<<<<<<<<<<<<
  *                     else:
  *                         force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];
  */
-            __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 713, __pyx_L1_error)
-            __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 713, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_5 = PyNumber_Add(__pyx_t_15, __pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 713, __pyx_L1_error)
+            __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 722, __pyx_L1_error)
+            __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 722, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __pyx_t_5 = PyNumber_Add(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 722, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_15 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 713, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 722, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 713, __pyx_L1_error)
+            __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 722, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
             __Pyx_INCREF(__pyx_v_n);
             __Pyx_GIVEREF(__pyx_v_n);
             PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
-            __Pyx_GIVEREF(__pyx_t_15);
-            PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_15);
-            __pyx_t_15 = 0;
-            __pyx_t_15 = PyObject_GetItem(__pyx_v_force, __pyx_t_5); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 713, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
+            __Pyx_GIVEREF(__pyx_t_13);
+            PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_13);
+            __pyx_t_13 = 0;
+            __pyx_t_13 = PyObject_GetItem(__pyx_v_force, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 722, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __pyx_t_5 = PyNumber_Add(__pyx_t_15, __pyx_v_force_temp); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 713, __pyx_L1_error)
+            __pyx_t_5 = PyNumber_Add(__pyx_t_13, __pyx_v_force_temp); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 722, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 713, __pyx_L1_error)
-            __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 713, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_13 = PyNumber_Add(__pyx_t_15, __pyx_v_t); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 713, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_15 = PySlice_New(__pyx_v_t, __pyx_t_13, Py_None); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 713, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
             __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 713, __pyx_L1_error)
+            __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 722, __pyx_L1_error)
+            __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 722, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_13);
+            __pyx_t_1 = PyNumber_Add(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 722, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_1);
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_1, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 722, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+            __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 722, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_1);
             __Pyx_INCREF(__pyx_v_n);
             __Pyx_GIVEREF(__pyx_v_n);
-            PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_v_n);
-            __Pyx_GIVEREF(__pyx_t_15);
-            PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_t_15);
-            __pyx_t_15 = 0;
-            if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_13, __pyx_t_5) < 0)) __PYX_ERR(0, 713, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_n);
+            __Pyx_GIVEREF(__pyx_t_13);
+            PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_13);
+            __pyx_t_13 = 0;
+            if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_1, __pyx_t_5) < 0)) __PYX_ERR(0, 722, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-            /* "TwitchBasedMuscleModel_v3.pyx":712
+            /* "TwitchBasedMuscleModel_v3.pyx":721
  *                     twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  *                     force_temp = Pi[n]*twitch_temp*FF[n];
  *                     if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
@@ -18963,7 +19401,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
             goto __pyx_L56;
           }
 
-          /* "TwitchBasedMuscleModel_v3.pyx":715
+          /* "TwitchBasedMuscleModel_v3.pyx":724
  *                         force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + force_temp;
  *                     else:
  *                         force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];             # <<<<<<<<<<<<<<
@@ -18971,90 +19409,90 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  *                     if spike_time[n] == t:
  */
           /*else*/ {
-            __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 715, __pyx_L1_error)
-            __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 715, __pyx_L1_error)
+            __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 724, __pyx_L1_error)
+            __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 724, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
-            __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 715, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
+            __pyx_t_1 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 724, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_1);
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 715, __pyx_L1_error)
+            __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 724, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
             __Pyx_INCREF(__pyx_v_n);
             __Pyx_GIVEREF(__pyx_v_n);
             PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
-            __Pyx_GIVEREF(__pyx_t_13);
-            PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_13);
-            __pyx_t_13 = 0;
-            __pyx_t_13 = PyObject_GetItem(__pyx_v_force, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 715, __pyx_L1_error)
+            __Pyx_GIVEREF(__pyx_t_1);
+            PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_1);
+            __pyx_t_1 = 0;
+            __pyx_t_1 = PyObject_GetItem(__pyx_v_force, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 724, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_1);
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 724, __pyx_L1_error)
+            __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 724, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_13 = PyNumber_Subtract(__pyx_t_5, __pyx_v_t); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 724, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_13);
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 715, __pyx_L1_error)
-            __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 715, __pyx_L1_error)
+            __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_v_force_temp, 0, 0, NULL, &__pyx_t_13, NULL, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 724, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
-            __pyx_t_15 = PyNumber_Subtract(__pyx_t_5, __pyx_v_t); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 715, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_v_force_temp, 0, 0, NULL, &__pyx_t_15, NULL, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 715, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_15 = PyNumber_Add(__pyx_t_13, __pyx_t_5); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 715, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
             __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 715, __pyx_L1_error)
-            __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 715, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_5);
-            __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 715, __pyx_L1_error)
+            __pyx_t_13 = PyNumber_Add(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 724, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_13);
+            __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 715, __pyx_L1_error)
+            __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 724, __pyx_L1_error)
+            __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 724, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_1 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 724, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_1);
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 724, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
             __Pyx_INCREF(__pyx_v_n);
             __Pyx_GIVEREF(__pyx_v_n);
             PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
-            __Pyx_GIVEREF(__pyx_t_13);
-            PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_13);
-            __pyx_t_13 = 0;
-            if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_5, __pyx_t_15) < 0)) __PYX_ERR(0, 715, __pyx_L1_error)
+            __Pyx_GIVEREF(__pyx_t_1);
+            PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_1);
+            __pyx_t_1 = 0;
+            if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_5, __pyx_t_13) < 0)) __PYX_ERR(0, 724, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
           }
           __pyx_L56:;
 
-          /* "TwitchBasedMuscleModel_v3.pyx":699
+          /* "TwitchBasedMuscleModel_v3.pyx":709
+ *                 if FR[n] > PFR_MU[n]:
  *                     FR[n] = PFR_MU[n]
- *                 spike_train_temp = np.zeros(len(time_sim))
  *                 if any(spike_train[n,:]) != True:             # <<<<<<<<<<<<<<
  *                     spike_train[n,t] = 1;
- *                     spike_train_temp[t] = 1;
+ *                     mu = 1/float(FR[n]);
  */
           goto __pyx_L54;
         }
 
-        /* "TwitchBasedMuscleModel_v3.pyx":717
+        /* "TwitchBasedMuscleModel_v3.pyx":726
  *                         force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];
  *                 else:
  *                     if spike_time[n] == t:             # <<<<<<<<<<<<<<
  *                         spike_train[n,t] = 1;
- *                         spike_train_temp[t] = 1;
+ *                         mu = 1/float(FR[n]);
  */
         /*else*/ {
-          __pyx_t_15 = PyObject_GetItem(__pyx_v_spike_time, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 717, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_5 = PyObject_RichCompare(__pyx_t_15, __pyx_v_t, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 717, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 717, __pyx_L1_error)
+          __pyx_t_13 = PyObject_GetItem(__pyx_v_spike_time, __pyx_v_n); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 726, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_13);
+          __pyx_t_5 = PyObject_RichCompare(__pyx_t_13, __pyx_v_t, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 726, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 726, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           if (__pyx_t_18) {
 
-            /* "TwitchBasedMuscleModel_v3.pyx":718
+            /* "TwitchBasedMuscleModel_v3.pyx":727
  *                 else:
  *                     if spike_time[n] == t:
  *                         spike_train[n,t] = 1;             # <<<<<<<<<<<<<<
- *                         spike_train_temp[t] = 1;
  *                         mu = 1/float(FR[n]);
+ *                         Z = np.random.randn(1);
  */
-            __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 718, __pyx_L1_error)
+            __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 727, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
             __Pyx_INCREF(__pyx_v_n);
             __Pyx_GIVEREF(__pyx_v_n);
@@ -19062,66 +19500,57 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
             __Pyx_INCREF(__pyx_v_t);
             __Pyx_GIVEREF(__pyx_v_t);
             PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_v_t);
-            if (unlikely(PyObject_SetItem(__pyx_v_spike_train, __pyx_t_5, __pyx_int_1) < 0)) __PYX_ERR(0, 718, __pyx_L1_error)
+            if (unlikely(PyObject_SetItem(__pyx_v_spike_train, __pyx_t_5, __pyx_int_1) < 0)) __PYX_ERR(0, 727, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-            /* "TwitchBasedMuscleModel_v3.pyx":719
+            /* "TwitchBasedMuscleModel_v3.pyx":728
  *                     if spike_time[n] == t:
  *                         spike_train[n,t] = 1;
- *                         spike_train_temp[t] = 1;             # <<<<<<<<<<<<<<
- *                         mu = 1/float(FR[n]);
- *                         Z = np.random.randn(1);
- */
-            if (unlikely(PyObject_SetItem(__pyx_v_spike_train_temp, __pyx_v_t, __pyx_int_1) < 0)) __PYX_ERR(0, 719, __pyx_L1_error)
-
-            /* "TwitchBasedMuscleModel_v3.pyx":720
- *                         spike_train[n,t] = 1;
- *                         spike_train_temp[t] = 1;
  *                         mu = 1/float(FR[n]);             # <<<<<<<<<<<<<<
  *                         Z = np.random.randn(1);
  *                         if Z > 3.9:
  */
-            __pyx_t_5 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 720, __pyx_L1_error)
+            __pyx_t_5 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 728, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
-            __pyx_t_3 = __Pyx_PyObject_AsDouble(__pyx_t_5); if (unlikely(__pyx_t_3 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 720, __pyx_L1_error)
+            __pyx_t_3 = __Pyx_PyObject_AsDouble(__pyx_t_5); if (unlikely(__pyx_t_3 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 728, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
             if (unlikely(__pyx_t_3 == 0)) {
               PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-              __PYX_ERR(0, 720, __pyx_L1_error)
+              __PYX_ERR(0, 728, __pyx_L1_error)
             }
             __pyx_v_mu = (1.0 / __pyx_t_3);
 
-            /* "TwitchBasedMuscleModel_v3.pyx":721
- *                         spike_train_temp[t] = 1;
+            /* "TwitchBasedMuscleModel_v3.pyx":729
+ *                         spike_train[n,t] = 1;
  *                         mu = 1/float(FR[n]);
  *                         Z = np.random.randn(1);             # <<<<<<<<<<<<<<
  *                         if Z > 3.9:
  *                             Z = 3.9
  */
-            __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_random); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 721, __pyx_L1_error)
+            __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_random); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 729, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
-            __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_randn); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 721, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
+            __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_randn); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 729, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_15, __pyx_tuple__60, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 721, __pyx_L1_error)
+            __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_tuple__60, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 729, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
             __Pyx_XDECREF_SET(__pyx_v_Z, __pyx_t_5);
             __pyx_t_5 = 0;
 
-            /* "TwitchBasedMuscleModel_v3.pyx":722
+            /* "TwitchBasedMuscleModel_v3.pyx":730
  *                         mu = 1/float(FR[n]);
  *                         Z = np.random.randn(1);
  *                         if Z > 3.9:             # <<<<<<<<<<<<<<
  *                             Z = 3.9
  *                         elif Z < -3.9:
  */
-            __pyx_t_5 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_3_9, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 722, __pyx_L1_error)
-            __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 722, __pyx_L1_error)
+            __pyx_t_5 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_3_9, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 730, __pyx_L1_error)
+            __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 730, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
             if (__pyx_t_18) {
 
-              /* "TwitchBasedMuscleModel_v3.pyx":723
+              /* "TwitchBasedMuscleModel_v3.pyx":731
  *                         Z = np.random.randn(1);
  *                         if Z > 3.9:
  *                             Z = 3.9             # <<<<<<<<<<<<<<
@@ -19131,7 +19560,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
               __Pyx_INCREF(__pyx_float_3_9);
               __Pyx_DECREF_SET(__pyx_v_Z, __pyx_float_3_9);
 
-              /* "TwitchBasedMuscleModel_v3.pyx":722
+              /* "TwitchBasedMuscleModel_v3.pyx":730
  *                         mu = 1/float(FR[n]);
  *                         Z = np.random.randn(1);
  *                         if Z > 3.9:             # <<<<<<<<<<<<<<
@@ -19141,19 +19570,19 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
               goto __pyx_L58;
             }
 
-            /* "TwitchBasedMuscleModel_v3.pyx":724
+            /* "TwitchBasedMuscleModel_v3.pyx":732
  *                         if Z > 3.9:
  *                             Z = 3.9
  *                         elif Z < -3.9:             # <<<<<<<<<<<<<<
  *                             Z = -3.9
  *                         spike_time_temp = (mu + mu*cv*Z)*Fs;
  */
-            __pyx_t_5 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_neg_3_9, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 724, __pyx_L1_error)
-            __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 724, __pyx_L1_error)
+            __pyx_t_5 = PyObject_RichCompare(__pyx_v_Z, __pyx_float_neg_3_9, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 732, __pyx_L1_error)
+            __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 732, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
             if (__pyx_t_18) {
 
-              /* "TwitchBasedMuscleModel_v3.pyx":725
+              /* "TwitchBasedMuscleModel_v3.pyx":733
  *                             Z = 3.9
  *                         elif Z < -3.9:
  *                             Z = -3.9             # <<<<<<<<<<<<<<
@@ -19163,7 +19592,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
               __Pyx_INCREF(__pyx_float_neg_3_9);
               __Pyx_DECREF_SET(__pyx_v_Z, __pyx_float_neg_3_9);
 
-              /* "TwitchBasedMuscleModel_v3.pyx":724
+              /* "TwitchBasedMuscleModel_v3.pyx":732
  *                         if Z > 3.9:
  *                             Z = 3.9
  *                         elif Z < -3.9:             # <<<<<<<<<<<<<<
@@ -19173,144 +19602,167 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
             }
             __pyx_L58:;
 
-            /* "TwitchBasedMuscleModel_v3.pyx":726
+            /* "TwitchBasedMuscleModel_v3.pyx":734
  *                         elif Z < -3.9:
  *                             Z = -3.9
  *                         spike_time_temp = (mu + mu*cv*Z)*Fs;             # <<<<<<<<<<<<<<
  *                         spike_time[n] = round(spike_time_temp) + t;
- *                         force_temp = Pi[n]*twitch_temp*FF[n];
+ *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  */
-            __pyx_t_5 = PyFloat_FromDouble(__pyx_v_mu); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 726, __pyx_L1_error)
+            __pyx_t_5 = PyFloat_FromDouble(__pyx_v_mu); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 734, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
-            __pyx_t_15 = PyFloat_FromDouble((__pyx_v_mu * __pyx_v_cv)); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 726, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_13 = PyNumber_Multiply(__pyx_t_15, __pyx_v_Z); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 726, __pyx_L1_error)
+            __pyx_t_13 = PyFloat_FromDouble((__pyx_v_mu * __pyx_v_cv)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 734, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_15 = PyNumber_Add(__pyx_t_5, __pyx_t_13); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 726, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __pyx_t_1 = PyNumber_Multiply(__pyx_t_13, __pyx_v_Z); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 734, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_1);
             __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __pyx_t_13 = PyNumber_Multiply(__pyx_t_15, __pyx_v_Fs); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 726, __pyx_L1_error)
+            __pyx_t_13 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 734, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_spike_time_temp, __pyx_t_13);
-            __pyx_t_13 = 0;
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+            __pyx_t_1 = PyNumber_Multiply(__pyx_t_13, __pyx_v_Fs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 734, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_1);
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            __Pyx_XDECREF_SET(__pyx_v_spike_time_temp, __pyx_t_1);
+            __pyx_t_1 = 0;
 
-            /* "TwitchBasedMuscleModel_v3.pyx":727
+            /* "TwitchBasedMuscleModel_v3.pyx":735
  *                             Z = -3.9
  *                         spike_time_temp = (mu + mu*cv*Z)*Fs;
  *                         spike_time[n] = round(spike_time_temp) + t;             # <<<<<<<<<<<<<<
+ *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
+ *                         force_temp = Pi[n]*twitch_temp*FF[n];
+ */
+            __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_spike_time_temp); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 735, __pyx_L1_error)
+            __pyx_t_1 = PyFloat_FromDouble(round(__pyx_t_3)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 735, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_1);
+            __pyx_t_13 = PyNumber_Add(__pyx_t_1, __pyx_v_t); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 735, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+            if (unlikely(PyObject_SetItem(__pyx_v_spike_time, __pyx_v_n, __pyx_t_13) < 0)) __PYX_ERR(0, 735, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+
+            /* "TwitchBasedMuscleModel_v3.pyx":736
+ *                         spike_time_temp = (mu + mu*cv*Z)*Fs;
+ *                         spike_time[n] = round(spike_time_temp) + t;
+ *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);             # <<<<<<<<<<<<<<
  *                         force_temp = Pi[n]*twitch_temp*FF[n];
  *                         if len(time_sim)-t >= len(t_twitch):
  */
-            __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_spike_time_temp); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 727, __pyx_L1_error)
-            __pyx_t_13 = PyFloat_FromDouble(round(__pyx_t_3)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 727, __pyx_L1_error)
+            __pyx_t_13 = PyObject_GetItem(__pyx_v_Af, __pyx_v_n); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 736, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_15 = PyNumber_Add(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 727, __pyx_L1_error)
+            __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 736, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_1);
+            __pyx_t_5 = PyObject_GetItem(__pyx_v_CT, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 736, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_15 = PyObject_GetItem(__pyx_v_RT, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 736, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_15);
+            __pyx_t_2 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_14twitch_function(__pyx_v_twitch_function, __pyx_t_13, __pyx_t_1, __pyx_t_5, __pyx_t_15, __pyx_v_Fs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 736, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_2);
             __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            if (unlikely(PyObject_SetItem(__pyx_v_spike_time, __pyx_v_n, __pyx_t_15) < 0)) __PYX_ERR(0, 727, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
             __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+            __Pyx_XDECREF_SET(__pyx_v_twitch_temp, __pyx_t_2);
+            __pyx_t_2 = 0;
 
-            /* "TwitchBasedMuscleModel_v3.pyx":728
- *                         spike_time_temp = (mu + mu*cv*Z)*Fs;
+            /* "TwitchBasedMuscleModel_v3.pyx":737
  *                         spike_time[n] = round(spike_time_temp) + t;
+ *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  *                         force_temp = Pi[n]*twitch_temp*FF[n];             # <<<<<<<<<<<<<<
  *                         if len(time_sim)-t >= len(t_twitch):
  *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + force_temp;
  */
-            __pyx_t_15 = PyObject_GetItem(__pyx_v_Pi, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 728, __pyx_L1_error)
+            __pyx_t_2 = PyObject_GetItem(__pyx_v_Pi, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 737, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_2);
+            __pyx_t_15 = PyNumber_Multiply(__pyx_t_2, __pyx_v_twitch_temp); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 737, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_15);
-            if (unlikely(!__pyx_v_twitch_temp)) { __Pyx_RaiseUnboundLocalError("twitch_temp"); __PYX_ERR(0, 728, __pyx_L1_error) }
-            __pyx_t_13 = PyNumber_Multiply(__pyx_t_15, __pyx_v_twitch_temp); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 728, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __pyx_t_15 = PyObject_GetItem(__pyx_v_FF, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 728, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_5 = PyNumber_Multiply(__pyx_t_13, __pyx_t_15); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 728, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+            __pyx_t_2 = PyObject_GetItem(__pyx_v_FF, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 737, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_2);
+            __pyx_t_5 = PyNumber_Multiply(__pyx_t_15, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 737, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
             __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
             __Pyx_XDECREF_SET(__pyx_v_force_temp, __pyx_t_5);
             __pyx_t_5 = 0;
 
-            /* "TwitchBasedMuscleModel_v3.pyx":729
- *                         spike_time[n] = round(spike_time_temp) + t;
+            /* "TwitchBasedMuscleModel_v3.pyx":738
+ *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  *                         force_temp = Pi[n]*twitch_temp*FF[n];
  *                         if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
  *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + force_temp;
  *                         else:
  */
-            __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 729, __pyx_L1_error)
-            __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 729, __pyx_L1_error)
+            __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 738, __pyx_L1_error)
+            __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 738, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
-            __pyx_t_15 = PyNumber_Subtract(__pyx_t_5, __pyx_v_t); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 729, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
+            __pyx_t_2 = PyNumber_Subtract(__pyx_t_5, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 738, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_2);
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 729, __pyx_L1_error)
-            __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 729, __pyx_L1_error)
+            __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 738, __pyx_L1_error)
+            __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 738, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_5);
-            __pyx_t_13 = PyObject_RichCompare(__pyx_t_15, __pyx_t_5, Py_GE); __Pyx_XGOTREF(__pyx_t_13); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 729, __pyx_L1_error)
+            __pyx_t_15 = PyObject_RichCompare(__pyx_t_2, __pyx_t_5, Py_GE); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 738, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+            __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 738, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_13); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 729, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
             if (__pyx_t_18) {
 
-              /* "TwitchBasedMuscleModel_v3.pyx":730
+              /* "TwitchBasedMuscleModel_v3.pyx":739
  *                         force_temp = Pi[n]*twitch_temp*FF[n];
  *                         if len(time_sim)-t >= len(t_twitch):
  *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + force_temp;             # <<<<<<<<<<<<<<
  *                         else:
  *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];
  */
-              __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 730, __pyx_L1_error)
-              __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 730, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
-              __pyx_t_5 = PyNumber_Add(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 730, __pyx_L1_error)
+              __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 739, __pyx_L1_error)
+              __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 739, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_15);
+              __pyx_t_5 = PyNumber_Add(__pyx_t_15, __pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 739, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_5);
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 730, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
+              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+              __pyx_t_15 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 739, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_15);
               __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-              __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 730, __pyx_L1_error)
+              __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 739, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_5);
               __Pyx_INCREF(__pyx_v_n);
               __Pyx_GIVEREF(__pyx_v_n);
               PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
-              __Pyx_GIVEREF(__pyx_t_13);
-              PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_13);
-              __pyx_t_13 = 0;
-              __pyx_t_13 = PyObject_GetItem(__pyx_v_force, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 730, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
+              __Pyx_GIVEREF(__pyx_t_15);
+              PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_15);
+              __pyx_t_15 = 0;
+              __pyx_t_15 = PyObject_GetItem(__pyx_v_force, __pyx_t_5); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 739, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_15);
               __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-              __pyx_t_5 = PyNumber_Add(__pyx_t_13, __pyx_v_force_temp); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 730, __pyx_L1_error)
+              __pyx_t_5 = PyNumber_Add(__pyx_t_15, __pyx_v_force_temp); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 739, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_5);
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 730, __pyx_L1_error)
-              __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 730, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
-              __pyx_t_15 = PyNumber_Add(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 730, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_15);
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_15, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 730, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
               __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-              __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 730, __pyx_L1_error)
+              __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 739, __pyx_L1_error)
+              __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 739, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_15);
+              __pyx_t_2 = PyNumber_Add(__pyx_t_15, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 739, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_2);
+              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+              __pyx_t_15 = PySlice_New(__pyx_v_t, __pyx_t_2, Py_None); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 739, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_15);
+              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+              __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 739, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_2);
               __Pyx_INCREF(__pyx_v_n);
               __Pyx_GIVEREF(__pyx_v_n);
-              PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_v_n);
-              __Pyx_GIVEREF(__pyx_t_13);
-              PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_13);
-              __pyx_t_13 = 0;
-              if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_15, __pyx_t_5) < 0)) __PYX_ERR(0, 730, __pyx_L1_error)
-              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+              PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_n);
+              __Pyx_GIVEREF(__pyx_t_15);
+              PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_15);
+              __pyx_t_15 = 0;
+              if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_2, __pyx_t_5) < 0)) __PYX_ERR(0, 739, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
               __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-              /* "TwitchBasedMuscleModel_v3.pyx":729
- *                         spike_time[n] = round(spike_time_temp) + t;
+              /* "TwitchBasedMuscleModel_v3.pyx":738
+ *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  *                         force_temp = Pi[n]*twitch_temp*FF[n];
  *                         if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
  *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + force_temp;
@@ -19319,7 +19771,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
               goto __pyx_L59;
             }
 
-            /* "TwitchBasedMuscleModel_v3.pyx":732
+            /* "TwitchBasedMuscleModel_v3.pyx":741
  *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + force_temp;
  *                         else:
  *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];             # <<<<<<<<<<<<<<
@@ -19327,223 +19779,237 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  *                         spike_train[n,t] = 1;
  */
             /*else*/ {
-              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 732, __pyx_L1_error)
-              __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 732, __pyx_L1_error)
+              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 741, __pyx_L1_error)
+              __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 741, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_5);
-              __pyx_t_15 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 732, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_15);
+              __pyx_t_2 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 741, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_2);
               __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-              __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 732, __pyx_L1_error)
+              __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 741, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_5);
               __Pyx_INCREF(__pyx_v_n);
               __Pyx_GIVEREF(__pyx_v_n);
               PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
-              __Pyx_GIVEREF(__pyx_t_15);
-              PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_15);
-              __pyx_t_15 = 0;
-              __pyx_t_15 = PyObject_GetItem(__pyx_v_force, __pyx_t_5); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 732, __pyx_L1_error)
+              __Pyx_GIVEREF(__pyx_t_2);
+              PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_2);
+              __pyx_t_2 = 0;
+              __pyx_t_2 = PyObject_GetItem(__pyx_v_force, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 741, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_2);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 741, __pyx_L1_error)
+              __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 741, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_15 = PyNumber_Subtract(__pyx_t_5, __pyx_v_t); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 741, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_15);
               __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 732, __pyx_L1_error)
-              __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 732, __pyx_L1_error)
+              __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_v_force_temp, 0, 0, NULL, &__pyx_t_15, NULL, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 741, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_5);
-              __pyx_t_13 = PyNumber_Subtract(__pyx_t_5, __pyx_v_t); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 732, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
-              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-              __pyx_t_5 = __Pyx_PyObject_GetSlice(__pyx_v_force_temp, 0, 0, NULL, &__pyx_t_13, NULL, 1, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 732, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_5);
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_13 = PyNumber_Add(__pyx_t_15, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 732, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
               __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 732, __pyx_L1_error)
-              __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 732, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_5);
-              __pyx_t_15 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 732, __pyx_L1_error)
+              __pyx_t_15 = PyNumber_Add(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 741, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_15);
+              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
               __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-              __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 732, __pyx_L1_error)
+              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 741, __pyx_L1_error)
+              __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 741, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_5);
+              __pyx_t_2 = PySlice_New(__pyx_v_t, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 741, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_2);
+              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 741, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_5);
               __Pyx_INCREF(__pyx_v_n);
               __Pyx_GIVEREF(__pyx_v_n);
               PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_n);
-              __Pyx_GIVEREF(__pyx_t_15);
-              PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_15);
-              __pyx_t_15 = 0;
-              if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_5, __pyx_t_13) < 0)) __PYX_ERR(0, 732, __pyx_L1_error)
+              __Pyx_GIVEREF(__pyx_t_2);
+              PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_2);
+              __pyx_t_2 = 0;
+              if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_5, __pyx_t_15) < 0)) __PYX_ERR(0, 741, __pyx_L1_error)
               __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
             }
             __pyx_L59:;
 
-            /* "TwitchBasedMuscleModel_v3.pyx":717
+            /* "TwitchBasedMuscleModel_v3.pyx":726
  *                         force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];
  *                 else:
  *                     if spike_time[n] == t:             # <<<<<<<<<<<<<<
  *                         spike_train[n,t] = 1;
- *                         spike_train_temp[t] = 1;
+ *                         mu = 1/float(FR[n]);
  */
             goto __pyx_L57;
           }
 
-          /* "TwitchBasedMuscleModel_v3.pyx":733
+          /* "TwitchBasedMuscleModel_v3.pyx":742
  *                         else:
  *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];
  *                     elif t > spike_time[n] + round(1/float(FR[n])*Fs):             # <<<<<<<<<<<<<<
  *                         spike_train[n,t] = 1;
- *                         spike_train_temp[t] = 1;
+ *                         spike_time[n] = t;
  */
-          __pyx_t_13 = PyObject_GetItem(__pyx_v_spike_time, __pyx_v_n); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 733, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __pyx_t_5 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 733, __pyx_L1_error)
+          __pyx_t_15 = PyObject_GetItem(__pyx_v_spike_time, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 742, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_15);
+          __pyx_t_5 = PyObject_GetItem(__pyx_v_FR, __pyx_v_n); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 742, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_3 = __Pyx_PyObject_AsDouble(__pyx_t_5); if (unlikely(__pyx_t_3 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 733, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyObject_AsDouble(__pyx_t_5); if (unlikely(__pyx_t_3 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 742, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           if (unlikely(__pyx_t_3 == 0)) {
             PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-            __PYX_ERR(0, 733, __pyx_L1_error)
+            __PYX_ERR(0, 742, __pyx_L1_error)
           }
-          __pyx_t_5 = PyFloat_FromDouble((1.0 / __pyx_t_3)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 733, __pyx_L1_error)
+          __pyx_t_5 = PyFloat_FromDouble((1.0 / __pyx_t_3)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 742, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_15 = PyNumber_Multiply(__pyx_t_5, __pyx_v_Fs); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 733, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
+          __pyx_t_2 = PyNumber_Multiply(__pyx_t_5, __pyx_v_Fs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 742, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_15); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 733, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __pyx_t_15 = PyFloat_FromDouble(round(__pyx_t_3)); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 733, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __pyx_t_5 = PyNumber_Add(__pyx_t_13, __pyx_t_15); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 733, __pyx_L1_error)
+          __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 742, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __pyx_t_2 = PyFloat_FromDouble(round(__pyx_t_3)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 742, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_2);
+          __pyx_t_5 = PyNumber_Add(__pyx_t_15, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 742, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
           __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __pyx_t_15 = PyObject_RichCompare(__pyx_v_t, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_15); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 733, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __pyx_t_2 = PyObject_RichCompare(__pyx_v_t, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 742, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 733, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+          __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 742, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           if (__pyx_t_18) {
 
-            /* "TwitchBasedMuscleModel_v3.pyx":734
+            /* "TwitchBasedMuscleModel_v3.pyx":743
  *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];
  *                     elif t > spike_time[n] + round(1/float(FR[n])*Fs):
  *                         spike_train[n,t] = 1;             # <<<<<<<<<<<<<<
- *                         spike_train_temp[t] = 1;
- *                         spike_time[n] = t;
- */
-            __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 734, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_INCREF(__pyx_v_n);
-            __Pyx_GIVEREF(__pyx_v_n);
-            PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_v_n);
-            __Pyx_INCREF(__pyx_v_t);
-            __Pyx_GIVEREF(__pyx_v_t);
-            PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_v_t);
-            if (unlikely(PyObject_SetItem(__pyx_v_spike_train, __pyx_t_15, __pyx_int_1) < 0)) __PYX_ERR(0, 734, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-
-            /* "TwitchBasedMuscleModel_v3.pyx":735
- *                     elif t > spike_time[n] + round(1/float(FR[n])*Fs):
- *                         spike_train[n,t] = 1;
- *                         spike_train_temp[t] = 1;             # <<<<<<<<<<<<<<
  *                         spike_time[n] = t;
  *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  */
-            if (unlikely(PyObject_SetItem(__pyx_v_spike_train_temp, __pyx_v_t, __pyx_int_1) < 0)) __PYX_ERR(0, 735, __pyx_L1_error)
+            __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 743, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_2);
+            __Pyx_INCREF(__pyx_v_n);
+            __Pyx_GIVEREF(__pyx_v_n);
+            PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_n);
+            __Pyx_INCREF(__pyx_v_t);
+            __Pyx_GIVEREF(__pyx_v_t);
+            PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_t);
+            if (unlikely(PyObject_SetItem(__pyx_v_spike_train, __pyx_t_2, __pyx_int_1) < 0)) __PYX_ERR(0, 743, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-            /* "TwitchBasedMuscleModel_v3.pyx":736
+            /* "TwitchBasedMuscleModel_v3.pyx":744
+ *                     elif t > spike_time[n] + round(1/float(FR[n])*Fs):
  *                         spike_train[n,t] = 1;
- *                         spike_train_temp[t] = 1;
  *                         spike_time[n] = t;             # <<<<<<<<<<<<<<
  *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  *                         force_temp = Pi[n]*twitch_temp*FF[n];
  */
-            if (unlikely(PyObject_SetItem(__pyx_v_spike_time, __pyx_v_n, __pyx_v_t) < 0)) __PYX_ERR(0, 736, __pyx_L1_error)
+            if (unlikely(PyObject_SetItem(__pyx_v_spike_time, __pyx_v_n, __pyx_v_t) < 0)) __PYX_ERR(0, 744, __pyx_L1_error)
 
-            /* "TwitchBasedMuscleModel_v3.pyx":737
- *                         spike_train_temp[t] = 1;
+            /* "TwitchBasedMuscleModel_v3.pyx":745
+ *                         spike_train[n,t] = 1;
  *                         spike_time[n] = t;
  *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);             # <<<<<<<<<<<<<<
  *                         force_temp = Pi[n]*twitch_temp*FF[n];
  *                         if len(time_sim)-t >= len(t_twitch):
  */
-            __pyx_t_15 = PyObject_GetItem(__pyx_v_Af, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 737, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __pyx_t_5 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 737, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_5);
-            __pyx_t_13 = PyObject_GetItem(__pyx_v_CT, __pyx_v_n); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 737, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_1 = PyObject_GetItem(__pyx_v_RT, __pyx_v_n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 737, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_2 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_14twitch_function(__pyx_v_twitch_function, __pyx_t_15, __pyx_t_5, __pyx_t_13, __pyx_t_1, __pyx_v_Fs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 737, __pyx_L1_error)
+            __pyx_t_2 = PyObject_GetItem(__pyx_v_Af, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 745, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+            __pyx_t_5 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 745, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_5);
+            __pyx_t_15 = PyObject_GetItem(__pyx_v_CT, __pyx_v_n); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 745, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_15);
+            __pyx_t_1 = PyObject_GetItem(__pyx_v_RT, __pyx_v_n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 745, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_1);
+            __pyx_t_13 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_14twitch_function(__pyx_v_twitch_function, __pyx_t_2, __pyx_t_5, __pyx_t_15, __pyx_t_1, __pyx_v_Fs); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 745, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
             __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_twitch_temp, __pyx_t_2);
-            __pyx_t_2 = 0;
+            __Pyx_XDECREF_SET(__pyx_v_twitch_temp, __pyx_t_13);
+            __pyx_t_13 = 0;
 
-            /* "TwitchBasedMuscleModel_v3.pyx":738
+            /* "TwitchBasedMuscleModel_v3.pyx":746
  *                         spike_time[n] = t;
  *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  *                         force_temp = Pi[n]*twitch_temp*FF[n];             # <<<<<<<<<<<<<<
  *                         if len(time_sim)-t >= len(t_twitch):
  *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + force_temp;
  */
-            __pyx_t_2 = PyObject_GetItem(__pyx_v_Pi, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 738, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_1 = PyNumber_Multiply(__pyx_t_2, __pyx_v_twitch_temp); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 738, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_1);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = PyObject_GetItem(__pyx_v_FF, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 738, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_13 = PyNumber_Multiply(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 738, __pyx_L1_error)
+            __pyx_t_13 = PyObject_GetItem(__pyx_v_Pi, __pyx_v_n); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 746, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_13);
+            __pyx_t_1 = PyNumber_Multiply(__pyx_t_13, __pyx_v_twitch_temp); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 746, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_1);
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            __pyx_t_13 = PyObject_GetItem(__pyx_v_FF, __pyx_v_n); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 746, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_13);
+            __pyx_t_15 = PyNumber_Multiply(__pyx_t_1, __pyx_t_13); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 746, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_15);
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_force_temp, __pyx_t_13);
-            __pyx_t_13 = 0;
+            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+            __Pyx_XDECREF_SET(__pyx_v_force_temp, __pyx_t_15);
+            __pyx_t_15 = 0;
 
-            /* "TwitchBasedMuscleModel_v3.pyx":739
+            /* "TwitchBasedMuscleModel_v3.pyx":747
  *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  *                         force_temp = Pi[n]*twitch_temp*FF[n];
  *                         if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
  *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + force_temp;
  *                         else:
  */
-            __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 739, __pyx_L1_error)
-            __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 739, __pyx_L1_error)
+            __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 747, __pyx_L1_error)
+            __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 747, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_15);
+            __pyx_t_13 = PyNumber_Subtract(__pyx_t_15, __pyx_v_t); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 747, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_2 = PyNumber_Subtract(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 739, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
+            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+            __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 747, __pyx_L1_error)
+            __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 747, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_15);
+            __pyx_t_1 = PyObject_RichCompare(__pyx_t_13, __pyx_t_15, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 747, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 739, __pyx_L1_error)
-            __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 739, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_13, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 739, __pyx_L1_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 739, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+            __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 747, __pyx_L1_error)
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             if (__pyx_t_18) {
 
-              /* "TwitchBasedMuscleModel_v3.pyx":740
+              /* "TwitchBasedMuscleModel_v3.pyx":748
  *                         force_temp = Pi[n]*twitch_temp*FF[n];
  *                         if len(time_sim)-t >= len(t_twitch):
  *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + force_temp;             # <<<<<<<<<<<<<<
  *                         else:
  *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];
  */
-              __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 740, __pyx_L1_error)
-              __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 740, __pyx_L1_error)
+              __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 748, __pyx_L1_error)
+              __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 748, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_1);
-              __pyx_t_13 = PyNumber_Add(__pyx_t_1, __pyx_v_t); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 740, __pyx_L1_error)
+              __pyx_t_15 = PyNumber_Add(__pyx_t_1, __pyx_v_t); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 748, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_15);
+              __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+              __pyx_t_1 = PySlice_New(__pyx_v_t, __pyx_t_15, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 748, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_1);
+              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+              __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 748, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_15);
+              __Pyx_INCREF(__pyx_v_n);
+              __Pyx_GIVEREF(__pyx_v_n);
+              PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_v_n);
+              __Pyx_GIVEREF(__pyx_t_1);
+              PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_1);
+              __pyx_t_1 = 0;
+              __pyx_t_1 = PyObject_GetItem(__pyx_v_force, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 748, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_1);
+              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+              __pyx_t_15 = PyNumber_Add(__pyx_t_1, __pyx_v_force_temp); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 748, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_15);
+              __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+              __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 748, __pyx_L1_error)
+              __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 748, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_1);
+              __pyx_t_13 = PyNumber_Add(__pyx_t_1, __pyx_v_t); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 748, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_13);
               __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-              __pyx_t_1 = PySlice_New(__pyx_v_t, __pyx_t_13, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 740, __pyx_L1_error)
+              __pyx_t_1 = PySlice_New(__pyx_v_t, __pyx_t_13, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 748, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_1);
               __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 740, __pyx_L1_error)
+              __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 748, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_13);
               __Pyx_INCREF(__pyx_v_n);
               __Pyx_GIVEREF(__pyx_v_n);
@@ -19551,34 +20017,11 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
               __Pyx_GIVEREF(__pyx_t_1);
               PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_t_1);
               __pyx_t_1 = 0;
-              __pyx_t_1 = PyObject_GetItem(__pyx_v_force, __pyx_t_13); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 740, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_1);
+              if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_13, __pyx_t_15) < 0)) __PYX_ERR(0, 748, __pyx_L1_error)
               __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_13 = PyNumber_Add(__pyx_t_1, __pyx_v_force_temp); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 740, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
-              __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-              __pyx_t_22 = PyObject_Length(__pyx_v_t_twitch); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 740, __pyx_L1_error)
-              __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 740, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_1);
-              __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_v_t); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 740, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_2);
-              __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-              __pyx_t_1 = PySlice_New(__pyx_v_t, __pyx_t_2, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 740, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_1);
-              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-              __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 740, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_2);
-              __Pyx_INCREF(__pyx_v_n);
-              __Pyx_GIVEREF(__pyx_v_n);
-              PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_n);
-              __Pyx_GIVEREF(__pyx_t_1);
-              PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_1);
-              __pyx_t_1 = 0;
-              if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_2, __pyx_t_13) < 0)) __PYX_ERR(0, 740, __pyx_L1_error)
-              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
 
-              /* "TwitchBasedMuscleModel_v3.pyx":739
+              /* "TwitchBasedMuscleModel_v3.pyx":747
  *                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
  *                         force_temp = Pi[n]*twitch_temp*FF[n];
  *                         if len(time_sim)-t >= len(t_twitch):             # <<<<<<<<<<<<<<
@@ -19588,287 +20031,78 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
               goto __pyx_L60;
             }
 
-            /* "TwitchBasedMuscleModel_v3.pyx":742
+            /* "TwitchBasedMuscleModel_v3.pyx":750
  *                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + force_temp;
  *                         else:
  *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];             # <<<<<<<<<<<<<<
- *                 if n <= index_slow:
- *                     FL_temp = FL_slow_function(Lce);
+ * 
+ * 
  */
             /*else*/ {
-              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 742, __pyx_L1_error)
-              __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 742, __pyx_L1_error)
+              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 750, __pyx_L1_error)
+              __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 750, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_15);
+              __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_15, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 750, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_13);
-              __pyx_t_2 = PySlice_New(__pyx_v_t, __pyx_t_13, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 742, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_2);
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 742, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
+              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+              __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 750, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_15);
               __Pyx_INCREF(__pyx_v_n);
               __Pyx_GIVEREF(__pyx_v_n);
-              PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_v_n);
-              __Pyx_GIVEREF(__pyx_t_2);
-              PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_t_2);
-              __pyx_t_2 = 0;
-              __pyx_t_2 = PyObject_GetItem(__pyx_v_force, __pyx_t_13); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 742, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_2);
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 742, __pyx_L1_error)
-              __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 742, __pyx_L1_error)
+              PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_v_n);
+              __Pyx_GIVEREF(__pyx_t_13);
+              PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_13);
+              __pyx_t_13 = 0;
+              __pyx_t_13 = PyObject_GetItem(__pyx_v_force, __pyx_t_15); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 750, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_13);
-              __pyx_t_1 = PyNumber_Subtract(__pyx_t_13, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 742, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 750, __pyx_L1_error)
+              __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 750, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_15);
+              __pyx_t_1 = PyNumber_Subtract(__pyx_t_15, __pyx_v_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 750, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_1);
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_13 = __Pyx_PyObject_GetSlice(__pyx_v_force_temp, 0, 0, NULL, &__pyx_t_1, NULL, 1, 0, 1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 742, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
+              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+              __pyx_t_15 = __Pyx_PyObject_GetSlice(__pyx_v_force_temp, 0, 0, NULL, &__pyx_t_1, NULL, 1, 0, 1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 750, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_15);
               __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-              __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_t_13); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 742, __pyx_L1_error)
+              __pyx_t_1 = PyNumber_Add(__pyx_t_13, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 750, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_1);
-              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
               __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 742, __pyx_L1_error)
-              __pyx_t_13 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 742, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+              __pyx_t_22 = PyObject_Length(__pyx_v_time_sim); if (unlikely(__pyx_t_22 == ((Py_ssize_t)-1))) __PYX_ERR(0, 750, __pyx_L1_error)
+              __pyx_t_15 = PyInt_FromSsize_t(__pyx_t_22); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 750, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_15);
+              __pyx_t_13 = PySlice_New(__pyx_v_t, __pyx_t_15, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 750, __pyx_L1_error)
               __Pyx_GOTREF(__pyx_t_13);
-              __pyx_t_2 = PySlice_New(__pyx_v_t, __pyx_t_13, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 742, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_2);
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-              __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 742, __pyx_L1_error)
-              __Pyx_GOTREF(__pyx_t_13);
+              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+              __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 750, __pyx_L1_error)
+              __Pyx_GOTREF(__pyx_t_15);
               __Pyx_INCREF(__pyx_v_n);
               __Pyx_GIVEREF(__pyx_v_n);
-              PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_v_n);
-              __Pyx_GIVEREF(__pyx_t_2);
-              PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_t_2);
-              __pyx_t_2 = 0;
-              if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_13, __pyx_t_1) < 0)) __PYX_ERR(0, 742, __pyx_L1_error)
-              __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+              PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_v_n);
+              __Pyx_GIVEREF(__pyx_t_13);
+              PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_13);
+              __pyx_t_13 = 0;
+              if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_15, __pyx_t_1) < 0)) __PYX_ERR(0, 750, __pyx_L1_error)
+              __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
               __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             }
             __pyx_L60:;
 
-            /* "TwitchBasedMuscleModel_v3.pyx":733
+            /* "TwitchBasedMuscleModel_v3.pyx":742
  *                         else:
  *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];
  *                     elif t > spike_time[n] + round(1/float(FR[n])*Fs):             # <<<<<<<<<<<<<<
  *                         spike_train[n,t] = 1;
- *                         spike_train_temp[t] = 1;
+ *                         spike_time[n] = t;
  */
           }
           __pyx_L57:;
         }
         __pyx_L54:;
-
-        /* "TwitchBasedMuscleModel_v3.pyx":743
- *                         else:
- *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];
- *                 if n <= index_slow:             # <<<<<<<<<<<<<<
- *                     FL_temp = FL_slow_function(Lce);
- *                     if Vce > 0:
- */
-        __pyx_t_1 = PyObject_RichCompare(__pyx_v_n, __pyx_v_index_slow, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 743, __pyx_L1_error)
-        __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 743, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        if (__pyx_t_18) {
-
-          /* "TwitchBasedMuscleModel_v3.pyx":744
- *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];
- *                 if n <= index_slow:
- *                     FL_temp = FL_slow_function(Lce);             # <<<<<<<<<<<<<<
- *                     if Vce > 0:
- *                         FV_temp = FV_ecc_slow_function(Lce,Vce);
- */
-          __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 744, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_13 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_16FL_slow_function(__pyx_v_FL_slow_function, __pyx_t_1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 744, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_FL_temp, __pyx_t_13);
-          __pyx_t_13 = 0;
-
-          /* "TwitchBasedMuscleModel_v3.pyx":745
- *                 if n <= index_slow:
- *                     FL_temp = FL_slow_function(Lce);
- *                     if Vce > 0:             # <<<<<<<<<<<<<<
- *                         FV_temp = FV_ecc_slow_function(Lce,Vce);
- *                     else:
- */
-          __pyx_t_18 = ((__pyx_v_Vce > 0.0) != 0);
-          if (__pyx_t_18) {
-
-            /* "TwitchBasedMuscleModel_v3.pyx":746
- *                     FL_temp = FL_slow_function(Lce);
- *                     if Vce > 0:
- *                         FV_temp = FV_ecc_slow_function(Lce,Vce);             # <<<<<<<<<<<<<<
- *                     else:
- *                         FV_temp = FV_con_slow_function(Lce,Vce);
- */
-            __pyx_t_13 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 746, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 746, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_2 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_24FV_ecc_slow_function(__pyx_v_FV_ecc_slow_function, __pyx_t_13, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 746, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_FV_temp, __pyx_t_2);
-            __pyx_t_2 = 0;
-
-            /* "TwitchBasedMuscleModel_v3.pyx":745
- *                 if n <= index_slow:
- *                     FL_temp = FL_slow_function(Lce);
- *                     if Vce > 0:             # <<<<<<<<<<<<<<
- *                         FV_temp = FV_ecc_slow_function(Lce,Vce);
- *                     else:
- */
-            goto __pyx_L62;
-          }
-
-          /* "TwitchBasedMuscleModel_v3.pyx":748
- *                         FV_temp = FV_ecc_slow_function(Lce,Vce);
- *                     else:
- *                         FV_temp = FV_con_slow_function(Lce,Vce);             # <<<<<<<<<<<<<<
- *                 else:
- *                     FL_temp = FL_fast_function(Lce);
- */
-          /*else*/ {
-            __pyx_t_2 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 748, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 748, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_13 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_20FV_con_slow_function(__pyx_v_FV_con_slow_function, __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 748, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_FV_temp, __pyx_t_13);
-            __pyx_t_13 = 0;
-          }
-          __pyx_L62:;
-
-          /* "TwitchBasedMuscleModel_v3.pyx":743
- *                         else:
- *                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];
- *                 if n <= index_slow:             # <<<<<<<<<<<<<<
- *                     FL_temp = FL_slow_function(Lce);
- *                     if Vce > 0:
- */
-          goto __pyx_L61;
-        }
-
-        /* "TwitchBasedMuscleModel_v3.pyx":750
- *                         FV_temp = FV_con_slow_function(Lce,Vce);
- *                 else:
- *                     FL_temp = FL_fast_function(Lce);             # <<<<<<<<<<<<<<
- *                     if Vce > 0:
- *                         FV_temp = FV_ecc_fast_function(Lce,Vce);
- */
-        /*else*/ {
-          __pyx_t_13 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 750, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_18FL_fast_function(__pyx_v_FL_fast_function, __pyx_t_13); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 750, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
-          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_FL_temp, __pyx_t_1);
-          __pyx_t_1 = 0;
-
-          /* "TwitchBasedMuscleModel_v3.pyx":751
- *                 else:
- *                     FL_temp = FL_fast_function(Lce);
- *                     if Vce > 0:             # <<<<<<<<<<<<<<
- *                         FV_temp = FV_ecc_fast_function(Lce,Vce);
- *                     else:
- */
-          __pyx_t_18 = ((__pyx_v_Vce > 0.0) != 0);
-          if (__pyx_t_18) {
-
-            /* "TwitchBasedMuscleModel_v3.pyx":752
- *                     FL_temp = FL_fast_function(Lce);
- *                     if Vce > 0:
- *                         FV_temp = FV_ecc_fast_function(Lce,Vce);             # <<<<<<<<<<<<<<
- *                     else:
- *                         FV_temp = FV_con_fast_function(Lce,Vce);
- */
-            __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 752, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_1);
-            __pyx_t_13 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 752, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_2 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_26FV_ecc_fast_function(__pyx_v_FV_ecc_fast_function, __pyx_t_1, __pyx_t_13); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 752, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_FV_temp, __pyx_t_2);
-            __pyx_t_2 = 0;
-
-            /* "TwitchBasedMuscleModel_v3.pyx":751
- *                 else:
- *                     FL_temp = FL_fast_function(Lce);
- *                     if Vce > 0:             # <<<<<<<<<<<<<<
- *                         FV_temp = FV_ecc_fast_function(Lce,Vce);
- *                     else:
- */
-            goto __pyx_L63;
-          }
-
-          /* "TwitchBasedMuscleModel_v3.pyx":754
- *                         FV_temp = FV_ecc_fast_function(Lce,Vce);
- *                     else:
- *                         FV_temp = FV_con_fast_function(Lce,Vce);             # <<<<<<<<<<<<<<
- * 
- *                 force[n,t] = force[n,t]*FL_temp*FV_temp;
- */
-          /*else*/ {
-            __pyx_t_2 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 754, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_13 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 754, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_13);
-            __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_22FV_con_fast_function(__pyx_v_FV_con_fast_function, __pyx_t_2, __pyx_t_13); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 754, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_1);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_XDECREF_SET(__pyx_v_FV_temp, __pyx_t_1);
-            __pyx_t_1 = 0;
-          }
-          __pyx_L63:;
-        }
-        __pyx_L61:;
-
-        /* "TwitchBasedMuscleModel_v3.pyx":756
- *                         FV_temp = FV_con_fast_function(Lce,Vce);
- * 
- *                 force[n,t] = force[n,t]*FL_temp*FV_temp;             # <<<<<<<<<<<<<<
- * 
- *         FP1 = F_pe_1_function(Lce/Lmax,Vce);
- */
-        __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 756, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_INCREF(__pyx_v_n);
-        __Pyx_GIVEREF(__pyx_v_n);
-        PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_n);
-        __Pyx_INCREF(__pyx_v_t);
-        __Pyx_GIVEREF(__pyx_v_t);
-        PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_t);
-        __pyx_t_13 = PyObject_GetItem(__pyx_v_force, __pyx_t_1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 756, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_13);
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = PyNumber_Multiply(__pyx_t_13, __pyx_v_FL_temp); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 756, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-        __pyx_t_13 = PyNumber_Multiply(__pyx_t_1, __pyx_v_FV_temp); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 756, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_13);
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 756, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_INCREF(__pyx_v_n);
-        __Pyx_GIVEREF(__pyx_v_n);
-        PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_n);
-        __Pyx_INCREF(__pyx_v_t);
-        __Pyx_GIVEREF(__pyx_v_t);
-        PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_t);
-        if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_1, __pyx_t_13) < 0)) __PYX_ERR(0, 756, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       }
 
-      /* "TwitchBasedMuscleModel_v3.pyx":693
+      /* "TwitchBasedMuscleModel_v3.pyx":704
  *         index = np.append(index_1,index_2);
  * 
  *         if index.size != 0:             # <<<<<<<<<<<<<<
@@ -19877,8 +20111,242 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
     }
 
+    /* "TwitchBasedMuscleModel_v3.pyx":754
+ * 
+ * 
+ *         FL_slow = FL_slow_function(Lce);             # <<<<<<<<<<<<<<
+ *         if Vce > 0:
+ *             FV_slow = FV_ecc_slow_function(Lce,Vce);
+ */
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 754, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_15 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_16FL_slow_function(__pyx_v_FL_slow_function, __pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 754, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_FL_slow, __pyx_t_15);
+    __pyx_t_15 = 0;
+
+    /* "TwitchBasedMuscleModel_v3.pyx":755
+ * 
+ *         FL_slow = FL_slow_function(Lce);
+ *         if Vce > 0:             # <<<<<<<<<<<<<<
+ *             FV_slow = FV_ecc_slow_function(Lce,Vce);
+ *         else:
+ */
+    __pyx_t_18 = ((__pyx_v_Vce > 0.0) != 0);
+    if (__pyx_t_18) {
+
+      /* "TwitchBasedMuscleModel_v3.pyx":756
+ *         FL_slow = FL_slow_function(Lce);
+ *         if Vce > 0:
+ *             FV_slow = FV_ecc_slow_function(Lce,Vce);             # <<<<<<<<<<<<<<
+ *         else:
+ *             FV_slow = FV_con_slow_function(Lce,Vce);
+ */
+      __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 756, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_15);
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 756, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_13 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_24FV_ecc_slow_function(__pyx_v_FV_ecc_slow_function, __pyx_t_15, __pyx_t_1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 756, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_FV_slow, __pyx_t_13);
+      __pyx_t_13 = 0;
+
+      /* "TwitchBasedMuscleModel_v3.pyx":755
+ * 
+ *         FL_slow = FL_slow_function(Lce);
+ *         if Vce > 0:             # <<<<<<<<<<<<<<
+ *             FV_slow = FV_ecc_slow_function(Lce,Vce);
+ *         else:
+ */
+      goto __pyx_L61;
+    }
+
     /* "TwitchBasedMuscleModel_v3.pyx":758
- *                 force[n,t] = force[n,t]*FL_temp*FV_temp;
+ *             FV_slow = FV_ecc_slow_function(Lce,Vce);
+ *         else:
+ *             FV_slow = FV_con_slow_function(Lce,Vce);             # <<<<<<<<<<<<<<
+ *         FL_fast = FL_fast_function(Lce);
+ *         if Vce > 0:
+ */
+    /*else*/ {
+      __pyx_t_13 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 758, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 758, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_15 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_20FV_con_slow_function(__pyx_v_FV_con_slow_function, __pyx_t_13, __pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 758, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_15);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_FV_slow, __pyx_t_15);
+      __pyx_t_15 = 0;
+    }
+    __pyx_L61:;
+
+    /* "TwitchBasedMuscleModel_v3.pyx":759
+ *         else:
+ *             FV_slow = FV_con_slow_function(Lce,Vce);
+ *         FL_fast = FL_fast_function(Lce);             # <<<<<<<<<<<<<<
+ *         if Vce > 0:
+ *             FV_fast = FV_ecc_fast_function(Lce,Vce);
+ */
+    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 759, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_18FL_fast_function(__pyx_v_FL_fast_function, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 759, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_FL_fast, __pyx_t_1);
+    __pyx_t_1 = 0;
+
+    /* "TwitchBasedMuscleModel_v3.pyx":760
+ *             FV_slow = FV_con_slow_function(Lce,Vce);
+ *         FL_fast = FL_fast_function(Lce);
+ *         if Vce > 0:             # <<<<<<<<<<<<<<
+ *             FV_fast = FV_ecc_fast_function(Lce,Vce);
+ *         else:
+ */
+    __pyx_t_18 = ((__pyx_v_Vce > 0.0) != 0);
+    if (__pyx_t_18) {
+
+      /* "TwitchBasedMuscleModel_v3.pyx":761
+ *         FL_fast = FL_fast_function(Lce);
+ *         if Vce > 0:
+ *             FV_fast = FV_ecc_fast_function(Lce,Vce);             # <<<<<<<<<<<<<<
+ *         else:
+ *             FV_fast = FV_con_fast_function(Lce,Vce);
+ */
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 761, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 761, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_15);
+      __pyx_t_13 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_26FV_ecc_fast_function(__pyx_v_FV_ecc_fast_function, __pyx_t_1, __pyx_t_15); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 761, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_FV_fast, __pyx_t_13);
+      __pyx_t_13 = 0;
+
+      /* "TwitchBasedMuscleModel_v3.pyx":760
+ *             FV_slow = FV_con_slow_function(Lce,Vce);
+ *         FL_fast = FL_fast_function(Lce);
+ *         if Vce > 0:             # <<<<<<<<<<<<<<
+ *             FV_fast = FV_ecc_fast_function(Lce,Vce);
+ *         else:
+ */
+      goto __pyx_L62;
+    }
+
+    /* "TwitchBasedMuscleModel_v3.pyx":763
+ *             FV_fast = FV_ecc_fast_function(Lce,Vce);
+ *         else:
+ *             FV_fast = FV_con_fast_function(Lce,Vce);             # <<<<<<<<<<<<<<
+ *         force[:index_slow,t] = force[:index_slow,t]*FL_slow*FV_slow;
+ *         force[index_slow+1:,t] = force[index_slow+1:,t]*FL_fast*FV_fast;
+ */
+    /*else*/ {
+      __pyx_t_13 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 763, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 763, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_15);
+      __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_22FV_con_fast_function(__pyx_v_FV_con_fast_function, __pyx_t_13, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 763, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_FV_fast, __pyx_t_1);
+      __pyx_t_1 = 0;
+    }
+    __pyx_L62:;
+
+    /* "TwitchBasedMuscleModel_v3.pyx":764
+ *         else:
+ *             FV_fast = FV_con_fast_function(Lce,Vce);
+ *         force[:index_slow,t] = force[:index_slow,t]*FL_slow*FV_slow;             # <<<<<<<<<<<<<<
+ *         force[index_slow+1:,t] = force[index_slow+1:,t]*FL_fast*FV_fast;
+ * 
+ */
+    __pyx_t_1 = PySlice_New(Py_None, __pyx_v_index_slow, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 764, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 764, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __Pyx_GIVEREF(__pyx_t_1);
+    PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_1);
+    __Pyx_INCREF(__pyx_v_t);
+    __Pyx_GIVEREF(__pyx_v_t);
+    PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_v_t);
+    __pyx_t_1 = 0;
+    __pyx_t_1 = PyObject_GetItem(__pyx_v_force, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 764, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __pyx_t_15 = PyNumber_Multiply(__pyx_t_1, __pyx_v_FL_slow); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 764, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = PyNumber_Multiply(__pyx_t_15, __pyx_v_FV_slow); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 764, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __pyx_t_15 = PySlice_New(Py_None, __pyx_v_index_slow, Py_None); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 764, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 764, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __Pyx_GIVEREF(__pyx_t_15);
+    PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_15);
+    __Pyx_INCREF(__pyx_v_t);
+    __Pyx_GIVEREF(__pyx_v_t);
+    PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_v_t);
+    __pyx_t_15 = 0;
+    if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_13, __pyx_t_1) < 0)) __PYX_ERR(0, 764, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+    /* "TwitchBasedMuscleModel_v3.pyx":765
+ *             FV_fast = FV_con_fast_function(Lce,Vce);
+ *         force[:index_slow,t] = force[:index_slow,t]*FL_slow*FV_slow;
+ *         force[index_slow+1:,t] = force[index_slow+1:,t]*FL_fast*FV_fast;             # <<<<<<<<<<<<<<
+ * 
+ *         FP1 = F_pe_1_function(Lce/Lmax,Vce);
+ */
+    __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_v_index_slow, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_13 = PySlice_New(__pyx_t_1, Py_None, Py_None); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_13);
+    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_13);
+    __Pyx_INCREF(__pyx_v_t);
+    __Pyx_GIVEREF(__pyx_v_t);
+    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_t);
+    __pyx_t_13 = 0;
+    __pyx_t_13 = PyObject_GetItem(__pyx_v_force, __pyx_t_1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = PyNumber_Multiply(__pyx_t_13, __pyx_v_FL_fast); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __pyx_t_13 = PyNumber_Multiply(__pyx_t_1, __pyx_v_FV_fast); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = __Pyx_PyInt_AddObjC(__pyx_v_index_slow, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_15 = PySlice_New(__pyx_t_1, Py_None, Py_None); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_15);
+    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_15);
+    __Pyx_INCREF(__pyx_v_t);
+    __Pyx_GIVEREF(__pyx_v_t);
+    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_t);
+    __pyx_t_15 = 0;
+    if (unlikely(PyObject_SetItem(__pyx_v_force, __pyx_t_1, __pyx_t_13) < 0)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+
+    /* "TwitchBasedMuscleModel_v3.pyx":767
+ *         force[index_slow+1:,t] = force[index_slow+1:,t]*FL_fast*FV_fast;
  * 
  *         FP1 = F_pe_1_function(Lce/Lmax,Vce);             # <<<<<<<<<<<<<<
  *         FP2 = F_pe_2_function(Lce);
@@ -19886,47 +20354,47 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
     if (unlikely(__pyx_v_Lmax == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 758, __pyx_L1_error)
+      __PYX_ERR(0, 767, __pyx_L1_error)
     }
-    __pyx_t_13 = PyFloat_FromDouble((__pyx_v_Lce / __pyx_v_Lmax)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 758, __pyx_L1_error)
+    __pyx_t_13 = PyFloat_FromDouble((__pyx_v_Lce / __pyx_v_Lmax)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 767, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 758, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 767, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_28F_pe_1_function(__pyx_v_F_pe_1_function, __pyx_t_13, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 758, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_15 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_28F_pe_1_function(__pyx_v_F_pe_1_function, __pyx_t_13, __pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 767, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_FP1, __pyx_t_2);
-    __pyx_t_2 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_FP1, __pyx_t_15);
+    __pyx_t_15 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":759
+    /* "TwitchBasedMuscleModel_v3.pyx":768
  * 
  *         FP1 = F_pe_1_function(Lce/Lmax,Vce);
  *         FP2 = F_pe_2_function(Lce);             # <<<<<<<<<<<<<<
  *         if FP2 > 0:
  *             FP2 = 0;
  */
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 759, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_30F_pe_2_function(__pyx_v_F_pe_2_function, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 759, __pyx_L1_error)
+    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 768, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_30F_pe_2_function(__pyx_v_F_pe_2_function, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 768, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     __Pyx_XDECREF_SET(__pyx_v_FP2, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":760
+    /* "TwitchBasedMuscleModel_v3.pyx":769
  *         FP1 = F_pe_1_function(Lce/Lmax,Vce);
  *         FP2 = F_pe_2_function(Lce);
  *         if FP2 > 0:             # <<<<<<<<<<<<<<
  *             FP2 = 0;
  * 
  */
-    __pyx_t_1 = PyObject_RichCompare(__pyx_v_FP2, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 760, __pyx_L1_error)
-    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 760, __pyx_L1_error)
+    __pyx_t_1 = PyObject_RichCompare(__pyx_v_FP2, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 769, __pyx_L1_error)
+    __pyx_t_18 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_18 < 0)) __PYX_ERR(0, 769, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_18) {
 
-      /* "TwitchBasedMuscleModel_v3.pyx":761
+      /* "TwitchBasedMuscleModel_v3.pyx":770
  *         FP2 = F_pe_2_function(Lce);
  *         if FP2 > 0:
  *             FP2 = 0;             # <<<<<<<<<<<<<<
@@ -19936,7 +20404,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_INCREF(__pyx_int_0);
       __Pyx_DECREF_SET(__pyx_v_FP2, __pyx_int_0);
 
-      /* "TwitchBasedMuscleModel_v3.pyx":760
+      /* "TwitchBasedMuscleModel_v3.pyx":769
  *         FP1 = F_pe_1_function(Lce/Lmax,Vce);
  *         FP2 = F_pe_2_function(Lce);
  *         if FP2 > 0:             # <<<<<<<<<<<<<<
@@ -19945,16 +20413,16 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
     }
 
-    /* "TwitchBasedMuscleModel_v3.pyx":763
+    /* "TwitchBasedMuscleModel_v3.pyx":772
  *             FP2 = 0;
  * 
  *         Force = np.sum(force[:,t]) + FP1*F0 + FP2*F0             # <<<<<<<<<<<<<<
  * 
  *         ForceSE = F_se_function(Lse)*F0;
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_sum); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 763, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 763, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_sum); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 772, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 772, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
     __Pyx_INCREF(__pyx_slice__61);
     __Pyx_GIVEREF(__pyx_slice__61);
@@ -19962,137 +20430,137 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __Pyx_INCREF(__pyx_v_t);
     __Pyx_GIVEREF(__pyx_v_t);
     PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_v_t);
-    __pyx_t_5 = PyObject_GetItem(__pyx_v_force, __pyx_t_13); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 763, __pyx_L1_error)
+    __pyx_t_5 = PyObject_GetItem(__pyx_v_force, __pyx_t_13); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 772, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     __pyx_t_13 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_2);
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_15))) {
+      __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_15);
       if (likely(__pyx_t_13)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_15);
         __Pyx_INCREF(__pyx_t_13);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
+        __Pyx_DECREF_SET(__pyx_t_15, function);
       }
     }
     if (!__pyx_t_13) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 763, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_15, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 772, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else {
       #if CYTHON_FAST_PYCALL
-      if (PyFunction_Check(__pyx_t_2)) {
+      if (PyFunction_Check(__pyx_t_15)) {
         PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_5};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 763, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_15, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 772, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       } else
       #endif
       #if CYTHON_FAST_PYCCALL
-      if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
+      if (__Pyx_PyFastCFunction_Check(__pyx_t_15)) {
         PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_t_5};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 763, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_15, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 772, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       } else
       #endif
       {
-        __pyx_t_15 = PyTuple_New(1+1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 763, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_13); __pyx_t_13 = NULL;
+        __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 772, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_13); __pyx_t_13 = NULL;
         __Pyx_GIVEREF(__pyx_t_5);
-        PyTuple_SET_ITEM(__pyx_t_15, 0+1, __pyx_t_5);
+        PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_5);
         __pyx_t_5 = 0;
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_15, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 763, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_15, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 772, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       }
     }
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 763, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_15 = PyNumber_Multiply(__pyx_v_FP1, __pyx_t_2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 763, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_t_15); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 763, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 763, __pyx_L1_error)
+    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 772, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_1 = PyNumber_Multiply(__pyx_v_FP2, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 763, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Multiply(__pyx_v_FP1, __pyx_t_15); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 772, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __pyx_t_15 = PyNumber_Add(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 772, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 772, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_1 = PyNumber_Multiply(__pyx_v_FP2, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 772, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __pyx_t_15 = PyNumber_Add(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 763, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = PyNumber_Add(__pyx_t_15, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 772, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_Force, __pyx_t_15);
-    __pyx_t_15 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_Force, __pyx_t_2);
+    __pyx_t_2 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":765
+    /* "TwitchBasedMuscleModel_v3.pyx":774
  *         Force = np.sum(force[:,t]) + FP1*F0 + FP2*F0
  * 
  *         ForceSE = F_se_function(Lse)*F0;             # <<<<<<<<<<<<<<
  * 
  *         MuscleAcceleration = (ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity,2)*pow(tan(alpha),2)/MuscleLength);
  */
-    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_Lse); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 765, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_32F_se_function(__pyx_v_F_se_function, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 765, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 765, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_2 = PyNumber_Multiply(__pyx_t_1, __pyx_t_15); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_Lse); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 774, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 765, __pyx_L1_error)
+    __pyx_t_1 = __pyx_pf_25TwitchBasedMuscleModel_v3_22TwitchBasedMuscleModel_32F_se_function(__pyx_v_F_se_function, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 774, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_F0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 774, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_15 = PyNumber_Multiply(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 774, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_15); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 774, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     __pyx_v_ForceSE = __pyx_t_3;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":767
+    /* "TwitchBasedMuscleModel_v3.pyx":776
  *         ForceSE = F_se_function(Lse)*F0;
  * 
  *         MuscleAcceleration = (ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity,2)*pow(tan(alpha),2)/MuscleLength);             # <<<<<<<<<<<<<<
  *         k_0 = h*MuscleVelocity;
  *         l_0 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity,2)*pow(tan(alpha),2)/MuscleLength));
  */
-    __pyx_t_2 = PyFloat_FromDouble((__pyx_v_ForceSE * cos(__pyx_v_alpha))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 767, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_15 = PyFloat_FromDouble(pow(cos(__pyx_v_alpha), 2.0)); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 767, __pyx_L1_error)
+    __pyx_t_15 = PyFloat_FromDouble((__pyx_v_ForceSE * cos(__pyx_v_alpha))); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 776, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_1 = PyNumber_Multiply(__pyx_v_Force, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 767, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(pow(cos(__pyx_v_alpha), 2.0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 776, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_1 = PyNumber_Multiply(__pyx_v_Force, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 776, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = PyNumber_Subtract(__pyx_t_15, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 776, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __pyx_t_15 = PyNumber_Subtract(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 767, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_mass); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 776, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_15 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 776, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_mass); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 767, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_15, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 767, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_3 = (pow(__pyx_v_MuscleVelocity, 2.0) * pow(tan(__pyx_v_alpha), 2.0));
     if (unlikely(__pyx_v_MuscleLength == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 767, __pyx_L1_error)
+      __PYX_ERR(0, 776, __pyx_L1_error)
     }
-    __pyx_t_1 = PyFloat_FromDouble((__pyx_t_3 / __pyx_v_MuscleLength)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 767, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble((__pyx_t_3 / __pyx_v_MuscleLength)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 776, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_15 = PyNumber_Add(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 767, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = PyNumber_Add(__pyx_t_15, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 776, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_MuscleAcceleration, __pyx_t_15);
-    __pyx_t_15 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_MuscleAcceleration, __pyx_t_2);
+    __pyx_t_2 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":768
+    /* "TwitchBasedMuscleModel_v3.pyx":777
  * 
  *         MuscleAcceleration = (ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity,2)*pow(tan(alpha),2)/MuscleLength);
  *         k_0 = h*MuscleVelocity;             # <<<<<<<<<<<<<<
@@ -20101,391 +20569,391 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  */
     __pyx_v_k_0 = (__pyx_v_h * __pyx_v_MuscleVelocity);
 
-    /* "TwitchBasedMuscleModel_v3.pyx":769
+    /* "TwitchBasedMuscleModel_v3.pyx":778
  *         MuscleAcceleration = (ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity,2)*pow(tan(alpha),2)/MuscleLength);
  *         k_0 = h*MuscleVelocity;
  *         l_0 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity,2)*pow(tan(alpha),2)/MuscleLength));             # <<<<<<<<<<<<<<
  *         k_1 = h*(MuscleVelocity+l_0/2);
  *         l_1 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity+l_0/2,2)*pow(tan(alpha),2)/(MuscleLength+k_0/2)));
  */
-    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_h); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 769, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_1 = PyFloat_FromDouble((__pyx_v_ForceSE * cos(__pyx_v_alpha))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 769, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_h); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 778, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_1 = PyFloat_FromDouble((__pyx_v_ForceSE * cos(__pyx_v_alpha))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 778, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = PyFloat_FromDouble(pow(cos(__pyx_v_alpha), 2.0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 769, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = PyNumber_Multiply(__pyx_v_Force, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 769, __pyx_L1_error)
+    __pyx_t_15 = PyFloat_FromDouble(pow(cos(__pyx_v_alpha), 2.0)); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 778, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __pyx_t_5 = PyNumber_Multiply(__pyx_v_Force, __pyx_t_15); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 778, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyNumber_Subtract(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 769, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __pyx_t_15 = PyNumber_Subtract(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 778, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_mass); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 769, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_mass); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 778, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 769, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_15, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 778, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_3 = (pow(__pyx_v_MuscleVelocity, 2.0) * pow(tan(__pyx_v_alpha), 2.0));
     if (unlikely(__pyx_v_MuscleLength == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 769, __pyx_L1_error)
+      __PYX_ERR(0, 778, __pyx_L1_error)
     }
-    __pyx_t_5 = PyFloat_FromDouble((__pyx_t_3 / __pyx_v_MuscleLength)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 769, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble((__pyx_t_3 / __pyx_v_MuscleLength)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 778, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 769, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_15 = PyNumber_Add(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 778, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyNumber_Multiply(__pyx_t_15, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 769, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_Multiply(__pyx_t_2, __pyx_t_15); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 778, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     __Pyx_XDECREF_SET(__pyx_v_l_0, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":770
+    /* "TwitchBasedMuscleModel_v3.pyx":779
  *         k_0 = h*MuscleVelocity;
  *         l_0 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity,2)*pow(tan(alpha),2)/MuscleLength));
  *         k_1 = h*(MuscleVelocity+l_0/2);             # <<<<<<<<<<<<<<
  *         l_1 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity+l_0/2,2)*pow(tan(alpha),2)/(MuscleLength+k_0/2)));
  *         k_2 = h*(MuscleVelocity+l_1/2);
  */
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_h); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 770, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_h); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 779, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_MuscleVelocity); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 770, __pyx_L1_error)
+    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_MuscleVelocity); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 779, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_v_l_0, __pyx_int_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 779, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_15 = __Pyx_PyNumber_Divide(__pyx_v_l_0, __pyx_int_2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 770, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 770, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Add(__pyx_t_15, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 779, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __pyx_t_15 = PyNumber_Multiply(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 770, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = PyNumber_Multiply(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 779, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_k_1, __pyx_t_15);
-    __pyx_t_15 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_k_1, __pyx_t_2);
+    __pyx_t_2 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":771
+    /* "TwitchBasedMuscleModel_v3.pyx":780
  *         l_0 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity,2)*pow(tan(alpha),2)/MuscleLength));
  *         k_1 = h*(MuscleVelocity+l_0/2);
  *         l_1 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity+l_0/2,2)*pow(tan(alpha),2)/(MuscleLength+k_0/2)));             # <<<<<<<<<<<<<<
  *         k_2 = h*(MuscleVelocity+l_1/2);
  *         l_2 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity+l_1/2,2)*pow(tan(alpha),2)/(MuscleLength+k_1/2)));
  */
-    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_h); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 771, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_1 = PyFloat_FromDouble((__pyx_v_ForceSE * cos(__pyx_v_alpha))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 771, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = PyFloat_FromDouble(pow(cos(__pyx_v_alpha), 2.0)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 771, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = PyNumber_Multiply(__pyx_v_Force, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 771, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_h); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 780, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_1 = PyFloat_FromDouble((__pyx_v_ForceSE * cos(__pyx_v_alpha))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 780, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_5 = PyFloat_FromDouble(pow(cos(__pyx_v_alpha), 2.0)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 780, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_15 = PyNumber_Multiply(__pyx_v_Force, __pyx_t_5); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 780, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyNumber_Subtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 771, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_Subtract(__pyx_t_1, __pyx_t_15); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 780, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_mass); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 771, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 771, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_mass); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 780, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 780, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_MuscleVelocity); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 771, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_v_l_0, __pyx_int_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 771, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_MuscleVelocity); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 780, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_v_l_0, __pyx_int_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 780, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_13 = PyNumber_Add(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 771, __pyx_L1_error)
+    __pyx_t_13 = PyNumber_Add(__pyx_t_15, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 780, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_13); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 771, __pyx_L1_error)
+    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_13); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 780, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     __pyx_t_9 = (pow(__pyx_t_3, 2.0) * pow(tan(__pyx_v_alpha), 2.0));
     __pyx_t_3 = (__pyx_v_MuscleLength + (__pyx_v_k_0 / 2.0));
     if (unlikely(__pyx_t_3 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 771, __pyx_L1_error)
+      __PYX_ERR(0, 780, __pyx_L1_error)
     }
-    __pyx_t_13 = PyFloat_FromDouble((__pyx_t_9 / __pyx_t_3)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 771, __pyx_L1_error)
+    __pyx_t_13 = PyFloat_FromDouble((__pyx_t_9 / __pyx_t_3)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 780, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
-    __pyx_t_5 = PyNumber_Add(__pyx_t_1, __pyx_t_13); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 771, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_Add(__pyx_t_1, __pyx_t_13); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 780, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-    __pyx_t_13 = PyNumber_Multiply(__pyx_t_15, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 771, __pyx_L1_error)
+    __pyx_t_13 = PyNumber_Multiply(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 780, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_XDECREF_SET(__pyx_v_l_1, __pyx_t_13);
     __pyx_t_13 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":772
+    /* "TwitchBasedMuscleModel_v3.pyx":781
  *         k_1 = h*(MuscleVelocity+l_0/2);
  *         l_1 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity+l_0/2,2)*pow(tan(alpha),2)/(MuscleLength+k_0/2)));
  *         k_2 = h*(MuscleVelocity+l_1/2);             # <<<<<<<<<<<<<<
  *         l_2 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity+l_1/2,2)*pow(tan(alpha),2)/(MuscleLength+k_1/2)));
  *         k_3 = h*(MuscleVelocity+l_2);
  */
-    __pyx_t_13 = PyFloat_FromDouble(__pyx_v_h); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 772, __pyx_L1_error)
+    __pyx_t_13 = PyFloat_FromDouble(__pyx_v_h); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 781, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_MuscleVelocity); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 772, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_MuscleVelocity); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 781, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_15 = __Pyx_PyNumber_Divide(__pyx_v_l_1, __pyx_int_2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 772, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_1 = PyNumber_Add(__pyx_t_5, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 772, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_v_l_1, __pyx_int_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 781, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_1 = PyNumber_Add(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 781, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __pyx_t_15 = PyNumber_Multiply(__pyx_t_13, __pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 772, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = PyNumber_Multiply(__pyx_t_13, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 781, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_k_2, __pyx_t_15);
-    __pyx_t_15 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_k_2, __pyx_t_2);
+    __pyx_t_2 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":773
+    /* "TwitchBasedMuscleModel_v3.pyx":782
  *         l_1 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity+l_0/2,2)*pow(tan(alpha),2)/(MuscleLength+k_0/2)));
  *         k_2 = h*(MuscleVelocity+l_1/2);
  *         l_2 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity+l_1/2,2)*pow(tan(alpha),2)/(MuscleLength+k_1/2)));             # <<<<<<<<<<<<<<
  *         k_3 = h*(MuscleVelocity+l_2);
  *         l_3 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity+l_2,2)*pow(tan(alpha),2)/(MuscleLength+k_2)));
  */
-    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_h); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 773, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_h); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 782, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_1 = PyFloat_FromDouble((__pyx_v_ForceSE * cos(__pyx_v_alpha))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 782, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_13 = PyFloat_FromDouble(pow(cos(__pyx_v_alpha), 2.0)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 782, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __pyx_t_5 = PyNumber_Multiply(__pyx_v_Force, __pyx_t_13); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 782, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __pyx_t_13 = PyNumber_Subtract(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 782, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_mass); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 782, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_13, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 782, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_MuscleVelocity); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 782, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_13 = __Pyx_PyNumber_Divide(__pyx_v_l_1, __pyx_int_2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 782, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_13);
+    __pyx_t_15 = PyNumber_Add(__pyx_t_5, __pyx_t_13); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 782, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_1 = PyFloat_FromDouble((__pyx_v_ForceSE * cos(__pyx_v_alpha))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 773, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_13 = PyFloat_FromDouble(pow(cos(__pyx_v_alpha), 2.0)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 773, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_13);
-    __pyx_t_5 = PyNumber_Multiply(__pyx_v_Force, __pyx_t_13); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 773, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-    __pyx_t_13 = PyNumber_Subtract(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 773, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_13);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_mass); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 773, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_13, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 773, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_MuscleVelocity); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 773, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_13 = __Pyx_PyNumber_Divide(__pyx_v_l_1, __pyx_int_2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 773, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_13);
-    __pyx_t_2 = PyNumber_Add(__pyx_t_5, __pyx_t_13); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 773, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 773, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyFloat_FromDouble((pow(__pyx_t_3, 2.0) * pow(tan(__pyx_v_alpha), 2.0))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 773, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_13 = PyFloat_FromDouble(__pyx_v_MuscleLength); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 773, __pyx_L1_error)
+    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_15); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 782, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __pyx_t_15 = PyFloat_FromDouble((pow(__pyx_t_3, 2.0) * pow(tan(__pyx_v_alpha), 2.0))); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 782, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __pyx_t_13 = PyFloat_FromDouble(__pyx_v_MuscleLength); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 782, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
-    __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_v_k_1, __pyx_int_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 773, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_v_k_1, __pyx_int_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 782, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyNumber_Add(__pyx_t_13, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 773, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_Add(__pyx_t_13, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 782, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 773, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyNumber_Add(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 773, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyNumber_Multiply(__pyx_t_15, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 773, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_t_15, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 782, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = PyNumber_Add(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 782, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = PyNumber_Multiply(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 782, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_XDECREF_SET(__pyx_v_l_2, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":774
+    /* "TwitchBasedMuscleModel_v3.pyx":783
  *         k_2 = h*(MuscleVelocity+l_1/2);
  *         l_2 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity+l_1/2,2)*pow(tan(alpha),2)/(MuscleLength+k_1/2)));
  *         k_3 = h*(MuscleVelocity+l_2);             # <<<<<<<<<<<<<<
  *         l_3 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity+l_2,2)*pow(tan(alpha),2)/(MuscleLength+k_2)));
  *         MuscleLength = MuscleLength + 1/m*(k_0+2*k_1+2*k_2+k_3);
  */
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_h); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 774, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_h); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 783, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_MuscleVelocity); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 774, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_MuscleVelocity); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 783, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_15 = PyNumber_Add(__pyx_t_6, __pyx_v_l_2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 774, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
+    __pyx_t_2 = PyNumber_Add(__pyx_t_6, __pyx_v_l_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 783, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyNumber_Multiply(__pyx_t_5, __pyx_t_15); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 774, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_Multiply(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 783, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_XDECREF_SET(__pyx_v_k_3, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":775
+    /* "TwitchBasedMuscleModel_v3.pyx":784
  *         l_2 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity+l_1/2,2)*pow(tan(alpha),2)/(MuscleLength+k_1/2)));
  *         k_3 = h*(MuscleVelocity+l_2);
  *         l_3 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity+l_2,2)*pow(tan(alpha),2)/(MuscleLength+k_2)));             # <<<<<<<<<<<<<<
  *         MuscleLength = MuscleLength + 1/m*(k_0+2*k_1+2*k_2+k_3);
  *         MuscleVelocity = MuscleVelocity + 1/m*(l_0+2*l_1+2*l_2+l_3);
  */
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_h); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 775, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_h); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 784, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_15 = PyFloat_FromDouble((__pyx_v_ForceSE * cos(__pyx_v_alpha))); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 775, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_5 = PyFloat_FromDouble(pow(cos(__pyx_v_alpha), 2.0)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 775, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = PyNumber_Multiply(__pyx_v_Force, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 775, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyNumber_Subtract(__pyx_t_15, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 775, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_mass); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 775, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_15 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 775, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_MuscleVelocity); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 775, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = PyNumber_Add(__pyx_t_1, __pyx_v_l_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 775, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 775, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyFloat_FromDouble((pow(__pyx_t_3, 2.0) * pow(tan(__pyx_v_alpha), 2.0))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 775, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_MuscleLength); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 775, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_v_k_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 775, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((__pyx_v_ForceSE * cos(__pyx_v_alpha))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 784, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 775, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(pow(cos(__pyx_v_alpha), 2.0)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 784, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_1 = PyNumber_Multiply(__pyx_v_Force, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 784, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = PyNumber_Subtract(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 784, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyNumber_Add(__pyx_t_15, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 775, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyNumber_Multiply(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 775, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_mass); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 784, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 784, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_MuscleVelocity); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 784, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_5 = PyNumber_Add(__pyx_t_1, __pyx_v_l_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 784, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 784, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = PyFloat_FromDouble((pow(__pyx_t_3, 2.0) * pow(tan(__pyx_v_alpha), 2.0))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 784, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_MuscleLength); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 784, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_15 = PyNumber_Add(__pyx_t_1, __pyx_v_k_2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 784, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_5, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 784, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __pyx_t_15 = PyNumber_Add(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 784, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = PyNumber_Multiply(__pyx_t_6, __pyx_t_15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 784, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     __Pyx_XDECREF_SET(__pyx_v_l_3, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":776
+    /* "TwitchBasedMuscleModel_v3.pyx":785
  *         k_3 = h*(MuscleVelocity+l_2);
  *         l_3 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity+l_2,2)*pow(tan(alpha),2)/(MuscleLength+k_2)));
  *         MuscleLength = MuscleLength + 1/m*(k_0+2*k_1+2*k_2+k_3);             # <<<<<<<<<<<<<<
  *         MuscleVelocity = MuscleVelocity + 1/m*(l_0+2*l_1+2*l_2+l_3);
  * 
  */
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_MuscleLength); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 776, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_MuscleLength); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 785, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (unlikely(__pyx_v_m == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 776, __pyx_L1_error)
+      __PYX_ERR(0, 785, __pyx_L1_error)
     }
-    __pyx_t_2 = PyFloat_FromDouble((1.0 / __pyx_v_m)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 776, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_k_0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 776, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_15 = PyNumber_Multiply(__pyx_int_2, __pyx_v_k_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 776, __pyx_L1_error)
+    __pyx_t_15 = PyFloat_FromDouble((1.0 / __pyx_v_m)); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 785, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_5 = PyNumber_Add(__pyx_t_6, __pyx_t_15); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 776, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_k_0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 785, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_2 = PyNumber_Multiply(__pyx_int_2, __pyx_v_k_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 785, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_5 = PyNumber_Add(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 785, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __pyx_t_15 = PyNumber_Multiply(__pyx_int_2, __pyx_v_k_2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 776, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_6 = PyNumber_Add(__pyx_t_5, __pyx_t_15); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 776, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = PyNumber_Multiply(__pyx_int_2, __pyx_v_k_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 785, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_6 = PyNumber_Add(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 785, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __pyx_t_15 = PyNumber_Add(__pyx_t_6, __pyx_v_k_3); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 776, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyNumber_Multiply(__pyx_t_2, __pyx_t_15); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 776, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = PyNumber_Add(__pyx_t_6, __pyx_v_k_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 785, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = PyNumber_Multiply(__pyx_t_15, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 785, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __pyx_t_15 = PyNumber_Add(__pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 776, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 785, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_15); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 776, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 785, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_MuscleLength = __pyx_t_3;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":777
+    /* "TwitchBasedMuscleModel_v3.pyx":786
  *         l_3 = h*((ForceSE*cos(alpha) - Force*pow(cos(alpha),2))/mass + (pow(MuscleVelocity+l_2,2)*pow(tan(alpha),2)/(MuscleLength+k_2)));
  *         MuscleLength = MuscleLength + 1/m*(k_0+2*k_1+2*k_2+k_3);
  *         MuscleVelocity = MuscleVelocity + 1/m*(l_0+2*l_1+2*l_2+l_3);             # <<<<<<<<<<<<<<
  * 
  *         Ace = MuscleAcceleration/(L0/100);
  */
-    __pyx_t_15 = PyFloat_FromDouble(__pyx_v_MuscleVelocity); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 777, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_MuscleVelocity); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 786, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
     if (unlikely(__pyx_v_m == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 777, __pyx_L1_error)
+      __PYX_ERR(0, 786, __pyx_L1_error)
     }
-    __pyx_t_6 = PyFloat_FromDouble((1.0 / __pyx_v_m)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 777, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble((1.0 / __pyx_v_m)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 786, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_1 = PyNumber_Multiply(__pyx_int_2, __pyx_v_l_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 777, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Multiply(__pyx_int_2, __pyx_v_l_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 786, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = PyNumber_Add(__pyx_v_l_0, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 777, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_15 = PyNumber_Add(__pyx_v_l_0, __pyx_t_1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 786, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyNumber_Multiply(__pyx_int_2, __pyx_v_l_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 777, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Multiply(__pyx_int_2, __pyx_v_l_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 786, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 777, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_Add(__pyx_t_15, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 786, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyNumber_Add(__pyx_t_5, __pyx_v_l_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 777, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Add(__pyx_t_5, __pyx_v_l_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 786, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyNumber_Multiply(__pyx_t_6, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 777, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_Multiply(__pyx_t_6, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 786, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyNumber_Add(__pyx_t_15, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 777, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 786, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 777, __pyx_L1_error)
+    __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 786, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_MuscleVelocity = __pyx_t_3;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":779
+    /* "TwitchBasedMuscleModel_v3.pyx":788
  *         MuscleVelocity = MuscleVelocity + 1/m*(l_0+2*l_1+2*l_2+l_3);
  * 
  *         Ace = MuscleAcceleration/(L0/100);             # <<<<<<<<<<<<<<
  *         Vce = MuscleVelocity/(L0/100);
  *         Lce = MuscleLength/(L0/100);
  */
-    __pyx_t_1 = PyFloat_FromDouble((__pyx_v_L0 / 100.0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 779, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble((__pyx_v_L0 / 100.0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 788, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_v_MuscleAcceleration, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 779, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_v_MuscleAcceleration, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 788, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF_SET(__pyx_v_Ace, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":780
+    /* "TwitchBasedMuscleModel_v3.pyx":789
  * 
  *         Ace = MuscleAcceleration/(L0/100);
  *         Vce = MuscleVelocity/(L0/100);             # <<<<<<<<<<<<<<
@@ -20495,11 +20963,11 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __pyx_t_3 = (__pyx_v_L0 / 100.0);
     if (unlikely(__pyx_t_3 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 780, __pyx_L1_error)
+      __PYX_ERR(0, 789, __pyx_L1_error)
     }
     __pyx_v_Vce = (__pyx_v_MuscleVelocity / __pyx_t_3);
 
-    /* "TwitchBasedMuscleModel_v3.pyx":781
+    /* "TwitchBasedMuscleModel_v3.pyx":790
  *         Ace = MuscleAcceleration/(L0/100);
  *         Vce = MuscleVelocity/(L0/100);
  *         Lce = MuscleLength/(L0/100);             # <<<<<<<<<<<<<<
@@ -20509,11 +20977,11 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __pyx_t_3 = (__pyx_v_L0 / 100.0);
     if (unlikely(__pyx_t_3 == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 781, __pyx_L1_error)
+      __PYX_ERR(0, 790, __pyx_L1_error)
     }
     __pyx_v_Lce = (__pyx_v_MuscleLength / __pyx_t_3);
 
-    /* "TwitchBasedMuscleModel_v3.pyx":782
+    /* "TwitchBasedMuscleModel_v3.pyx":791
  *         Vce = MuscleVelocity/(L0/100);
  *         Lce = MuscleLength/(L0/100);
  *         Lse = (Lmt - Lce*L0*cos(alpha))/(L0T);             # <<<<<<<<<<<<<<
@@ -20523,137 +20991,248 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __pyx_t_3 = (__pyx_v_Lmt - ((__pyx_v_Lce * __pyx_v_L0) * cos(__pyx_v_alpha)));
     if (unlikely(__pyx_v_L0T == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 782, __pyx_L1_error)
+      __PYX_ERR(0, 791, __pyx_L1_error)
     }
     __pyx_v_Lse = (__pyx_t_3 / __pyx_v_L0T);
 
-    /* "TwitchBasedMuscleModel_v3.pyx":785
+    /* "TwitchBasedMuscleModel_v3.pyx":794
  * 
  * 
  *         ForceSE_vec[t] = ForceSE;             # <<<<<<<<<<<<<<
  *         Force_vec[t] = Force;
- *         Lce_vec[t] = Lce;
+ *         Lse_vec[t] = Lse;
  */
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_ForceSE); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 785, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_ForceSE); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 794, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(PyObject_SetItem(__pyx_v_ForceSE_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 785, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_ForceSE_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 794, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":786
+    /* "TwitchBasedMuscleModel_v3.pyx":795
  * 
  *         ForceSE_vec[t] = ForceSE;
  *         Force_vec[t] = Force;             # <<<<<<<<<<<<<<
+ *         Lse_vec[t] = Lse;
+ *         Lce_vec[t] = Lce;
+ */
+    if (unlikely(PyObject_SetItem(__pyx_v_Force_vec, __pyx_v_t, __pyx_v_Force) < 0)) __PYX_ERR(0, 795, __pyx_L1_error)
+
+    /* "TwitchBasedMuscleModel_v3.pyx":796
+ *         ForceSE_vec[t] = ForceSE;
+ *         Force_vec[t] = Force;
+ *         Lse_vec[t] = Lse;             # <<<<<<<<<<<<<<
  *         Lce_vec[t] = Lce;
  *         Vce_vec[t] = Vce;
  */
-    if (unlikely(PyObject_SetItem(__pyx_v_Force_vec, __pyx_v_t, __pyx_v_Force) < 0)) __PYX_ERR(0, 786, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_Lse); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 796, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(PyObject_SetItem(__pyx_v_Lse_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 796, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":787
- *         ForceSE_vec[t] = ForceSE;
+    /* "TwitchBasedMuscleModel_v3.pyx":797
  *         Force_vec[t] = Force;
+ *         Lse_vec[t] = Lse;
  *         Lce_vec[t] = Lce;             # <<<<<<<<<<<<<<
  *         Vce_vec[t] = Vce;
  *         Ace_vec[t] = Ace;
  */
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 787, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_Lce); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 797, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(PyObject_SetItem(__pyx_v_Lce_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 787, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_Lce_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 797, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":788
- *         Force_vec[t] = Force;
+    /* "TwitchBasedMuscleModel_v3.pyx":798
+ *         Lse_vec[t] = Lse;
  *         Lce_vec[t] = Lce;
  *         Vce_vec[t] = Vce;             # <<<<<<<<<<<<<<
  *         Ace_vec[t] = Ace;
  * 
  */
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 788, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_Vce); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 798, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(PyObject_SetItem(__pyx_v_Vce_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 788, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_Vce_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 798, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":789
+    /* "TwitchBasedMuscleModel_v3.pyx":799
  *         Lce_vec[t] = Lce;
  *         Vce_vec[t] = Vce;
  *         Ace_vec[t] = Ace;             # <<<<<<<<<<<<<<
  * 
  *         U_eff_vec[t] = U_eff;
  */
-    if (unlikely(PyObject_SetItem(__pyx_v_Ace_vec, __pyx_v_t, __pyx_v_Ace) < 0)) __PYX_ERR(0, 789, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_Ace_vec, __pyx_v_t, __pyx_v_Ace) < 0)) __PYX_ERR(0, 799, __pyx_L1_error)
 
-    /* "TwitchBasedMuscleModel_v3.pyx":791
+    /* "TwitchBasedMuscleModel_v3.pyx":801
  *         Ace_vec[t] = Ace;
  * 
  *         U_eff_vec[t] = U_eff;             # <<<<<<<<<<<<<<
  * 
- *         Ia_vec[t] = Input_Ia[t];
+ *         Ia_vec[t] = FR_Ia[t];
  */
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 791, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_U_eff); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 801, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(PyObject_SetItem(__pyx_v_U_eff_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 791, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_U_eff_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 801, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":793
+    /* "TwitchBasedMuscleModel_v3.pyx":803
  *         U_eff_vec[t] = U_eff;
  * 
- *         Ia_vec[t] = Input_Ia[t];             # <<<<<<<<<<<<<<
+ *         Ia_vec[t] = FR_Ia[t];             # <<<<<<<<<<<<<<
  * 
  *         Ib_vec[t] = FR_Ib[t];
  */
-    __pyx_t_5 = PyObject_GetItem(__pyx_v_Input_Ia, __pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 793, __pyx_L1_error)
+    __pyx_t_5 = PyObject_GetItem(__pyx_v_FR_Ia, __pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 803, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(PyObject_SetItem(__pyx_v_Ia_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 793, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_Ia_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 803, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":795
- *         Ia_vec[t] = Input_Ia[t];
+    /* "TwitchBasedMuscleModel_v3.pyx":805
+ *         Ia_vec[t] = FR_Ia[t];
  * 
  *         Ib_vec[t] = FR_Ib[t];             # <<<<<<<<<<<<<<
  * 
  *         RI_vec[t] = FR_RI[t];
  */
-    __pyx_t_5 = PyObject_GetItem(__pyx_v_FR_Ib, __pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 795, __pyx_L1_error)
+    __pyx_t_5 = PyObject_GetItem(__pyx_v_FR_Ib, __pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 805, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(PyObject_SetItem(__pyx_v_Ib_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 795, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_Ib_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 805, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":797
+    /* "TwitchBasedMuscleModel_v3.pyx":807
  *         Ib_vec[t] = FR_Ib[t];
  * 
  *         RI_vec[t] = FR_RI[t];             # <<<<<<<<<<<<<<
  * 
  *         PN_vec[t] = FR_PN[t];
  */
-    __pyx_t_5 = PyObject_GetItem(__pyx_v_FR_RI, __pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 797, __pyx_L1_error)
+    __pyx_t_5 = PyObject_GetItem(__pyx_v_FR_RI, __pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 807, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(PyObject_SetItem(__pyx_v_RI_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 797, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_RI_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 807, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":799
+    /* "TwitchBasedMuscleModel_v3.pyx":809
  *         RI_vec[t] = FR_RI[t];
  * 
  *         PN_vec[t] = FR_PN[t];             # <<<<<<<<<<<<<<
  * 
  *         C_vec[t] = Input_C;
  */
-    __pyx_t_5 = PyObject_GetItem(__pyx_v_FR_PN, __pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 799, __pyx_L1_error)
+    __pyx_t_5 = PyObject_GetItem(__pyx_v_FR_PN, __pyx_v_t); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 809, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(PyObject_SetItem(__pyx_v_PN_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 799, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_PN_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 809, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":801
+    /* "TwitchBasedMuscleModel_v3.pyx":811
  *         PN_vec[t] = FR_PN[t];
  * 
  *         C_vec[t] = Input_C;             # <<<<<<<<<<<<<<
  * 
- * 
+ *         FL_vec[t] = FL_slow
  */
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_Input_C); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 801, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_Input_C); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 811, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(PyObject_SetItem(__pyx_v_C_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 801, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_C_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 811, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "TwitchBasedMuscleModel_v3.pyx":588
+    /* "TwitchBasedMuscleModel_v3.pyx":813
+ *         C_vec[t] = Input_C;
+ * 
+ *         FL_vec[t] = FL_slow             # <<<<<<<<<<<<<<
+ *         FV_vec[t] = FV_slow
+ *         Af_vec[t] = Af[0]
+ */
+    if (unlikely(PyObject_SetItem(__pyx_v_FL_vec, __pyx_v_t, __pyx_v_FL_slow) < 0)) __PYX_ERR(0, 813, __pyx_L1_error)
+
+    /* "TwitchBasedMuscleModel_v3.pyx":814
+ * 
+ *         FL_vec[t] = FL_slow
+ *         FV_vec[t] = FV_slow             # <<<<<<<<<<<<<<
+ *         Af_vec[t] = Af[0]
+ *         FF_vec[t] = FF[0];
+ */
+    if (unlikely(PyObject_SetItem(__pyx_v_FV_vec, __pyx_v_t, __pyx_v_FV_slow) < 0)) __PYX_ERR(0, 814, __pyx_L1_error)
+
+    /* "TwitchBasedMuscleModel_v3.pyx":815
+ *         FL_vec[t] = FL_slow
+ *         FV_vec[t] = FV_slow
+ *         Af_vec[t] = Af[0]             # <<<<<<<<<<<<<<
+ *         FF_vec[t] = FF[0];
+ * 
+ */
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_Af, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 815, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(PyObject_SetItem(__pyx_v_Af_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 815, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "TwitchBasedMuscleModel_v3.pyx":816
+ *         FV_vec[t] = FV_slow
+ *         Af_vec[t] = Af[0]
+ *         FF_vec[t] = FF[0];             # <<<<<<<<<<<<<<
+ * 
+ *         FR_vec[t] = FR[0];
+ */
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_FF, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 816, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(PyObject_SetItem(__pyx_v_FF_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 816, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "TwitchBasedMuscleModel_v3.pyx":818
+ *         FF_vec[t] = FF[0];
+ * 
+ *         FR_vec[t] = FR[0];             # <<<<<<<<<<<<<<
+ *         f_env_vec[t] = f_env[0];
+ *         force_half_vec[t] = force_half[0];
+ */
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_FR, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 818, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(PyObject_SetItem(__pyx_v_FR_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 818, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "TwitchBasedMuscleModel_v3.pyx":819
+ * 
+ *         FR_vec[t] = FR[0];
+ *         f_env_vec[t] = f_env[0];             # <<<<<<<<<<<<<<
+ *         force_half_vec[t] = force_half[0];
+ *         Y_vec_store[t] = Y_temp;
+ */
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_f_env, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 819, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(PyObject_SetItem(__pyx_v_f_env_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 819, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "TwitchBasedMuscleModel_v3.pyx":820
+ *         FR_vec[t] = FR[0];
+ *         f_env_vec[t] = f_env[0];
+ *         force_half_vec[t] = force_half[0];             # <<<<<<<<<<<<<<
+ *         Y_vec_store[t] = Y_temp;
+ *         S_vec_store[t] = S_vec[0];
+ */
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_force_half, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 820, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(PyObject_SetItem(__pyx_v_force_half_vec, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 820, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "TwitchBasedMuscleModel_v3.pyx":821
+ *         f_env_vec[t] = f_env[0];
+ *         force_half_vec[t] = force_half[0];
+ *         Y_vec_store[t] = Y_temp;             # <<<<<<<<<<<<<<
+ *         S_vec_store[t] = S_vec[0];
+ * 
+ */
+    if (unlikely(PyObject_SetItem(__pyx_v_Y_vec_store, __pyx_v_t, __pyx_v_Y_temp) < 0)) __PYX_ERR(0, 821, __pyx_L1_error)
+
+    /* "TwitchBasedMuscleModel_v3.pyx":822
+ *         force_half_vec[t] = force_half[0];
+ *         Y_vec_store[t] = Y_temp;
+ *         S_vec_store[t] = S_vec[0];             # <<<<<<<<<<<<<<
+ * 
+ *     end_time = time.time()
+ */
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_S_vec, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 822, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (unlikely(PyObject_SetItem(__pyx_v_S_vec_store, __pyx_v_t, __pyx_t_5) < 0)) __PYX_ERR(0, 822, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "TwitchBasedMuscleModel_v3.pyx":599
  *     ND_delayed = np.zeros(len(time_sim));
  * 
  *     for t in xrange(len(time_sim)):             # <<<<<<<<<<<<<<
@@ -20663,14 +21242,14 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":804
- * 
+  /* "TwitchBasedMuscleModel_v3.pyx":824
+ *         S_vec_store[t] = S_vec[0];
  * 
  *     end_time = time.time()             # <<<<<<<<<<<<<<
  *     print(end_time - start_time)
  * 
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_time); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 804, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_time, __pyx_n_s_time); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 824, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_1 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -20683,381 +21262,217 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     }
   }
   if (__pyx_t_1) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 804, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 824, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
-    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 804, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 824, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_end_time = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":805
+  /* "TwitchBasedMuscleModel_v3.pyx":825
  * 
  *     end_time = time.time()
  *     print(end_time - start_time)             # <<<<<<<<<<<<<<
  * 
  *     output = {'Time':time_sim,'Tendon Force':ForceSE_vec, 'Muscle Force':Force_vec,
  */
-  __pyx_t_4 = PyNumber_Subtract(__pyx_v_end_time, __pyx_v_start_time); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 805, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Subtract(__pyx_v_end_time, __pyx_v_start_time); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 825, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (__Pyx_PrintOne(0, __pyx_t_4) < 0) __PYX_ERR(0, 805, __pyx_L1_error)
+  if (__Pyx_PrintOne(0, __pyx_t_4) < 0) __PYX_ERR(0, 825, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":807
+  /* "TwitchBasedMuscleModel_v3.pyx":827
  *     print(end_time - start_time)
  * 
  *     output = {'Time':time_sim,'Tendon Force':ForceSE_vec, 'Muscle Force':Force_vec,             # <<<<<<<<<<<<<<
  *               'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec,
  *               'Muscle Velocity': Vce_vec, 'Muscle Acceleration': Ace_vec,
  */
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(16); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 807, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(29); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 827, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_Time, __pyx_v_time_sim) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Tendon_Force, __pyx_v_ForceSE_vec) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Muscle_Force, __pyx_v_Force_vec) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_Time, __pyx_v_time_sim) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Tendon_Force, __pyx_v_ForceSE_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Muscle_Force, __pyx_v_Force_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
 
-  /* "TwitchBasedMuscleModel_v3.pyx":808
+  /* "TwitchBasedMuscleModel_v3.pyx":828
  * 
  *     output = {'Time':time_sim,'Tendon Force':ForceSE_vec, 'Muscle Force':Force_vec,
  *               'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec,             # <<<<<<<<<<<<<<
  *               'Muscle Velocity': Vce_vec, 'Muscle Acceleration': Ace_vec,
- *               'Ia': Ia_vec,'Ib': Ib_vec, 'RI': RI_vec, 'PN': PN_vec, 'noise': noise_filt,
+ *               'Tendon Length': Lse_vec,
  */
-  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Twitch_Force, __pyx_v_force) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Spike_Train, __pyx_v_spike_train) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Muscle_Length, __pyx_v_Lce_vec) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Twitch_Force, __pyx_v_force) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Spike_Train, __pyx_v_spike_train) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Muscle_Length, __pyx_v_Lce_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
 
-  /* "TwitchBasedMuscleModel_v3.pyx":809
+  /* "TwitchBasedMuscleModel_v3.pyx":829
  *     output = {'Time':time_sim,'Tendon Force':ForceSE_vec, 'Muscle Force':Force_vec,
  *               'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec,
  *               'Muscle Velocity': Vce_vec, 'Muscle Acceleration': Ace_vec,             # <<<<<<<<<<<<<<
- *               'Ia': Ia_vec,'Ib': Ib_vec, 'RI': RI_vec, 'PN': PN_vec, 'noise': noise_filt,
- *               'C': C_vec, 'ND': ND, 'U_eff': U_eff_vec}
+ *               'Tendon Length': Lse_vec,
+ *               'Ia': Ia_vec, 'Input Ia' : Input_Ia,
  */
-  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Muscle_Velocity, __pyx_v_Vce_vec) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Muscle_Acceleration, __pyx_v_Ace_vec) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Muscle_Velocity, __pyx_v_Vce_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Muscle_Acceleration, __pyx_v_Ace_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
 
-  /* "TwitchBasedMuscleModel_v3.pyx":810
+  /* "TwitchBasedMuscleModel_v3.pyx":830
  *               'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec,
  *               'Muscle Velocity': Vce_vec, 'Muscle Acceleration': Ace_vec,
- *               'Ia': Ia_vec,'Ib': Ib_vec, 'RI': RI_vec, 'PN': PN_vec, 'noise': noise_filt,             # <<<<<<<<<<<<<<
- *               'C': C_vec, 'ND': ND, 'U_eff': U_eff_vec}
- *               #, 'temp1': temp1,'temp2': temp2,
+ *               'Tendon Length': Lse_vec,             # <<<<<<<<<<<<<<
+ *               'Ia': Ia_vec, 'Input Ia' : Input_Ia,
+ *               'Ib': Ib_vec, 'Input Ib' : Input_Ib,
  */
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_Ia, __pyx_v_Ia_vec) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_Ib, __pyx_v_Ib_vec) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_RI, __pyx_v_RI_vec) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_PN, __pyx_v_PN_vec) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_noise, __pyx_v_noise_filt) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Tendon_Length, __pyx_v_Lse_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
 
-  /* "TwitchBasedMuscleModel_v3.pyx":811
+  /* "TwitchBasedMuscleModel_v3.pyx":831
  *               'Muscle Velocity': Vce_vec, 'Muscle Acceleration': Ace_vec,
- *               'Ia': Ia_vec,'Ib': Ib_vec, 'RI': RI_vec, 'PN': PN_vec, 'noise': noise_filt,
- *               'C': C_vec, 'ND': ND, 'U_eff': U_eff_vec}             # <<<<<<<<<<<<<<
- *               #, 'temp1': temp1,'temp2': temp2,
- *               #'temp3': temp3};
+ *               'Tendon Length': Lse_vec,
+ *               'Ia': Ia_vec, 'Input Ia' : Input_Ia,             # <<<<<<<<<<<<<<
+ *               'Ib': Ib_vec, 'Input Ib' : Input_Ib,
+ *               'RI': RI_vec, 'Input RI' : Input_RI,
  */
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_C, __pyx_v_C_vec) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_ND, __pyx_v_ND) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_U_eff, __pyx_v_U_eff_vec) < 0) __PYX_ERR(0, 807, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_Ia, __pyx_v_Ia_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Input_Ia, __pyx_v_Input_Ia) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+
+  /* "TwitchBasedMuscleModel_v3.pyx":832
+ *               'Tendon Length': Lse_vec,
+ *               'Ia': Ia_vec, 'Input Ia' : Input_Ia,
+ *               'Ib': Ib_vec, 'Input Ib' : Input_Ib,             # <<<<<<<<<<<<<<
+ *               'RI': RI_vec, 'Input RI' : Input_RI,
+ *               'PN': PN_vec, 'Input PN': Input_PN,
+ */
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_Ib, __pyx_v_Ib_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Input_Ib, __pyx_v_Input_Ib) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+
+  /* "TwitchBasedMuscleModel_v3.pyx":833
+ *               'Ia': Ia_vec, 'Input Ia' : Input_Ia,
+ *               'Ib': Ib_vec, 'Input Ib' : Input_Ib,
+ *               'RI': RI_vec, 'Input RI' : Input_RI,             # <<<<<<<<<<<<<<
+ *               'PN': PN_vec, 'Input PN': Input_PN,
+ *               'C': C_vec, 'ND': ND, 'U_eff': U_eff_vec,
+ */
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_RI, __pyx_v_RI_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Input_RI, __pyx_v_Input_RI) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+
+  /* "TwitchBasedMuscleModel_v3.pyx":834
+ *               'Ib': Ib_vec, 'Input Ib' : Input_Ib,
+ *               'RI': RI_vec, 'Input RI' : Input_RI,
+ *               'PN': PN_vec, 'Input PN': Input_PN,             # <<<<<<<<<<<<<<
+ *               'C': C_vec, 'ND': ND, 'U_eff': U_eff_vec,
+ *               'FF':FF_vec, 'Af':Af_vec, 'FR':FR_vec, 'f_env':f_env_vec,
+ */
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_PN, __pyx_v_PN_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_kp_s_Input_PN, __pyx_v_Input_PN) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+
+  /* "TwitchBasedMuscleModel_v3.pyx":835
+ *               'RI': RI_vec, 'Input RI' : Input_RI,
+ *               'PN': PN_vec, 'Input PN': Input_PN,
+ *               'C': C_vec, 'ND': ND, 'U_eff': U_eff_vec,             # <<<<<<<<<<<<<<
+ *               'FF':FF_vec, 'Af':Af_vec, 'FR':FR_vec, 'f_env':f_env_vec,
+ *               'Y':Y_vec_store,'S':S_vec_store,'force_half':force_half_vec,
+ */
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_C, __pyx_v_C_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_ND, __pyx_v_ND) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_U_eff, __pyx_v_U_eff_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+
+  /* "TwitchBasedMuscleModel_v3.pyx":836
+ *               'PN': PN_vec, 'Input PN': Input_PN,
+ *               'C': C_vec, 'ND': ND, 'U_eff': U_eff_vec,
+ *               'FF':FF_vec, 'Af':Af_vec, 'FR':FR_vec, 'f_env':f_env_vec,             # <<<<<<<<<<<<<<
+ *               'Y':Y_vec_store,'S':S_vec_store,'force_half':force_half_vec,
+ *               'FL':FL_vec, 'FV':FV_vec}
+ */
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_FF, __pyx_v_FF_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_Af, __pyx_v_Af_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_FR, __pyx_v_FR_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_f_env, __pyx_v_f_env_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+
+  /* "TwitchBasedMuscleModel_v3.pyx":837
+ *               'C': C_vec, 'ND': ND, 'U_eff': U_eff_vec,
+ *               'FF':FF_vec, 'Af':Af_vec, 'FR':FR_vec, 'f_env':f_env_vec,
+ *               'Y':Y_vec_store,'S':S_vec_store,'force_half':force_half_vec,             # <<<<<<<<<<<<<<
+ *               'FL':FL_vec, 'FV':FV_vec}
+ * 
+ */
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_Y, __pyx_v_Y_vec_store) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_S, __pyx_v_S_vec_store) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_force_half, __pyx_v_force_half_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+
+  /* "TwitchBasedMuscleModel_v3.pyx":838
+ *               'FF':FF_vec, 'Af':Af_vec, 'FR':FR_vec, 'f_env':f_env_vec,
+ *               'Y':Y_vec_store,'S':S_vec_store,'force_half':force_half_vec,
+ *               'FL':FL_vec, 'FV':FV_vec}             # <<<<<<<<<<<<<<
+ * 
+ *     default_path = '/Users/akira/Documents/Github/python-code/';
+ */
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_FL, __pyx_v_FL_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_FV, __pyx_v_FV_vec) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
   __pyx_v_output = ((PyObject*)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":815
- *               #'temp3': temp3};
+  /* "TwitchBasedMuscleModel_v3.pyx":840
+ *               'FL':FL_vec, 'FV':FV_vec}
  * 
- *     default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';             # <<<<<<<<<<<<<<
- *     save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';
+ *     default_path = '/Users/akira/Documents/Github/python-code/';             # <<<<<<<<<<<<<<
+ *     save_path = '/Users/akira/Documents/Github/python-code/Data';
+ *     fileName = "%s%s%s" % ('output',str(trialN),'.npy')
+ */
+  __Pyx_INCREF(__pyx_kp_s_Users_akira_Documents_Github_py);
+  __pyx_v_default_path = __pyx_kp_s_Users_akira_Documents_Github_py;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":841
+ * 
+ *     default_path = '/Users/akira/Documents/Github/python-code/';
+ *     save_path = '/Users/akira/Documents/Github/python-code/Data';             # <<<<<<<<<<<<<<
+ *     fileName = "%s%s%s" % ('output',str(trialN),'.npy')
  *     os.chdir(save_path)
  */
-  __Pyx_INCREF(__pyx_kp_s_Users_akiranagamori_Documents_G);
-  __pyx_v_default_path = __pyx_kp_s_Users_akiranagamori_Documents_G;
+  __Pyx_INCREF(__pyx_kp_s_Users_akira_Documents_Github_py_2);
+  __pyx_v_save_path = __pyx_kp_s_Users_akira_Documents_Github_py_2;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":816
- * 
- *     default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';
- *     save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';             # <<<<<<<<<<<<<<
+  /* "TwitchBasedMuscleModel_v3.pyx":842
+ *     default_path = '/Users/akira/Documents/Github/python-code/';
+ *     save_path = '/Users/akira/Documents/Github/python-code/Data';
+ *     fileName = "%s%s%s" % ('output',str(trialN),'.npy')             # <<<<<<<<<<<<<<
  *     os.chdir(save_path)
- *     np.save('output.npy',output)
+ *     np.save(fileName,output)
  */
-  __Pyx_INCREF(__pyx_kp_s_Users_akiranagamori_Documents_G_2);
-  __pyx_v_save_path = __pyx_kp_s_Users_akiranagamori_Documents_G_2;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":817
- *     default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';
- *     save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';
- *     os.chdir(save_path)             # <<<<<<<<<<<<<<
- *     np.save('output.npy',output)
- *     os.chdir(default_path)
- */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_os, __pyx_n_s_chdir); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 817, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_1 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_1)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_1);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_5, function);
-    }
-  }
-  if (!__pyx_t_1) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_save_path); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 817, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_5)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_save_path};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 817, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_save_path};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 817, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
-    } else
-    #endif
-    {
-      __pyx_t_15 = PyTuple_New(1+1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 817, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_15);
-      __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_1); __pyx_t_1 = NULL;
-      __Pyx_INCREF(__pyx_v_save_path);
-      __Pyx_GIVEREF(__pyx_v_save_path);
-      PyTuple_SET_ITEM(__pyx_t_15, 0+1, __pyx_v_save_path);
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_15, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 817, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":818
- *     save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';
- *     os.chdir(save_path)
- *     np.save('output.npy',output)             # <<<<<<<<<<<<<<
- *     os.chdir(default_path)
- * 
- */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_save); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 818, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_15 = NULL;
-  __pyx_t_11 = 0;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_15)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_15);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_5, function);
-      __pyx_t_11 = 1;
-    }
-  }
-  #if CYTHON_FAST_PYCALL
-  if (PyFunction_Check(__pyx_t_5)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_15, __pyx_kp_s_output_npy, __pyx_v_output};
-    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 818, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __Pyx_GOTREF(__pyx_t_4);
-  } else
-  #endif
-  #if CYTHON_FAST_PYCCALL
-  if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_15, __pyx_kp_s_output_npy, __pyx_v_output};
-    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 818, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __Pyx_GOTREF(__pyx_t_4);
-  } else
-  #endif
-  {
-    __pyx_t_1 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 818, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    if (__pyx_t_15) {
-      __Pyx_GIVEREF(__pyx_t_15); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_15); __pyx_t_15 = NULL;
-    }
-    __Pyx_INCREF(__pyx_kp_s_output_npy);
-    __Pyx_GIVEREF(__pyx_kp_s_output_npy);
-    PyTuple_SET_ITEM(__pyx_t_1, 0+__pyx_t_11, __pyx_kp_s_output_npy);
-    __Pyx_INCREF(__pyx_v_output);
-    __Pyx_GIVEREF(__pyx_v_output);
-    PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_11, __pyx_v_output);
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_1, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 818, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  }
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":819
- *     os.chdir(save_path)
- *     np.save('output.npy',output)
- *     os.chdir(default_path)             # <<<<<<<<<<<<<<
- * 
- *     fig1 = plt.figure()
- */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_os, __pyx_n_s_chdir); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 819, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_1 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_1)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_1);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_5, function);
-    }
-  }
-  if (!__pyx_t_1) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_default_path); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 819, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_5)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_default_path};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 819, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_default_path};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 819, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
-    } else
-    #endif
-    {
-      __pyx_t_15 = PyTuple_New(1+1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 819, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_15);
-      __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_1); __pyx_t_1 = NULL;
-      __Pyx_INCREF(__pyx_v_default_path);
-      __Pyx_GIVEREF(__pyx_v_default_path);
-      PyTuple_SET_ITEM(__pyx_t_15, 0+1, __pyx_v_default_path);
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_15, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 819, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    }
-  }
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":821
- *     os.chdir(default_path)
- * 
- *     fig1 = plt.figure()             # <<<<<<<<<<<<<<
- *     ax1 = fig1.add_subplot(111)
- *     ax1.plot(time_sim,ForceSE_vec)
- */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_plt, __pyx_n_s_figure); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 821, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_15 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_15)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_15);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_5, function);
-    }
-  }
-  if (__pyx_t_15) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_15); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 821, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-  } else {
-    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 821, __pyx_L1_error)
-  }
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 842, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_v_fig1 = __pyx_t_4;
-  __pyx_t_4 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":822
- * 
- *     fig1 = plt.figure()
- *     ax1 = fig1.add_subplot(111)             # <<<<<<<<<<<<<<
- *     ax1.plot(time_sim,ForceSE_vec)
- * 
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_fig1, __pyx_n_s_add_subplot); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 822, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__62, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 822, __pyx_L1_error)
+  __Pyx_INCREF(__pyx_v_trialN);
+  __Pyx_GIVEREF(__pyx_v_trialN);
+  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_trialN);
+  __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 842, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_ax1 = __pyx_t_5;
+  __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 842, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_INCREF(__pyx_n_s_output);
+  __Pyx_GIVEREF(__pyx_n_s_output);
+  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_n_s_output);
+  __Pyx_GIVEREF(__pyx_t_5);
+  PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_5);
+  __Pyx_INCREF(__pyx_kp_s_npy);
+  __Pyx_GIVEREF(__pyx_kp_s_npy);
+  PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_kp_s_npy);
+  __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyString_Format(__pyx_kp_s_s_s_s, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 842, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_fileName = ((PyObject*)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":823
- *     fig1 = plt.figure()
- *     ax1 = fig1.add_subplot(111)
- *     ax1.plot(time_sim,ForceSE_vec)             # <<<<<<<<<<<<<<
- * 
- * 
+  /* "TwitchBasedMuscleModel_v3.pyx":843
+ *     save_path = '/Users/akira/Documents/Github/python-code/Data';
+ *     fileName = "%s%s%s" % ('output',str(trialN),'.npy')
+ *     os.chdir(save_path)             # <<<<<<<<<<<<<<
+ *     np.save(fileName,output)
+ *     os.chdir(default_path)
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_ax1, __pyx_n_s_plot); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 823, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_15 = NULL;
-  __pyx_t_11 = 0;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_15)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_15);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-      __pyx_t_11 = 1;
-    }
-  }
-  #if CYTHON_FAST_PYCALL
-  if (PyFunction_Check(__pyx_t_4)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_15, __pyx_v_time_sim, __pyx_v_ForceSE_vec};
-    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 823, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __Pyx_GOTREF(__pyx_t_5);
-  } else
-  #endif
-  #if CYTHON_FAST_PYCCALL
-  if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_15, __pyx_v_time_sim, __pyx_v_ForceSE_vec};
-    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 823, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __Pyx_GOTREF(__pyx_t_5);
-  } else
-  #endif
-  {
-    __pyx_t_1 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 823, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    if (__pyx_t_15) {
-      __Pyx_GIVEREF(__pyx_t_15); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_15); __pyx_t_15 = NULL;
-    }
-    __Pyx_INCREF(__pyx_v_time_sim);
-    __Pyx_GIVEREF(__pyx_v_time_sim);
-    PyTuple_SET_ITEM(__pyx_t_1, 0+__pyx_t_11, __pyx_v_time_sim);
-    __Pyx_INCREF(__pyx_v_ForceSE_vec);
-    __Pyx_GIVEREF(__pyx_v_ForceSE_vec);
-    PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_11, __pyx_v_ForceSE_vec);
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 823, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":826
- * 
- * 
- *     fig2 = plt.figure()             # <<<<<<<<<<<<<<
- *     ax2 = fig2.add_subplot(111)
- *     ax2.plot(time_sim,Lce_vec)
- */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_plt, __pyx_n_s_figure); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 826, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_os, __pyx_n_s_chdir); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 843, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_1 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -21069,133 +21484,212 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
       __Pyx_DECREF_SET(__pyx_t_4, function);
     }
   }
-  if (__pyx_t_1) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 826, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (!__pyx_t_1) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_save_path); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 843, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
   } else {
-    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 826, __pyx_L1_error)
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_save_path};
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 843, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_save_path};
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 843, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+    } else
+    #endif
+    {
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 843, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1); __pyx_t_1 = NULL;
+      __Pyx_INCREF(__pyx_v_save_path);
+      __Pyx_GIVEREF(__pyx_v_save_path);
+      PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_v_save_path);
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 843, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    }
   }
-  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_fig2 = __pyx_t_5;
-  __pyx_t_5 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":827
- * 
- *     fig2 = plt.figure()
- *     ax2 = fig2.add_subplot(111)             # <<<<<<<<<<<<<<
- *     ax2.plot(time_sim,Lce_vec)
- * 
- */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_fig2, __pyx_n_s_add_subplot); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 827, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__63, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 827, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_v_ax2 = __pyx_t_4;
-  __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":828
- *     fig2 = plt.figure()
- *     ax2 = fig2.add_subplot(111)
- *     ax2.plot(time_sim,Lce_vec)             # <<<<<<<<<<<<<<
+  /* "TwitchBasedMuscleModel_v3.pyx":844
+ *     fileName = "%s%s%s" % ('output',str(trialN),'.npy')
+ *     os.chdir(save_path)
+ *     np.save(fileName,output)             # <<<<<<<<<<<<<<
+ *     os.chdir(default_path)
  * 
- *     plt.show()
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_ax2, __pyx_n_s_plot); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 828, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_1 = NULL;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_np, __pyx_n_s_save); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 844, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_2 = NULL;
   __pyx_t_11 = 0;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_5);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __pyx_t_11 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_fileName, __pyx_v_output};
+    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 844, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_fileName, __pyx_v_output};
+    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 844, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else
+  #endif
+  {
+    __pyx_t_1 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 844, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    if (__pyx_t_2) {
+      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2); __pyx_t_2 = NULL;
+    }
+    __Pyx_INCREF(__pyx_v_fileName);
+    __Pyx_GIVEREF(__pyx_v_fileName);
+    PyTuple_SET_ITEM(__pyx_t_1, 0+__pyx_t_11, __pyx_v_fileName);
+    __Pyx_INCREF(__pyx_v_output);
+    __Pyx_GIVEREF(__pyx_v_output);
+    PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_11, __pyx_v_output);
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 844, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":845
+ *     os.chdir(save_path)
+ *     np.save(fileName,output)
+ *     os.chdir(default_path)             # <<<<<<<<<<<<<<
+ * 
+ *     fig1 = plt.figure()
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_os, __pyx_n_s_chdir); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 845, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_1 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_4);
     if (likely(__pyx_t_1)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
       __Pyx_INCREF(__pyx_t_1);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_5, function);
-      __pyx_t_11 = 1;
+      __Pyx_DECREF_SET(__pyx_t_4, function);
     }
   }
-  #if CYTHON_FAST_PYCALL
-  if (PyFunction_Check(__pyx_t_5)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_time_sim, __pyx_v_Lce_vec};
-    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 828, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_GOTREF(__pyx_t_4);
-  } else
-  #endif
-  #if CYTHON_FAST_PYCCALL
-  if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_time_sim, __pyx_v_Lce_vec};
-    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 828, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_GOTREF(__pyx_t_4);
-  } else
-  #endif
-  {
-    __pyx_t_15 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 828, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_15);
-    if (__pyx_t_1) {
-      __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_1); __pyx_t_1 = NULL;
-    }
-    __Pyx_INCREF(__pyx_v_time_sim);
-    __Pyx_GIVEREF(__pyx_v_time_sim);
-    PyTuple_SET_ITEM(__pyx_t_15, 0+__pyx_t_11, __pyx_v_time_sim);
-    __Pyx_INCREF(__pyx_v_Lce_vec);
-    __Pyx_GIVEREF(__pyx_v_Lce_vec);
-    PyTuple_SET_ITEM(__pyx_t_15, 1+__pyx_t_11, __pyx_v_Lce_vec);
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_15, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 828, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-  }
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "TwitchBasedMuscleModel_v3.pyx":830
- *     ax2.plot(time_sim,Lce_vec)
- * 
- *     plt.show()             # <<<<<<<<<<<<<<
- *     plt.plot(time_sim,ForceSE_vec)
- *     return (Force_vec,ForceSE_vec);
- */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_plt, __pyx_n_s_show); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 830, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_15 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_15)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_15);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_5, function);
-    }
-  }
-  if (__pyx_t_15) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_15); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 830, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+  if (!__pyx_t_1) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_default_path); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 845, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
   } else {
-    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 830, __pyx_L1_error)
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_default_path};
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 845, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_default_path};
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 845, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+    } else
+    #endif
+    {
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 845, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1); __pyx_t_1 = NULL;
+      __Pyx_INCREF(__pyx_v_default_path);
+      __Pyx_GIVEREF(__pyx_v_default_path);
+      PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_v_default_path);
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 845, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    }
   }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":847
+ *     os.chdir(default_path)
+ * 
+ *     fig1 = plt.figure()             # <<<<<<<<<<<<<<
+ *     ax1 = fig1.add_subplot(111)
+ *     ax1.plot(time_sim,ForceSE_vec)
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_plt, __pyx_n_s_figure); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 847, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_2 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  if (__pyx_t_2) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 847, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  } else {
+    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 847, __pyx_L1_error)
+  }
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_fig1 = __pyx_t_5;
+  __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":848
+ * 
+ *     fig1 = plt.figure()
+ *     ax1 = fig1.add_subplot(111)             # <<<<<<<<<<<<<<
+ *     ax1.plot(time_sim,ForceSE_vec)
+ * 
+ */
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_fig1, __pyx_n_s_add_subplot); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 848, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__62, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 848, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_ax1 = __pyx_t_4;
+  __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":831
+  /* "TwitchBasedMuscleModel_v3.pyx":849
+ *     fig1 = plt.figure()
+ *     ax1 = fig1.add_subplot(111)
+ *     ax1.plot(time_sim,ForceSE_vec)             # <<<<<<<<<<<<<<
  * 
- *     plt.show()
- *     plt.plot(time_sim,ForceSE_vec)             # <<<<<<<<<<<<<<
- *     return (Force_vec,ForceSE_vec);
  * 
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_plt, __pyx_n_s_plot); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 831, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_ax1, __pyx_n_s_plot); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 849, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_15 = NULL;
+  __pyx_t_2 = NULL;
   __pyx_t_11 = 0;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_15)) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_2)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_15);
+      __Pyx_INCREF(__pyx_t_2);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_5, function);
       __pyx_t_11 = 1;
@@ -21203,25 +21697,25 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   }
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_5)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_15, __pyx_v_time_sim, __pyx_v_ForceSE_vec};
-    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 831, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_time_sim, __pyx_v_ForceSE_vec};
+    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 849, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else
   #endif
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_15, __pyx_v_time_sim, __pyx_v_ForceSE_vec};
-    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 831, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_time_sim, __pyx_v_ForceSE_vec};
+    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 849, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_4);
   } else
   #endif
   {
-    __pyx_t_1 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 831, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 849, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (__pyx_t_15) {
-      __Pyx_GIVEREF(__pyx_t_15); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_15); __pyx_t_15 = NULL;
+    if (__pyx_t_2) {
+      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2); __pyx_t_2 = NULL;
     }
     __Pyx_INCREF(__pyx_v_time_sim);
     __Pyx_GIVEREF(__pyx_v_time_sim);
@@ -21229,14 +21723,200 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
     __Pyx_INCREF(__pyx_v_ForceSE_vec);
     __Pyx_GIVEREF(__pyx_v_ForceSE_vec);
     PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_11, __pyx_v_ForceSE_vec);
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_1, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 831, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_1, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 849, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":832
+  /* "TwitchBasedMuscleModel_v3.pyx":852
+ * 
+ * 
+ *     fig2 = plt.figure()             # <<<<<<<<<<<<<<
+ *     ax2 = fig2.add_subplot(111)
+ *     ax2.plot(time_sim,Lce_vec)
+ */
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_plt, __pyx_n_s_figure); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 852, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_1 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_1)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_1);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  if (__pyx_t_1) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 852, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  } else {
+    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 852, __pyx_L1_error)
+  }
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_fig2 = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":853
+ * 
+ *     fig2 = plt.figure()
+ *     ax2 = fig2.add_subplot(111)             # <<<<<<<<<<<<<<
+ *     ax2.plot(time_sim,Lce_vec)
+ * 
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_fig2, __pyx_n_s_add_subplot); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 853, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__63, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 853, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_ax2 = __pyx_t_5;
+  __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":854
+ *     fig2 = plt.figure()
+ *     ax2 = fig2.add_subplot(111)
+ *     ax2.plot(time_sim,Lce_vec)             # <<<<<<<<<<<<<<
+ * 
+ *     plt.show()
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_ax2, __pyx_n_s_plot); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 854, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_1 = NULL;
+  __pyx_t_11 = 0;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_1)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_1);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __pyx_t_11 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_time_sim, __pyx_v_Lce_vec};
+    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 854, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_time_sim, __pyx_v_Lce_vec};
+    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 854, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else
+  #endif
+  {
+    __pyx_t_2 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 854, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    if (__pyx_t_1) {
+      __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1); __pyx_t_1 = NULL;
+    }
+    __Pyx_INCREF(__pyx_v_time_sim);
+    __Pyx_GIVEREF(__pyx_v_time_sim);
+    PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_11, __pyx_v_time_sim);
+    __Pyx_INCREF(__pyx_v_Lce_vec);
+    __Pyx_GIVEREF(__pyx_v_Lce_vec);
+    PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_11, __pyx_v_Lce_vec);
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 854, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":856
+ *     ax2.plot(time_sim,Lce_vec)
+ * 
+ *     plt.show()             # <<<<<<<<<<<<<<
+ *     plt.plot(time_sim,ForceSE_vec)
+ *     return (Force_vec,ForceSE_vec);
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_plt, __pyx_n_s_show); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 856, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_2 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  if (__pyx_t_2) {
+    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 856, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  } else {
+    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 856, __pyx_L1_error)
+  }
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":857
+ * 
+ *     plt.show()
+ *     plt.plot(time_sim,ForceSE_vec)             # <<<<<<<<<<<<<<
+ *     return (Force_vec,ForceSE_vec);
+ * 
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_plt, __pyx_n_s_plot); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 857, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_2 = NULL;
+  __pyx_t_11 = 0;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __pyx_t_11 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_time_sim, __pyx_v_ForceSE_vec};
+    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 857, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_time_sim, __pyx_v_ForceSE_vec};
+    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 857, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+  } else
+  #endif
+  {
+    __pyx_t_1 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 857, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    if (__pyx_t_2) {
+      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2); __pyx_t_2 = NULL;
+    }
+    __Pyx_INCREF(__pyx_v_time_sim);
+    __Pyx_GIVEREF(__pyx_v_time_sim);
+    PyTuple_SET_ITEM(__pyx_t_1, 0+__pyx_t_11, __pyx_v_time_sim);
+    __Pyx_INCREF(__pyx_v_ForceSE_vec);
+    __Pyx_GIVEREF(__pyx_v_ForceSE_vec);
+    PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_11, __pyx_v_ForceSE_vec);
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 857, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+  /* "TwitchBasedMuscleModel_v3.pyx":858
  *     plt.show()
  *     plt.plot(time_sim,ForceSE_vec)
  *     return (Force_vec,ForceSE_vec);             # <<<<<<<<<<<<<<
@@ -21244,22 +21924,22 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 832, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 858, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __Pyx_INCREF(__pyx_v_Force_vec);
   __Pyx_GIVEREF(__pyx_v_Force_vec);
-  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_Force_vec);
+  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_Force_vec);
   __Pyx_INCREF(__pyx_v_ForceSE_vec);
   __Pyx_GIVEREF(__pyx_v_ForceSE_vec);
-  PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_v_ForceSE_vec);
-  __pyx_r = __pyx_t_4;
-  __pyx_t_4 = 0;
+  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_v_ForceSE_vec);
+  __pyx_r = __pyx_t_5;
+  __pyx_t_5 = 0;
   goto __pyx_L0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":17
  * from libc.math cimport sqrt
  * 
- * def TwitchBasedMuscleModel():             # <<<<<<<<<<<<<<
+ * def TwitchBasedMuscleModel(trialN): #,test_amplitude             # <<<<<<<<<<<<<<
  * 
  *     import time
  */
@@ -21328,6 +22008,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __Pyx_XDECREF(__pyx_v_start_time);
   __Pyx_XDECREF(__pyx_v_Fs);
   __Pyx_XDECREF(__pyx_v_t_twitch);
+  __Pyx_XDECREF(__pyx_v_trail_duration);
   __Pyx_XDECREF(__pyx_v_time_sim);
   __Pyx_XDECREF(__pyx_v_Input);
   __Pyx_XDECREF(__pyx_v_F_target);
@@ -21341,17 +22022,26 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __Pyx_XDECREF(__pyx_v_force);
   __Pyx_XDECREF(__pyx_v_Force_vec);
   __Pyx_XDECREF(__pyx_v_ForceSE_vec);
+  __Pyx_XDECREF(__pyx_v_Lse_vec);
   __Pyx_XDECREF(__pyx_v_Lce_vec);
   __Pyx_XDECREF(__pyx_v_Vce_vec);
   __Pyx_XDECREF(__pyx_v_Ace_vec);
   __Pyx_XDECREF(__pyx_v_U_eff_vec);
   __Pyx_XDECREF(__pyx_v_f_env_vec);
+  __Pyx_XDECREF(__pyx_v_force_half_vec);
+  __Pyx_XDECREF(__pyx_v_FL_vec);
+  __Pyx_XDECREF(__pyx_v_FV_vec);
   __Pyx_XDECREF(__pyx_v_Y_vec);
   __Pyx_XDECREF(__pyx_v_S_vec);
   __Pyx_XDECREF(__pyx_v_Y_temp);
   __Pyx_XDECREF(__pyx_v_S_temp);
   __Pyx_XDECREF(__pyx_v_Af);
   __Pyx_XDECREF(__pyx_v_FF);
+  __Pyx_XDECREF(__pyx_v_S_vec_store);
+  __Pyx_XDECREF(__pyx_v_Y_vec_store);
+  __Pyx_XDECREF(__pyx_v_FR_vec);
+  __Pyx_XDECREF(__pyx_v_FF_vec);
+  __Pyx_XDECREF(__pyx_v_Af_vec);
   __Pyx_XDECREF(__pyx_v_Ia_vec);
   __Pyx_XDECREF(__pyx_v_FR_Ia);
   __Pyx_XDECREF(__pyx_v_Input_Ia);
@@ -21411,8 +22101,10 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __Pyx_XDECREF(__pyx_v_spike_time_temp);
   __Pyx_XDECREF(__pyx_v_twitch_temp);
   __Pyx_XDECREF(__pyx_v_force_temp);
-  __Pyx_XDECREF(__pyx_v_FL_temp);
-  __Pyx_XDECREF(__pyx_v_FV_temp);
+  __Pyx_XDECREF(__pyx_v_FL_slow);
+  __Pyx_XDECREF(__pyx_v_FV_slow);
+  __Pyx_XDECREF(__pyx_v_FL_fast);
+  __Pyx_XDECREF(__pyx_v_FV_fast);
   __Pyx_XDECREF(__pyx_v_FP1);
   __Pyx_XDECREF(__pyx_v_FP2);
   __Pyx_XDECREF(__pyx_v_Force);
@@ -21428,6 +22120,7 @@ static PyObject *__pyx_pf_25TwitchBasedMuscleModel_v3_TwitchBasedMuscleModel(CYT
   __Pyx_XDECREF(__pyx_v_output);
   __Pyx_XDECREF(__pyx_v_default_path);
   __Pyx_XDECREF(__pyx_v_save_path);
+  __Pyx_XDECREF(__pyx_v_fileName);
   __Pyx_XDECREF(__pyx_v_fig1);
   __Pyx_XDECREF(__pyx_v_ax1);
   __Pyx_XDECREF(__pyx_v_fig2);
@@ -21599,16 +22292,20 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Af_cor_slow_function, __pyx_k_Af_cor_slow_function, sizeof(__pyx_k_Af_cor_slow_function), 0, 0, 1, 1},
   {&__pyx_n_s_Af_fast_function, __pyx_k_Af_fast_function, sizeof(__pyx_k_Af_fast_function), 0, 0, 1, 1},
   {&__pyx_n_s_Af_slow_function, __pyx_k_Af_slow_function, sizeof(__pyx_k_Af_slow_function), 0, 0, 1, 1},
+  {&__pyx_n_s_Af_vec, __pyx_k_Af_vec, sizeof(__pyx_k_Af_vec), 0, 0, 1, 1},
   {&__pyx_n_s_C, __pyx_k_C, sizeof(__pyx_k_C), 0, 0, 1, 1},
   {&__pyx_n_s_CT, __pyx_k_CT, sizeof(__pyx_k_CT), 0, 0, 1, 1},
   {&__pyx_n_s_CT_n, __pyx_k_CT_n, sizeof(__pyx_k_CT_n), 0, 0, 1, 1},
   {&__pyx_n_s_C_vec, __pyx_k_C_vec, sizeof(__pyx_k_C_vec), 0, 0, 1, 1},
   {&__pyx_n_s_F0, __pyx_k_F0, sizeof(__pyx_k_F0), 0, 0, 1, 1},
   {&__pyx_n_s_FF, __pyx_k_FF, sizeof(__pyx_k_FF), 0, 0, 1, 1},
+  {&__pyx_n_s_FF_vec, __pyx_k_FF_vec, sizeof(__pyx_k_FF_vec), 0, 0, 1, 1},
   {&__pyx_n_s_FL, __pyx_k_FL, sizeof(__pyx_k_FL), 0, 0, 1, 1},
+  {&__pyx_n_s_FL_fast, __pyx_k_FL_fast, sizeof(__pyx_k_FL_fast), 0, 0, 1, 1},
   {&__pyx_n_s_FL_fast_function, __pyx_k_FL_fast_function, sizeof(__pyx_k_FL_fast_function), 0, 0, 1, 1},
+  {&__pyx_n_s_FL_slow, __pyx_k_FL_slow, sizeof(__pyx_k_FL_slow), 0, 0, 1, 1},
   {&__pyx_n_s_FL_slow_function, __pyx_k_FL_slow_function, sizeof(__pyx_k_FL_slow_function), 0, 0, 1, 1},
-  {&__pyx_n_s_FL_temp, __pyx_k_FL_temp, sizeof(__pyx_k_FL_temp), 0, 0, 1, 1},
+  {&__pyx_n_s_FL_vec, __pyx_k_FL_vec, sizeof(__pyx_k_FL_vec), 0, 0, 1, 1},
   {&__pyx_n_s_FP1, __pyx_k_FP1, sizeof(__pyx_k_FP1), 0, 0, 1, 1},
   {&__pyx_n_s_FP2, __pyx_k_FP2, sizeof(__pyx_k_FP2), 0, 0, 1, 1},
   {&__pyx_n_s_FR, __pyx_k_FR, sizeof(__pyx_k_FR), 0, 0, 1, 1},
@@ -21620,11 +22317,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_FR_RI_temp, __pyx_k_FR_RI_temp, sizeof(__pyx_k_FR_RI_temp), 0, 0, 1, 1},
   {&__pyx_n_s_FR_half, __pyx_k_FR_half, sizeof(__pyx_k_FR_half), 0, 0, 1, 1},
   {&__pyx_n_s_FR_half_n, __pyx_k_FR_half_n, sizeof(__pyx_k_FR_half_n), 0, 0, 1, 1},
+  {&__pyx_n_s_FR_vec, __pyx_k_FR_vec, sizeof(__pyx_k_FR_vec), 0, 0, 1, 1},
+  {&__pyx_n_s_FV, __pyx_k_FV, sizeof(__pyx_k_FV), 0, 0, 1, 1},
   {&__pyx_n_s_FV_con_fast_function, __pyx_k_FV_con_fast_function, sizeof(__pyx_k_FV_con_fast_function), 0, 0, 1, 1},
   {&__pyx_n_s_FV_con_slow_function, __pyx_k_FV_con_slow_function, sizeof(__pyx_k_FV_con_slow_function), 0, 0, 1, 1},
   {&__pyx_n_s_FV_ecc_fast_function, __pyx_k_FV_ecc_fast_function, sizeof(__pyx_k_FV_ecc_fast_function), 0, 0, 1, 1},
   {&__pyx_n_s_FV_ecc_slow_function, __pyx_k_FV_ecc_slow_function, sizeof(__pyx_k_FV_ecc_slow_function), 0, 0, 1, 1},
-  {&__pyx_n_s_FV_temp, __pyx_k_FV_temp, sizeof(__pyx_k_FV_temp), 0, 0, 1, 1},
+  {&__pyx_n_s_FV_fast, __pyx_k_FV_fast, sizeof(__pyx_k_FV_fast), 0, 0, 1, 1},
+  {&__pyx_n_s_FV_slow, __pyx_k_FV_slow, sizeof(__pyx_k_FV_slow), 0, 0, 1, 1},
+  {&__pyx_n_s_FV_vec, __pyx_k_FV_vec, sizeof(__pyx_k_FV_vec), 0, 0, 1, 1},
   {&__pyx_n_s_FVcon, __pyx_k_FVcon, sizeof(__pyx_k_FVcon), 0, 0, 1, 1},
   {&__pyx_n_s_FVecc, __pyx_k_FVecc, sizeof(__pyx_k_FVecc), 0, 0, 1, 1},
   {&__pyx_n_s_F_pcsa_slow, __pyx_k_F_pcsa_slow, sizeof(__pyx_k_F_pcsa_slow), 0, 0, 1, 1},
@@ -21664,13 +22365,17 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Input, __pyx_k_Input, sizeof(__pyx_k_Input), 0, 0, 1, 1},
   {&__pyx_n_s_Input_C, __pyx_k_Input_C, sizeof(__pyx_k_Input_C), 0, 0, 1, 1},
   {&__pyx_n_s_Input_C_temp, __pyx_k_Input_C_temp, sizeof(__pyx_k_Input_C_temp), 0, 0, 1, 1},
-  {&__pyx_n_s_Input_Ia, __pyx_k_Input_Ia, sizeof(__pyx_k_Input_Ia), 0, 0, 1, 1},
+  {&__pyx_kp_s_Input_Ia, __pyx_k_Input_Ia, sizeof(__pyx_k_Input_Ia), 0, 0, 1, 0},
+  {&__pyx_n_s_Input_Ia_2, __pyx_k_Input_Ia_2, sizeof(__pyx_k_Input_Ia_2), 0, 0, 1, 1},
   {&__pyx_n_s_Input_Ia_temp, __pyx_k_Input_Ia_temp, sizeof(__pyx_k_Input_Ia_temp), 0, 0, 1, 1},
-  {&__pyx_n_s_Input_Ib, __pyx_k_Input_Ib, sizeof(__pyx_k_Input_Ib), 0, 0, 1, 1},
+  {&__pyx_kp_s_Input_Ib, __pyx_k_Input_Ib, sizeof(__pyx_k_Input_Ib), 0, 0, 1, 0},
+  {&__pyx_n_s_Input_Ib_2, __pyx_k_Input_Ib_2, sizeof(__pyx_k_Input_Ib_2), 0, 0, 1, 1},
   {&__pyx_n_s_Input_Ib_temp, __pyx_k_Input_Ib_temp, sizeof(__pyx_k_Input_Ib_temp), 0, 0, 1, 1},
-  {&__pyx_n_s_Input_PN, __pyx_k_Input_PN, sizeof(__pyx_k_Input_PN), 0, 0, 1, 1},
+  {&__pyx_kp_s_Input_PN, __pyx_k_Input_PN, sizeof(__pyx_k_Input_PN), 0, 0, 1, 0},
+  {&__pyx_n_s_Input_PN_2, __pyx_k_Input_PN_2, sizeof(__pyx_k_Input_PN_2), 0, 0, 1, 1},
   {&__pyx_n_s_Input_PN_temp, __pyx_k_Input_PN_temp, sizeof(__pyx_k_Input_PN_temp), 0, 0, 1, 1},
-  {&__pyx_n_s_Input_RI, __pyx_k_Input_RI, sizeof(__pyx_k_Input_RI), 0, 0, 1, 1},
+  {&__pyx_kp_s_Input_RI, __pyx_k_Input_RI, sizeof(__pyx_k_Input_RI), 0, 0, 1, 0},
+  {&__pyx_n_s_Input_RI_2, __pyx_k_Input_RI_2, sizeof(__pyx_k_Input_RI_2), 0, 0, 1, 1},
   {&__pyx_n_s_Input_RI_temp, __pyx_k_Input_RI_temp, sizeof(__pyx_k_Input_RI_temp), 0, 0, 1, 1},
   {&__pyx_n_s_K, __pyx_k_K, sizeof(__pyx_k_K), 0, 0, 1, 1},
   {&__pyx_n_s_K_PR, __pyx_k_K_PR, sizeof(__pyx_k_K_PR), 0, 0, 1, 1},
@@ -21702,6 +22407,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_LrT_se, __pyx_k_LrT_se, sizeof(__pyx_k_LrT_se), 0, 0, 1, 1},
   {&__pyx_n_s_Lse, __pyx_k_Lse, sizeof(__pyx_k_Lse), 0, 0, 1, 1},
   {&__pyx_n_s_Lse_initial, __pyx_k_Lse_initial, sizeof(__pyx_k_Lse_initial), 0, 0, 1, 1},
+  {&__pyx_n_s_Lse_vec, __pyx_k_Lse_vec, sizeof(__pyx_k_Lse_vec), 0, 0, 1, 1},
   {&__pyx_n_s_Lt_initial, __pyx_k_Lt_initial, sizeof(__pyx_k_Lt_initial), 0, 0, 1, 1},
   {&__pyx_n_s_M, __pyx_k_M, sizeof(__pyx_k_M), 0, 0, 1, 1},
   {&__pyx_n_s_MFR_MU, __pyx_k_MFR_MU, sizeof(__pyx_k_MFR_MU), 0, 0, 1, 1},
@@ -21747,6 +22453,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_S_dot, __pyx_k_S_dot, sizeof(__pyx_k_S_dot), 0, 0, 1, 1},
   {&__pyx_n_s_S_temp, __pyx_k_S_temp, sizeof(__pyx_k_S_temp), 0, 0, 1, 1},
   {&__pyx_n_s_S_vec, __pyx_k_S_vec, sizeof(__pyx_k_S_vec), 0, 0, 1, 1},
+  {&__pyx_n_s_S_vec_store, __pyx_k_S_vec_store, sizeof(__pyx_k_S_vec_store), 0, 0, 1, 1},
   {&__pyx_n_s_Smaller, __pyx_k_Smaller, sizeof(__pyx_k_Smaller), 0, 0, 1, 1},
   {&__pyx_kp_s_Spike_Train, __pyx_k_Spike_Train, sizeof(__pyx_k_Spike_Train), 0, 0, 1, 0},
   {&__pyx_n_s_SpindleOutput, __pyx_k_SpindleOutput, sizeof(__pyx_k_SpindleOutput), 0, 0, 1, 1},
@@ -21766,6 +22473,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_T_s, __pyx_k_T_s, sizeof(__pyx_k_T_s), 0, 0, 1, 1},
   {&__pyx_n_s_T_y, __pyx_k_T_y, sizeof(__pyx_k_T_y), 0, 0, 1, 1},
   {&__pyx_kp_s_Tendon_Force, __pyx_k_Tendon_Force, sizeof(__pyx_k_Tendon_Force), 0, 0, 1, 0},
+  {&__pyx_kp_s_Tendon_Length, __pyx_k_Tendon_Length, sizeof(__pyx_k_Tendon_Length), 0, 0, 1, 0},
   {&__pyx_n_s_Time, __pyx_k_Time, sizeof(__pyx_k_Time), 0, 0, 1, 1},
   {&__pyx_n_s_TwitchBasedMuscleModel, __pyx_k_TwitchBasedMuscleModel, sizeof(__pyx_k_TwitchBasedMuscleModel), 0, 0, 1, 1},
   {&__pyx_n_s_TwitchBasedMuscleModel_locals_Af, __pyx_k_TwitchBasedMuscleModel_locals_Af, sizeof(__pyx_k_TwitchBasedMuscleModel_locals_Af), 0, 0, 1, 1},
@@ -21805,8 +22513,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_U_th, __pyx_k_U_th, sizeof(__pyx_k_U_th), 0, 0, 1, 1},
   {&__pyx_n_s_Ur, __pyx_k_Ur, sizeof(__pyx_k_Ur), 0, 0, 1, 1},
   {&__pyx_n_s_Ur_1, __pyx_k_Ur_1, sizeof(__pyx_k_Ur_1), 0, 0, 1, 1},
-  {&__pyx_kp_s_Users_akiranagamori_Documents_G, __pyx_k_Users_akiranagamori_Documents_G, sizeof(__pyx_k_Users_akiranagamori_Documents_G), 0, 0, 1, 0},
-  {&__pyx_kp_s_Users_akiranagamori_Documents_G_2, __pyx_k_Users_akiranagamori_Documents_G_2, sizeof(__pyx_k_Users_akiranagamori_Documents_G_2), 0, 0, 1, 0},
+  {&__pyx_kp_s_Users_akira_Documents_Github_py, __pyx_k_Users_akira_Documents_Github_py, sizeof(__pyx_k_Users_akira_Documents_Github_py), 0, 0, 1, 0},
+  {&__pyx_kp_s_Users_akira_Documents_Github_py_2, __pyx_k_Users_akira_Documents_Github_py_2, sizeof(__pyx_k_Users_akira_Documents_Github_py_2), 0, 0, 1, 0},
   {&__pyx_n_s_V, __pyx_k_V, sizeof(__pyx_k_V), 0, 0, 1, 1},
   {&__pyx_n_s_V_y, __pyx_k_V_y, sizeof(__pyx_k_V_y), 0, 0, 1, 1},
   {&__pyx_n_s_Vce, __pyx_k_Vce, sizeof(__pyx_k_Vce), 0, 0, 1, 1},
@@ -21817,6 +22525,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Y_dot, __pyx_k_Y_dot, sizeof(__pyx_k_Y_dot), 0, 0, 1, 1},
   {&__pyx_n_s_Y_temp, __pyx_k_Y_temp, sizeof(__pyx_k_Y_temp), 0, 0, 1, 1},
   {&__pyx_n_s_Y_vec, __pyx_k_Y_vec, sizeof(__pyx_k_Y_vec), 0, 0, 1, 1},
+  {&__pyx_n_s_Y_vec_store, __pyx_k_Y_vec_store, sizeof(__pyx_k_Y_vec_store), 0, 0, 1, 1},
   {&__pyx_n_s_Z, __pyx_k_Z, sizeof(__pyx_k_Z), 0, 0, 1, 1},
   {&__pyx_n_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 1},
   {&__pyx_n_s_a, __pyx_k_a, sizeof(__pyx_k_a), 0, 0, 1, 1},
@@ -21908,8 +22617,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_fig2, __pyx_k_fig2, sizeof(__pyx_k_fig2), 0, 0, 1, 1},
   {&__pyx_n_s_figure, __pyx_k_figure, sizeof(__pyx_k_figure), 0, 0, 1, 1},
   {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
+  {&__pyx_n_s_fileName, __pyx_k_fileName, sizeof(__pyx_k_fileName), 0, 0, 1, 1},
   {&__pyx_n_s_force, __pyx_k_force, sizeof(__pyx_k_force), 0, 0, 1, 1},
   {&__pyx_n_s_force_half, __pyx_k_force_half, sizeof(__pyx_k_force_half), 0, 0, 1, 1},
+  {&__pyx_n_s_force_half_vec, __pyx_k_force_half_vec, sizeof(__pyx_k_force_half_vec), 0, 0, 1, 1},
   {&__pyx_n_s_force_temp, __pyx_k_force_temp, sizeof(__pyx_k_force_temp), 0, 0, 1, 1},
   {&__pyx_n_s_freq_bag1, __pyx_k_freq_bag1, sizeof(__pyx_k_freq_bag1), 0, 0, 1, 1},
   {&__pyx_n_s_freq_bag2, __pyx_k_freq_bag2, sizeof(__pyx_k_freq_bag2), 0, 0, 1, 1},
@@ -21968,6 +22679,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_noise_amp, __pyx_k_noise_amp, sizeof(__pyx_k_noise_amp), 0, 0, 1, 1},
   {&__pyx_n_s_noise_filt, __pyx_k_noise_filt, sizeof(__pyx_k_noise_filt), 0, 0, 1, 1},
   {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
+  {&__pyx_kp_s_npy, __pyx_k_npy, sizeof(__pyx_k_npy), 0, 0, 1, 0},
   {&__pyx_n_s_num1, __pyx_k_num1, sizeof(__pyx_k_num1), 0, 0, 1, 1},
   {&__pyx_n_s_num2, __pyx_k_num2, sizeof(__pyx_k_num2), 0, 0, 1, 1},
   {&__pyx_n_s_num3, __pyx_k_num3, sizeof(__pyx_k_num3), 0, 0, 1, 1},
@@ -21976,7 +22688,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ones, __pyx_k_ones, sizeof(__pyx_k_ones), 0, 0, 1, 1},
   {&__pyx_n_s_os, __pyx_k_os, sizeof(__pyx_k_os), 0, 0, 1, 1},
   {&__pyx_n_s_output, __pyx_k_output, sizeof(__pyx_k_output), 0, 0, 1, 1},
-  {&__pyx_kp_s_output_npy, __pyx_k_output_npy, sizeof(__pyx_k_output_npy), 0, 0, 1, 0},
   {&__pyx_n_s_p, __pyx_k_p, sizeof(__pyx_k_p), 0, 0, 1, 1},
   {&__pyx_n_s_pi, __pyx_k_pi, sizeof(__pyx_k_pi), 0, 0, 1, 1},
   {&__pyx_n_s_plot, __pyx_k_plot, sizeof(__pyx_k_plot), 0, 0, 1, 1},
@@ -21988,9 +22699,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_random, __pyx_k_random, sizeof(__pyx_k_random), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_rho, __pyx_k_rho, sizeof(__pyx_k_rho), 0, 0, 1, 1},
-  {&__pyx_n_s_round, __pyx_k_round, sizeof(__pyx_k_round), 0, 0, 1, 1},
   {&__pyx_n_s_s_exc, __pyx_k_s_exc, sizeof(__pyx_k_s_exc), 0, 0, 1, 1},
   {&__pyx_n_s_s_inh, __pyx_k_s_inh, sizeof(__pyx_k_s_inh), 0, 0, 1, 1},
+  {&__pyx_kp_s_s_s_s, __pyx_k_s_s_s, sizeof(__pyx_k_s_s_s), 0, 0, 1, 0},
   {&__pyx_n_s_sag_function, __pyx_k_sag_function, sizeof(__pyx_k_sag_function), 0, 0, 1, 1},
   {&__pyx_n_s_save, __pyx_k_save, sizeof(__pyx_k_save), 0, 0, 1, 1},
   {&__pyx_n_s_save_path, __pyx_k_save_path, sizeof(__pyx_k_save_path), 0, 0, 1, 1},
@@ -22014,6 +22725,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_time, __pyx_k_time, sizeof(__pyx_k_time), 0, 0, 1, 1},
   {&__pyx_n_s_time_sim, __pyx_k_time_sim, sizeof(__pyx_k_time_sim), 0, 0, 1, 1},
+  {&__pyx_n_s_trail_duration, __pyx_k_trail_duration, sizeof(__pyx_k_trail_duration), 0, 0, 1, 1},
+  {&__pyx_n_s_trialN, __pyx_k_trialN, sizeof(__pyx_k_trialN), 0, 0, 1, 1},
   {&__pyx_n_s_twitch, __pyx_k_twitch, sizeof(__pyx_k_twitch), 0, 0, 1, 1},
   {&__pyx_n_s_twitch_function, __pyx_k_twitch_function, sizeof(__pyx_k_twitch_function), 0, 0, 1, 1},
   {&__pyx_n_s_twitch_temp, __pyx_k_twitch_temp, sizeof(__pyx_k_twitch_temp), 0, 0, 1, 1},
@@ -22028,11 +22741,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 static int __Pyx_InitCachedBuiltins(void) {
   #if PY_MAJOR_VERSION >= 3
-  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_xrange) __PYX_ERR(0, 588, __pyx_L1_error)
+  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_xrange) __PYX_ERR(0, 599, __pyx_L1_error)
   #else
-  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_xrange); if (!__pyx_builtin_xrange) __PYX_ERR(0, 588, __pyx_L1_error)
+  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_xrange); if (!__pyx_builtin_xrange) __PYX_ERR(0, 599, __pyx_L1_error)
   #endif
-  __pyx_builtin_any = __Pyx_GetBuiltinName(__pyx_n_s_any); if (!__pyx_builtin_any) __PYX_ERR(0, 699, __pyx_L1_error)
+  __pyx_builtin_any = __Pyx_GetBuiltinName(__pyx_n_s_any); if (!__pyx_builtin_any) __PYX_ERR(0, 709, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -22128,11 +22841,11 @@ static int __Pyx_InitCachedConstants(void) {
   /* "TwitchBasedMuscleModel_v3.pyx":72
  *         return FF
  * 
- *     def Af_cor_fast_function(f_env,L,Y):             # <<<<<<<<<<<<<<
+ *     def Af_cor_fast_function(f_env,L,S):             # <<<<<<<<<<<<<<
  *         a_f = 0.52;
  *         n_f0 = 1.97;
  */
-  __pyx_tuple__15 = PyTuple_Pack(8, __pyx_n_s_f_env, __pyx_n_s_L, __pyx_n_s_Y, __pyx_n_s_a_f, __pyx_n_s_n_f0, __pyx_n_s_n_f1, __pyx_n_s_n_f, __pyx_n_s_FF); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(8, __pyx_n_s_f_env, __pyx_n_s_L, __pyx_n_s_S, __pyx_n_s_a_f, __pyx_n_s_n_f0, __pyx_n_s_n_f1, __pyx_n_s_n_f, __pyx_n_s_FF); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
   __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(3, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_TwitchBasedMuscleModel_v3_pyx, __pyx_n_s_Af_cor_fast_function, 72, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 72, __pyx_L1_error)
@@ -22369,7 +23082,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         return y
  * 
  *     def noiseOutput(noise,noise_filt,Input,index):             # <<<<<<<<<<<<<<
- *         noise_amp = 0.001;
+ *         cdef double noise_amp = 0.0;
  *         cdef double b1 = 0.089848614641397*1e-5;
  */
   __pyx_tuple__55 = PyTuple_Pack(16, __pyx_n_s_noise, __pyx_n_s_noise_filt, __pyx_n_s_Input, __pyx_n_s_index, __pyx_n_s_noise_amp, __pyx_n_s_b1, __pyx_n_s_b2, __pyx_n_s_b3, __pyx_n_s_b4, __pyx_n_s_b5, __pyx_n_s_a1, __pyx_n_s_a2, __pyx_n_s_a3, __pyx_n_s_a4, __pyx_n_s_a5, __pyx_n_s_r); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(0, 377, __pyx_L1_error)
@@ -22377,94 +23090,105 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__55);
   __pyx_codeobj__56 = (PyObject*)__Pyx_PyCode_New(4, 0, 16, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__55, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_TwitchBasedMuscleModel_v3_pyx, __pyx_n_s_noiseOutput, 377, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__56)) __PYX_ERR(0, 377, __pyx_L1_error)
 
-  /* "TwitchBasedMuscleModel_v3.pyx":669
+  /* "TwitchBasedMuscleModel_v3.pyx":680
  * 
  *         f_env = np.divide(FR,FR_half);
  *         force_half = np.divide(force[:,t],Pi_half);             # <<<<<<<<<<<<<<
  * 
  *         Y_temp = yield_function(Y_temp,Vce,step);
  */
-  __pyx_slice__57 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__57)) __PYX_ERR(0, 669, __pyx_L1_error)
+  __pyx_slice__57 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__57)) __PYX_ERR(0, 680, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__57);
   __Pyx_GIVEREF(__pyx_slice__57);
 
-  /* "TwitchBasedMuscleModel_v3.pyx":699
+  /* "TwitchBasedMuscleModel_v3.pyx":709
+ *                 if FR[n] > PFR_MU[n]:
  *                     FR[n] = PFR_MU[n]
- *                 spike_train_temp = np.zeros(len(time_sim))
  *                 if any(spike_train[n,:]) != True:             # <<<<<<<<<<<<<<
  *                     spike_train[n,t] = 1;
- *                     spike_train_temp[t] = 1;
+ *                     mu = 1/float(FR[n]);
  */
-  __pyx_slice__58 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__58)) __PYX_ERR(0, 699, __pyx_L1_error)
+  __pyx_slice__58 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__58)) __PYX_ERR(0, 709, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__58);
   __Pyx_GIVEREF(__pyx_slice__58);
 
-  /* "TwitchBasedMuscleModel_v3.pyx":703
- *                     spike_train_temp[t] = 1;
+  /* "TwitchBasedMuscleModel_v3.pyx":712
+ *                     spike_train[n,t] = 1;
  *                     mu = 1/float(FR[n]);
  *                     Z = np.random.randn(1);             # <<<<<<<<<<<<<<
  *                     if Z > 3.9:
  *                         Z = 3.9
  */
-  __pyx_tuple__59 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 703, __pyx_L1_error)
+  __pyx_tuple__59 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(0, 712, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__59);
   __Pyx_GIVEREF(__pyx_tuple__59);
 
-  /* "TwitchBasedMuscleModel_v3.pyx":721
- *                         spike_train_temp[t] = 1;
+  /* "TwitchBasedMuscleModel_v3.pyx":729
+ *                         spike_train[n,t] = 1;
  *                         mu = 1/float(FR[n]);
  *                         Z = np.random.randn(1);             # <<<<<<<<<<<<<<
  *                         if Z > 3.9:
  *                             Z = 3.9
  */
-  __pyx_tuple__60 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 721, __pyx_L1_error)
+  __pyx_tuple__60 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 729, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__60);
   __Pyx_GIVEREF(__pyx_tuple__60);
 
-  /* "TwitchBasedMuscleModel_v3.pyx":763
+  /* "TwitchBasedMuscleModel_v3.pyx":772
  *             FP2 = 0;
  * 
  *         Force = np.sum(force[:,t]) + FP1*F0 + FP2*F0             # <<<<<<<<<<<<<<
  * 
  *         ForceSE = F_se_function(Lse)*F0;
  */
-  __pyx_slice__61 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__61)) __PYX_ERR(0, 763, __pyx_L1_error)
+  __pyx_slice__61 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__61)) __PYX_ERR(0, 772, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__61);
   __Pyx_GIVEREF(__pyx_slice__61);
 
-  /* "TwitchBasedMuscleModel_v3.pyx":822
+  /* "TwitchBasedMuscleModel_v3.pyx":848
  * 
  *     fig1 = plt.figure()
  *     ax1 = fig1.add_subplot(111)             # <<<<<<<<<<<<<<
  *     ax1.plot(time_sim,ForceSE_vec)
  * 
  */
-  __pyx_tuple__62 = PyTuple_Pack(1, __pyx_int_111); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 822, __pyx_L1_error)
+  __pyx_tuple__62 = PyTuple_Pack(1, __pyx_int_111); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 848, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__62);
   __Pyx_GIVEREF(__pyx_tuple__62);
 
-  /* "TwitchBasedMuscleModel_v3.pyx":827
+  /* "TwitchBasedMuscleModel_v3.pyx":853
  * 
  *     fig2 = plt.figure()
  *     ax2 = fig2.add_subplot(111)             # <<<<<<<<<<<<<<
  *     ax2.plot(time_sim,Lce_vec)
  * 
  */
-  __pyx_tuple__63 = PyTuple_Pack(1, __pyx_int_111); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(0, 827, __pyx_L1_error)
+  __pyx_tuple__63 = PyTuple_Pack(1, __pyx_int_111); if (unlikely(!__pyx_tuple__63)) __PYX_ERR(0, 853, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__63);
   __Pyx_GIVEREF(__pyx_tuple__63);
 
   /* "TwitchBasedMuscleModel_v3.pyx":17
  * from libc.math cimport sqrt
  * 
- * def TwitchBasedMuscleModel():             # <<<<<<<<<<<<<<
+ * def TwitchBasedMuscleModel(trialN): #,test_amplitude             # <<<<<<<<<<<<<<
  * 
  *     import time
  */
-  __pyx_tuple__64 = PyTuple_Pack(254, __pyx_n_s_time, __pyx_n_s_np, __pyx_n_s_plt, __pyx_n_s_os, __pyx_n_s_sign, __pyx_n_s_sign, __pyx_n_s_yield_function, __pyx_n_s_yield_function, __pyx_n_s_sag_function, __pyx_n_s_sag_function, __pyx_n_s_Af_slow_function, __pyx_n_s_Af_slow_function, __pyx_n_s_Af_fast_function, __pyx_n_s_Af_fast_function, __pyx_n_s_Af_cor_slow_function, __pyx_n_s_Af_cor_slow_function, __pyx_n_s_Af_cor_fast_function, __pyx_n_s_Af_cor_fast_function, __pyx_n_s_twitch_function, __pyx_n_s_twitch_function, __pyx_n_s_FL_slow_function, __pyx_n_s_FL_slow_function, __pyx_n_s_FL_fast_function, __pyx_n_s_FL_fast_function, __pyx_n_s_FV_con_slow_function, __pyx_n_s_FV_con_slow_function, __pyx_n_s_FV_con_fast_function, __pyx_n_s_FV_con_fast_function, __pyx_n_s_FV_ecc_slow_function, __pyx_n_s_FV_ecc_slow_function, __pyx_n_s_FV_ecc_fast_function, __pyx_n_s_FV_ecc_fast_function, __pyx_n_s_F_pe_1_function, __pyx_n_s_F_pe_1_function, __pyx_n_s_F_pe_2_function, __pyx_n_s_F_pe_2_function, __pyx_n_s_F_se_function, __pyx_n_s_F_se_function, __pyx_n_s_InitialLength, __pyx_n_s_InitialLength, __pyx_n_s_bag1_model, __pyx_n_s_bag1_model, __pyx_n_s_bag2_model, __pyx_n_s_bag2_model, __pyx_n_s_chain_model, __pyx_n_s_chain_model, __pyx_n_s_SpindleOutput, __pyx_n_s_SpindleOutput, __pyx_n_s_GTOOutput, __pyx_n_s_GTOOutput, __pyx_n_s_RenshawOutput, __pyx_n_s_RenshawOutput, __pyx_n_s_smoothSaturationFunction, __pyx_n_s_smoothSaturationFunction, __pyx_n_s_actionPotentialGeneration, __pyx_n_s_actionPotentialGeneration, __pyx_n_s_noiseOutput, __pyx_n_s_noiseOutput, __pyx_n_s_Lse, __pyx_n_s_Lce, __pyx_n_s_Lmax, __pyx_n_s_L0, __pyx_n_s_alpha, __pyx_n_s_L_slack, __pyx_n_s_L0T, __pyx_n_s_Lce_initial, __pyx_n_s_Lt_initial, __pyx_n_s_Lmt, __pyx_n_s_density, __pyx_n_s_mass, __pyx_n_s_PCSA, __pyx_n_s_sigma, __pyx_n_s_F0, __pyx_n_s_Ur, __pyx_n_s_F_pcsa_slow, __pyx_n_s_N_MU, __pyx_n_s_i, __pyx_n_s_RP_MU, __pyx_n_s_b_MU, __pyx_n_s_P_MU, __pyx_n_s_PTi, __pyx_n_s_Pi_half, __pyx_n_s_a_twitch, __pyx_n_s_b_twitch, __pyx_n_s_Pi, __pyx_n_s_index_slow, __pyx_n_s_Ur_1, __pyx_n_s_a_U_th, __pyx_n_s_b_U_th, __pyx_n_s_U_th, __pyx_n_s_MFR_MU, __pyx_n_s_PFR1_MU, __pyx_n_s_PFRD_MU, __pyx_n_s_RTEn_MU, __pyx_n_s_PFR_MU, __pyx_n_s_FR_half, __pyx_n_s_CT_n, __pyx_n_s_FR_half_n, __pyx_n_s_CT, __pyx_n_s_RT, __pyx_n_s_cv, __pyx_n_s_start_time, __pyx_n_s_Fs, __pyx_n_s_step, __pyx_n_s_h, __pyx_n_s_t_twitch, __pyx_n_s_m, __pyx_n_s_amp, __pyx_n_s_time_sim, __pyx_n_s_Input, __pyx_n_s_F_target, __pyx_n_s_f_dynamic_bag1, __pyx_n_s_T_bag1, __pyx_n_s_T_dot_bag1, __pyx_n_s_f_static_bag2, __pyx_n_s_T_bag2, __pyx_n_s_T_dot_bag2, __pyx_n_s_T_chain, __pyx_n_s_T_dot_chain, __pyx_n_s_gamma_dynamic, __pyx_n_s_gamma_static, __pyx_n_s_distance_Muscle2SpinalCord, __pyx_n_s_conductionVelocity_efferent, __pyx_n_s_conductionVelocity_Ia, __pyx_n_s_conductionVelocity_Ib, __pyx_n_s_synaptic_delay, __pyx_n_s_delay_efferent, __pyx_n_s_delay_Ia, __pyx_n_s_delay_Ib, __pyx_n_s_delay_C, __pyx_n_s_delay_synaptic, __pyx_n_s_K, __pyx_n_s_Gain_Ia, __pyx_n_s_Gain_Ib, __pyx_n_s_Gain_RI, __pyx_n_s_Ia_PC, __pyx_n_s_Ib_PC, __pyx_n_s_RI_PC, __pyx_n_s_PN_PC_Ia, __pyx_n_s_PN_PC_Ib, __pyx_n_s_PN_PC, __pyx_n_s_MuscleVelocity, __pyx_n_s_MuscleLength, __pyx_n_s_U_eff, __pyx_n_s_Input_C_temp, __pyx_n_s_Input_C, __pyx_n_s_ND_temp, __pyx_n_s_Ace, __pyx_n_s_Vce, __pyx_n_s_Y, __pyx_n_s_S, __pyx_n_s_spike_train, __pyx_n_s_spike_train_temp, __pyx_n_s_spike_time, __pyx_n_s_force, __pyx_n_s_Force_vec, __pyx_n_s_ForceSE_vec, __pyx_n_s_Lce_vec, __pyx_n_s_Vce_vec, __pyx_n_s_Ace_vec, __pyx_n_s_U_eff_vec, __pyx_n_s_f_env_vec, __pyx_n_s_Y_vec, __pyx_n_s_S_vec, __pyx_n_s_Y_temp, __pyx_n_s_S_temp, __pyx_n_s_Af, __pyx_n_s_FF, __pyx_n_s_ForceSE, __pyx_n_s_Ia_vec, __pyx_n_s_FR_Ia, __pyx_n_s_Input_Ia, __pyx_n_s_x_GTO, __pyx_n_s_FR_Ib_temp, __pyx_n_s_FR_Ib, __pyx_n_s_Ib_vec, __pyx_n_s_Input_Ib, __pyx_n_s_FR_RI_temp, __pyx_n_s_FR_RI, __pyx_n_s_RI_vec, __pyx_n_s_Input_RI, __pyx_n_s_FR_PN, __pyx_n_s_PN_vec, __pyx_n_s_Input_PN, __pyx_n_s_noise, __pyx_n_s_noise_filt, __pyx_n_s_noise_C, __pyx_n_s_noise_C_filt, __pyx_n_s_noise_Ia, __pyx_n_s_noise_Ia_filt, __pyx_n_s_noise_Ib, __pyx_n_s_noise_Ib_filt, __pyx_n_s_noise_RI, __pyx_n_s_noise_RI_filt, __pyx_n_s_noise_PN, __pyx_n_s_noise_PN_filt, __pyx_n_s_C_vec, __pyx_n_s_ND, __pyx_n_s_ND_delayed, __pyx_n_s_t, __pyx_n_s_AP_bag1, __pyx_n_s_AP_primary_bag2, __pyx_n_s_AP_secondary_bag2, __pyx_n_s_f_static, __pyx_n_s_AP_primary_chain, __pyx_n_s_AP_secondary_chain, __pyx_n_s_Output_Primary, __pyx_n_s_Output_Secondary, __pyx_n_s_Input_Ia_temp, __pyx_n_s_Input_Ib_temp, __pyx_n_s_Input_RI_temp, __pyx_n_s_Input_PN_temp, __pyx_n_s_exc_input, __pyx_n_s_inh_input, __pyx_n_s_U, __pyx_n_s_T_U, __pyx_n_s_U_eff_dot, __pyx_n_s_FR, __pyx_n_s_f_env, __pyx_n_s_force_half, __pyx_n_s_k, __pyx_n_s_index_temp1, __pyx_n_s_index_1, __pyx_n_s_index_2, __pyx_n_s_index, __pyx_n_s_j, __pyx_n_s_n, __pyx_n_s_mu, __pyx_n_s_Z, __pyx_n_s_spike_time_temp, __pyx_n_s_twitch_temp, __pyx_n_s_force_temp, __pyx_n_s_FL_temp, __pyx_n_s_FV_temp, __pyx_n_s_FP1, __pyx_n_s_FP2, __pyx_n_s_Force, __pyx_n_s_MuscleAcceleration, __pyx_n_s_k_0, __pyx_n_s_l_0, __pyx_n_s_k_1, __pyx_n_s_l_1, __pyx_n_s_k_2, __pyx_n_s_l_2, __pyx_n_s_k_3, __pyx_n_s_l_3, __pyx_n_s_end_time, __pyx_n_s_output, __pyx_n_s_default_path, __pyx_n_s_save_path, __pyx_n_s_fig1, __pyx_n_s_ax1, __pyx_n_s_fig2, __pyx_n_s_ax2); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_tuple__64 = PyTuple_Pack(268, __pyx_n_s_trialN, __pyx_n_s_time, __pyx_n_s_np, __pyx_n_s_plt, __pyx_n_s_os, __pyx_n_s_sign, __pyx_n_s_sign, __pyx_n_s_yield_function, __pyx_n_s_yield_function, __pyx_n_s_sag_function, __pyx_n_s_sag_function, __pyx_n_s_Af_slow_function, __pyx_n_s_Af_slow_function, __pyx_n_s_Af_fast_function, __pyx_n_s_Af_fast_function, __pyx_n_s_Af_cor_slow_function, __pyx_n_s_Af_cor_slow_function, __pyx_n_s_Af_cor_fast_function, __pyx_n_s_Af_cor_fast_function, __pyx_n_s_twitch_function, __pyx_n_s_twitch_function, __pyx_n_s_FL_slow_function, __pyx_n_s_FL_slow_function, __pyx_n_s_FL_fast_function, __pyx_n_s_FL_fast_function, __pyx_n_s_FV_con_slow_function, __pyx_n_s_FV_con_slow_function, __pyx_n_s_FV_con_fast_function, __pyx_n_s_FV_con_fast_function, __pyx_n_s_FV_ecc_slow_function, __pyx_n_s_FV_ecc_slow_function, __pyx_n_s_FV_ecc_fast_function, __pyx_n_s_FV_ecc_fast_function, __pyx_n_s_F_pe_1_function, __pyx_n_s_F_pe_1_function, __pyx_n_s_F_pe_2_function, __pyx_n_s_F_pe_2_function, __pyx_n_s_F_se_function, __pyx_n_s_F_se_function, __pyx_n_s_InitialLength, __pyx_n_s_InitialLength, __pyx_n_s_bag1_model, __pyx_n_s_bag1_model, __pyx_n_s_bag2_model, __pyx_n_s_bag2_model, __pyx_n_s_chain_model, __pyx_n_s_chain_model, __pyx_n_s_SpindleOutput, __pyx_n_s_SpindleOutput, __pyx_n_s_GTOOutput, __pyx_n_s_GTOOutput, __pyx_n_s_RenshawOutput, __pyx_n_s_RenshawOutput, __pyx_n_s_smoothSaturationFunction, __pyx_n_s_smoothSaturationFunction, __pyx_n_s_actionPotentialGeneration, __pyx_n_s_actionPotentialGeneration, __pyx_n_s_noiseOutput, __pyx_n_s_noiseOutput, __pyx_n_s_Lse, __pyx_n_s_Lce, __pyx_n_s_Lmax, __pyx_n_s_L0, __pyx_n_s_alpha, __pyx_n_s_L_slack, __pyx_n_s_L0T, __pyx_n_s_Lce_initial, __pyx_n_s_Lt_initial, __pyx_n_s_Lmt, __pyx_n_s_density, __pyx_n_s_mass, __pyx_n_s_PCSA, __pyx_n_s_sigma, __pyx_n_s_F0, __pyx_n_s_Ur, __pyx_n_s_F_pcsa_slow, __pyx_n_s_N_MU, __pyx_n_s_i, __pyx_n_s_RP_MU, __pyx_n_s_b_MU, __pyx_n_s_P_MU, __pyx_n_s_PTi, __pyx_n_s_Pi_half, __pyx_n_s_a_twitch, __pyx_n_s_b_twitch, __pyx_n_s_Pi, __pyx_n_s_index_slow, __pyx_n_s_Ur_1, __pyx_n_s_a_U_th, __pyx_n_s_b_U_th, __pyx_n_s_U_th, __pyx_n_s_MFR_MU, __pyx_n_s_PFR1_MU, __pyx_n_s_PFRD_MU, __pyx_n_s_RTEn_MU, __pyx_n_s_PFR_MU, __pyx_n_s_FR_half, __pyx_n_s_CT_n, __pyx_n_s_FR_half_n, __pyx_n_s_CT, __pyx_n_s_RT, __pyx_n_s_cv, __pyx_n_s_start_time, __pyx_n_s_Fs, __pyx_n_s_step, __pyx_n_s_h, __pyx_n_s_t_twitch, __pyx_n_s_m, __pyx_n_s_amp, __pyx_n_s_trail_duration, __pyx_n_s_time_sim, __pyx_n_s_Input, __pyx_n_s_F_target, __pyx_n_s_f_dynamic_bag1, __pyx_n_s_T_bag1, __pyx_n_s_T_dot_bag1, __pyx_n_s_f_static_bag2, __pyx_n_s_T_bag2, __pyx_n_s_T_dot_bag2, __pyx_n_s_T_chain, __pyx_n_s_T_dot_chain, __pyx_n_s_gamma_dynamic, __pyx_n_s_gamma_static, __pyx_n_s_distance_Muscle2SpinalCord, __pyx_n_s_conductionVelocity_efferent, __pyx_n_s_conductionVelocity_Ia, __pyx_n_s_conductionVelocity_Ib, __pyx_n_s_synaptic_delay, __pyx_n_s_delay_efferent, __pyx_n_s_delay_Ia, __pyx_n_s_delay_Ib, __pyx_n_s_delay_C, __pyx_n_s_delay_synaptic, __pyx_n_s_K, __pyx_n_s_Gain_Ia, __pyx_n_s_Gain_Ib, __pyx_n_s_Gain_RI, __pyx_n_s_Ia_PC, __pyx_n_s_Ib_PC, __pyx_n_s_RI_PC, __pyx_n_s_PN_PC_Ia, __pyx_n_s_PN_PC_Ib, __pyx_n_s_PN_PC, __pyx_n_s_MuscleVelocity, __pyx_n_s_MuscleLength, __pyx_n_s_U_eff, __pyx_n_s_Input_C_temp, __pyx_n_s_Input_C, __pyx_n_s_ND_temp, __pyx_n_s_Ace, __pyx_n_s_Vce, __pyx_n_s_Y, __pyx_n_s_S, __pyx_n_s_spike_train, __pyx_n_s_spike_train_temp, __pyx_n_s_spike_time, __pyx_n_s_force, __pyx_n_s_Force_vec, __pyx_n_s_ForceSE_vec, __pyx_n_s_Lse_vec, __pyx_n_s_Lce_vec, __pyx_n_s_Vce_vec, __pyx_n_s_Ace_vec, __pyx_n_s_U_eff_vec, __pyx_n_s_f_env_vec, __pyx_n_s_force_half_vec, __pyx_n_s_FL_vec, __pyx_n_s_FV_vec, __pyx_n_s_Y_vec, __pyx_n_s_S_vec, __pyx_n_s_Y_temp, __pyx_n_s_S_temp, __pyx_n_s_Af, __pyx_n_s_FF, __pyx_n_s_S_vec_store, __pyx_n_s_Y_vec_store, __pyx_n_s_FR_vec, __pyx_n_s_FF_vec, __pyx_n_s_Af_vec, __pyx_n_s_ForceSE, __pyx_n_s_Ia_vec, __pyx_n_s_FR_Ia, __pyx_n_s_Input_Ia_2, __pyx_n_s_x_GTO, __pyx_n_s_FR_Ib_temp, __pyx_n_s_FR_Ib, __pyx_n_s_Ib_vec, __pyx_n_s_Input_Ib_2, __pyx_n_s_FR_RI_temp, __pyx_n_s_FR_RI, __pyx_n_s_RI_vec, __pyx_n_s_Input_RI_2, __pyx_n_s_FR_PN, __pyx_n_s_PN_vec, __pyx_n_s_Input_PN_2, __pyx_n_s_noise, __pyx_n_s_noise_filt, __pyx_n_s_noise_C, __pyx_n_s_noise_C_filt, __pyx_n_s_noise_Ia, __pyx_n_s_noise_Ia_filt, __pyx_n_s_noise_Ib, __pyx_n_s_noise_Ib_filt, __pyx_n_s_noise_RI, __pyx_n_s_noise_RI_filt, __pyx_n_s_noise_PN, __pyx_n_s_noise_PN_filt, __pyx_n_s_C_vec, __pyx_n_s_ND, __pyx_n_s_ND_delayed, __pyx_n_s_t, __pyx_n_s_AP_bag1, __pyx_n_s_AP_primary_bag2, __pyx_n_s_AP_secondary_bag2, __pyx_n_s_f_static, __pyx_n_s_AP_primary_chain, __pyx_n_s_AP_secondary_chain, __pyx_n_s_Output_Primary, __pyx_n_s_Output_Secondary, __pyx_n_s_Input_Ia_temp, __pyx_n_s_Input_Ib_temp, __pyx_n_s_Input_RI_temp, __pyx_n_s_Input_PN_temp, __pyx_n_s_exc_input, __pyx_n_s_inh_input, __pyx_n_s_U, __pyx_n_s_T_U, __pyx_n_s_U_eff_dot, __pyx_n_s_FR, __pyx_n_s_f_env, __pyx_n_s_force_half, __pyx_n_s_k, __pyx_n_s_index_temp1, __pyx_n_s_index_1, __pyx_n_s_index_2, __pyx_n_s_index, __pyx_n_s_j, __pyx_n_s_n, __pyx_n_s_mu, __pyx_n_s_Z, __pyx_n_s_spike_time_temp, __pyx_n_s_twitch_temp, __pyx_n_s_force_temp, __pyx_n_s_FL_slow, __pyx_n_s_FV_slow, __pyx_n_s_FL_fast, __pyx_n_s_FV_fast, __pyx_n_s_FP1, __pyx_n_s_FP2, __pyx_n_s_Force, __pyx_n_s_MuscleAcceleration, __pyx_n_s_k_0, __pyx_n_s_l_0, __pyx_n_s_k_1, __pyx_n_s_l_1, __pyx_n_s_k_2, __pyx_n_s_l_2, __pyx_n_s_k_3, __pyx_n_s_l_3, __pyx_n_s_end_time, __pyx_n_s_output, __pyx_n_s_default_path, __pyx_n_s_save_path, __pyx_n_s_fileName, __pyx_n_s_fig1, __pyx_n_s_ax1, __pyx_n_s_fig2, __pyx_n_s_ax2); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__64);
   __Pyx_GIVEREF(__pyx_tuple__64);
-  __pyx_codeobj__65 = (PyObject*)__Pyx_PyCode_New(0, 0, 254, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__64, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_TwitchBasedMuscleModel_v3_pyx, __pyx_n_s_TwitchBasedMuscleModel, 17, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__65)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_codeobj__65 = (PyObject*)__Pyx_PyCode_New(1, 0, 268, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__64, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_TwitchBasedMuscleModel_v3_pyx, __pyx_n_s_TwitchBasedMuscleModel, 17, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__65)) __PYX_ERR(0, 17, __pyx_L1_error)
+
+  /* "TwitchBasedMuscleModel_v3.pyx":861
+ * 
+ * 
+ * (Force_vec,ForceSE_vec) = TwitchBasedMuscleModel(11)             # <<<<<<<<<<<<<<
+ * 
+ * #(Force,ForceSE) = MuscleModel()
+ */
+  __pyx_tuple__66 = PyTuple_Pack(1, __pyx_int_11); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(0, 861, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__66);
+  __Pyx_GIVEREF(__pyx_tuple__66);
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -22489,11 +23213,11 @@ static int __Pyx_InitGlobals(void) {
   __pyx_int_5 = PyInt_FromLong(5); if (unlikely(!__pyx_int_5)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_8 = PyInt_FromLong(8); if (unlikely(!__pyx_int_8)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_10 = PyInt_FromLong(10); if (unlikely(!__pyx_int_10)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_11 = PyInt_FromLong(11); if (unlikely(!__pyx_int_11)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_20 = PyInt_FromLong(20); if (unlikely(!__pyx_int_20)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_23 = PyInt_FromLong(23); if (unlikely(!__pyx_int_23)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_25 = PyInt_FromLong(25); if (unlikely(!__pyx_int_25)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_30 = PyInt_FromLong(30); if (unlikely(!__pyx_int_30)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_50 = PyInt_FromLong(50); if (unlikely(!__pyx_int_50)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_60 = PyInt_FromLong(60); if (unlikely(!__pyx_int_60)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_90 = PyInt_FromLong(90); if (unlikely(!__pyx_int_90)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_96 = PyInt_FromLong(96); if (unlikely(!__pyx_int_96)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -22503,6 +23227,7 @@ static int __Pyx_InitGlobals(void) {
   __pyx_int_1000 = PyInt_FromLong(1000); if (unlikely(!__pyx_int_1000)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_10000 = PyInt_FromLong(10000L); if (unlikely(!__pyx_int_10000)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_20000 = PyInt_FromLong(20000L); if (unlikely(!__pyx_int_20000)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_40000 = PyInt_FromLong(40000L); if (unlikely(!__pyx_int_40000)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_100000 = PyInt_FromLong(100000L); if (unlikely(!__pyx_int_100000)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_neg_11 = PyInt_FromLong(-11); if (unlikely(!__pyx_int_neg_11)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_neg_21 = PyInt_FromLong(-21); if (unlikely(!__pyx_int_neg_21)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -22666,7 +23391,7 @@ static int __pyx_pymod_exec_TwitchBasedMuscleModel_v3(PyObject *__pyx_pyinit_mod
   /* "TwitchBasedMuscleModel_v3.pyx":17
  * from libc.math cimport sqrt
  * 
- * def TwitchBasedMuscleModel():             # <<<<<<<<<<<<<<
+ * def TwitchBasedMuscleModel(trialN): #,test_amplitude             # <<<<<<<<<<<<<<
  * 
  *     import time
  */
@@ -22675,34 +23400,20 @@ static int __pyx_pymod_exec_TwitchBasedMuscleModel_v3(PyObject *__pyx_pyinit_mod
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_TwitchBasedMuscleModel, __pyx_t_1) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "TwitchBasedMuscleModel_v3.pyx":835
+  /* "TwitchBasedMuscleModel_v3.pyx":861
  * 
  * 
- * (Force_vec,ForceSE_vec) = TwitchBasedMuscleModel()             # <<<<<<<<<<<<<<
+ * (Force_vec,ForceSE_vec) = TwitchBasedMuscleModel(11)             # <<<<<<<<<<<<<<
+ * 
  * #(Force,ForceSE) = MuscleModel()
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_TwitchBasedMuscleModel); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 835, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 835, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 835, __pyx_L1_error)
-  }
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_TwitchBasedMuscleModel); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 861, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
-    PyObject* sequence = __pyx_t_1;
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__66, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 861, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if ((likely(PyTuple_CheckExact(__pyx_t_2))) || (PyList_CheckExact(__pyx_t_2))) {
+    PyObject* sequence = __pyx_t_2;
     #if !CYTHON_COMPILING_IN_PYPY
     Py_ssize_t size = Py_SIZE(sequence);
     #else
@@ -22711,36 +23422,36 @@ static int __pyx_pymod_exec_TwitchBasedMuscleModel_v3(PyObject *__pyx_pyinit_mod
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 835, __pyx_L1_error)
+      __PYX_ERR(0, 861, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
-      __pyx_t_2 = PyTuple_GET_ITEM(sequence, 0); 
+      __pyx_t_1 = PyTuple_GET_ITEM(sequence, 0); 
       __pyx_t_3 = PyTuple_GET_ITEM(sequence, 1); 
     } else {
-      __pyx_t_2 = PyList_GET_ITEM(sequence, 0); 
+      __pyx_t_1 = PyList_GET_ITEM(sequence, 0); 
       __pyx_t_3 = PyList_GET_ITEM(sequence, 1); 
     }
-    __Pyx_INCREF(__pyx_t_2);
+    __Pyx_INCREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_t_3);
     #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 835, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 835, __pyx_L1_error)
+    __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 861, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 861, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 835, __pyx_L1_error)
+    __pyx_t_4 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 861, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_5 = Py_TYPE(__pyx_t_4)->tp_iternext;
-    index = 0; __pyx_t_2 = __pyx_t_5(__pyx_t_4); if (unlikely(!__pyx_t_2)) goto __pyx_L2_unpacking_failed;
-    __Pyx_GOTREF(__pyx_t_2);
+    index = 0; __pyx_t_1 = __pyx_t_5(__pyx_t_4); if (unlikely(!__pyx_t_1)) goto __pyx_L2_unpacking_failed;
+    __Pyx_GOTREF(__pyx_t_1);
     index = 1; __pyx_t_3 = __pyx_t_5(__pyx_t_4); if (unlikely(!__pyx_t_3)) goto __pyx_L2_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 2) < 0) __PYX_ERR(0, 835, __pyx_L1_error)
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 2) < 0) __PYX_ERR(0, 861, __pyx_L1_error)
     __pyx_t_5 = NULL;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     goto __pyx_L3_unpacking_done;
@@ -22748,12 +23459,12 @@ static int __pyx_pymod_exec_TwitchBasedMuscleModel_v3(PyObject *__pyx_pyinit_mod
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 835, __pyx_L1_error)
+    __PYX_ERR(0, 861, __pyx_L1_error)
     __pyx_L3_unpacking_done:;
   }
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Force_vec, __pyx_t_2) < 0) __PYX_ERR(0, 835, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ForceSE_vec, __pyx_t_3) < 0) __PYX_ERR(0, 835, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Force_vec, __pyx_t_1) < 0) __PYX_ERR(0, 861, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ForceSE_vec, __pyx_t_3) < 0) __PYX_ERR(0, 861, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "TwitchBasedMuscleModel_v3.pyx":1
@@ -22761,10 +23472,10 @@ static int __pyx_pymod_exec_TwitchBasedMuscleModel_v3(PyObject *__pyx_pyinit_mod
  * # -*- coding: utf-8 -*-
  * """
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /*--- Wrapped vars code ---*/
 
@@ -23532,6 +24243,16 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
     result = __Pyx_PyObject_Call(func, args, NULL);
     Py_DECREF(args);
     return result;
+}
+#endif
+
+/* PyIntFromDouble */
+  #if PY_MAJOR_VERSION < 3
+static CYTHON_INLINE PyObject* __Pyx_PyInt_FromDouble(double value) {
+    if (value >= (double)LONG_MIN && value <= (double)LONG_MAX) {
+        return PyInt_FromLong((long)value);
+    }
+    return PyLong_FromDouble(value);
 }
 #endif
 
@@ -24797,16 +25518,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
 }
 #endif
 
-/* PyIntFromDouble */
-          #if PY_MAJOR_VERSION < 3
-static CYTHON_INLINE PyObject* __Pyx_PyInt_FromDouble(double value) {
-    if (value >= (double)LONG_MIN && value <= (double)LONG_MAX) {
-        return PyInt_FromLong((long)value);
-    }
-    return PyLong_FromDouble(value);
-}
-#endif
-
 /* SliceObject */
           static CYTHON_INLINE int __Pyx_PyObject_SetSlice(PyObject* obj, PyObject* value,
         Py_ssize_t cstart, Py_ssize_t cstop,
@@ -25037,11 +25748,6 @@ static PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED 
     return PyObject_RichCompare(op1, op2, Py_EQ);
 }
 #endif
-
-/* None */
-            static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname) {
-    PyErr_Format(PyExc_UnboundLocalError, "local variable '%s' referenced before assignment", varname);
-}
 
 /* GetModuleGlobalName */
             static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {

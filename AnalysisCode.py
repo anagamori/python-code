@@ -11,17 +11,47 @@ import matplotlib.pyplot as plt
 import os
 from scipy import signal
 
-default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';  
-save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';  
+default_path = '/Users/akira/Documents/Github/python-code/';  
+save_path = '/Users/akira/Documents/Github/python-code/Data';  
         
 os.chdir(save_path)
+<<<<<<< HEAD
 output = np.load('output_FCR.npy').item()
+=======
+output = np.load('output_FCR_40.npy').item()
+>>>>>>> 4e19353f0357b4a8b1629fa74963d20253770a29
 os.chdir(default_path)
 
 Fs = 10000;
-meanForce = np.mean(output['Tendon Force'][4*Fs:])
-CoVForce = np.std(output['Tendon Force'][4*Fs:])/meanForce
+step = 1/float(Fs);
+Force = output['Tendon Force'][5*Fs:];
+ND = output['ND'][5*Fs:];
+meanND = np.mean(ND);
+meanForce = np.mean(Force)
+CoVForce = np.std(Force)/meanForce
+print(CoVForce)
+f,Pxx = signal.periodogram(Force-np.mean(Force),Fs);
 
+# interspike-intervals
+spikeTrain = output['Spike Train'][0,5*Fs:];
+index = np.nonzero(spikeTrain);
+index_dif = np.diff(index);
+mean_ISI = np.mean(index_dif)/1000*Fs/1000;
+sd_ISI = np.std(index_dif);
+CoV = sd_ISI/np.mean(index_dif)*100
+#print(CoV)
+
+fig1 = plt.figure()
+plt.plot(output['Tendon Force'])
+
+fig2 = plt.figure()
+ax2 = fig2.add_subplot(111);
+ax2.plot(f,Pxx);
+ax2.set_xlim([0,30]);
+
+
+
+<<<<<<< HEAD
 Force = output['Tendon Force'][4*Fs:];
 f,Pxx = signal.periodogram(Force-np.mean(Force),Fs);
 
@@ -32,3 +62,5 @@ fig2 = plt.figure()
 ax2 = fig2.add_subplot(111);
 ax2.plot(f,Pxx);
 ax2.set_xlim([0,30]);
+=======
+>>>>>>> 4e19353f0357b4a8b1629fa74963d20253770a29

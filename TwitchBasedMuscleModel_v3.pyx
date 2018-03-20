@@ -14,7 +14,7 @@ from libc.math cimport log
 from libc.math cimport round
 from libc.math cimport sqrt
 
-def TwitchBasedMuscleModel():
+def TwitchBasedMuscleModel(trialN): #,test_amplitude
 
     import time
     import numpy as np
@@ -69,7 +69,7 @@ def TwitchBasedMuscleModel():
         FF = FF/f_env;
         return FF
     
-    def Af_cor_fast_function(f_env,L,Y):
+    def Af_cor_fast_function(f_env,L,S):
         a_f = 0.52; 
         n_f0 = 1.97;
         n_f1 = 3.28;
@@ -85,7 +85,7 @@ def TwitchBasedMuscleModel():
         t_twitch = np.arange(0,2,1/float(Fs));
         f_1 = np.multiply(t_twitch/T1,np.exp(1-t_twitch/T1));
         f_2 = np.multiply(t_twitch/T2,np.exp(1-t_twitch/T2));
-        twitch = np.append(f_1[0:int(np.round(T1*Fs))],f_2[int(np.round(T2*Fs+1)):]);
+        twitch = np.append(f_1[0:int(round(T1*Fs))],f_2[int(round(T2*Fs+1)):]);
         twitch = twitch[0:1*Fs];
         return twitch
     
@@ -368,14 +368,14 @@ def TwitchBasedMuscleModel():
     
     def actionPotentialGeneration(exc_input,inh_input,n_exc,n_inh,IC):
         cdef double HYP = 2.0;
-        cdef double OD = 2.0;        
+        cdef double OD = 2.0;
         s_inh = - HYP/n_inh;
         s_exc = (1 + OD)/n_exc;
         y = s_exc*(exc_input) + s_inh*(inh_input) + IC;
         return y 
     
     def noiseOutput(noise,noise_filt,Input,index):
-        cdef double noise_amp = 0.001;
+        cdef double noise_amp = 0.0;
         cdef double b1 = 0.089848614641397*1e-5;
         cdef double b2 = 0.359394458565587*1e-5;
         cdef double b3 = 0.539091687848381*1e-5;
@@ -458,17 +458,18 @@ def TwitchBasedMuscleModel():
     # CoV of interspike intervals 
     cv = 0.1;
     
-    # Simulation     
+    # Simulation parameters     
     start_time = time.time()
-    Fs = 10000
+    Fs = 40000
     step = 1/float(Fs)
     h = step;
     t_twitch = np.arange(0,1,step)
     cdef double m = 6
     
-    cdef double amp = 0.1
-    time_sim = np.arange(0,5,step)
-    Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)
+    cdef double amp = 0.1; #test_amplitude
+    trail_duration = 5;
+    time_sim = np.arange(0,trail_duration,step)
+    Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(trail_duration*Fs-3*Fs)),axis = 0)
     F_target = F0*Input;      
     # Spindle 
     cdef double f_dynamic_bag1 = 0;
@@ -492,11 +493,11 @@ def TwitchBasedMuscleModel():
     delay_efferent = int(round(distance_Muscle2SpinalCord/conductionVelocity_efferent*1000) + synaptic_delay)*Fs/1000;
     delay_Ia = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ia*1000) + synaptic_delay)*Fs/1000;
     delay_Ib = int(round(distance_Muscle2SpinalCord/conductionVelocity_Ib*1000) + synaptic_delay)*Fs/1000;
-    cdef int delay_C = 50*Fs/1000;
+    cdef int delay_C = 100*Fs/1000;
     cdef int delay_synaptic = 2;
     
     # Gain parameters
-    cdef double K = 0.001;
+    cdef double K = 0.0003;
     cdef double Gain_Ia = 400.0;
     cdef double Gain_Ib = 400.0;
     cdef double Gain_RI = 2.0tw\;
@@ -529,17 +530,27 @@ def TwitchBasedMuscleModel():
     force = np.zeros((N_MU,len(time_sim)))
     Force_vec = np.zeros(len(time_sim));
     ForceSE_vec = np.zeros(len(time_sim));
+    Lse_vec = np.zeros(len(time_sim));
     Lce_vec = np.zeros(len(time_sim));
     Vce_vec = np.zeros(len(time_sim));
     Ace_vec = np.zeros(len(time_sim));
     U_eff_vec = np.zeros(len(time_sim));
     f_env_vec = np.zeros(len(time_sim));
+    force_half_vec = np.zeros(len(time_sim));
+    FL_vec = np.zeros(len(time_sim));
+    FV_vec = np.zeros(len(time_sim));
     Y_vec = np.zeros(N_MU);
     S_vec = np.zeros(N_MU);
     Y_temp = float(0);
     S_temp = np.zeros(N_MU);
     Af = np.zeros(N_MU);
     FF = np.zeros(N_MU);
+    
+    S_vec_store = np.zeros(len(time_sim));
+    Y_vec_store = np.zeros(len(time_sim));
+    FR_vec = np.zeros(len(time_sim));
+    FF_vec = np.zeros(len(time_sim));
+    Af_vec = np.zeros(len(time_sim));
     cdef double ForceSE = F_se_function(Lse) * F0;
     
     Ia_vec = np.zeros(len(time_sim));
@@ -640,7 +651,7 @@ def TwitchBasedMuscleModel():
             if ND_temp < 0:
                 ND_temp = 0;
             (noise,noise_filt) = noiseOutput(noise,noise_filt,ND_temp,t);             
-            
+
         # Calculate neural drive to motor unit pool
         ND[t] = ND_temp + noise_filt[t];
         
@@ -694,11 +705,9 @@ def TwitchBasedMuscleModel():
             for j in xrange(len(index)):
                 n = index[j];
                 if FR[n] > PFR_MU[n]:
-                    FR[n] = PFR_MU[n]   
-                spike_train_temp = np.zeros(len(time_sim))
+                    FR[n] = PFR_MU[n]                  
                 if any(spike_train[n,:]) != True:
-                    spike_train[n,t] = 1;
-                    spike_train_temp[t] = 1;
+                    spike_train[n,t] = 1;                   
                     mu = 1/float(FR[n]);
                     Z = np.random.randn(1);
                     if Z > 3.9:
@@ -715,8 +724,7 @@ def TwitchBasedMuscleModel():
                         force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];    
                 else:
                     if spike_time[n] == t:
-                        spike_train[n,t] = 1;
-                        spike_train_temp[t] = 1;
+                        spike_train[n,t] = 1;                        
                         mu = 1/float(FR[n]);
                         Z = np.random.randn(1);
                         if Z > 3.9:
@@ -724,15 +732,15 @@ def TwitchBasedMuscleModel():
                         elif Z < -3.9:
                             Z = -3.9
                         spike_time_temp = (mu + mu*cv*Z)*Fs;
-                        spike_time[n] = round(spike_time_temp) + t;                       
+                        spike_time[n] = round(spike_time_temp) + t; 
+                        twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
                         force_temp = Pi[n]*twitch_temp*FF[n];
                         if len(time_sim)-t >= len(t_twitch):                       
                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + force_temp;
                         else:
                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];            
                     elif t > spike_time[n] + round(1/float(FR[n])*Fs):
-                        spike_train[n,t] = 1;
-                        spike_train_temp[t] = 1;
+                        spike_train[n,t] = 1;                        
                         spike_time[n] = t;                        
                         twitch_temp = twitch_function(Af[n],Lce,CT[n],RT[n],Fs);
                         force_temp = Pi[n]*twitch_temp*FF[n];                      
@@ -740,21 +748,22 @@ def TwitchBasedMuscleModel():
                             force[n,t:len(t_twitch)+t] = force[n,t:len(t_twitch)+t] + force_temp;
                         else:
                             force[n,t:len(time_sim)] = force[n,t:len(time_sim)] + force_temp[0:len(time_sim)-t];
-                if n <= index_slow:
-                    FL_temp = FL_slow_function(Lce);
-                    if Vce > 0:
-                        FV_temp = FV_ecc_slow_function(Lce,Vce);
-                    else:
-                        FV_temp = FV_con_slow_function(Lce,Vce);
-                else:
-                    FL_temp = FL_fast_function(Lce);
-                    if Vce > 0:
-                        FV_temp = FV_ecc_fast_function(Lce,Vce);
-                    else:
-                        FV_temp = FV_con_fast_function(Lce,Vce);
                 
-                force[n,t] = force[n,t]*FL_temp*FV_temp;                
-        
+                
+                         
+        FL_slow = FL_slow_function(Lce);
+        if Vce > 0:
+            FV_slow = FV_ecc_slow_function(Lce,Vce);
+        else:
+            FV_slow = FV_con_slow_function(Lce,Vce);
+        FL_fast = FL_fast_function(Lce);
+        if Vce > 0:
+            FV_fast = FV_ecc_fast_function(Lce,Vce);
+        else:
+            FV_fast = FV_con_fast_function(Lce,Vce);
+        force[:index_slow,t] = force[:index_slow,t]*FL_slow*FV_slow;   
+        force[index_slow+1:,t] = force[index_slow+1:,t]*FL_fast*FV_fast;
+                        
         FP1 = F_pe_1_function(Lce/Lmax,Vce);
         FP2 = F_pe_2_function(Lce);
         if FP2 > 0:
@@ -784,6 +793,7 @@ def TwitchBasedMuscleModel():
         
         ForceSE_vec[t] = ForceSE;
         Force_vec[t] = Force;
+        Lse_vec[t] = Lse;
         Lce_vec[t] = Lce;
         Vce_vec[t] = Vce;
         Ace_vec[t] = Ace;
@@ -800,6 +810,16 @@ def TwitchBasedMuscleModel():
         
         C_vec[t] = Input_C;
         
+        FL_vec[t] = FL_slow
+        FV_vec[t] = FV_slow
+        Af_vec[t] = Af[0]
+        FF_vec[t] = FF[0];
+        
+        FR_vec[t] = FR[0];
+        f_env_vec[t] = f_env[0];
+        force_half_vec[t] = force_half[0];
+        Y_vec_store[t] = Y_temp;
+        S_vec_store[t] = S_vec[0];
         
     end_time = time.time()
     print(end_time - start_time)
@@ -807,18 +827,21 @@ def TwitchBasedMuscleModel():
     output = {'Time':time_sim,'Tendon Force':ForceSE_vec, 'Muscle Force':Force_vec, 
               'Twitch Force': force, 'Spike Train':spike_train, 'Muscle Length': Lce_vec,
               'Muscle Velocity': Vce_vec, 'Muscle Acceleration': Ace_vec,
+              'Tendon Length': Lse_vec,
               'Ia': Ia_vec, 'Input Ia' : Input_Ia,
               'Ib': Ib_vec, 'Input Ib' : Input_Ib,
               'RI': RI_vec, 'Input RI' : Input_RI,
               'PN': PN_vec, 'Input PN': Input_PN,             
-              'C': C_vec, 'ND': ND, 'U_eff': U_eff_vec}
-              #, 'temp1': temp1,'temp2': temp2,
-              #'temp3': temp3};
+              'C': C_vec, 'ND': ND, 'U_eff': U_eff_vec,
+              'FF':FF_vec, 'Af':Af_vec, 'FR':FR_vec, 'f_env':f_env_vec,
+              'Y':Y_vec_store,'S':S_vec_store,'force_half':force_half_vec,
+              'FL':FL_vec, 'FV':FV_vec}
     
-    default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';  
-    save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';          
+    default_path = '/Users/akira/Documents/Github/python-code/';  
+    save_path = '/Users/akira/Documents/Github/python-code/Data'; 
+    fileName = "%s%s%s" % ('output',str(trialN),'.npy')        
     os.chdir(save_path)
-    np.save('output.npy',output)
+    np.save(fileName,output)
     os.chdir(default_path)
     
     fig1 = plt.figure()
@@ -835,5 +858,6 @@ def TwitchBasedMuscleModel():
     return (Force_vec,ForceSE_vec);
 
 
-(Force_vec,ForceSE_vec) = TwitchBasedMuscleModel()
+(Force_vec,ForceSE_vec) = TwitchBasedMuscleModel(11)
+
 #(Force,ForceSE) = MuscleModel()

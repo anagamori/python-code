@@ -13,16 +13,13 @@ from libc.math cimport pow
 from libc.math cimport log
 from libc.math cimport round
 from libc.math cimport sqrt
-
-def TwitchBasedMuscleModel():
-
-    import time
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import os
+import time
+import numpy as np
+import matplotlib.pyplot as plt
+import os
     
-#    cdef double f(double x):
-#        return exp(x)
+def TwitchBasedMuscleModel(trialN,gainMatrix):
+
     def sign(x):
         return (x > 0) - (x < 0);
     
@@ -480,9 +477,10 @@ def TwitchBasedMuscleModel():
     t_twitch = np.arange(0,1,step)
     cdef double m = 6
     
+    duration = 15;
     cdef double amp = 0.1
-    time_sim = np.arange(0,5,step)
-    Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(5*Fs-3*Fs)),axis = 0)
+    time_sim = np.arange(0,duration,step)
+    Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(duration*Fs-3*Fs)),axis = 0)
     F_max = 74.317*2;
     F_target = F_max*Input;  
     
@@ -494,9 +492,7 @@ def TwitchBasedMuscleModel():
     cdef double T_bag2 = 0;
     cdef double T_dot_bag2 = 0;
     cdef double T_chain = 0;
-    cdef double T_dot_chain = 0;    
-    cdef double gamma_dynamic = 10;
-    cdef double gamma_static = 10;
+    cdef double T_dot_chain = 0;        
     
     cdef double f_dynamic_bag1_2 = 0;
     cdef double T_bag1_2 = 0;
@@ -506,8 +502,6 @@ def TwitchBasedMuscleModel():
     cdef double T_dot_bag2_2 = 0;
     cdef double T_chain_2 = 0;
     cdef double T_dot_chain_2 = 0;    
-    cdef double gamma_dynamic_2 = 10;
-    cdef double gamma_static_2 = 10;
     
     # Delay parameters
     cdef double distance_Muscle2SpinalCord = 0.8;
@@ -523,52 +517,57 @@ def TwitchBasedMuscleModel():
     cdef int delay_synaptic = 2;
     
     # Gain parameters
-    cdef double K = 0.001;
+    cdef double K = 0.0015;
     cdef double Gain_Ia = 400.0;
     cdef double Gain_Ib = 400.0;
     cdef double Gain_RI = 2.0;
     
     # Ia 
-    cdef double Ia_PC_1_1 = -0.5;
-    cdef double Ia_PC_1_2 = -0.5;
-    cdef double Ia_PC_2_1 = -0.5;
-    cdef double Ia_PC_2_2 = -0.5;
+    cdef double gamma_dynamic = gainMatrix[0,0];
+    cdef double gamma_static = gainMatrix[1,0];
+    cdef double gamma_dynamic_2 = gainMatrix[0,1];
+    cdef double gamma_static_2 = gainMatrix[1,1];
+    cdef double Ia_PC_1_1 = gainMatrix[2,0];
+    cdef double Ia_PC_1_2 = gainMatrix[3,0];
+    cdef double Ia_PC_2_1 = gainMatrix[2,1];
+    cdef double Ia_PC_2_2 = gainMatrix[3,1];
     
     # Ib interneurons
-    cdef double Ib_PC_Int_1_1 = -0.5;
-    cdef double Ib_PC_Int_1_2 = -0.5;
-    cdef double Ib_PC_Int_2_1 = -0.5;
-    cdef double Ib_PC_Int_2_2 = -0.5;
-    cdef double Ib_IC_1 = -0.5;
-    cdef double Ib_IC_2 = -0.5;
-    cdef double Ib_PC_1_1 = -0.5;
-    cdef double Ib_PC_1_2 = -0.5;
-    cdef double Ib_PC_2_1 = -0.5;
-    cdef double Ib_PC_2_2 = -0.5;
+    cdef double Ib_PC_Int_1_1 = gainMatrix[4,0];
+    cdef double Ib_PC_Int_1_2 = gainMatrix[5,0];
+    cdef double Ib_PC_Int_2_1 = gainMatrix[4,1];
+    cdef double Ib_PC_Int_2_2 = gainMatrix[5,1];
+    cdef double Ib_IC_1 = gainMatrix[6,0];
+    cdef double Ib_IC_2 = gainMatrix[6,1];
+    cdef double Ib_PC_1_1 = gainMatrix[7,0];
+    cdef double Ib_PC_1_2 = gainMatrix[8,0];
+    cdef double Ib_PC_2_1 = gainMatrix[7,1];
+    cdef double Ib_PC_2_2 = gainMatrix[8,1];
     
     # Renshaw cell interneurons
-    cdef double RI_PC_Int_1_1 = -0.5;
-    cdef double RI_PC_Int_1_2 = -0.5;
-    cdef double RI_PC_Int_2_1 = -0.5;
-    cdef double RI_PC_Int_2_2 = -0.5;
-    cdef double RI_IC_1 = -0.5;
-    cdef double RI_IC_2 = -0.5;
-    cdef double RI_PC_1_1 = -0.5;
-    cdef double RI_PC_1_2 = -0.5;
-    cdef double RI_PC_2_1 = -0.5;
-    cdef double RI_PC_2_2 = -0.5;
+    cdef double RI_PC_Int_1_1 = gainMatrix[9,0];
+    cdef double RI_PC_Int_1_2 = gainMatrix[10,0];
+    cdef double RI_PC_Int_2_1 = gainMatrix[9,1];
+    cdef double RI_PC_Int_2_2 = gainMatrix[10,1];
+    cdef double RI_IC_1 = gainMatrix[11,0];
+    cdef double RI_IC_2 = gainMatrix[11,1];
+    cdef double RI_PC_1_1 = gainMatrix[12,0];
+    cdef double RI_PC_1_2 = gainMatrix[13,0];
+    cdef double RI_PC_2_1 = gainMatrix[12,1];
+    cdef double RI_PC_2_2 = gainMatrix[13,1];
     
     # propriospinal interneurons
-    cdef double PN_PC_Ia_1 = -0.5; # from spindle 1 to PN 1    
-    cdef double PN_PC_Ib_1 = -0.5; # from GTO 1 to PN 1
-    cdef double PN_PC_Ia_2 = -0.5; # from spindle 1 to PN 1    
-    cdef double PN_PC_Ib_2 = -0.5; # from GTO 1 to PN 1
-    cdef double PN_PC_1_1 = -0.5; # from spindle 2 to PN 2
-    cdef double PN_PC_1_2 = -0.5; # from spindle 2 to PN 2
-    cdef double PN_PC_2_2 = -0.5; # from GTO 2 to PN 2
-    cdef double PN_PC_2_1 = -0.5; # from GTO 2 to PN 2
-    cdef double PN_IC_1 = -0.5; # Interneuron gain for PN 1
-    cdef double PN_IC_2 = -0.5; # Interneuron gain for PN 2
+    cdef double PN_PC_Ia_1 = gainMatrix[14,0]; # from spindle 1 to PN 1    
+    cdef double PN_PC_Ib_1 = gainMatrix[15,0]; # from GTO 1 to PN 1
+    cdef double PN_PC_Ia_2 = gainMatrix[14,1]; # from spindle 1 to PN 1    
+    cdef double PN_PC_Ib_2 = gainMatrix[15,1]; # from GTO 1 to PN 1
+    cdef double PN_IC_1 = gainMatrix[16,0]; # Interneuron gain for PN 1
+    cdef double PN_IC_2 = gainMatrix[16,1]; # Interneuron gain for PN 2
+    cdef double PN_PC_1_1 = gainMatrix[17,0]; # from spindle 2 to PN 2
+    cdef double PN_PC_1_2 = gainMatrix[18,0]; # from spindle 2 to PN 2
+    cdef double PN_PC_2_2 = gainMatrix[17,1]; # from GTO 2 to PN 2
+    cdef double PN_PC_2_1 = gainMatrix[18,1]; # from GTO 2 to PN 2
+    
     
     # Muscle length 
     cdef double MuscleVelocity = 0;
@@ -1334,35 +1333,42 @@ def TwitchBasedMuscleModel():
     print(end_time - start_time)
     
     output = {'Time':time_sim,'Tendon Force':ForceSE_vec, 'Tendon Force 2':ForceSE_vec_2, 'Muscle Force':Force_vec, 'Muscle Force 2':Force_vec_2, 
-              'Total Force': Force_Total,'Twitch Force': force, 'Spike Train':spike_train, 
+              'Total Force': Force_Total,'Twitch Force': force, 'Spike Train':spike_train, 'Spike Train 2':spike_train_2, 
               'Muscle Length': Lce_vec, 'Muscle Velocity': Vce_vec, 'Muscle Acceleration': Ace_vec,
               'Input_Ia_1_1' : Input_Ia_1_1, 'Input_Ia_1_2' : Input_Ia_1_2, 'Input_Ia_2_1' : Input_Ia_2_1, 'Input_Ia_2_2' : Input_Ia_2_2,
               'Input_Ib_1_1' : Input_Ib_1_1, 'Input_Ib_1_2' : Input_Ia_1_2, 'Input_Ib_2_1' : Input_Ib_2_1, 'Input_Ib_2_2' : Input_Ib_2_2,
               'Input_RI_1_1' : Input_RI_1_1, 'Input_RI_1_2' : Input_RI_1_2, 'Input_RI_2_1' : Input_RI_2_1, 'Input_RI_2_2' : Input_RI_2_2,
               'Input_PN_1_1' : Input_PN_1_1, 'Input_PN_1_2' : Input_PN_1_2, 'Input_PN_2_1' : Input_PN_2_1, 'Input_PN_2_2' : Input_PN_2_2,           
-              'C': C_vec, 'ND': ND, 'ND_2': ND_2, 'U_eff': U_eff_vec, 'U_eff_2': U_eff_vec_2,}
+              'C': C_vec, 'ND': ND, 'ND_2': ND_2, 'U_eff': U_eff_vec, 'U_eff_2': U_eff_vec_2,'Gain Matrix': gainMatrix}
               #, 'temp1': temp1,'temp2': temp2,
               #'temp3': temp3};
     
-    default_path = '/Users/akiranagamori/Documents/GitHub/python-code/';  
-    save_path = '/Users/akiranagamori/Documents/GitHub/python-code/Data';          
+    default_path = '/Users/akira/Documents/Github/python-code';  
+    save_path = '/Volumes/DATA2/Synergists_Data';     
+    fileName = "%s%s%s" % ('output_Synergists_',str(trialN),'.npy')       
     os.chdir(save_path)
-    np.save('output_synergists.npy',output)
+    np.save(fileName,output)
     os.chdir(default_path)
     
-    fig1 = plt.figure()
-    ax1 = fig1.add_subplot(111)
-    ax1.plot(time_sim,ForceSE_vec)
-    
-    
-    fig2 = plt.figure()
-    ax2 = fig2.add_subplot(111)
-    ax2.plot(time_sim,Lce_vec)
-      
-    plt.show()
-    plt.plot(time_sim,ForceSE_vec)
+#    fig1 = plt.figure()
+#    ax1 = fig1.add_subplot(111)
+#    ax1.plot(time_sim,ForceSE_vec)
+#    
+#    
+#    fig2 = plt.figure()
+#    ax2 = fig2.add_subplot(111)
+#    ax2.plot(time_sim,Lce_vec)
+#      
+#    plt.show()
+#    plt.plot(time_sim,ForceSE_vec)
     return (Force_vec,ForceSE_vec);
 
-
-(Force_vec,ForceSE_vec) = TwitchBasedMuscleModel()
+for trialN in range(0,100):
+    gainIa = np.concatenate((np.random.randint(0,150,[2,2]),np.random.uniform(-0.5,0.2,[2,2])));
+    gainIb = np.random.uniform(-0.5,0.2,[5,2]);
+    gainRI = np.random.uniform(-0.5,0.2,[5,2]);
+    gainPN = np.random.uniform(-0.5,0.2,[5,2]);
+    gainMatrix = np.concatenate((gainIa,gainIb,gainRI,gainPN));
+            
+    (Force_vec,ForceSE_vec) = TwitchBasedMuscleModel(trialN,gainMatrix)
 #(Force,ForceSE) = MuscleModel()
