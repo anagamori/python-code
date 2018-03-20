@@ -27,3 +27,7 @@ Data/output.npy
 TwitchBasedMuscleModel_FCR.pyx
 AnalysisCode.py
 >>>>>>> origin/master
+
+signal.mat
+
+signal1.mat

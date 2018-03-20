@@ -13,13 +13,15 @@ from libc.math cimport pow
 from libc.math cimport log
 from libc.math cimport round
 from libc.math cimport sqrt
+import multiprocessing
+import time
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+    
 
-def TwitchBasedMuscleModel(trialN):
+def TwitchBasedMuscleModel(trialN,gainMatrix):
 
-    import time
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import os
     
 #    cdef double f(double x):
 #        return exp(x)
@@ -375,7 +377,7 @@ def TwitchBasedMuscleModel(trialN):
         return y 
     
     def noiseOutput(noise,noise_filt,Input,index):
-        cdef double noise_amp = 0.01;
+        cdef double noise_amp = 0.005;
         cdef double b1 = 0.089848614641397*1e-5;
         cdef double b2 = 0.359394458565587*1e-5;
         cdef double b3 = 0.539091687848381*1e-5;
@@ -468,7 +470,7 @@ def TwitchBasedMuscleModel(trialN):
     cdef double m = 6
     
     cdef double amp = 0.1
-    duration = 10;
+    duration = 15;
     time_sim = np.arange(0,duration,step)
     Input = np.concatenate((np.zeros(1*Fs),amp/2*np.arange(0,2,step),amp*np.ones(duration*Fs-3*Fs)),axis = 0)
     F_target = F_max*Input;      
@@ -501,10 +503,10 @@ def TwitchBasedMuscleModel(trialN):
     cdef double Gain_Ia = 400.0;
     cdef double Gain_Ib = 400.0;
     cdef double Gain_RI = 2.0;
-    cdef double gamma_dynamic = 130;
-    cdef double gamma_static = 130;
-    cdef double Ia_PC = 0;
-    cdef double Ib_PC = -0.5;
+    cdef double gamma_dynamic = gainMatrix[0];
+    cdef double gamma_static = gainMatrix[1];
+    cdef double Ia_PC = gainMatrix[2];
+    cdef double Ib_PC = gainMatrix[3];
     cdef double RI_PC = -0.5;
     cdef double PN_PC_Ia = -0.5;
     cdef double PN_PC_Ib = -0.5;
@@ -849,7 +851,7 @@ def TwitchBasedMuscleModel(trialN):
     
     
     default_path = '/Users/akira/Documents/Github/python-code/';  
-    save_path = '/Users/akira/Documents/Github/python-code/Data'; 
+    save_path = '/Volumes/DATA2/FCR_Data'; 
     fileName = "%s%s%s" % ('output_FCR_',str(trialN),'.npy')           
     os.chdir(save_path)
     np.save(fileName,output)
@@ -868,6 +870,12 @@ def TwitchBasedMuscleModel(trialN):
     #plt.plot(time_sim,ForceSE_vec)
     return (Force_vec,ForceSE_vec);
 
-for trialN in range(40,50):
-    (Force_vec,ForceSE_vec) = TwitchBasedMuscleModel(trialN)
+pool = multiprocessing.Pool(processes=10)
+gain_temp_gamma = [10,30,50,70,90,110,130];
+gain_temp = [-0.5,-0.4,-0.3,-0.2,-0.1,0,0.1];
+for i in xrange(len(gain_temp)):
+    gainMatrix = [10,10,-0.5,gain_temp[i]];
+#    pool.map(TwitchBasedMuscleModel,(range(i*10+300,i*10+10+300),gainMatrix))
+    for trialN in range(i*10+400,i*10+10+400):
+        (Force_vec,ForceSE_vec) = TwitchBasedMuscleModel(trialN,gainMatrix)
 #(Force,ForceSE) = MuscleModel()
